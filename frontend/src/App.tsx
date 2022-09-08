@@ -1,11 +1,20 @@
-import './App.css'
-
+import "./App.css"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Navbar from "./components/navbar/Navbar"
+import Sample from "./pages/Sample"
 function App() {
   return (
-    <div className="App">
-      <h1 className="text-3xl font-bold">드림멍즈 프로젝트 세팅</h1>
-      <h2 className="text-2xl font-bold">타입스크립트</h2>
-      <h2 className="text-2xl font-bold">Tailwind</h2>
+    <div className="App w-screen h-screen flex justify-center items-center bg-blue-100">
+      <div className="border w-4/5 h-4/5 flex bg-white">
+        <Navbar />
+        <div className="4/5 border w-full">
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Sample />} />
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </div>
     </div>
   )
 }
