@@ -42,9 +42,6 @@ public class Member {
     @Column(name = "playing", nullable = false)
     private String playing;
 
-    @Column(name = "resigned", nullable = false)
-    private String resigned;
-
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "game_id")
     private Game game;
@@ -65,14 +62,13 @@ public class Member {
     private List<Negotiation> negotiations = new ArrayList<>();
 
     @Builder
-    public Member(Long id, String address, String nickname, LocalDateTime createDate, String repIcon, String playing, String resigned) {
+    public Member(Long id, String address, String nickname, LocalDateTime createDate, String repIcon, String playing) {
         this.id = id;
         this.address = address;
         this.nickname = nickname;
         this.createDate = createDate;
         this.repIcon = repIcon;
         this.playing = playing;
-        this.resigned = resigned;
     }
 
     public void setGame(Game game) {
