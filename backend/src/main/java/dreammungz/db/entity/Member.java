@@ -30,14 +30,11 @@ public class Member {
     @Column(name = "address", nullable = false, unique = true)
     private String address;
 
-    @Column(name = "nickname", unique = true)
+    @Column(name = "nickname")
     private String nickname;
 
     @Column(name = "create_date", nullable = false)
     private LocalDateTime createDate;
-
-    @Column(name = "role", nullable = false)
-    private String role;
 
     @Column(name = "rep_icon", nullable = false)
     private String repIcon;
@@ -68,12 +65,11 @@ public class Member {
     private List<Negotiation> negotiations = new ArrayList<>();
 
     @Builder
-    public Member(Long id, String address, String nickname, LocalDateTime createDate, String role, String repIcon, String playing, String resigned) {
+    public Member(Long id, String address, String nickname, LocalDateTime createDate, String repIcon, String playing, String resigned) {
         this.id = id;
         this.address = address;
         this.nickname = nickname;
         this.createDate = createDate;
-        this.role = role;
         this.repIcon = repIcon;
         this.playing = playing;
         this.resigned = resigned;

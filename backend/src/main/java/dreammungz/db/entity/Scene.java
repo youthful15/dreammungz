@@ -26,8 +26,11 @@ public class Scene {
     @Column(name = "scene_id")
     private Long id;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "image")
+    private String image;
+
+    @Column(name = "bgm")
+    private String bgm;
 
     @Column(name = "content")
     private String content;
@@ -40,9 +43,10 @@ public class Scene {
     private List<Selection> selections = new ArrayList<>();
 
     @Builder
-    public Scene(Long id, String imageUrl, String content, Story story) {
+    public Scene(Long id, String image, String bgm, String content, Story story) {
         this.id = id;
-        this.imageUrl = imageUrl;
+        this.image = image;
+        this.bgm = bgm;
         this.content = content;
         this.story = story;
     }
