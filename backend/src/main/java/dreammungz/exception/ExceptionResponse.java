@@ -4,6 +4,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+/*
+@author 황승주
+@since 2022. 09. 08.
+*/
+
 @Getter
 @ToString
 public class ExceptionResponse {
