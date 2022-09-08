@@ -29,12 +29,16 @@ public class Story {
     @Column(name = "name")
     private String title;
 
+    @Column(name = "scale")
+    private String scale;
+
     @OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
     private List<Scene> scenes = new ArrayList<>();
 
     @Builder
-    public Story(Long id, String title) {
+    public Story(Long id, String title, String scale) {
         this.id = id;
         this.title = title;
+        this.scale = scale;
     }
 }
