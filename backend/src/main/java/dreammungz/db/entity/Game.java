@@ -35,6 +35,9 @@ public class Game {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<GameStatus> gameStatuses= new ArrayList<>();
 
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
+    private List<GameStory> gameStories= new ArrayList<>();
+
     @Builder
     public Game(Long id, String curScene) {
         this.id = id;
