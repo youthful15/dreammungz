@@ -26,7 +26,7 @@ public class Job {
     @Column(name = "job_id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)

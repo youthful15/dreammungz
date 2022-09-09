@@ -26,7 +26,7 @@ public class Status {
     @Column(name = "status_id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "status", cascade = CascadeType.ALL)

@@ -24,18 +24,18 @@ public class GameStory {
     @Column(name = "game_story_id")
     private Long id;
 
-    @Column(name = "sequence")
+    @Column(name = "sequence", nullable = false)
     private Long sequence;
 
-    @Column(name = "state")
+    @Column(name = "state", nullable = false)
     private String state;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "game_id")
+    @JoinColumn(name = "game_id", nullable = false)
     private Game game;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "story_id")
+    @JoinColumn(name = "story_id", nullable = false)
     private Story story;
 
     @Builder

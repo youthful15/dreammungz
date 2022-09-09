@@ -21,24 +21,24 @@ import javax.persistence.*;
 public class Selection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "_id")
+    @Column(name = "selection_id")
     private Long id;
 
-    @Column(name = "content")
+    @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "status_value")
+    @Column(name = "status_value", nullable = false)
     private Long statusValue;
 
-    @Column(name = "next_scene")
+    @Column(name = "next_scene", nullable = false)
     private Long nextScene;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "scene_id")
+    @JoinColumn(name = "scene_id", nullable = false)
     private Scene scene;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "status_id", nullable = false)
     private Status status;
 
     @Builder

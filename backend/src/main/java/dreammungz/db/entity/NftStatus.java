@@ -24,15 +24,15 @@ public class NftStatus {
     @Column(name = "nft_status_id")
     private Long id;
 
-    @Column(name = "amount")
+    @Column(name = "amount", nullable = false)
     private Long amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nft_id")
+    @JoinColumn(name = "nft_id", nullable = false)
     private Nft nft;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "status_id", nullable = false)
     private Status status;
 
     @Builder

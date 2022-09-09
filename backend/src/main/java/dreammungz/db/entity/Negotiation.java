@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,27 +21,29 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Table(name = "negotiation")
+@EntityListeners(AuditingEntityListener.class)
 public class Negotiation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "negotiation_id")
     private Long id;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private Long price;
 
-    @Column(name = "nego_time")
+    @CreatedDate
+    @Column(name = "nego_time", nullable = false, updatable = false)
     private LocalDateTime negoTime;
 
-    @Column(name = "choice")
+    @Column(name = "choice", nullable = false)
     private String choice;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trade_id")
+    @JoinColumn(name = "trade_id", nullable = false)
     private Trade trade;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @Builder
