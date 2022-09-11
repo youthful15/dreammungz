@@ -15,7 +15,8 @@ import org.springframework.http.HttpStatus;
 public enum CustomExceptionList {
 
     RUNTIME_EXCEPTION(HttpStatus.BAD_REQUEST, "E001", "잘못된 요청입니다."),
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "E002", "서버 오류 입니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "E002", "서버 오류 입니다."),
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "E003", "존재하지 않는 회원입니다.");
 
     private final HttpStatus status;
     private final String code;

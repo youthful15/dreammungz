@@ -36,6 +36,9 @@ public class Member {
     @Column(name = "nickname")
     private String nickname;
 
+    @Column(name = "nonce")
+    private Long nonce;
+
     @CreatedDate
     @Column(name = "create_date", nullable = false, updatable = false)
     private LocalDateTime createDate;
@@ -72,6 +75,11 @@ public class Member {
         this.nickname = nickname;
         this.repIcon = repIcon;
         this.playing = playing;
+        createNonce();
+    }
+
+    public void createNonce() {
+        this.nonce = Double.valueOf(Math.floor(Math.random() * 10000000)).longValue();
     }
 
     public void setGame(Game game) {
