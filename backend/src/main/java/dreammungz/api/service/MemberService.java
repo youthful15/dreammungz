@@ -22,9 +22,7 @@ public class MemberService {
     final MemberRepository memberRepository;
 
     public Boolean getMemberExists(String address) {
-        Boolean exists = memberRepository.existsByAddress(address);
-
-        return exists;
+        return memberRepository.existsByAddress(address);
     }
 
     public MemberResponse getMemberInfo(String address) {
