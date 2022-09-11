@@ -1,9 +1,11 @@
 package dreammungz.db.entity;
 
+import dreammungz.enums.Check;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -46,8 +48,9 @@ public class Member {
     @Column(name = "rep_icon", nullable = false)
     private String repIcon;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "playing", nullable = false)
-    private String playing;
+    private Check playing;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "game_id")
@@ -69,18 +72,20 @@ public class Member {
     private List<Negotiation> negotiations = new ArrayList<>();
 
     @Builder
-    public Member(Long id, String address, String nickname, String repIcon, String playing) {
+    public Member(Long id, String address) {
         this.id = id;
         this.address = address;
-        this.nickname = nickname;
-        this.repIcon = repIcon;
-        this.playing = playing;
+        this.repIcon = "basic";
+        this.playing = Check.N;
+        createNickname();
         createNonce();
     }
 
     public void createNonce() {
         this.nonce = Double.valueOf(Math.floor(Math.random() * 10000000)).longValue();
     }
+
+    public void createNickname() { this.nickname = RandomStringUtils.random(15, true, true);}
 
     public void setGame(Game game) {
         this.game = game;

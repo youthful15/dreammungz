@@ -11,4 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MemberResponse {
+    private String address;
+    private String nickname;
+    private String repIcon;
+    private String playing;
 }

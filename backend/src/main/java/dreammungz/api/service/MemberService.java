@@ -30,6 +30,28 @@ public class MemberService {
         Member member = memberRepository.findByAddress(address)
                 .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
 
+        memberResponse.setAddress(member.getAddress());
+        memberResponse.setNickname(member.getNickname());
+        memberResponse.setRepIcon(member.getRepIcon());
+        memberResponse.setPlaying(member.getPlaying().toString());
+
+        return memberResponse;
+    }
+
+    public MemberResponse signInMember(String address) {
+        Member member = Member.builder()
+                .address(address)
+                .build();
+
+        memberRepository.save(member);
+
+        MemberResponse memberResponse = new MemberResponse();
+
+        memberResponse.setAddress(member.getAddress());
+        memberResponse.setNickname(member.getNickname());
+        memberResponse.setRepIcon(member.getRepIcon());
+        memberResponse.setPlaying(member.getPlaying().toString());
+
         return memberResponse;
     }
 }
