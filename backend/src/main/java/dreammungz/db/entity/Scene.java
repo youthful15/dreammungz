@@ -26,17 +26,17 @@ public class Scene {
     @Column(name = "scene_id")
     private Long id;
 
-    @Column(name = "image")
+    @Column(name = "image", nullable = false)
     private String image;
 
-    @Column(name = "bgm")
+    @Column(name = "bgm", nullable = false)
     private String bgm;
 
-    @Column(name = "content")
+    @Column(name = "content", nullable = false)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "story_id")
+    @JoinColumn(name = "story_id", nullable = false)
     private Story story;
 
     @OneToMany(mappedBy = "scene", cascade = CascadeType.ALL)
