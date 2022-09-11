@@ -17,11 +17,11 @@ import javax.persistence.*;
 @DynamicUpdate
 @Entity
 @Getter
-@Table(name = "condition")
-public class Condition {
+@Table(name = "requirement")
+public class Requirement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "condition_id")
+    @Column(name = "requirement_id")
     private Long id;
 
     @Column(name = "satisfied_amount", nullable = false)
@@ -36,7 +36,7 @@ public class Condition {
     private Status status;
 
     @Builder
-    public Condition(Long id, Long satisfiedAmount, Job job, Status status) {
+    public Requirement(Long id, Long satisfiedAmount, Job job, Status status) {
         this.id = id;
         this.satisfiedAmount = satisfiedAmount;
         this.job = job;

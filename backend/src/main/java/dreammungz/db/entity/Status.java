@@ -30,7 +30,7 @@ public class Status {
     private String name;
 
     @OneToMany(mappedBy = "status", cascade = CascadeType.ALL)
-    private List<Condition> conditions = new ArrayList<>();
+    private List<Requirement> requirements = new ArrayList<>();
 
     @OneToMany(mappedBy = "status", cascade = CascadeType.ALL)
     private List<GameStatus> gameStatuses = new ArrayList<>();

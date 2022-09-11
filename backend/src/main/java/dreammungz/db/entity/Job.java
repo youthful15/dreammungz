@@ -33,7 +33,7 @@ public class Job {
     private List<Achievement> achievements= new ArrayList<>();
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
-    private List<Condition> conditions = new ArrayList<>();
+    private List<Requirement> requirements = new ArrayList<>();
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     private List<Nft> nfts = new ArrayList<>();

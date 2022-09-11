@@ -1,6 +1,6 @@
 package dreammungz.db.repository;
 
-import dreammungz.db.entity.Condition;
+import dreammungz.db.entity.Requirement;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /*
@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @since 2022. 09. 07.
 */
 
-public interface ConditionRepository extends JpaRepository<Condition, Long>{
+public interface RequirementRepository extends JpaRepository<Requirement, Long>{
 }
