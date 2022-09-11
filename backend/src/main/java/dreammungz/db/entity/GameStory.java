@@ -1,5 +1,6 @@
 package dreammungz.db.entity;
 
+import dreammungz.enums.State;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,8 +28,9 @@ public class GameStory {
     @Column(name = "sequence", nullable = false)
     private Long sequence;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "state", nullable = false)
-    private String state;
+    private State state;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id", nullable = false)
@@ -42,7 +44,7 @@ public class GameStory {
     public GameStory(Long id, Long sequence, String state, Game game, Story story) {
         this.id = id;
         this.sequence = sequence;
-        this.state = state;
+        this.state = State.valueOf(state);
         this.game = game;
         this.story = story;
     }

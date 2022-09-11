@@ -1,0 +1,6 @@
+package dreammungz.enums;
+
+public enum StatusName {
+    STOUTNESS, CLEVER, QUICK, INTUITION, CHARISMA, POPULARITY, SENSIBILITY,
+    FOOTWORK, VOICE, WEALTH, JUSTICE, CUTE
+}

@@ -1,5 +1,6 @@
 package dreammungz.db.entity;
 
+import dreammungz.enums.Check;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,8 +36,9 @@ public class Negotiation {
     @Column(name = "nego_time", nullable = false, updatable = false)
     private LocalDateTime negoTime;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "choice", nullable = false)
-    private String choice;
+    private Check choice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trade_id", nullable = false)
@@ -51,7 +53,7 @@ public class Negotiation {
         this.id = id;
         this.price = price;
         this.negoTime = negoTime;
-        this.choice = choice;
+        this.choice = Check.valueOf(choice);
         this.trade = trade;
         this.member = member;
     }

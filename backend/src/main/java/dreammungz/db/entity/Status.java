@@ -1,5 +1,6 @@
 package dreammungz.db.entity;
 
+import dreammungz.enums.StatusName;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,8 +27,9 @@ public class Status {
     @Column(name = "status_id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "name", nullable = false)
-    private String name;
+    private StatusName name;
 
     @OneToMany(mappedBy = "status", cascade = CascadeType.ALL)
     private List<Requirement> requirements = new ArrayList<>();
@@ -44,6 +46,6 @@ public class Status {
     @Builder
     public Status(Long id, String name) {
         this.id = id;
-        this.name = name;
+        this.name = StatusName.valueOf(name);
     }
 }

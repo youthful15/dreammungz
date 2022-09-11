@@ -1,5 +1,7 @@
 package dreammungz.db.entity;
 
+import dreammungz.enums.Check;
+import dreammungz.enums.State;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,11 +30,13 @@ public class Trade {
     @Column(name = "trade_id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "state", nullable = false)
-    private String state;
+    private State state;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "nego_able", nullable = false)
-    private String negoAble;
+    private Check negoAble;
 
     @Column(name = "start_time", nullable = false, updatable = false)
     private LocalDateTime startTime;
@@ -61,8 +65,8 @@ public class Trade {
     @Builder
     public Trade(Long id, String state, String negoAble, LocalDateTime startTime, LocalDateTime endTime, Long startPrice, Nft nft, Seller seller) {
         this.id = id;
-        this.state = state;
-        this.negoAble = negoAble;
+        this.state = State.valueOf(state);
+        this.negoAble = Check.valueOf(negoAble);
         this.startTime = startTime;
         this.endTime = endTime;
         this.startPrice = startPrice;
@@ -70,6 +74,7 @@ public class Trade {
         this.seller = seller;
     }
 
+    public void setState(String state) { this.state = State.valueOf(state);}
     public void setBuyer(Buyer buyer) {
         this.buyer = buyer;
     }
