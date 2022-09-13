@@ -2,6 +2,7 @@ import "./App.css"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Navbar from "./components/navbar/Navbar"
 import Sample from "./pages/Sample"
+import LoginTest from "./pages/LoginTest"
 function App() {
   return (
     <div className="App w-screen h-screen flex justify-center items-center bg-blue-100">
@@ -11,6 +12,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Sample />} />
+              <Route path="/test1" element={<LoginTest />} />
             </Routes>
           </BrowserRouter>
         </div>
