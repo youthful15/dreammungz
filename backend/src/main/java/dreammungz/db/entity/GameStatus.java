@@ -24,7 +24,7 @@ public class GameStatus {
     @Column(name = "game_status_id")
     private Long id;
 
-    @Column(name = "value")
+    @Column(name = "value", nullable = false)
     private Long value;
 
     @ManyToOne(fetch = FetchType.LAZY)

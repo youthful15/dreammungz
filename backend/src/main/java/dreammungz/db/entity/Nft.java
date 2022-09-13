@@ -1,5 +1,6 @@
 package dreammungz.db.entity;
 
+import dreammungz.enums.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,27 +28,32 @@ public class Nft {
     @Column(name = "image_url", nullable = false, unique = true)
     private String imageUrl;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "hair", nullable = false)
-    private String hair;
+    private Hair hair;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "face", nullable = false)
-    private String face;
+    private Face face;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
-    private String gender;
+    private Gender gender;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "color", nullable = false)
-    private String color;
+    private Color color;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tier", nullable = false)
-    private String tier;
+    private Tier tier;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_id")
+    @JoinColumn(name = "job_id", nullable = false)
     private Job job;
 
     @OneToMany(mappedBy = "nft", cascade = CascadeType.ALL)
@@ -61,11 +67,11 @@ public class Nft {
         this.id = id;
         this.tokenId = tokenId;
         this.imageUrl = imageUrl;
-        this.hair = hair;
-        this.face = face;
-        this.gender = gender;
-        this.color = color;
-        this.tier = tier;
+        this.hair = Hair.valueOf(hair);
+        this.face = Face.valueOf(face);
+        this.gender = Gender.valueOf(gender);
+        this.color = Color.valueOf(color);
+        this.tier = Tier.valueOf(tier);
         this.member = member;
         this.job = job;
     }

@@ -1,5 +1,6 @@
 package dreammungz.db.entity;
 
+import dreammungz.enums.JobName;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,14 +27,15 @@ public class Job {
     @Column(name = "job_id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name", nullable = false)
+    private JobName name;
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     private List<Achievement> achievements= new ArrayList<>();
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
-    private List<Condition> conditions = new ArrayList<>();
+    private List<Requirement> requirements = new ArrayList<>();
 
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     private List<Nft> nfts = new ArrayList<>();
@@ -41,6 +43,6 @@ public class Job {
     @Builder
     public Job(Long id, String name) {
         this.id = id;
-        this.name = name;
+        this.name = JobName.valueOf(name);
     }
 }

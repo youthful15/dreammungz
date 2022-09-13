@@ -17,26 +17,26 @@ import javax.persistence.*;
 @DynamicUpdate
 @Entity
 @Getter
-@Table(name = "condition")
-public class Condition {
+@Table(name = "requirement")
+public class Requirement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "condition_id")
+    @Column(name = "requirement_id")
     private Long id;
 
     @Column(name = "satisfied_amount", nullable = false)
     private Long satisfiedAmount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_id")
+    @JoinColumn(name = "job_id", nullable = false)
     private Job job;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "status_id", nullable = false)
     private Status status;
 
     @Builder
-    public Condition(Long id, Long satisfiedAmount, Job job, Status status) {
+    public Requirement(Long id, Long satisfiedAmount, Job job, Status status) {
         this.id = id;
         this.satisfiedAmount = satisfiedAmount;
         this.job = job;

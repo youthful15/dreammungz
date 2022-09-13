@@ -1,10 +1,14 @@
 package dreammungz.db.entity;
 
+import dreammungz.enums.Check;
+import dreammungz.enums.State;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,19 +30,21 @@ public class Trade {
     @Column(name = "trade_id")
     private Long id;
 
-    @Column(name = "state")
-    private String state;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state", nullable = false)
+    private State state;
 
-    @Column(name = "nego_able")
-    private String negoAble;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "nego_able", nullable = false)
+    private Check negoAble;
 
-    @Column(name = "start_time")
+    @Column(name = "start_time", nullable = false, updatable = false)
     private LocalDateTime startTime;
 
-    @Column(name = "end_time")
+    @Column(name = "end_time", nullable = false)
     private LocalDateTime endTime;
 
-    @Column(name = "start_price")
+    @Column(name = "start_price", nullable = false)
     private Long startPrice;
 
     @Column(name = "end_price")
@@ -57,19 +63,21 @@ public class Trade {
     private Buyer buyer;
 
     @Builder
-    public Trade(Long id, String state, String negoAble, LocalDateTime startTime, LocalDateTime endTime, Long startPrice, Long endPrice, Nft nft, Seller seller) {
+    public Trade(Long id, String state, String negoAble, LocalDateTime startTime, LocalDateTime endTime, Long startPrice, Nft nft, Seller seller) {
         this.id = id;
-        this.state = state;
-        this.negoAble = negoAble;
+        this.state = State.valueOf(state);
+        this.negoAble = Check.valueOf(negoAble);
         this.startTime = startTime;
         this.endTime = endTime;
         this.startPrice = startPrice;
-        this.endPrice = endPrice;
         this.nft = nft;
         this.seller = seller;
     }
 
+    public void setState(String state) { this.state = State.valueOf(state);}
     public void setBuyer(Buyer buyer) {
         this.buyer = buyer;
     }
+    public void setEndPrice(Long endPrice) { this.endPrice = endPrice; }
+    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
 }
