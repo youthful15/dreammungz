@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Web3 from 'web3';
+import axios from "axios";
 
 interface Auth {
   accessToken: string;
@@ -21,13 +22,18 @@ export const Login = ({ onLoggedIn }: any): JSX.Element => {
 		publicAddress: string;
 		signature: string;
 	}) =>
-		fetch(`${process.env.REACT_APP_BACKEND_URL}/auth`, {
-			body: JSON.stringify({ publicAddress, signature }),
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			method: 'POST',
-		}).then((response) => response.json());
+		axios({
+			method: "POST",
+			url: `${process.env.REACT_APP_BACKEND_URL}/auth/signature`,
+			params: {
+				address: publicAddress,
+				signature: signature
+			}
+		})
+			.then(res => {
+				localStorage.setItem("token", res.data.token)
+				localStorage.setItem("expiration", res.data.expiration)
+			})
 
 	const handleSignMessage = async ({
 		publicAddress,
@@ -52,14 +58,21 @@ export const Login = ({ onLoggedIn }: any): JSX.Element => {
 	};
 
 	const handleSignup = (publicAddress: string) =>
-		fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
-			body: JSON.stringify({ publicAddress }),
-			headers: {
-				'Content-Type': 'application/json',
+		axios({
+			method: "POST",
+			url: `${process.env.REACT_APP_BACKEND_URL}/auth/signin`,
+			params: {
+				address: publicAddress,
 			},
-			method: 'POST',
-		}).then((response) => response.json());
+		})
+			.then(res => res.data.nonce)
 
+
+
+
+
+
+	// 전체
 	const handleClick = async () => {
 		// Check if MetaMask is installed
 		if (!(window as any).ethereum) {
@@ -90,25 +103,36 @@ export const Login = ({ onLoggedIn }: any): JSX.Element => {
 		const publicAddress = coinbase.toLowerCase();
 		setLoading(true);
 
+		let nonce
+		
 		// Look if user with current publicAddress is already present on backend
-		fetch(
-			`${process.env.REACT_APP_BACKEND_URL}/users?publicAddress=${publicAddress}`
-		)
-			.then((response) => response.json())
-			// If yes, retrieve it. If no, create it.
-			.then((users) =>
-				users.length ? users[0] : handleSignup(publicAddress)
-			)
-			// Popup MetaMask confirmation modal to sign message
-			.then(handleSignMessage)
-			// Send signature to backend on the /auth route
-			.then(handleAuthenticate)
-			// Pass accessToken back to parent component (to save it in localStorage)
-			.then(onLoggedIn)
-			.catch((err) => {
-				window.alert(err);
-				setLoading(false);
-			});
+		const first = await axios({
+			method: "GET",
+			url: `${process.env.REACT_APP_BACKEND_URL}/auth/info/${publicAddress}`,
+		})
+
+		// 존재하면 exception의 에러메시지
+		if (first.data.message !== "이미 가입된 지갑 주소입니다.") {
+			nonce = await first.data.nonce[0]
+		} else {
+			nonce = await handleSignup(publicAddress)
+		}
+		
+		// Popup MetaMask confirmation modal to sign message
+		const third = await handleSignMessage(nonce)
+
+		// Send signature to backend on the /auth route
+		const forth = await handleAuthenticate(third)
+		
+
+
+		// Pass accessToken back to parent component (to save it in localStorage)
+		try {
+			await onLoggedIn(forth)
+		} catch(err) {
+			window.alert(err);
+			setLoading(false);
+		}
 	};
 
 	return (
