@@ -29,6 +29,12 @@ public class Game {
     @Column(name = "cur_scene", nullable = false)
     private String curScene;
 
+    @Column(name="mother")
+    private Long mother;
+
+    @Column(name="father")
+    private Long father;
+
     @OneToOne(mappedBy = "game", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Member member;
 
@@ -42,5 +48,13 @@ public class Game {
     public Game(Long id, String curScene) {
         this.id = id;
         this.curScene = curScene;
+    }
+
+    public void setMother(Long mother) {
+        this.mother = mother;
+    }
+
+    public void setFather(Long father) {
+        this.father = father;
     }
 }
