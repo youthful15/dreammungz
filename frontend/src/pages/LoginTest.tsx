@@ -30,8 +30,8 @@ export const Login = ({ onLoggedIn }: any): JSX.Element => {
         signature: signature,
       },
     }).then((res) => {
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("expiration", res.data.expiration);
+      localStorage.setItem("token", res.data.data.token);
+      localStorage.setItem("expiration", res.data.data.expiration);
     });
 
   const handleSignMessage = async ({
@@ -61,7 +61,7 @@ export const Login = ({ onLoggedIn }: any): JSX.Element => {
       params: {
         address: publicAddress,
       },
-    }).then((res) => res.data.nonce);
+    }).then((res) => res.data.data.nonce);
 
   // 전체
   const handleClick = async () => {
@@ -75,12 +75,10 @@ export const Login = ({ onLoggedIn }: any): JSX.Element => {
       try {
         // Request account access if needed
         await (window as any).ethereum.enable();
-        console.log("111111111111111");
 
         // We don't know window.web3 version, so we use our own instance of Web3
         // with the injected provider given by MetaMask
         web3 = new Web3((window as any).ethereum);
-        console.log("222222222222222");
       } catch (error) {
         window.alert("You need to allow MetaMask.");
         return;
@@ -88,7 +86,6 @@ export const Login = ({ onLoggedIn }: any): JSX.Element => {
     }
 
     const coinbase = await web3.eth.getCoinbase();
-    console.log("33333333333333333333");
     if (!coinbase) {
       window.alert("Please activate MetaMask first.");
       return;
@@ -96,7 +93,6 @@ export const Login = ({ onLoggedIn }: any): JSX.Element => {
 
     const publicAddress = coinbase.toLowerCase();
     setLoading(true);
-    console.log("444444444444444444444");
 
     let nonce;
 
@@ -105,9 +101,8 @@ export const Login = ({ onLoggedIn }: any): JSX.Element => {
       method: "GET",
       url: `http://localhost:8080/auth/info/${publicAddress}`,
     })
-      .then((res) => res.data.nonce)
+      .then((res) => res.data.data.nonce)
       .catch((err) => err.response.data.message);
-    console.log("55555555555555555555555");
 
     // 존재하면 exception의 에러메시지
     if (first !== "존재하지 않는 회원입니다.") {
@@ -115,17 +110,12 @@ export const Login = ({ onLoggedIn }: any): JSX.Element => {
     } else {
       nonce = await handleSignup(publicAddress);
     }
-    console.log("6666666666666666666");
 
     // Popup MetaMask confirmation modal to sign message
     const third = await handleSignMessage({ publicAddress, nonce });
 
-    console.log("77777777777777777777");
-
     // Send signature to backend on the /auth route
     const forth = await handleAuthenticate(third);
-
-    console.log("888888888888888888888888");
 
     // Pass accessToken back to parent component (to save it in localStorage)
     try {
