@@ -28,11 +28,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         configuration.addAllowedOriginPattern("http://localhost:3000");
         configuration.addAllowedOriginPattern("http://localhost:8080");
-        configuration.addAllowedOriginPattern("http://i7a805.p.ssafy.io:8080");
-        configuration.addAllowedOriginPattern("https://i7a805.p.ssafy.io:8080");
-        configuration.addAllowedOriginPattern("http://i7a805.p.ssafy.io:3000");
-        configuration.addAllowedOriginPattern("https://i7a805.p.ssafy.io:3000");
-        configuration.addAllowedOriginPattern("https://i7a805.p.ssafy.io");
+        configuration.addAllowedOriginPattern("http://j7a605.p.ssafy.io:8080");
+        configuration.addAllowedOriginPattern("https://j7a605.p.ssafy.io:8080");
+        configuration.addAllowedOriginPattern("http://j7a605.p.ssafy.io:3000");
+        configuration.addAllowedOriginPattern("https://j7a605.p.ssafy.io:3000");
+        configuration.addAllowedOriginPattern("https://j7a605.p.ssafy.io");
         configuration.addAllowedOriginPattern("*");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");

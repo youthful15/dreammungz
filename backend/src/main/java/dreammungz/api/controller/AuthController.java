@@ -26,7 +26,6 @@ import java.security.SignatureException;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/auth")
 public class AuthController {
     final AuthService authService;
