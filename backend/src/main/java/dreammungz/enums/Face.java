@@ -6,4 +6,5 @@ package dreammungz.enums;
 */
 
 public enum Face {
+    BASIC, ANGRY, SAD, HALF, BEAN, ZZANG, SCAR, WINK, GLASSES, SHY
 }

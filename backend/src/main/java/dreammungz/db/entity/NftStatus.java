@@ -24,8 +24,8 @@ public class NftStatus {
     @Column(name = "nft_status_id")
     private Long id;
 
-    @Column(name = "amount", nullable = false)
-    private Long amount;
+    @Column(name = "value", nullable = false)
+    private Long value;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nft_id", nullable = false)
@@ -36,9 +36,9 @@ public class NftStatus {
     private Status status;
 
     @Builder
-    public NftStatus(Long id, Long amount, Nft nft, Status status) {
+    public NftStatus(Long id, Long value, Nft nft, Status status) {
         this.id = id;
-        this.amount = amount;
+        this.value = value;
         this.nft = nft;
         this.status = status;
     }
