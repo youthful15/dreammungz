@@ -74,7 +74,7 @@ public class Member {
     @Builder
     public Member(Long id, String address) {
         this.id = id;
-        this.address = address;
+        this.address = address.toLowerCase();
         this.repIcon = "basic";
         this.playing = Check.N;
         createNickname();
