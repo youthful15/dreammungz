@@ -1,15 +1,15 @@
 interface NftListItemProp {
   img: string
-  info: JSX.Element
-  status: JSX.Element
+  info?: JSX.Element | null
+  status?: JSX.Element | null
 }
 
 const NftListItem = ({ img, info, status }: NftListItemProp) => {
   return (
-    <div>
-      <div>이미지</div>
-      <div>정보</div>
-      <div>상태 </div>
+    <div className="border ">
+      <div className="bg-pink-200 w-24 h-24">이미지 </div>
+      <div>{info}</div>
+      <div>{status} </div>
     </div>
   )
 }
