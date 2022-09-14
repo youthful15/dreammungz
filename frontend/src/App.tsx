@@ -1,7 +1,7 @@
 import "./App.css"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Navbar from "./components/navbar/Navbar"
-import Sample from "./pages/Sample"
+import MyPage from "./pages/MyPage"
 import NftListPage from "./pages/NftList"
 import NftDetail from "./pages/NftDetail"
 function App() {
@@ -12,7 +12,7 @@ function App() {
           <Navbar />
           <div className="4/5 border w-full">
             <Routes>
-              <Route path="/" element={<Sample />} />
+              <Route path="/" element={<MyPage />} />
               <Route path="/nft">
                 <Route path="list" element={<NftListPage />} />
                 <Route path="detail/:id" element={<NftDetail />} />
