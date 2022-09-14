@@ -1,12 +1,15 @@
 import "./App.css"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Navbar from "./components/navbar/Navbar"
-import Sample from "./pages/Sample"
+import Sample from "./pages/Sample.js"
 import AllNftListPage from "./pages/AllNftListPage"
 import NftDetail from "./pages/NftDetail"
 import GameStart from "./pages/GameStart"
 import GamePlaying from "./pages/GamePlaying"
 
+import MyPage from "./pages/MyPage"
+import MyNftList from "./MyNftList"
+import MyNftHistory from "./MyNftHistory"
 function App() {
   return (
     <div className="App w-screen h-screen flex justify-center items-center bg-blue-100">
@@ -21,6 +24,10 @@ function App() {
               <Route path="/nft">
                 <Route path="list" element={<AllNftListPage />} />
                 <Route path="detail/:id" element={<NftDetail />} />
+              </Route>
+              <Route path="/mypage" element={<MyPage />}>
+                <Route path="list" element={<MyNftList />} />
+                <Route path="history" element={<MyNftHistory />} />
               </Route>
             </Routes>
           </div>
