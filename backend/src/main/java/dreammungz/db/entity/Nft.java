@@ -48,9 +48,6 @@ public class Nft {
     @Column(name = "tier", nullable = false)
     private Tier tier;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id", nullable = false)
@@ -63,7 +60,7 @@ public class Nft {
     private List<Trade> trades = new ArrayList<>();
 
     @Builder
-    public Nft(Long id, Long tokenId, String imageUrl, String hair, String face, String gender, String color, String tier, Member member, Job job) {
+    public Nft(Long id, Long tokenId, String imageUrl, String hair, String face, String gender, String color, String tier, Job job) {
         this.id = id;
         this.tokenId = tokenId;
         this.imageUrl = imageUrl;
@@ -72,7 +69,6 @@ public class Nft {
         this.gender = Gender.valueOf(gender);
         this.color = Color.valueOf(color);
         this.tier = Tier.valueOf(tier);
-        this.member = member;
         this.job = job;
     }
 }
