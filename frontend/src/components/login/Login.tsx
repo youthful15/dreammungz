@@ -3,10 +3,11 @@ import axios from "axios"
 import Web3 from "web3"
 
 export default function Login() {
-  const currentProvider = new Web3.providers.HttpProvider(
-    "http://localhost:8081"
-  )
-  let web3 = new Web3(currentProvider)
+  // const currentProvider = new Web3.providers.HttpProvider(
+  //   "http://localhost:8081"
+  // )
+  let web3 = new Web3((window as any).ethereum)
+  // let web3 = new Web3(currentProvider)
 
   const [loading, setLoading] = useState(false)
 
