@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router-dom"
-import TabList from "../components/Tab/TabList"
-import TabPanel from "../components/Tab/TabPanel"
+import TabList from "../components/tab/TabList"
+import TabPanel from "../components/tab/TabPanel"
 
 const menu = [
   { title: "내 NFT 목록", path: "/mypage/list" },
