@@ -57,9 +57,6 @@ public class Member {
     private Game game;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Nft> nfts = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Achievement> achievements = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
