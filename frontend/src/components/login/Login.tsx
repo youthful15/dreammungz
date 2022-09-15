@@ -1,11 +1,10 @@
 import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import Web3 from "web3"
-
 export default function Login() {
+  const navigate = useNavigate()
   let web3: any
-
-  const [loading, setLoading] = useState(false)
 
   const handleAuthenticate = ({
     publicAddress,
@@ -79,7 +78,6 @@ export default function Login() {
     }
 
     const publicAddress = coinbase.toLowerCase()
-    setLoading(true)
 
     let nonce
 
@@ -102,13 +100,13 @@ export default function Login() {
     const third = await handleSignMessage({ publicAddress, nonce })
 
     // Send signature to backend on the /auth route
-    const forth = await handleAuthenticate(third)
+    await handleAuthenticate(third)
+    navigate("/mainpage")
 
     // Pass accessToken back to parent component (to save it in localStorage)
     try {
     } catch (err) {
       window.alert(err)
-      setLoading(false)
     }
   }
 
@@ -123,9 +121,7 @@ export default function Login() {
           className="mr-1"
           alt="Metamask 로그인 이미지"
         />
-        <p className="font-semibold text-white">
-          {loading ? "Loading..." : "Login with MetaMask"}
-        </p>
+        <p className="font-semibold text-white">MetaMask 로그인</p>
       </button>
     </div>
   )
