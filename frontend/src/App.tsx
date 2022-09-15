@@ -5,6 +5,9 @@ import Sample from "./pages/Sample"
 import MainPage from "./pages/MainPage"
 import NftListPage from "./pages/NftList"
 import NftDetail from "./pages/NftDetail"
+import Login from "./pages/Login"
+import LoginTutorial from "./pages/LoginTutorial"
+
 function App() {
   return (
     <div className="App w-screen h-screen flex justify-center items-center bg-blue-100">
@@ -14,6 +17,9 @@ function App() {
           <div className="4/5 border w-full">
             <Routes>
               <Route path="/" element={<Sample />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/login-tutorial" element={<LoginTutorial />} />
+
               <Route path="/mainpage" element={<MainPage />} />
               <Route path="/nft">
                 <Route path="list" element={<NftListPage />} />

@@ -33,7 +33,7 @@ const Navbar = () => {
           className="border bg-green-200  cursor-pointer"
           onClick={() => setLogin(true)}
         >
-          <Login />
+          <NavLink to="/login">로그인</NavLink>
         </div>
       )}
     </nav>

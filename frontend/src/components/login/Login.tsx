@@ -114,8 +114,18 @@ export default function Login() {
 
   return (
     <div>
-      <button className="Login-button Login-mm" onClick={handleClick}>
-        {loading ? "Loading..." : "Login with MetaMask"}
+      <button
+        className="Login-button Login-mm flex items-center border bg-[#273850] p-2"
+        onClick={handleClick}
+      >
+        <img
+          src="images/metamask.png"
+          className="mr-1"
+          alt="Metamask 로그인 이미지"
+        />
+        <p className="font-semibold text-white">
+          {loading ? "Loading..." : "Login with MetaMask"}
+        </p>
       </button>
     </div>
   )
