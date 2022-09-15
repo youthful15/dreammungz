@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { NavLink } from "react-router-dom"
 import NavList from "./NavList"
-
+import Login from "../login/Login"
 const Navbar = () => {
   const [isLogin, setLogin] = useState(false) // 추후 Recoil을 사용하여  상태관리 할 것
   return (
@@ -28,12 +28,13 @@ const Navbar = () => {
           </NavLink>
         </div>
       ) : (
-        <div
-          className="border bg-green-200  cursor-pointer"
-          onClick={() => setLogin(true)}
-        >
-          로그인
-        </div>
+        // <div
+        //   className="border bg-green-200  cursor-pointer"
+        //   onClick={() => setLogin(true)}
+        // >
+        //   로그인
+        // </div>
+        <Login />
       )}
     </nav>
   )
