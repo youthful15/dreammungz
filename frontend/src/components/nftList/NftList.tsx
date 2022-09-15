@@ -1,4 +1,5 @@
 import { useState } from "react"
+import Pagination from "../pagination/Pagination"
 import NftListItem from "./NftListItem"
 
 interface NftListProp {
@@ -44,6 +45,7 @@ const NftList = ({ ...props }) => {
           return ItemComponent
         })}
       </div>
+      <Pagination />
     </>
   )
 }
