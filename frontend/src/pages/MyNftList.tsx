@@ -1,9 +1,9 @@
 import NftList from "../components/nftList/NftList"
 
-const MyNftList = () => {
+const MyNftList = (props: any) => {
+  console.log(props)
   return (
     <div>
-      내 NFT목록
       <NftList />
     </div>
   )

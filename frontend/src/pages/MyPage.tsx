@@ -10,7 +10,7 @@ const menu = [
 const MyPage = () => {
   return (
     <div>
-      여기는 마이페이지
+      마이페이지
       <TabList list={menu} />
       <TabPanel>
         <Outlet />

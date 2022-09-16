@@ -21,7 +21,7 @@ const Navbar = () => {
 
       {isLogin ? (
         <div>
-          <NavLink to="/mypage">
+          <NavLink to="/mypage/list">
             <div className={navItemStyle}>마이페이지 </div>
           </NavLink>
           <div className={navItemStyle}>지갑 정보 보기</div>
