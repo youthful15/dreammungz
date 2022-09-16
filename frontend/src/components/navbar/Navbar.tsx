@@ -8,7 +8,9 @@ const Navbar = () => {
     <nav className="w-1/5 border bg-yellow-100 space-y-4 p-2 flex flex-col  justify-between">
       <div>
         <div className="border bg-red-200  h-24 ">로고 영역 </div>
-        <div className="border bg-blue-200 h-24">시작 버튼 </div>
+        <NavLink to="/start">
+          <div className="border bg-blue-200 h-24">시작 버튼 </div>
+        </NavLink>
         <NavList />
       </div>
 
