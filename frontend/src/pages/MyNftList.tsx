@@ -1,4 +1,4 @@
-import NftList from "./components/nftList/NftList"
+import NftList from "../components/nftList/NftList"
 
 const MyNftList = () => {
   return (
