@@ -1,5 +1,5 @@
 import { RecoilRoot } from "recoil"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Navbar from "./components/navbar/Navbar"
 import Sample from "./pages/Sample"
 import MainPage from "./pages/MainPage"
@@ -25,7 +25,8 @@ function App() {
             </div>
             <div className="w-full p-8 border 4/5 bg-beige-200 rounded-r-xl">
               <Routes>
-                <Route path="/" element={<MainPage />} />
+                <Route path="/" element={<Navigate replace to="/nft/list" />} />
+                <Route path="/mainpage" element={<MainPage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/login-tutorial" element={<LoginTutorial />} />
 
