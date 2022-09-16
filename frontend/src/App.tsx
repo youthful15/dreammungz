@@ -8,8 +8,8 @@ import GameStart from "./pages/GameStart"
 import GamePlaying from "./pages/GamePlaying"
 
 import MyPage from "./pages/MyPage"
-import MyNftList from "./MyNftList"
-import MyNftHistory from "./MyNftHistory"
+import MyNftList from "./pages/MyNftList"
+import MyNftHistory from "./pages/MyNftHistory"
 function App() {
   return (
     <div className="App w-screen h-screen flex justify-center items-center bg-blue-100">
