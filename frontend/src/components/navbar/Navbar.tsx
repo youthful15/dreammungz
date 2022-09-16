@@ -3,38 +3,34 @@ import { NavLink } from "react-router-dom"
 import NavList from "./NavList"
 import Login from "../login/Login"
 
+const navItemStyle: string =
+  "py-1 my-2 bg-pink-500 border rounded-lg shadow-sm border-brown-200 text-brown"
+
 const Navbar = () => {
   const [isLogin, setLogin] = useState(false) // 추후 Recoil을 사용하여  상태관리 할 것
   return (
-    <nav className="w-1/5 border bg-yellow-100 space-y-4 p-2 flex flex-col  justify-between">
-      <div>
-        <div className="border bg-red-200  h-24 ">로고 영역 </div>
-        <NavLink to="/start">
-          <div className="border bg-blue-200 h-24">시작 버튼 </div>
-        </NavLink>
-        <NavList />
-      </div>
+    <nav className="flex flex-col justify-between w-full h-full p-2 space-y-4 ">
+      <NavLink to="/">
+        <img src="/dreammungz.svg" alt="logo" />
+      </NavLink>
+      <NavLink to="/start" className="flex justify-center w-full">
+        <img src="/paw.png" alt="" className="" />
+      </NavLink>
+
+      <NavList navItemStyle={navItemStyle} />
 
       {isLogin ? (
         <div>
-          <div className="border bg-blue-400  cursor-pointer">
-            지갑 정보 보기
-          </div>
-          <div
-            className="border bg-purple-200  cursor-pointer"
-            onClick={() => setLogin(false)}
-          >
+          <NavLink to="/mypage">
+            <div className={navItemStyle}>마이페이지 </div>
+          </NavLink>
+          <div className={navItemStyle}>지갑 정보 보기</div>
+          <div className={navItemStyle} onClick={() => setLogin(false)}>
             로그아웃
           </div>
-          <NavLink to="/mypage">
-            <div className="border  my-2  bg-gray-200">마이페이지 </div>
-          </NavLink>
         </div>
       ) : (
-        <div
-          className="border bg-green-200  cursor-pointer"
-          onClick={() => setLogin(true)}
-        >
+        <div className={navItemStyle} onClick={() => setLogin(true)}>
           <NavLink to="/login">로그인</NavLink>
         </div>
       )}

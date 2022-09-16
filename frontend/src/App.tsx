@@ -16,17 +16,19 @@ import LoginTutorial from "./pages/LoginTutorial"
 
 function App() {
   return (
-    <div className="App w-screen h-screen flex justify-center items-center bg-blue-100">
+    <div className="flex items-center justify-center w-screen h-screen text-center bg-beige-300">
       <BrowserRouter>
-        <div className="border w-4/5 h-4/5 flex bg-white">
-          <Navbar />
-          <div className="4/5 border w-full p-8">
+        <div className="flex w-4/5 shadow-lg rounded-xl h-4/5 ">
+          <div className="w-1/5 bg-brown-200 rounded-l-xl">
+            <Navbar />
+          </div>
+          <div className="w-full p-8 border 4/5 bg-beige-200 rounded-r-xl">
             <Routes>
-              <Route path="/" element={<Sample />} />
+              <Route path="/" element={<MainPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/login-tutorial" element={<LoginTutorial />} />
 
-              <Route path="/mainpage" element={<MainPage />} />
+              <Route path="/styles" element={<Sample />} />
               <Route path="/start" element={<GameStart />} />
               <Route path="/game" element={<GamePlaying />} />
               <Route path="/nft">
