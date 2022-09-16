@@ -8,20 +8,11 @@ const navItemList = [
   { title: "디자인(개발용)", path: "/styles" },
 ]
 
-interface NavListProp {
-  navItemStyle: string
-}
-
-const NavList = ({ navItemStyle }: NavListProp) => {
+const NavList = () => {
   return (
     <ul>
       {navItemList.map((item, key) => (
-        <NavItem
-          title={item.title}
-          path={item.path}
-          key={key}
-          navItemStyle={navItemStyle}
-        />
+        <NavItem title={item.title} path={item.path} key={key} />
       ))}
     </ul>
   )

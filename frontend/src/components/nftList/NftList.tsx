@@ -33,12 +33,18 @@ const NftList = ({ ...props }) => {
   const setShowInfo = useSetRecoilState(listModeAtom)
 
   return (
-    <div className="w-full h-full py-3">
-      <div className="space-x-2">
-        <button className="border-4" onClick={() => setShowInfo(false)}>
+    <div className="w-full h-full text-center">
+      <div className="mb-1 space-x-2">
+        <button
+          className="p-1 px-2 rounded-lg bg-brown-200"
+          onClick={() => setShowInfo(false)}
+        >
           이미지만 보기{" "}
         </button>
-        <button className="border-4" onClick={() => setShowInfo(true)}>
+        <button
+          className="p-1 px-2 rounded-lg bg-brown-200"
+          onClick={() => setShowInfo(true)}
+        >
           정보와 함께 보기{" "}
         </button>
       </div>

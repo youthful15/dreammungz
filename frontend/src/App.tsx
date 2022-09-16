@@ -17,9 +17,9 @@ import LoginTutorial from "./pages/LoginTutorial"
 function App() {
   return (
     <RecoilRoot>
-      <div className="flex items-center justify-center w-screen h-screen text-center bg-beige-300">
+      <div className="flex items-center justify-center w-screen h-screen bg-beige-300">
         <BrowserRouter>
-          <div className="flex w-4/5 shadow-lg rounded-xl h-4/5 ">
+          <div className="flex w-4/5 shadow-lg rounded-xl h-4/5  max-w-[1280px] min-w-[1024px]">
             <div className="w-1/5 bg-brown-200 rounded-l-xl">
               <Navbar />
             </div>

@@ -69,7 +69,6 @@ const NftListPage = () => {
 
   return (
     <div className="relative ">
-      드림멍즈의 모든 강아지들
       <div className="flex">
         {Object.keys(filter).map((item) => {
           const list = filters[item]?.map((f, i) => (
