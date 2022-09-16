@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import { chainId } from "../../utils/web3"
 import Web3 from "web3"
 export default function Login() {
   const navigate = useNavigate()
@@ -51,6 +52,41 @@ export default function Login() {
     }).then((res: any) => res.data.nonce)
   }
 
+  // 네트워크 추가 함수
+  const handleNetwork = async (chainId: string) => {
+    console.log(chainId)
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: chainId }],
+      })
+    } catch (switchError: any) {
+      // This error code indicates that the chain has not been added to MetaMask.
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: chainId,
+                chainName: "SSAFY",
+                rpcUrls: ["http://20.196.209.2:8545"],
+                nativeCurrency: {
+                  name: "SSAFY WALLET", // 통화 이름
+                  symbol: "SSF", // 통화 기호
+                  decimals: 18, // 통화 소수점 자리
+                },
+              },
+            ],
+          })
+        } catch (addError) {
+          // handle "add" error
+        }
+      }
+      // handle other "switch" errors
+    }
+  }
+
   const handleClick = async () => {
     // Check if MetaMask is installed
     if (!window.ethereum) {
@@ -79,6 +115,9 @@ export default function Login() {
 
     const publicAddress = coinbase.toLowerCase()
 
+    // localStorage에 지갑 주소 저장
+    localStorage.setItem("publicAddress", publicAddress)
+
     let nonce
 
     // Look if user with current publicAddress is already present on backend
@@ -101,8 +140,14 @@ export default function Login() {
 
     // Send signature to backend on the /auth route
     await handleAuthenticate(third)
-    navigate("/mainpage")
 
+    const accounts = await window.ethereum.request({ method: "eth_accounts" })
+    console.log("주소", accounts)
+
+    const a = await handleNetwork(chainId)
+    console.log(a)
+
+    navigate("/mainpage")
     // Pass accessToken back to parent component (to save it in localStorage)
     try {
     } catch (err) {
