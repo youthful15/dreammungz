@@ -1,7 +1,7 @@
 import "./App.css"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Navbar from "./components/navbar/Navbar"
-import Sample from "./pages/Sample.js"
+import Sample from "./pages/Sample"
 import AllNftListPage from "./pages/AllNftListPage"
 import NftDetail from "./pages/NftDetail"
 import GameStart from "./pages/GameStart"
