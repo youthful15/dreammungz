@@ -4,7 +4,7 @@ pragma solidity >=0.4.22 <0.9.0;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-/*
+/**
 * 엔딩 결과를 바탕으로 NFT를 발행하는 컨트랙트
 *
 * @author 황승주
@@ -19,7 +19,9 @@ contract MFT is ERC721Enumerable {
     // NFT Metadata(IPFS)
     mapping(uint256 => string) private _tokenURIs;
 
-    /*
+    constructor() ERC721("Dreammungz", "MFT") {}
+
+    /**
     * create
     * 신규 NFT 발급
     * @ param string tokenURI Metadata(IPFS) URI
@@ -32,12 +34,12 @@ contract MFT is ERC721Enumerable {
 
         uint256 newTokenId = _tokenIds.current();
         _mint(msg.sender, newTokenId);
-        _setTokenURI(newTokenId, ticketURI);
+        _setTokenURI(newTokenId, tokenURI);
 
         return newTokenId;
     }
 
-    /*
+    /**
     * _burn
     * tokenId 및 해당하는 tokenURI 삭제
     * @ param uint256 tokenId NFT 식별자
