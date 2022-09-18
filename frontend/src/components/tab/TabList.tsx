@@ -6,7 +6,7 @@ interface TabListProp {
 
 const TabList = ({ list }: TabListProp) => {
   return (
-    <div>
+    <div className="flex h-8">
       {list?.map((item, idx) => (
         <Tab title={item.title} path={item.path} key={idx} />
       ))}

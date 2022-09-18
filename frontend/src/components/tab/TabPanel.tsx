@@ -4,8 +4,7 @@ interface TabPanelProp {
 
 const TabPanel = ({ children }: TabPanelProp) => {
   return (
-    <div className="bg-blue-400">
-      여기는 tab panel
+    <div className="flex items-center justify-center w-full h-full p-5 rounded-b-lg rounded-tr-lg shadow-lg bg-beige">
       {children}
     </div>
   )

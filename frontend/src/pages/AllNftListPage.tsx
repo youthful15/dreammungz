@@ -23,13 +23,13 @@ interface listItemType {
 const Category = ({ type, addFilter }: CategoryProp) => {
   const list: listItemType[] = filter[type]
   return (
-    <div className="border m-1  bg-gray-100  flex">
+    <div className="flex m-1 bg-gray-100 ">
       <div>{type}</div>
       <div className="flex flex-wrap">
         {list.map((item, i) => {
           return (
             <div
-              className="bg-blue-300 m-1"
+              className="m-1 bg-blue-300"
               onClick={() => addFilter(type, item)}
               key={i}
             >
@@ -68,8 +68,7 @@ const NftListPage = () => {
   }
 
   return (
-    <div className="h-full relative">
-      nft리스트 페이지
+    <div className="relative ">
       <div className="flex">
         {Object.keys(filter).map((item) => {
           const list = filters[item]?.map((f, i) => (
@@ -88,7 +87,7 @@ const NftListPage = () => {
         필터 설정
       </div>
       {showFilterSelector && (
-        <div className="bg-orange-300 absolute ">
+        <div className="absolute z-10 bg-orange-300">
           <div onClick={() => setShowFilterSelector(false)}>
             필터 선택창 닫기{" "}
           </div>

@@ -1,5 +1,5 @@
 const MyNftHistory = () => {
-  return <div>내 거래 내역</div>
+  return <div>거래 이력이 없습니다.</div>
 }
 
 export default MyNftHistory

@@ -9,12 +9,14 @@ const menu = [
 
 const MyPage = () => {
   return (
-    <div>
-      여기는 마이페이지
-      <TabList list={menu} />
-      <TabPanel>
-        <Outlet />
-      </TabPanel>
+    <div className="flex flex-col items-center justify-center w-full h-full ">
+      <div>마이페이지</div>
+      <div className="w-[90%] h-[80%] ">
+        <TabList list={menu} />
+        <TabPanel>
+          <Outlet />
+        </TabPanel>
+      </div>
     </div>
   )
 }

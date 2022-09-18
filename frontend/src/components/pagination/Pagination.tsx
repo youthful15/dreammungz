@@ -19,7 +19,7 @@ const Pagination = () => {
   }, [currentPage])
 
   const clickPage = (num: number) => {
-    if (num + 1 > totalPage) return
+    if (num + 1 > totalPage || num + 1 <= 0) return
     setCurrentPage(num)
   }
 
@@ -27,12 +27,12 @@ const Pagination = () => {
     <>
       {/* <div>페이지 인덱스:{currentPage}</div>
       <div>페이지 오프셋:{offset}</div> */}
-      <div className="flex  justify-center">
-        <div className="w-8 h-8 border m-1 " onClick={() => clickPage(0)}>
+      <div className="flex justify-center">
+        <div className="w-8 h-8 m-1 border " onClick={() => clickPage(0)}>
           {"<<"}
         </div>
         <div
-          className="w-8 h-8 border m-1 "
+          className="w-8 h-8 m-1 border "
           onClick={() => clickPage(currentPage - 1)}
         >
           {"<"}
@@ -55,13 +55,13 @@ const Pagination = () => {
             )
           })}
         <div
-          className="w-8 h-8 border m-1 "
+          className="w-8 h-8 m-1 border "
           onClick={() => clickPage(currentPage + 1)}
         >
           {">"}
         </div>
         <div
-          className="w-8 h-8 border m-1 "
+          className="w-8 h-8 m-1 border "
           onClick={() => clickPage(totalPage - 1)}
         >
           {">>"}
