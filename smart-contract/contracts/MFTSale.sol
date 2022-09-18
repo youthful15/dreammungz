@@ -111,6 +111,9 @@ contract MFTSale is Ownable, IERC721Receiver {
         bool isChoiced,
         bool isCanceled
     ) public {
+        require(negoPrice >= 0, "Price must be higher than 0.");
+        require(negoAt < endedAt, "This sale is already ended.");
+
 
     }
 
@@ -126,4 +129,136 @@ contract MFTSale is Ownable, IERC721Receiver {
         require(_endedAt > block.timestamp, "This sale is already ended.");
         return _endedAt - block.timestamp;
     }
-}
+
+    /**
+    * getMFTId
+    * 해당 Sale의 대상 MFT ID를 반환
+    *
+    * @ param None
+    * @ return uint256 MFT ID
+    * @ exception None
+    */
+    function getMFTId() public view returns(uint256) {
+        return _MFTId;
+    }
+
+    /**
+    * getSeller
+    * 해당 Sale의 판매자 지갑 주소를 반환
+    *
+    * @ param None
+    * @ return address 판매자 지갑 주소
+    * @ exception None
+    */
+    function getSeller() public view returns(address) {
+        return _seller;
+    }
+
+    /**
+    * getBuyer
+    * 해당 Sale의 구매자 지갑 주소를 반환
+    *
+    * @ param None
+    * @ return address 구매자 지갑 주소
+    * @ exception None
+    */
+    function getBuyer() public view returns(address) {
+        return _buyer;
+    }
+
+    /**
+    * getBuyNowPrice
+    * 해당 Sale의 즉시 구매 금액을 반환
+    *
+    * @ param None
+    * @ return uint256 즉시 구매 금액
+    * @ exception None
+    */
+    function getBuyNowPrice() public view returns(uint256) {
+        return _buyNowPrice;
+    }
+
+    /**
+    * getFinalPrice
+    * 해당 Sale의 최종 거래 금액을 반환
+    *
+    * @ param None
+    * @ return uint256 최종 거래 금액
+    * @ exception None
+    */
+    function getFinalPrice() public view returns(uint256) {
+        return _finalPrice;
+    }
+
+    /**
+    * getStartedAt
+    * 해당 Sale의 판매 시작 시간을 반환
+    *
+    * @ param None
+    * @ return uint256 판매 시작 시간
+    * @ exception None
+    */
+    function getStartedAt() public view returns(uint256) {
+        return _startedAt;
+    }
+
+    /**
+    * getEndedAt
+    * 해당 Sale의 판매 종료 시간을 반환
+    *
+    * @ param None
+    * @ return uint256 판매 종료 시간
+    * @ exception None
+    */
+    function getEndedAt() public view returns(uint256) {
+        return _endedAt;
+    }
+
+    /**
+    * getIsEnded
+    * 해당 Sale의 종료 여부를 반환
+    *
+    * @ param None
+    * @ return bool Sale 종료 여부
+    * @ exception None
+    */
+    function getIsEnded() public view returns(bool) {
+        return _isEnded;
+    }
+
+        /**
+    * getIsCanceled
+    * 해당 Sale의 취소 여부를 반환
+    *
+    * @ param None
+    * @ return bool Sale 취소 여부
+    * @ exception None
+    */
+    function getIsCanceled() public view returns(bool) {
+        return _isCanceled;
+    }
+
+        /**
+    * getNegoAble
+    * 해당 Sale의 제안 가능 여부를 반환
+    *
+    * @ param None
+    * @ return bool 제안 가능 여부
+    * @ exception None
+    */
+    function getNegoAble() public view returns(bool) {
+        return _negoAble;
+    }
+
+    /**
+    * getNegoAddrs
+    * 해당 Sale의 제안 컨트랙트 주소 목록을 반환
+    *
+    * @ param None
+    * @ return uint256[] 제안 컨트랙트 목록
+    * @ exception None
+    */
+    function getNegoAddrs() public view returns(uint256[] memory) {
+        return _negoAddrs;
+    }
+}   

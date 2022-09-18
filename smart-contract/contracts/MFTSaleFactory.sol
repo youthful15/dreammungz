@@ -133,7 +133,14 @@ contract MFTSaleFactory is Ownable {
         bool isCanceled
     ) public {
         require(buyNowPrice >= 0, "Price must be higher than 0.");
-        require(Sale(_saleAddrs[saleId]). < negoAt, "Sale must be proceeding.");
+        require(negoAt < Sale(_saleAddrs[saleId]).getEndedAt, "This sale is already ended.");
+
+        // 새로운 Nego의 ID 결정
+        _negoIds.increment();
+        uint256 newMFTNegoId = _negoIds.current();
+
+        // 새로운 Nego 컨트랙트 생성
+        MFTNego newMFTNego = new MFTNego()
 
 
     }
