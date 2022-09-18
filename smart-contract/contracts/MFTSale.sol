@@ -34,10 +34,14 @@ contract MFTSale is Ownable, IERC721Receiver {
     uint256 private _startedAt;
     // 판매 종료 시간
     uint256 private _endedAt;
-    // 제안 ID(1씩 자동 증가)
-    Counters.Counter private _negoIds;
+    // 판매 종료 여부
+    bool private _isEnded;
+    // 판매 취소 여부
+    bool private _isCanceled;
     // 제안 가능 여부
     bool private _negoAble;
+    // 제안 ID(1씩 자동 증가)
+    Counters.Counter private _negoIds;
     // 제안 컨트랙트 주소
     mapping(uint256 => address) private negoAddrs;
 
@@ -46,7 +50,7 @@ contract MFTSale is Ownable, IERC721Receiver {
     // MFT 활용을 위한 ERC-721 토큰 컨트랙트
     MFT private _MFTContract;
 
-    /*
+    /**
     * constructor
     * 새로운 Sale 컨트랙트 생성
     * 
@@ -85,4 +89,41 @@ contract MFTSale is Ownable, IERC721Receiver {
         _MFTContract = MFT(MFTContractAddress);
     }
 
+    /**
+    * reportNego
+    * 생성된 Nego 컨트랙트를 해당 Sale에 기록
+    * 
+    * @ param address negoAddr 제안 컨트랙트 주소
+    * @ param address negoer 제안자 지갑 주소
+    * @ param uint256 negoPrice 제안 금액
+    * @ param uint256 negoAt 제안 일시
+    * @ param bool isChoiced 제안 채택 여부
+    * @ param bool isCanceled 제안 취소 여부
+    * @ return None
+    * @ exception 제안 금액은 0 이상이어야 함
+    * @ exception 제안 하는 Sale은 진행중이어야 함
+    */
+    function reportNego(
+        address negoAddr,
+        address negoer,
+        uint256 negoPrice,
+        uint256 negoAt,
+        bool isChoiced,
+        bool isCanceled
+    ) public {
+
+    }
+
+    /**
+    * getEndTimeLeft
+    * Sale 종료까지 남은 시간을 반환
+    *
+    * @ param None
+    * @ return uint256 Sale 종료까지 남은 시간
+    * @ exception None
+    */
+    function getEndTimeLeft() public view returns(uint256) {
+        require(_endedAt > block.timestamp, "This sale is already ended.");
+        return _endedAt - block.timestamp;
+    }
 }

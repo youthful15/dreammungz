@@ -1,12 +1,13 @@
 pragma solidity >=0.4.22 <0.9.0;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
+import "./SSFToken.sol";
 import "./MFT.sol";
 import "./MFTSale.sol";
+import "./MFTNego.sol";
 
 /**
 * MFT 거래정보를 관리하는 컨트랙트
@@ -20,8 +21,12 @@ contract MFTSaleFactory is Ownable {
 
     // Sale ID(1씩 자동 증가)
     Counters.Counter private _saleIds;
+    // 제안 ID(1씩 자동 증가)
+    Counters.Counter private _negoIds;
     // Sale 컨트랙트 주소
     mapping(uint256 => address) private _saleAddrs;
+    // 제안 컨트랙트 주소
+    mapping(uint256 => address) private _negoAddrs;
     // MFT 판매자
     mapping(uint256 => address) private _saleSellers;
     // MFT 구매자
@@ -34,6 +39,10 @@ contract MFTSaleFactory is Ownable {
     mapping(address => uint256[]) private _saleIdsByWallet;
     // 해당 MFT ID의 모든 Sale ID 목록
     mapping(uint256 => uint256[]) private _saleIdsOfMFT;
+    // 해당 지갑 주소의 모든 Nego ID 목록
+    mapping(uint256 => uint256[]) private _negoIdsByWallet;
+    // 해당 Sale ID의 모든 Nego ID 목록
+    mapping(uint256 => uint256[]) private _negoIdsOfSale;
 
     // SSAFY 토큰(SSF) 활용을 위한 ERC-20 토큰 컨트랙트 주소
     address private _SSFTokenContractAddress;
@@ -100,7 +109,34 @@ contract MFTSaleFactory is Ownable {
 
         // Sale이 생성되었다는 event emit 필요
     }
+    
+    /**
+    * createNego
+    * 새로운 Nego 컨트랙트를 생성하고 관리할 정보들을 갱신
+    * 
+    * @ param uint256 saleId 제안한 Sale ID
+    * @ param address negoer 제안자 지갑 주소
+    * @ param uint256 negoPrice 제안 금액
+    * @ param uint256 negoAt 제안 일시
+    * @ param bool isChoiced 제안 채택 여부
+    * @ param bool isCanceled 제안 취소 여부
+    * @ return None
+    * @ exception 제안 금액은 0 이상이어야 함
+    * @ exception 제안 하는 Sale은 진행중이어야 함
+    */
+    function createNego(
+        uint256 saleId,
+        address negoer,
+        uint256 negoPrice,
+        uint256 negoAt,
+        bool isChoiced,
+        bool isCanceled
+    ) public {
+        require(buyNowPrice >= 0, "Price must be higher than 0.");
+        require(Sale(_saleAddrs[saleId]). < negoAt, "Sale must be proceeding.");
 
+
+    }
     /** 
     * reportBuyer
     * Sale 종료 후 구매자 정보 기록
