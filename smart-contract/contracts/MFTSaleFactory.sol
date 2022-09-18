@@ -142,8 +142,49 @@ contract MFTSaleFactory is Ownable {
         // 새로운 Nego 컨트랙트 생성
         MFTNego newMFTNego = new MFTNego()
 
-
+        // Nego가 생성되었다는 event emit 필요
     }
+
+    /**
+    * cancelSale
+    * 해당 Sale을 취소하고, Nego들의 제안 금액을 반환한다.
+    * 
+    * @ param uint256 saleId 취소할 Sale ID
+    * @ return None
+    * @ exception 해당 Sale이 진행중이어야 함
+    */
+
+    /**
+    * cancelNego
+    * 해당 Nego를 취소하고, 제안 금액을 반환한다.
+    * 
+    * @ param uint256 negoId 취소할 Mego ID
+    * @ return None
+    * @ exception 취소할 Nego가 속한 Sale이 진행중이어야 함
+    */
+
+    /**
+    * buyNow
+    * Sale의 즉시 구매 금액으로 구매한다.
+    * exception 조건을 통과하면 판매를 종료상태로 만들고, 
+    * 거래를 진행하며, Nego들의 제안 금액을 반환한다.
+    * 
+    * @ param 
+    * @ return None
+    * @ exception 
+    */
+
+    /**
+    * acceptNego
+    * 판매자가 Sale에 제안된 Nego를 받아들인다.
+    * exception 조건을 통과하면 판매를 종료상태로 만들고,
+    * 거래가 진행하며, Nego들의 제안 금액을 반환한다.
+    * 
+    * @ param 
+    * @ return None
+    * @ exception 
+    */
+
     /** 
     * reportBuyer
     * Sale 종료 후 구매자 정보 기록

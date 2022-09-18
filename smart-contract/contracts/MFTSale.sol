@@ -3,7 +3,6 @@ pragma solidity >=0.4.22 <0.9.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 
 import "./SSFToken.sol";
 import "./MFT.sol";
@@ -17,7 +16,6 @@ import "./MFTNego.sol";
 */
 
 contract MFTSale is Ownable, IERC721Receiver {
-    using Counters for Counters.Counter;
     using SafeMath for uint256;
 
     // 판매하는 MFT ID
@@ -40,8 +38,6 @@ contract MFTSale is Ownable, IERC721Receiver {
     bool private _isCanceled;
     // 제안 가능 여부
     bool private _negoAble;
-    // 제안 ID(1씩 자동 증가)
-    Counters.Counter private _negoIds;
     // 제안 컨트랙트 주소
     mapping(uint256 => address) private negoAddrs;
 
