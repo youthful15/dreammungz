@@ -27,7 +27,7 @@ public class Game {
     private Long id;
 
     @Column(name = "cur_scene", nullable = false)
-    private String curScene;
+    private Long curScene;
 
     @Column(name="mother")
     private Long mother;
@@ -45,8 +45,12 @@ public class Game {
     private List<GameStory> gameStories= new ArrayList<>();
 
     @Builder
-    public Game(Long id, String curScene) {
-        this.id = id;
+    public Game(Long father, Long mother) {
+        this.father = father;
+        this.mother = mother;
+    }
+
+    public void setCurScene(Long curScene) {
         this.curScene = curScene;
     }
 
