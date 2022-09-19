@@ -41,10 +41,9 @@ public class GameStory {
     private Story story;
 
     @Builder
-    public GameStory(Long id, Long sequence, String state, Game game, Story story) {
-        this.id = id;
+    public GameStory(Long sequence, State state, Game game, Story story) {
         this.sequence = sequence;
-        this.state = State.valueOf(state);
+        this.state = state;
         this.game = game;
         this.story = story;
     }

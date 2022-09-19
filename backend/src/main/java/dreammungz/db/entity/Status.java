@@ -44,8 +44,8 @@ public class Status {
     private List<Selection> selections = new ArrayList<>();
 
     @Builder
-    public Status(Long id, String name) {
+    public Status(Long id, StatusName name) {
         this.id = id;
-        this.name = StatusName.valueOf(name);
+        this.name = name;
     }
 }

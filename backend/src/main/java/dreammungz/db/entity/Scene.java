@@ -26,10 +26,10 @@ public class Scene {
     @Column(name = "scene_id")
     private Long id;
 
-    @Column(name = "image", nullable = false)
+    @Column(name = "image", nullable = true)
     private String image;
 
-    @Column(name = "bgm", nullable = false)
+    @Column(name = "bgm", nullable = true)
     private String bgm;
 
     @Column(name = "content", nullable = false)
