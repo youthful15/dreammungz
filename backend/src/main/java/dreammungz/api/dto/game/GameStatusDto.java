@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class GameDto {
+public class GameStatusDto {
     @ApiModelProperty(
             value = "스탯명",
             name = "name",

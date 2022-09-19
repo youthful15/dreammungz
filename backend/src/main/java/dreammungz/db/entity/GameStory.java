@@ -47,4 +47,8 @@ public class GameStory {
         this.game = game;
         this.story = story;
     }
+
+    public void setState(State state){
+        this.state = state;
+    }
 }

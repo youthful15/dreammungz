@@ -30,8 +30,8 @@ public class GameResponse{
     @ApiModelProperty(
             value = "선택지 내용들",
             name = "selection",
-            dataType = "String[]")
-    private String[] selection;
+            dataType = "GameSelectionDto(id, content)")
+    private List<GameSelectionDto> selection;
 
     @ApiModelProperty(
             value = "사진 파일명",
@@ -48,8 +48,8 @@ public class GameResponse{
     @ApiModelProperty(
             value = "현재 강아지의 스탯 중 대부분",
             name = "status",
-            dataType = "GameDto(name, value)")
-    private List<GameDto> status;
+            dataType = "GameStatusDto(name, value)")
+    private List<GameStatusDto> status;
 
     @ApiModelProperty(
             value = "현재 강아지의 스탯 중 정의로움",
