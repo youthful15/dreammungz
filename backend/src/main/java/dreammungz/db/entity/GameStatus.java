@@ -32,12 +32,11 @@ public class GameStatus {
     private Game game;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stauts_id")
+    @JoinColumn(name = "status_id")
     private Status status;
 
     @Builder
-    public GameStatus(Long id, Long value, Game game, Status status) {
-        this.id = id;
+    public GameStatus(Long value, Game game, Status status) {
         this.value = value;
         this.game = game;
         this.status = status;

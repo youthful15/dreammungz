@@ -87,4 +87,8 @@ public class Member {
     public void setGame(Game game) {
         this.game = game;
     }
+    public void setPlaying(Check playing){
+        this.playing = playing;
+    }
+
 }

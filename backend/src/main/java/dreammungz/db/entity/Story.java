@@ -1,5 +1,6 @@
 package dreammungz.db.entity;
 
+import dreammungz.enums.StoryType;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,8 +30,12 @@ public class Story {
     @Column(name = "name", nullable = false)
     private String title;
 
-    @Column(name = "scale", nullable = false)
-    private String scale;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private StoryType type;
+
+    @Column(name = "first_scene", nullable = false)
+    private Long firstScene;
 
     @OneToMany(mappedBy = "story", cascade = CascadeType.ALL)
     private List<Scene> scenes = new ArrayList<>();
@@ -39,9 +44,10 @@ public class Story {
     private List<GameStory> gameStories= new ArrayList<>();
 
     @Builder
-    public Story(Long id, String title, String scale) {
+    public Story(Long id, String title, StoryType type, Long firstScene) {
         this.id = id;
         this.title = title;
-        this.scale = scale;
+        this.type = type;
+        this.firstScene = firstScene;
     }
 }
