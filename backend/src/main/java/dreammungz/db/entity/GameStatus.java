@@ -41,4 +41,8 @@ public class GameStatus {
         this.game = game;
         this.status = status;
     }
+
+    public void setValue(Long value){
+        this.value = value;
+    }
 }

@@ -13,4 +13,5 @@ import java.util.List;
 
 public interface StoryRepository extends JpaRepository<Story, Long> {
     List<Story> findAllByType(StoryType storyType);
+    Story findByType(StoryType storyType);
 }

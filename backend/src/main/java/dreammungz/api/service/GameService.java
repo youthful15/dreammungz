@@ -5,9 +5,7 @@ package dreammungz.api.service;
 @since 2022. 09. 13.
  */
 
-import dreammungz.api.dto.game.GameDto;
-import dreammungz.api.dto.game.GameResponse;
-import dreammungz.api.dto.game.GameStartPostReq;
+import dreammungz.api.dto.game.*;
 import dreammungz.db.entity.*;
 import dreammungz.db.repository.*;
 import dreammungz.enums.*;
@@ -19,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -41,37 +40,31 @@ public class GameService{
                 && (nftRepository.findById(mother).get().getGender() == Gender.F);
     }
 
-    public void inherited(GameStartPostReq gameStartInfo){
+    public void inherited(GameStartPostReq gameStart){
         System.out.println("LET'S inherited");
         //[DB] [Game] 생성
         Game game = new Game(null, null);
-        game.setCurScene((long) 1);
+        game.setCurScene((long) 1); //첫번째 씬을 프롤로그 첫 씬으로 설정
         //주소가 일치하는 멤버가 있는지 먼저 체크하기
-        Member member = memberRepository.findByAddress(gameStartInfo.getAddress())
+        Member member = memberRepository.findByAddress(gameStart.getAddress())
                 .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
         //[DB] [Member] Game id 연결
         member.setGame(game);
         //기본 스탯 생성
         List<GameStatus> gameStatuses = new ArrayList<>();
-        gameStatuses.add(new GameStatus((long) 0, game, statusRepository.findByName(StatusName.STOUTNESS).get()));
-        gameStatuses.add(new GameStatus((long) 0, game, statusRepository.findByName(StatusName.CLEVER).get()));
-        gameStatuses.add(new GameStatus((long) 0, game, statusRepository.findByName(StatusName.QUICK).get()));
-        gameStatuses.add(new GameStatus((long) 0, game, statusRepository.findByName(StatusName.INTUITION).get()));
-        gameStatuses.add(new GameStatus((long) 0, game, statusRepository.findByName(StatusName.CHARISMA).get()));
-        gameStatuses.add(new GameStatus((long) 0, game, statusRepository.findByName(StatusName.POPULARITY).get()));
-        gameStatuses.add(new GameStatus((long) 0, game, statusRepository.findByName(StatusName.SENSIBILITY).get()));
-        gameStatuses.add(new GameStatus((long) 0, game, statusRepository.findByName(StatusName.FOOTWORK).get()));
-        gameStatuses.add(new GameStatus((long) 0, game, statusRepository.findByName(StatusName.VOICE).get()));
-        gameStatuses.add(new GameStatus((long) 0, game, statusRepository.findByName(StatusName.WEALTH).get()));
-        gameStatuses.add(new GameStatus((long) 0, game, statusRepository.findByName(StatusName.JUSTICE).get()));
+        StatusName[] statusName = StatusName.values();
+        for (StatusName name : statusName) {
+            gameStatuses.add(new GameStatus((long) 0, game, statusRepository.findByName(name).get()));
+        }
+
         //메이팅인 경우
-        if(gameStartInfo.isMating()){
+        if(gameStart.isMating()){
             //[DB] [Game] 부모 정보 입력
-            game.setMother(gameStartInfo.getMother());
-            game.setFather(gameStartInfo.getFather());
+            game.setMother(gameStart.getMother());
+            game.setFather(gameStart.getFather());
             //[DB] [Nft_Status] 능력치 데이터 읽어오기
-            List<NftStatus> parentStatuses = nftStatusRepository.findAllById(gameStartInfo.getFather());
-            parentStatuses.addAll(nftStatusRepository.findAllById(gameStartInfo.getMother()));
+            List<NftStatus> parentStatuses = nftStatusRepository.findAllById(gameStart.getFather());
+            parentStatuses.addAll(nftStatusRepository.findAllById(gameStart.getMother()));
             for(NftStatus parentStatus : parentStatuses){
                 for(GameStatus gameStatus : gameStatuses){
                     if(gameStatus.getStatus().equals(parentStatus.getStatus())){
@@ -86,8 +79,8 @@ public class GameService{
         gameStatusRepository.saveAll(gameStatuses);
     }
 
-    public void checkGameStart(String address){
-        System.out.println("LET'S checkGameStart");
+    public void setGameStart(String address){
+        System.out.println("LET'S setGameStart");
         //주소가 일치하는 멤버가 있는지 먼저 체크하기
         Member member = memberRepository.findByAddress(address)
                 .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
@@ -96,81 +89,117 @@ public class GameService{
         memberRepository.save(member);
     }
 
+    public boolean checkGameStarted(String address){
+        System.out.println("LET'S setGameStart");
+        //주소가 일치하는 멤버가 있는지 먼저 체크하기
+        Member member = memberRepository.findByAddress(address)
+                .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
+        return member.getPlaying() == Check.Y;
+    }
+
     public void setStory(String address){
         System.out.println("LET'S setStory");
-        System.out.println("[STAGE1] get Game");
+        System.out.println("[STAGE 1] get Game");
         Game game = memberRepository.findByAddress(address).get().getGame();
 
-        System.out.println("[STAGE2-1] get shortStories");
+        System.out.println("[STAGE 2-1] get shortStories");
         List<Story> shortStories = storyRepository.findAllByType(StoryType.SHORT);
-        System.out.println("[STAGE2-2] get normalStories");
+        System.out.println("[STAGE 2-2] get normalStories");
         List<Story> normalStories = storyRepository.findAllByType(StoryType.NORMAL);
-        System.out.println("[STAGE2-3] get longStories");
+        System.out.println("[STAGE 2-3] get longStories");
         List<Story> longStories = storyRepository.findAllByType(StoryType.LONG);
 
         int shortListCount = shortStories.size();
         int normalListCount = normalStories.size();
         int longListCount = longStories.size();
 
+        final int shortFinalCount = 1;
+        final int normalFinalCount = 2;
+        final int longFinalCount = 1;
 
-        final int shortFinalCount = 2;
-        final int normalFinalCount = 0;
-        final int longFinalCount = 0;
-
-//        final int storiesFinalCount = shortFinalCount + normalFinalCount + longFinalCount + 2;
-        final int storiesFinalCount = 1;
+        final int storiesSumCount = shortFinalCount + normalFinalCount + longFinalCount;
+        final int storiesFinalCount = shortFinalCount + normalFinalCount + longFinalCount + 2;
         System.out.println("[STAGE3] get RANDOM");
-        //랜덤 1단계. 각 유형별 스토리들을 랜덤으로 뽑는다.
 
+        //랜덤 1단계. 각 유형별 스토리들을 랜덤으로 뽑아, array에 삽입한다.
+        long[] randomStoriesNum = new long[storiesSumCount];
 
-        //랜덤 2단계. 그 스토리들의 번호를 뽑는다.
+        int index = 0;
+        for(int i = index; i<index + shortFinalCount; i++){
+            //랜덤함수 뽑기
+            Random r = new Random();
+            Story tempStory = shortStories.get(r.nextInt(shortListCount));
+            randomStoriesNum[i] = tempStory.getId();
+            for(int j = index; j<i; j++){
+                if(randomStoriesNum[i]==randomStoriesNum[j]){
+                    i--;
+                }
+            }
+        }
+        index += shortFinalCount;
+        for(int i = index; i<index + normalFinalCount; i++){
+            //랜덤함수 뽑기
+            Random r = new Random();
+            Story tempStory = normalStories.get(r.nextInt(normalListCount));
+            randomStoriesNum[i] = tempStory.getId();
+            for(int j = index; j<i; j++){
+                if(randomStoriesNum[i]==randomStoriesNum[j]){
+                    i--;
+                }
+            }
+        }
+        index += normalFinalCount;
+        for(int i = index; i<index + longFinalCount; i++){
+            //랜덤함수 뽑기
+            Random r = new Random();
+            Story tempStory = longStories.get(r.nextInt(longListCount));
+            randomStoriesNum[i] = tempStory.getId();
+            for(int j = index; j<i; j++){
+                if(randomStoriesNum[i]==randomStoriesNum[j]){
+                    i--;
+                }
+            }
+        }
+        index += longFinalCount;
+
+        //랜덤 2단계. storiesSumCount 크기에 맞춰 번호를 뽑는다.
+        int[] tempSequenceNum = new int[storiesSumCount];
+        for(int i = 0; i<storiesSumCount; i++){
+            //랜덤함수 뽑기
+            Random r = new Random();
+            tempSequenceNum[i] = r.nextInt(storiesSumCount);
+            for(int j = 0; j<i; j++){
+                if(tempSequenceNum[i]==tempSequenceNum[j]){
+                    i--;
+                }
+            }
+        }
 
         //랜덤 3단계. 뽑힌 번호를 기준으로 배열을 정리한다.
-        StoryType selectedStoriesType[] = new StoryType[storiesFinalCount];
-        int selectedStoriesNum[] = new int[storiesFinalCount];
+        long[] selectedStoriesNum = new long[storiesFinalCount];
+        for(int i =0; i<storiesSumCount; i++){
+            selectedStoriesNum[tempSequenceNum[i]+1] = randomStoriesNum[i];
+        }
 
         System.out.println("[STAGE4] get Start and End");
         //시작과 끝은 정해진 story
-        selectedStoriesType[0] = StoryType.START;
-        selectedStoriesNum[0] = 0;
-//        selectedStoriesType[storiesFinalCount-1] = StoryType.END;
-//        selectedStoriesNum[storiesFinalCount-1] = 0;
+        selectedStoriesNum[0] = 1;  //STORY DB의 1번 스토리가 시작 스토리
+        selectedStoriesNum[storiesFinalCount-1] = 2;    //STORY DB의 2번 스토리가 엔딩 스토리
 
         System.out.println("[STAGE5] set story List");
         //선택된 스토리들 LIST로 담기
         List<GameStory> selectedGameStories = new ArrayList<>();
-        for(int i =0; i<storiesFinalCount; i++){
-            switch(selectedStoriesType[i]){
-                case START:
-                    //시작 스토리는 맨 처음에 오게 하기
-                    selectedGameStories.add(new GameStory(
-                            (long) i, State.PROCEEDING,game,
-                            storyRepository.findAllByType(StoryType.START).get(selectedStoriesNum[i])));
-                    break;
-                case SHORT:
-                    selectedGameStories.add(new GameStory(
-                            (long) i, State.INCOMPLETE,game,
-                            storyRepository.findAllByType(StoryType.SHORT).get(selectedStoriesNum[i])));
-                    break;
-                case NORMAL:
-                    selectedGameStories.add(new GameStory(
-                            (long) i, State.INCOMPLETE,game,
-                            storyRepository.findAllByType(StoryType.NORMAL).get(selectedStoriesNum[i])));
-                    break;
-                case LONG:
-                    selectedGameStories.add(new GameStory(
-                            (long) i, State.INCOMPLETE,game,
-                            storyRepository.findAllByType(StoryType.LONG).get(selectedStoriesNum[i])));
-                    break;
-                case END:
-                    selectedGameStories.add(new GameStory(
-                            (long) i, State.INCOMPLETE,game,
-                            storyRepository.findAllByType(StoryType.END).get(selectedStoriesNum[i])));
-                    break;
+        for(long i = 0; i<storiesFinalCount; i++){
+            if(i==0){
+                selectedGameStories.add(new GameStory(
+                        i, State.PROCEEDING, game, storyRepository.findById(selectedStoriesNum[(int) i]).get()));
+            }
+            else{
+                selectedGameStories.add(new GameStory(
+                        i, State.INCOMPLETE, game, storyRepository.findById(selectedStoriesNum[(int) i]).get()));
             }
         }
         System.out.println("[STAGE6] set DB story List");
-
         //[DB] [Game_Story] 스토리 순서대로 입력
         gameStoryRepository.saveAll(selectedGameStories);
     }
@@ -190,16 +219,16 @@ public class GameService{
         List<Selection> dbSelections = selectionRepository.findAllBySceneId(scene);
         int selectionCount = dbSelections.size();
         //선택지 개수만큼 array 입력하기
-        String selections[] = new String[selectionCount];
-        for(int i =0; i<selectionCount; i++){
-            selections[i] = dbSelections.get(i).getContent();
+        List<GameSelectionDto> selections = new ArrayList<>();
+        for (Selection dbSelection : dbSelections) {
+            selections.add(new GameSelectionDto(dbSelection.getId(), dbSelection.getContent()));
         }
         //선택지 내용들 삽입하기
         gameResponse.setSelection(selections);
 
         //현재 스탯 정보 알아오기
         List<GameStatus> dbStatuses = gameStatusRepository.findAllByGameId(memberRepository.findByAddress(address).get().getGame().getId());
-        List<GameDto> outputStatus = new ArrayList<>();
+        List<GameStatusDto> outputStatus = new ArrayList<>();
 
         //gameResponse에 합치기
         for(GameStatus status : dbStatuses){
@@ -207,10 +236,64 @@ public class GameService{
                 gameResponse.setJustice(status.getValue());
             }
             else {
-                outputStatus.add(new GameDto(status.getStatus().getName(), status.getValue()));
+                outputStatus.add(new GameStatusDto(status.getStatus().getName(), status.getValue()));
             }
         }
         gameResponse.setStatus(outputStatus);
         return gameResponse;
+    }
+
+    public void setNextGame(GameInfoPostReq gameInfo) {
+        //현재 유저의 게임, 스토리, 씬, 선택지 확인
+        Game currentGame = memberRepository.findByAddress(gameInfo.getAddress()).get().getGame();
+        Long currentScene = currentGame.getCurScene();
+        Long currentStory = sceneRepository.findById(currentScene).get().getStory().getId();
+        Selection currentSelection = selectionRepository.findById(gameInfo.getSelection()).get();
+        //선택지의 스탯 변경여부 확인
+        if(currentSelection.getStatus() != null){
+         //스탯 변경된다면, 스탯 변경하기
+            //무슨 스탯인지 찾기
+            StatusName statusName = currentSelection.getStatus().getName();
+            //값이 얼마나 바뀌는지 확인하기
+            long value = currentSelection.getStatusValue();
+            //gameStatus에서 해당 스탯 찾아서 변경하기
+            List<GameStatus> gameStatuses = gameStatusRepository.findAllByGameId(currentGame.getId());
+            for(GameStatus gameStatus : gameStatuses){
+                if(gameStatus.getStatus().getName() == statusName){
+                    gameStatus.setValue(gameStatus.getValue() + value);
+                    gameStatusRepository.save(gameStatus);
+                    break;
+                }
+            }
+        }
+        //선택지의 다음 씬 체크
+        if(currentSelection.getNextScene() != null){
+            //다음 씬이 있다면, 그 씬으로 이동
+            currentGame.setCurScene(currentSelection.getNextScene());
+        }
+        else {
+            //다음 씬이 없다면, 다음 스토리로 이동
+            //현재 스토리 PROCEEDING에서 COMPLETE로 변경
+            List<GameStory> gameStories = gameStoryRepository.findAllByGameId(currentGame.getId());
+            long totalSequence = gameStories.size();
+            long currentSequence = -1;
+            for(GameStory gameStory : gameStories){
+                if(gameStory.getState() == State.PROCEEDING){
+                    gameStory.setState(State.COMPLETE);
+                    currentSequence = gameStory.getSequence();
+                }
+            }
+            //모든 스토리가 끝남
+            if(totalSequence==currentSequence){
+                //사실 끝날 일은 없다. (마지막 엔딩 스토리에서는 이곳으로 접근을 안하기 때문)
+            }
+            else{
+                currentSequence++;
+                //다음 스토리 찾아서 PROCEEDING으로 처리
+                gameStories.get((int) currentSequence).setState(State.PROCEEDING);
+                //첫 씬으로 이동
+                currentGame.setCurScene(gameStories.get((int) currentSequence).getStory().getFirstScene());
+            }
+        }
     }
 }
