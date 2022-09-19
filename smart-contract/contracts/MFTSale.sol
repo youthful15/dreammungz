@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -12,7 +13,6 @@ import "./MFTNego.sol";
 * MFT 거래정보를 보관하고 해당 거래의 제안정보를 관리하는 컨트랙트
 * 
 * @author 황승주
-* @since 2022. 09. 17.
 */
 
 contract MFTSale is Ownable, IERC721Receiver {
@@ -73,7 +73,7 @@ contract MFTSale is Ownable, IERC721Receiver {
         address MFTContractAddress
     ) {
         require(buyNowPrice >= 0, "Price must be higher than 0.");
-        require(MFT(_MFTContractAddress).ownerOf(MFTId) == seller, "Seller is not owner.");
+        require(MFT(MFTContractAddress).ownerOf(MFTId) == seller, "Seller is not owner.");
 
         _MFTId = MFTId;
         _seller = seller;
@@ -114,7 +114,7 @@ contract MFTSale is Ownable, IERC721Receiver {
     ) public {
         require(negoPrice >= 0, "Price must be higher than 0.");
         require(!_isEnded, "This sale is already ended.");
-        require(getNegoAble, "This sale prohibits a negotiation.");
+        require(_negoAble, "This sale prohibits a negotiation.");
         require(_SSFTokenContract.balanceOf(negoer) >= negoPrice, "Negoer's balance is exhausted.");
 
         _negoIds.push(negoId);
@@ -188,7 +188,7 @@ contract MFTSale is Ownable, IERC721Receiver {
     ) public {
         require(!_isEnded, "This sale is already ended.");
         require(_MFTContract.ownerOf(_MFTId) == _seller);
-        require(_SSFTokenContract.balanceOf(buyer) >= _buyNowPrice(), "Buyer's balance is exhausted.");
+        require(_SSFTokenContract.balanceOf(buyer) >= _buyNowPrice, "Buyer's balance is exhausted.");
 
         // 판매자에게서 구매자에게 MFT 전송
         _MFTContract.safeTransferFrom(_seller, buyer, _MFTId);
@@ -278,7 +278,7 @@ contract MFTSale is Ownable, IERC721Receiver {
         uint256 negoId
     ) public {
         // 취소할 Nego
-        MFTNego canceledNego = MFTNego(_negoAddrs(negoId));
+        MFTNego canceledNego = MFTNego(_negoAddrs[negoId]);
 
         require(!_isEnded, "This sale is already ended.");
         require(!canceledNego.getIsCanceled(), "This negotiation is already canceled.");
@@ -371,7 +371,7 @@ contract MFTSale is Ownable, IERC721Receiver {
     * @ exception 해당 Sale의 상태가 종료상태이어야 함
     */
     function getEndedAt() public view returns(uint256) {
-        require(_isEnded, "This sale is not ended yet.")
+        require(_isEnded, "This sale is not ended yet.");
         return _endedAt;
     }
 
@@ -419,11 +419,17 @@ contract MFTSale is Ownable, IERC721Receiver {
     * @ return uint256[] 제안 컨트랙트 목록
     * @ exception None
     */
-    function getNegoAddrs() public view returns(uint256[] memory) {
-        return _negoAddrs;
+    function getNegoAddrs() public view returns(address[] memory) {
+        address[] memory negoAddrList;
+
+        for(uint i = 0; i < _negoIds.length; i++) {
+            negoAddrList[i] = _negoAddrs[_negoIds[i]];
+        }
+
+        return negoAddrList;
     }
-    
-    function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes memory _data) external pure returns(bytes4)
+
+    function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes memory _data) override external pure returns(bytes4)
     {
         return this.onERC721Received.selector;
     }

@@ -1,7 +1,7 @@
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 import "./SSFToken.sol";
@@ -13,7 +13,6 @@ import "./MFTNego.sol";
 * MFT 거래정보를 관리하는 컨트랙트
 * 
 * @author 황승주
-* @since 2022. 09. 16.
 */
 
 contract MFTSaleFactory is Ownable {
@@ -40,12 +39,12 @@ contract MFTSaleFactory is Ownable {
     // 해당 MFT ID의 모든 Sale ID 목록
     mapping(uint256 => uint256[]) private _saleIdsOfMFT;
     // 해당 지갑 주소의 모든 Nego ID 목록
-    mapping(uint256 => uint256[]) private _negoIdsByWallet;
+    mapping(address => uint256[]) private _negoIdsByWallet;
     // 해당 Sale ID의 모든 Nego ID 목록
     mapping(uint256 => uint256[]) private _negoIdsOfSale;
 
     // SSAFY 토큰(SSF) 활용을 위한 ERC-20 토큰 컨트랙트 주소
-    address private SSFToken(_SSFTokenContractAddress)Address;
+    address private _SSFTokenContractAddress;
     // MFT 활용을 위한 ERC-721 토큰 컨트랙트 주소
     address private _MFTContractAddress;
 
@@ -61,7 +60,7 @@ contract MFTSaleFactory is Ownable {
     constructor(
         address SSFTokenContractAddress,
         address MFTConractAddress) {
-        SSFToken(_SSFTokenContractAddress)Address = SSFTokenContractAddress;
+        _SSFTokenContractAddress = SSFTokenContractAddress;
         _MFTContractAddress = MFTConractAddress;
     }
 
@@ -93,7 +92,7 @@ contract MFTSaleFactory is Ownable {
         uint256 newMFTSaleId = _saleIds.current();
         
         // 새로운 Sale 컨트랙트 생성
-        MFTSale newMFTSale = new MFTSale(MFTId, seller, buyNowPrice, startedAt, negoAble, SSFToken(_SSFTokenContractAddress)Address, _MFTContractAddress);
+        MFTSale newMFTSale = new MFTSale(MFTId, seller, buyNowPrice, startedAt, negoAble, _SSFTokenContractAddress, _MFTContractAddress);
 
         // 새로운 Sale 컨트랙트가 거래 대상인 MFT에 대한 접근 권한을 획득
         MFT(_MFTContractAddress).approve(address(newMFTSale), MFTId);
@@ -132,9 +131,9 @@ contract MFTSaleFactory is Ownable {
         bool isChoiced,
         bool isCanceled
     ) public {
-        require(buyNowPrice >= 0, "Price must be higher than 0.");
-        require(!Sale(_saleAddrs[saleId]).isEnded, "This sale is already ended.");
-        require(Sale(_saleAddrs[saleId]).getNegoAble, "This sale prohibits a negotiation.")
+        require(negoPrice >= 0, "Price must be higher than 0.");
+        require(!MFTSale(_saleAddrs[saleId]).getIsEnded(), "This sale is already ended.");
+        require(MFTSale(_saleAddrs[saleId]).getNegoAble(), "This sale prohibits a negotiation.");
         require(SSFToken(_SSFTokenContractAddress).balanceOf(negoer) >= negoPrice, "Negoer's balance is exhausted.");
 
         // 새로운 Nego의 ID 결정
@@ -142,15 +141,15 @@ contract MFTSaleFactory is Ownable {
         uint256 newMFTNegoId = _negoIds.current();
 
         // 새로운 Nego 컨트랙트 생성
-        MFTNego newMFTNego = new MFTNego(_saleAddr[saleId], negoer, negoPrice, negoAt, isChoiced, isCanceled);
+        MFTNego newMFTNego = new MFTNego(_saleAddrs[saleId], negoer, negoPrice, negoAt, isChoiced, isCanceled);
 
         // Nego 관리정보 갱신
-        _negoAddrs[newNFTNegoId] = address(newNFTNego);
-        _negoIdsByWallet[negoer].push(newNFTNegoId);
-        _negoIdsOfSale[negoer].push(newNFTNegoId);
+        _negoAddrs[newMFTNegoId] = address(newMFTNego);
+        _negoIdsByWallet[negoer].push(newMFTNegoId);
+        _negoIdsOfSale[saleId].push(newMFTNegoId);
 
         // Sale 컨트랙트 내 Nego 관리 함수 호출
-        MFTSale(_saleAddrs[saleId]).reportNego(address(newNFTNegoId, newNFTNego, negoer, negoPrice, negoAt, isChoiced, isCanceled));
+        MFTSale(_saleAddrs[saleId]).reportNego(newMFTNegoId, address(newMFTNego), negoer, negoPrice, negoAt, isChoiced, isCanceled);
 
         // Nego가 생성되었다는 event emit 필요
     }
@@ -189,7 +188,7 @@ contract MFTSaleFactory is Ownable {
         uint256 negoId
     ) public {
         // 취소할 Nego와 해당 Sale
-        MFTNego canceledNego = MFTNego(_negoAddrs(negoId));
+        MFTNego canceledNego = MFTNego(_negoAddrs[negoId]);
         MFTSale includeSale = MFTSale(canceledNego.getSaleAddr());
 
         require(!includeSale.getIsEnded(), "This sale is already ended.");
@@ -226,7 +225,7 @@ contract MFTSaleFactory is Ownable {
         finishedSale.buyNow(buyer);
 
         // 구매자 관련 정보를 갱신
-        reportBuyer(buyer);
+        reportBuyer(saleId, buyer);
 
         // 구매가 완료되었다는 event emit 필요
     }
@@ -260,7 +259,7 @@ contract MFTSaleFactory is Ownable {
         finishedSale.acceptNego(negoId);
 
         // 구매자 관련 정보를 갱신
-        reportBuyer(choicedNego.getNegoer());
+        reportBuyer(saleId, choicedNego.getNegoer());
 
         // 구매가 완료되었다는 event emit 필요
     }
@@ -274,10 +273,12 @@ contract MFTSaleFactory is Ownable {
     * @ return None
     * @ exception None
     */
-    function reportBuyer(address saleBuyer) private {
+    function reportBuyer(
+        uint256 endedMFTSaleId,
+        address saleBuyer) private {
         _saleBuyers[endedMFTSaleId] = saleBuyer;
         _buySaleIdsByWallet[saleBuyer].push(endedMFTSaleId);
-        _saleIds[saleBuyer].push(endedMFTSaleId);
+        _saleIdsByWallet[saleBuyer].push(endedMFTSaleId);
     }
 
     /**
@@ -313,7 +314,7 @@ contract MFTSaleFactory is Ownable {
     * @ exception Sale이 진행 중이거나 판매 취소를 하였을 경우는 존재하지 않음
     */
     function getBuyer(uint256 saleId) public view returns(address) {
-        require(_saleBuyers[saleId] != 0, "This sale is proceeding or canceled.");
+        require(_saleBuyers[saleId] != address(0), "This sale is proceeding or canceled.");
 
         return _saleBuyers[saleId];
     }
@@ -327,7 +328,7 @@ contract MFTSaleFactory is Ownable {
     * @ exception None
     */
     function getSellIdsByWallet(address seller) public view returns(uint256[] memory) {
-        return _saleIdsByWallet[seller];
+        return _sellSaleIdsByWallet[seller];
     }
 
     /**
@@ -339,7 +340,7 @@ contract MFTSaleFactory is Ownable {
     * @ exception None
     */
     function getBuyIdsByWallet(address buyer) public view returns(uint256[] memory) {
-        return _buyIdsByWallet[buyer];
+        return _buySaleIdsByWallet[buyer];
     }
 
     /**

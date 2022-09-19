@@ -8,7 +8,6 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 * 엔딩 결과를 바탕으로 NFT를 발행하는 컨트랙트
 *
 * @author 황승주
-* @since 2022. 09. 15.
 */
 
 contract MFT is ERC721Enumerable {

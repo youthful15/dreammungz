@@ -1,7 +1,7 @@
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 import "./MFT.sol";
 import "./MFTSale.sol";
@@ -10,11 +10,9 @@ import "./MFTSale.sol";
 * MFT 제안정보를 보관하는 컨트랙트
 * 
 * @author 황승주
-* @since 2022. 09. 18.
 */
 
-contract MFTNego is Ownable, IERC721Receiver {
-    using SafeMath for uint256;
+contract MFTNego is Ownable {
 
     // 제안한 Sale 컨트랙트 주소
     address private _saleAddr;
@@ -44,15 +42,15 @@ contract MFTNego is Ownable, IERC721Receiver {
     * @ exception 제안 하는 Sale은 진행중이어야 함
     */
     constructor(
-        uint256 saleAddr,
+        address saleAddr,
         address negoer,
         uint256 negoPrice,
         uint256 negoAt,
         bool isChoiced,
         bool isCanceled
     ) {
-    require(buyNowPrice >= 0, "Price must be higher than 0.");
-    require(negoAt < Sale(_saleAddrs[saleId]).getEndedAt, "This sale is already ended.");
+    require(negoPrice >= 0, "Price must be higher than 0.");
+    require(!MFTSale(saleAddr).getIsEnded(), "This sale is already ended.");
 
         _saleAddr = saleAddr;
         _negoer = negoer;
@@ -154,7 +152,7 @@ contract MFTNego is Ownable, IERC721Receiver {
     * @ return bool 취소 여부
     * @ exception None
     */
-    function getCanceled() public view returns(bool) {
+    function getIsCanceled() public view returns(bool) {
         return _isCanceled;
     }
 }
