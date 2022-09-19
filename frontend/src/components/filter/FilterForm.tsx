@@ -103,11 +103,15 @@ const FilterForm = ({ formHandler }: filterFormProp) => {
     <div className="bg-white absolute z-10">
       필터옵션
       <form onChange={formHandler}>
+        <p>판매중인것만 보기</p>
+        <label>
+          <input type="checkbox" name="sell" />
+        </label>
         <p>직업</p>
         {job_list.map((item) => {
           return (
             <label key={item.eng}>
-              <input type="radio" name={item.eng} value={item.eng} />
+              <input type="radio" name="job" value={item.eng} />
               {item.kor}
             </label>
           )
@@ -116,7 +120,7 @@ const FilterForm = ({ formHandler }: filterFormProp) => {
         {hair_list.map((item) => {
           return (
             <label key={item.eng}>
-              <input type="radio" name={item.eng} value={item.eng} />
+              <input type="radio" name="hair" value={item.eng} />
               {item.kor}
             </label>
           )
@@ -125,7 +129,7 @@ const FilterForm = ({ formHandler }: filterFormProp) => {
         {tier_list.map((item) => {
           return (
             <label key={item.eng}>
-              <input type="radio" name={item.eng} value={item.eng} />
+              <input type="radio" name="tier" value={item.eng} />
               {item.kor}
             </label>
           )
@@ -134,7 +138,7 @@ const FilterForm = ({ formHandler }: filterFormProp) => {
         {gender_list.map((item) => {
           return (
             <label key={item.eng}>
-              <input type="radio" name={item.eng} value={item.eng} />
+              <input type="radio" name="gender" value={item.eng} />
               {item.kor}
             </label>
           )
@@ -143,7 +147,7 @@ const FilterForm = ({ formHandler }: filterFormProp) => {
         {color_list.map((item) => {
           return (
             <label key={item.eng}>
-              <input type="radio" name={item.eng} value={item.eng} />
+              <input type="radio" name="color" value={item.eng} />
               {item.kor}
             </label>
           )
@@ -152,7 +156,7 @@ const FilterForm = ({ formHandler }: filterFormProp) => {
         {face_list.map((item) => {
           return (
             <label key={item.eng}>
-              <input type="radio" name={item.eng} value={item.eng} />
+              <input type="radio" name="face" value={item.eng} />
               {item.kor}
             </label>
           )
@@ -161,7 +165,7 @@ const FilterForm = ({ formHandler }: filterFormProp) => {
         {stat_list.map((item) => {
           return (
             <label key={item.eng}>
-              <input type="checkbox" name={item.eng} value={item.eng} />
+              <input type="checkbox" name="status" value={item.eng} />
               {item.kor}
             </label>
           )
