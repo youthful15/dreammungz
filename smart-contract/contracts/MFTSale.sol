@@ -197,7 +197,6 @@ contract MFTSale is Ownable, IERC721Receiver {
 
         // 구매 관련 정보를 갱신
         _buyer = buyer;
-        _endedAt = block.timestamp;
 
         // Sale의 Nego들을 환불 및 취소 처리
         for(uint i = 0; i < _negoIds.length; i++) {
@@ -250,7 +249,6 @@ contract MFTSale is Ownable, IERC721Receiver {
 
         // 구매 관련 정보를 갱신
         _buyer = negoer;
-        _endedAt = block.timestamp;
 
         // Sale의 Nego들을 환불 및 취소 처리
         for(uint i = 0; i < _negoIds.length; i++) {
@@ -423,5 +421,10 @@ contract MFTSale is Ownable, IERC721Receiver {
     */
     function getNegoAddrs() public view returns(uint256[] memory) {
         return _negoAddrs;
+    }
+    
+    function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes memory _data) external pure returns(bytes4)
+    {
+        return this.onERC721Received.selector;
     }
 }   
