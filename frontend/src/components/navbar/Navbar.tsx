@@ -10,17 +10,6 @@ const Navbar = () => {
   const web3: any = new Web3(window.ethereum)
   const [showbalance, setShowBalance] = useState()
   const [isLogin, setLogin] = useState(false) // 추후 Recoil을 사용하여  상태관리 할 것
-  const checkBalance = () => {
-    web3.eth
-      .getBalance(localStorage.getItem("publicAddress"))
-      .then((res: any) => {
-        const token = new web3.eth.Contract(ERC20ABI, ssafyContractAddress)
-        console.log("token", token)
-        const balance = token.balanceOf(localStorage.getItem("publicAddress"))
-        console.log("res", res)
-        console.log("balance", balance)
-      })
-  }
 
   return (
     <nav className="flex flex-col justify-between w-full h-full p-2 space-y-4 text-center">
@@ -43,9 +32,7 @@ const Navbar = () => {
           <Link to="/mypage/list">
             <div className={navItemStyle}>마이페이지 </div>
           </Link>
-          <div className={navItemStyle} onClick={() => checkBalance()}>
-            지갑 정보 보기
-          </div>
+          <div className={navItemStyle}>지갑 정보 보기</div>
           <div className={navItemStyle} onClick={() => setLogin(false)}>
             로그아웃
           </div>
