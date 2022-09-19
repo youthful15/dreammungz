@@ -63,6 +63,30 @@ contract MFTNego is Ownable, IERC721Receiver {
     }
 
     /**
+    * choice
+    * 해당 Nego를 선택 상태로 변경한다.
+    * 
+    * @ param None
+    * @ return None
+    * @ exception None
+    */
+    function choice() public {
+        _isChoiced = true;
+    }
+
+    /**
+    * cancel
+    * 해당 Nego를 취소 상태로 변경한다.
+    * 
+    * @ param None
+    * @ return None
+    * @ exception None
+    */
+    function cancel() public {
+        _isCanceled = true;
+    }
+
+    /**
     * getSaleAddr
     * 해당 Nego가 발생한 Sale 컨트랙트 주소
     *

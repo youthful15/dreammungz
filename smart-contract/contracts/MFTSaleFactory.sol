@@ -21,11 +21,11 @@ contract MFTSaleFactory is Ownable {
 
     // Sale ID(1씩 자동 증가)
     Counters.Counter private _saleIds;
-    // 제안 ID(1씩 자동 증가)
+    // Nego ID(1씩 자동 증가)
     Counters.Counter private _negoIds;
     // Sale 컨트랙트 주소
     mapping(uint256 => address) private _saleAddrs;
-    // 제안 컨트랙트 주소
+    // Nego 컨트랙트 주소
     mapping(uint256 => address) private _negoAddrs;
     // MFT 판매자
     mapping(uint256 => address) private _saleSellers;
@@ -45,7 +45,7 @@ contract MFTSaleFactory is Ownable {
     mapping(uint256 => uint256[]) private _negoIdsOfSale;
 
     // SSAFY 토큰(SSF) 활용을 위한 ERC-20 토큰 컨트랙트 주소
-    address private _SSFTokenContractAddress;
+    address private SSFToken(_SSFTokenContractAddress)Address;
     // MFT 활용을 위한 ERC-721 토큰 컨트랙트 주소
     address private _MFTContractAddress;
 
@@ -59,9 +59,9 @@ contract MFTSaleFactory is Ownable {
     * @ exception None
     */
     constructor(
-        address SSFTokenContractAddress, 
+        address SSFTokenContractAddress,
         address MFTConractAddress) {
-        _SSFTokenContractAddress = SSFTokenContractAddress;
+        SSFToken(_SSFTokenContractAddress)Address = SSFTokenContractAddress;
         _MFTContractAddress = MFTConractAddress;
     }
 
@@ -73,29 +73,27 @@ contract MFTSaleFactory is Ownable {
     * @ param address seller 판매자
     * @ param uint256 buyNowPrice 즉시 구매 금액
     * @ param uint256 startedAt 판매 시작 시간
-    * @ param uint256 endedAt 판매 종료 시간
     * @ param bool negoAble 제안 가능 여부 
     * @ return None
     * @ exception 즉시 구매 금액은 0 이상이어야 함
-    * @ exception 판매 종료 시간이 판매 시작 시간보다 늦어야 함
+    * @ exception MFT가 판매자의 소유여야 함    
     */
     function createSale(
         uint256 MFTId,
         address seller,
         uint256 buyNowPrice, 
         uint256 startedAt, 
-        uint256 endedAt, 
         bool negoAble
         ) public {
         require(buyNowPrice >= 0, "Price must be higher than 0.");
-        require(startedAt < endedAt, "Endtime must be later than starttime.");
+        require(MFT(_MFTContractAddress).ownerOf(MFTId) == seller, "Seller is not owner.");
 
         // 새로운 Sale의 ID 결정
         _saleIds.increment();
         uint256 newMFTSaleId = _saleIds.current();
         
         // 새로운 Sale 컨트랙트 생성
-        MFTSale newMFTSale = new MFTSale(MFTId, seller, buyNowPrice, startedAt, endedAt, negoAble, _SSFTokenContractAddress, _MFTContractAddress);
+        MFTSale newMFTSale = new MFTSale(MFTId, seller, buyNowPrice, startedAt, negoAble, SSFToken(_SSFTokenContractAddress)Address, _MFTContractAddress);
 
         // 새로운 Sale 컨트랙트가 거래 대상인 MFT에 대한 접근 권한을 획득
         MFT(_MFTContractAddress).approve(address(newMFTSale), MFTId);
@@ -123,6 +121,8 @@ contract MFTSaleFactory is Ownable {
     * @ return None
     * @ exception 제안 금액은 0 이상이어야 함
     * @ exception 제안 하는 Sale은 진행중이어야 함
+    * @ exception 제안 하는 Sale은 제안 가능 여부가 true이어야 함
+    * @ exception 제안 하는 지갑은 제안 금액 이상의 잔고를 보유해야함
     */
     function createNego(
         uint256 saleId,
@@ -133,57 +133,137 @@ contract MFTSaleFactory is Ownable {
         bool isCanceled
     ) public {
         require(buyNowPrice >= 0, "Price must be higher than 0.");
-        require(negoAt < Sale(_saleAddrs[saleId]).getEndedAt, "This sale is already ended.");
+        require(!Sale(_saleAddrs[saleId]).isEnded, "This sale is already ended.");
+        require(Sale(_saleAddrs[saleId]).getNegoAble, "This sale prohibits a negotiation.")
+        require(SSFToken(_SSFTokenContractAddress).balanceOf(negoer) >= negoPrice, "Negoer's balance is exhausted.");
 
         // 새로운 Nego의 ID 결정
         _negoIds.increment();
         uint256 newMFTNegoId = _negoIds.current();
 
         // 새로운 Nego 컨트랙트 생성
-        MFTNego newMFTNego = new MFTNego()
+        MFTNego newMFTNego = new MFTNego(_saleAddr[saleId], negoer, negoPrice, negoAt, isChoiced, isCanceled);
+
+        // Nego 관리정보 갱신
+        _negoAddrs[newNFTNegoId] = address(newNFTNego);
+        _negoIdsByWallet[negoer].push(newNFTNegoId);
+        _negoIdsOfSale[negoer].push(newNFTNegoId);
+
+        // Sale 컨트랙트 내 Nego 관리 함수 호출
+        MFTSale(_saleAddrs[saleId]).reportNego(address(newNFTNegoId, newNFTNego, negoer, negoPrice, negoAt, isChoiced, isCanceled));
 
         // Nego가 생성되었다는 event emit 필요
     }
 
     /**
     * cancelSale
-    * 해당 Sale을 취소하고, Nego들의 제안 금액을 반환한다.
+    * 해당 Sale을 취소하는 함수를 호출한다.
     * 
     * @ param uint256 saleId 취소할 Sale ID
     * @ return None
-    * @ exception 해당 Sale이 진행중이어야 함
+    * @ exception 취소할 Sale이 진행중이어야 함
+    * @ exception 취소할 Sale이 취소상태가 아니어야 함
     */
+    function cancelSale(
+        uint256 saleId
+    ) public {
+        MFTSale canceledSale = MFTSale(_saleAddrs[saleId]);
+        require(!canceledSale.getIsEnded(), "This sale is already ended.");
+        require(!canceledSale.getIsCanceled(), "This sale is already canceled.");
+
+        canceledSale.cancel();
+
+        // Sale이 취소되었다는 event emit 필요
+    }
 
     /**
     * cancelNego
-    * 해당 Nego를 취소하고, 제안 금액을 반환한다.
+    * 해당 Nego를 취소하는 MFTSale의 함수를 호출한다.
     * 
-    * @ param uint256 negoId 취소할 Mego ID
+    * @ param uint256 negoId 취소할 Nego ID
     * @ return None
     * @ exception 취소할 Nego가 속한 Sale이 진행중이어야 함
+    * @ exception 취소할 Nego가 취소상태가 아니어야 함
     */
+    function cancelNego(
+        uint256 negoId
+    ) public {
+        // 취소할 Nego와 해당 Sale
+        MFTNego canceledNego = MFTNego(_negoAddrs(negoId));
+        MFTSale includeSale = MFTSale(canceledNego.getSaleAddr());
+
+        require(!includeSale.getIsEnded(), "This sale is already ended.");
+        require(!canceledNego.getIsCanceled(), "This negotiation is already canceled.");
+
+        // Sale 컨트랙트의 취소 함수 호출
+        includeSale.cancelNego(negoId);
+
+        // Nego가 취소되었다는 event emit 필요
+    }
 
     /**
     * buyNow
-    * Sale의 즉시 구매 금액으로 구매한다.
-    * exception 조건을 통과하면 판매를 종료상태로 만들고, 
-    * 거래를 진행하며, Nego들의 제안 금액을 반환한다.
+    * Sale의 즉시 구매 금액으로 구매하는 함수를 호출한다.
+    * 구매자 관련 정보를 갱신한다.
     * 
-    * @ param 
+    * @ param uint256 saleId Sale ID
+    * @ param address buyer 구매자 지갑 주소
     * @ return None
-    * @ exception 
+    * @ exception 거래가 종료상태가 아니어야 함
+    * @ exception 판매자가 MFT의 소유자여야 함
+    * @ exception 구매자가 즉시 구매 금액 이상의 금액을 가지고 있어야 함
     */
+    function buyNow(
+        uint256 saleId,
+        address buyer
+    ) public {
+        MFTSale finishedSale = MFTSale(_saleAddrs[saleId]);
+        require(!finishedSale.getIsEnded(), "This sale is already ended.");
+        require(MFT(_MFTContractAddress).ownerOf(finishedSale.getMFTId()) == finishedSale.getSeller());
+        require(SSFToken(_SSFTokenContractAddress).balanceOf(buyer) >= finishedSale.getBuyNowPrice(), "Buyer's balance is exhausted.");
+
+        // 해당 Sale의 즉시 구매 함수를 호출
+        finishedSale.buyNow(buyer);
+
+        // 구매자 관련 정보를 갱신
+        reportBuyer(buyer);
+
+        // 구매가 완료되었다는 event emit 필요
+    }
 
     /**
     * acceptNego
-    * 판매자가 Sale에 제안된 Nego를 받아들인다.
-    * exception 조건을 통과하면 판매를 종료상태로 만들고,
-    * 거래가 진행하며, Nego들의 제안 금액을 반환한다.
+    * 해당 Sale의 Nego를 수락하는 함수를 호출한다.
+    * 구매자 관련 정보를 갱신한다.
     * 
-    * @ param 
+    * @ param uint256 saleId 채택된 Nego가 포함된 Sale ID
+    * @ param uint256 negoId 채택된 Nego ID
     * @ return None
-    * @ exception 
+    * @ exception 거래가 종료상태가 아니어야 함
+    * @ exception 판매자가 MFT의 소유자여야 함
+    * @ exception 채택된 Nego가 취소상태가 아니어야 함
+    * @ exception 채택된 Nego가 채택된 상태가 아니어야 함
     */
+    function acceptNego(
+        uint256 saleId,
+        uint256 negoId
+    ) public {
+        MFTSale finishedSale = MFTSale(_saleAddrs[saleId]);
+        require(!finishedSale.getIsEnded(), "This sale is already ended.");
+        require(MFT(_MFTContractAddress).ownerOf(finishedSale.getMFTId()) == finishedSale.getSeller());
+    
+        MFTNego choicedNego = MFTNego(_negoAddrs[negoId]);
+        require(!choicedNego.getIsCanceled(), "This negotiation is canceled.");
+        require(!choicedNego.getIsChoiced(), "This negotiation is already choiced.");
+
+        // Nego를 수락하는 함수 호출
+        finishedSale.acceptNego(negoId);
+
+        // 구매자 관련 정보를 갱신
+        reportBuyer(choicedNego.getNegoer());
+
+        // 구매가 완료되었다는 event emit 필요
+    }
 
     /** 
     * reportBuyer
@@ -194,7 +274,7 @@ contract MFTSaleFactory is Ownable {
     * @ return None
     * @ exception None
     */
-    function reportBuyer(address saleBuyer) public {
+    function reportBuyer(address saleBuyer) private {
         _saleBuyers[endedMFTSaleId] = saleBuyer;
         _buySaleIdsByWallet[saleBuyer].push(endedMFTSaleId);
         _saleIds[saleBuyer].push(endedMFTSaleId);
