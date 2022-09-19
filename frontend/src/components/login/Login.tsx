@@ -52,39 +52,12 @@ export default function Login() {
     }).then((res: any) => res.data.nonce)
   }
 
-  // 네트워크 추가 함수
-  const handleNetwork = async (chainId: string) => {
-    console.log(chainId)
-    try {
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: chainId }],
-      })
-    } catch (switchError: any) {
-      // This error code indicates that the chain has not been added to MetaMask.
-      if (switchError.code === 4902) {
-        try {
-          await window.ethereum.request({
-            method: "wallet_addEthereumChain",
-            params: [
-              {
-                chainId: chainId,
-                chainName: "SSAFY",
-                rpcUrls: ["http://20.196.209.2:8545"],
-                nativeCurrency: {
-                  name: "SSAFY WALLET", // 통화 이름
-                  symbol: "SSF", // 통화 기호
-                  decimals: 18, // 통화 소수점 자리
-                },
-              },
-            ],
-          })
-        } catch (addError) {
-          // handle "add" error
-        }
-      }
-      // handle other "switch" errors
-    }
+  // 네트워크 연결 함수
+  const handleNetwork = async (chainId: number) => {
+    await window.ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: web3.utils.toHex(chainId) }],
+    })
   }
 
   const handleClick = async () => {
@@ -117,7 +90,6 @@ export default function Login() {
 
     // localStorage에 지갑 주소 저장
     localStorage.setItem("publicAddress", publicAddress)
-
     let nonce
 
     // Look if user with current publicAddress is already present on backend
@@ -142,10 +114,7 @@ export default function Login() {
     await handleAuthenticate(third)
 
     const accounts = await window.ethereum.request({ method: "eth_accounts" })
-    console.log("주소", accounts)
-
-    const a = await handleNetwork(chainId)
-    console.log(a)
+    await handleNetwork(chainId)
 
     navigate("/mainpage")
     // Pass accessToken back to parent component (to save it in localStorage)
