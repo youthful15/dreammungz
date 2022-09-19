@@ -7,6 +7,7 @@ import AllNftListPage from "./pages/AllNftListPage"
 import NftDetail from "./pages/NftDetail"
 import GameStart from "./pages/GameStart"
 import GamePlaying from "./pages/GamePlaying"
+import GameEnding from "./pages/GameEnding"
 
 import MyPage from "./pages/MyPage"
 import MyNftList from "./pages/MyNftList"
@@ -19,7 +20,7 @@ function App() {
     <RecoilRoot>
       <div className="flex items-center justify-center w-screen h-screen bg-beige-300">
         <BrowserRouter>
-          <div className="flex w-4/5 shadow-lg rounded-xl h-4/5  max-w-[1280px] min-w-[1024px]">
+          <div className="flex shadow-lg rounded-xl w-[1280px] h-[700px]">
             <div className="w-1/5 bg-brown-200 rounded-l-xl">
               <Navbar />
             </div>
@@ -33,6 +34,7 @@ function App() {
                 <Route path="/styles" element={<Sample />} />
                 <Route path="/start" element={<GameStart />} />
                 <Route path="/game" element={<GamePlaying />} />
+                <Route path="/ending" element={<GameEnding />} />
                 <Route path="/nft">
                   <Route path="list" element={<AllNftListPage />} />
                   <Route path="detail/:id" element={<NftDetail />} />
