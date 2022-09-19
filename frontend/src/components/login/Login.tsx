@@ -55,19 +55,8 @@ export default function Login() {
   // 네트워크 연결 함수
   const handleNetwork = async (chainId: number) => {
     await window.ethereum.request({
-      method: "wallet_addEthereumChain",
-      params: [
-        {
-          chainName: "SSAFY",
-          chainId: web3.utils.toHex(chainId),
-          nativeCurrency: {
-            name: "SSAFY WALLET",
-            decimals: 18,
-            symbol: "SSF",
-          },
-          rpcUrls: [["http://20.196.209.2:8545"]],
-        },
-      ],
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: web3.utils.toHex(chainId) }],
     })
   }
 
