@@ -16,7 +16,7 @@ export default function Login() {
   }) => {
     axios({
       method: "POST",
-      url: `http://localhost:8081/auth/signature`,
+      url: `https://j7a605.p.ssafy.io/auth/signature`,
       data: {
         address: publicAddress,
         signature: signature,
@@ -45,7 +45,7 @@ export default function Login() {
   const handleSignup = (publicAddress: string) => {
     axios({
       method: "POST",
-      url: `http://localhost:8081/auth/signin`,
+      url: `https://j7a605.p.ssafy.io/auth/signin`,
       params: {
         address: publicAddress,
       },
@@ -95,7 +95,7 @@ export default function Login() {
     // Look if user with current publicAddress is already present on backend
     const first = await axios({
       method: "GET",
-      url: `http://localhost:8081/auth/info/${publicAddress}`,
+      url: `https://j7a605.p.ssafy.io/auth/info/${publicAddress}`,
     })
       .then((res: any) => res.data.nonce)
       .catch((err: any) => err.response.data.message)

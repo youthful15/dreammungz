@@ -1,5 +1,4 @@
-import { useRecoilValue } from "recoil"
-import listModeAtom from "../../recoil/list/atom"
+// import { useRecoilValue } from "recoil"
 
 interface NftListItemProp {
   sellerNickname: string
