@@ -48,13 +48,22 @@ public class Negotiation {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "cancel", nullable = false)
+    private Check cancel;
+
+    @Column(name = "contract_id", nullable = false)
+    private Long contractId;
+
     @Builder
-    public Negotiation(Long id, Long price, LocalDateTime negoTime, String choice, Trade trade, Member member) {
+    public Negotiation(Long id, Long price, LocalDateTime negoTime, String choice, Trade trade, Member member, String cancel, Long contractId) {
         this.id = id;
         this.price = price;
         this.negoTime = negoTime;
         this.choice = Check.valueOf(choice);
         this.trade = trade;
         this.member = member;
+        this.cancel = Check.valueOf(cancel);
+        this.contractId = contractId;
     }
 }

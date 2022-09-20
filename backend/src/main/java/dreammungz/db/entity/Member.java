@@ -32,6 +32,9 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Nft> nfts = new ArrayList<>();
+
     @Column(name = "address", nullable = false, unique = true)
     private String address;
 
