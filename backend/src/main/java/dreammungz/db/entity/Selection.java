@@ -27,10 +27,10 @@ public class Selection {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "status_value", nullable = false)
+    @Column(name = "status_value")
     private Long statusValue;
 
-    @Column(name = "next_scene", nullable = false)
+    @Column(name = "next_scene")
     private Long nextScene;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,7 +38,7 @@ public class Selection {
     private Scene scene;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id", nullable = false)
+    @JoinColumn(name = "status_id")
     private Status status;
 
     @Builder

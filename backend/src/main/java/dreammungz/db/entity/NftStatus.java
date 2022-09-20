@@ -1,5 +1,6 @@
 package dreammungz.db.entity;
 
+import dreammungz.enums.Check;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,5 +41,9 @@ public class NftStatus {
         this.value = value;
         this.nft = nft;
         this.status = status;
+    }
+
+    public void setValue(Long value){
+        this.value = value;
     }
 }

@@ -1,7 +1,10 @@
 package dreammungz.db.repository;
 
+import dreammungz.db.entity.NftStatus;
 import dreammungz.db.entity.Selection;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /*
 @author 황승주
@@ -9,4 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 */
 
 public interface SelectionRepository extends JpaRepository<Selection, Long> {
+    List<Selection> findAllBySceneId(Long sceneId);
+
 }
