@@ -14,6 +14,6 @@ import java.util.List;
 
 public interface GameStoryRepository extends JpaRepository<GameStory, Long> {
     //gameid가 같은 스토리들에서 proceeding인 것을 찾기
-//    List<GameStory> findAllById();
+    List<GameStory> findAllByGameId(Long gameId);
 
 }

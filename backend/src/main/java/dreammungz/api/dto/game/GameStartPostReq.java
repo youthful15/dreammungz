@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GameStartPostReq {
-    @ApiModelProperty(value="사용자 지갑 주소", name="address", example="0x12346789..", dataType ="String")
+    @ApiModelProperty(value="사용자 지갑 주소", name="address", example="0x1", dataType ="String")
     String address;
-    @ApiModelProperty(value="교배 여부", name="mating", example="true", dataType ="boolean")
+    @ApiModelProperty(value="교배 여부", name="mating", example="false", dataType ="boolean")
     boolean mating;
     @ApiModelProperty(value="아빠 강아지 NFT 번호", name="father", example="2", dataType ="Long")
     Long father;
