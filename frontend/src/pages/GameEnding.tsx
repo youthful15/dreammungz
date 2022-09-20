@@ -1,5 +1,6 @@
 import html2canvas from "html2canvas"
 import { useRef, useEffect } from "react"
+import { create } from "ipfs-http-client"
 
 const NFT = {
   color: "PINK",
@@ -23,15 +24,25 @@ const NFT = {
 
 export default function GameEnding() {
   const canvasRef = useRef(null)
+  const client = create({
+    host: "j7a605.p.ssafy.io",
+    port: 5001,
+    protocol: "http",
+  })
 
   const copyDOM = async () => {
     window.scrollTo(0, 0)
 
     let url = ""
     await html2canvas(canvasRef.current!).then(async (canvas) => {
-      console.log("확인용", canvas.toDataURL("image/jpg"))
-      url = await canvas.toDataURL("image/jpg").split(",")[1]
-      // console.log("여기왔나용", url)
+      url = canvas.toDataURL("image/jpg")
+      console.log("확인용", url)
+
+      const response = await fetch(url)
+      const blob = await response.blob()
+      const file = new File([blob], "munggae.png", { type: "image/png" })
+      const hash = await client.add(file)
+      console.log("살려주세요", hash)
     })
   }
 
