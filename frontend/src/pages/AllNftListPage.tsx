@@ -34,9 +34,9 @@ const NftListPage = () => {
 
   return (
     <div className="relative">
-      <pre className="absolute right-0 z-30 bg-white">
+      {/* <pre className="absolute right-0 z-30 bg-white">
         {JSON.stringify(filter || {}, null, 1)}
-      </pre>
+      </pre> */}
 
       <Filter setFilter={setFilter} />
       <NftList page={curPage} setPage={setPage} />
