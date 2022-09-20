@@ -242,7 +242,7 @@ contract MFTSale is Ownable, IERC721Receiver {
         // 판매자에게서 구매자에게 MFT 전송
         _MFTContract.safeTransferFrom(_seller, negoer, _MFTId);
         // Sale 컨트랙트에서 판매자에게 SSFToken 전송
-        _SSFTokenContract.transferFrom(address(this), _seller, choicedNego.getNegoPrice());
+        _SSFTokenContract.transfer(_seller, choicedNego.getNegoPrice());
 
         // 해당 Nego 선택 처리 함수 호출
         choicedNego.choice();

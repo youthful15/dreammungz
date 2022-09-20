@@ -218,7 +218,7 @@ contract MFTSaleFactory is Ownable {
     ) public {
         MFTSale finishedSale = MFTSale(_saleAddrs[saleId]);
         require(!finishedSale.getIsEnded(), "This sale is already ended.");
-        require(MFT(_MFTContractAddress).ownerOf(finishedSale.getMFTId()) == finishedSale.getSeller());
+        require(MFT(_MFTContractAddress).ownerOf(finishedSale.getMFTId()) == finishedSale.getSeller(), "Seller must equal owner of the token.");
         require(SSFToken(_SSFTokenContractAddress).balanceOf(buyer) >= finishedSale.getBuyNowPrice(), "Buyer's balance is exhausted.");
 
         // 해당 Sale의 즉시 구매 함수를 호출
@@ -249,7 +249,8 @@ contract MFTSaleFactory is Ownable {
     ) public {
         MFTSale finishedSale = MFTSale(_saleAddrs[saleId]);
         require(!finishedSale.getIsEnded(), "This sale is already ended.");
-        require(MFT(_MFTContractAddress).ownerOf(finishedSale.getMFTId()) == finishedSale.getSeller());
+        require(finishedSale.getSeller() == msg.sender, "Only Seller can accept negotiation.");
+        require(MFT(_MFTContractAddress).ownerOf(finishedSale.getMFTId()) == finishedSale.getSeller(), "Seller must equal owner of the token.");
     
         MFTNego choicedNego = MFTNego(_negoAddrs[negoId]);
         require(!choicedNego.getIsCanceled(), "This negotiation is canceled.");

@@ -21,7 +21,7 @@ contract MFTNego is Ownable {
     // 제안 가격
     uint256 private _negoPrice;
     // 제안 일시
-    uint256 private _negoedAt;
+    uint256 private _negoAt;
     // 채택 여부
     bool private _isChoiced;
     // 취소 여부
@@ -34,7 +34,7 @@ contract MFTNego is Ownable {
     * @ param address saleAddr 제안한 Sale 컨트랙트 주소
     * @ param address negoer 제안자 지갑 주소
     * @ param uint256 negoPrice 제안 가격
-    * @ param uint256 negoedAt 제안 일시
+    * @ param uint256 negoAt 제안 일시
     * @ param bool isChoiced 채택 여부
     * @ param bool isCanceled 취소 여부
     * @ return None
