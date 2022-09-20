@@ -18,32 +18,42 @@ import LoginTutorial from "./pages/LoginTutorial"
 function App() {
   return (
     <RecoilRoot>
-      <div className="flex items-center justify-center w-screen h-screen bg-beige-300">
+      <div
+        style={{
+          backgroundImage: `url(/images/background.png)`,
+        }}
+        className="flex items-center justify-center w-screen h-screen bg-center bg-cover"
+      >
         <BrowserRouter>
-          <div className="flex shadow-lg rounded-xl w-[1280px] h-[700px]">
-            <div className="w-1/5 bg-brown-200 rounded-l-xl">
-              <Navbar />
-            </div>
-            <div className="w-full p-8 border 4/5 bg-beige-200 rounded-r-xl">
-              <Routes>
-                <Route path="/" element={<Navigate replace to="/nft/list" />} />
-                <Route path="/mainpage" element={<MainPage />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/login-tutorial" element={<LoginTutorial />} />
+          <div className="flex items-center justify-center bg-white shadow-2xl rounded-2xl w-[1295px] h-[715px]">
+            <div className="flex rounded-xl w-[1280px] h-[700px]">
+              <div className="w-[20%] bg-brown-200 rounded-l-xl">
+                <Navbar />
+              </div>
+              <div className="w-full p-8 4/5 bg-beige-200 rounded-r-xl">
+                <Routes>
+                  <Route
+                    path="/"
+                    element={<Navigate replace to="/nft/list" />}
+                  />
+                  <Route path="/mainpage" element={<MainPage />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/login-tutorial" element={<LoginTutorial />} />
 
-                <Route path="/styles" element={<Sample />} />
-                <Route path="/start" element={<GameStart />} />
-                <Route path="/game" element={<GamePlaying />} />
-                <Route path="/ending" element={<GameEnding />} />
-                <Route path="/nft">
-                  <Route path="list" element={<AllNftListPage />} />
-                  <Route path="detail/:id" element={<NftDetail />} />
-                </Route>
-                <Route path="/mypage" element={<MyPage />}>
-                  <Route path="list" element={<MyNftList />} />
-                  <Route path="history" element={<MyNftHistory />} />
-                </Route>
-              </Routes>
+                  <Route path="/styles" element={<Sample />} />
+                  <Route path="/start" element={<GameStart />} />
+                  <Route path="/game" element={<GamePlaying />} />
+                  <Route path="/ending" element={<GameEnding />} />
+                  <Route path="/nft">
+                    <Route path="list" element={<AllNftListPage />} />
+                    <Route path="detail/:id" element={<NftDetail />} />
+                  </Route>
+                  <Route path="/mypage" element={<MyPage />}>
+                    <Route path="list" element={<MyNftList />} />
+                    <Route path="history" element={<MyNftHistory />} />
+                  </Route>
+                </Routes>
+              </div>
             </div>
           </div>
         </BrowserRouter>
