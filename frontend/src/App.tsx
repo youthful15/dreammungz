@@ -34,7 +34,7 @@ function App() {
                 <Routes>
                   <Route
                     path="/"
-                    element={<Navigate replace to="/nft/list" />}
+                    element={<Navigate replace to="/mainpage" />}
                   />
                   <Route path="/mainpage" element={<MainPage />} />
                   <Route path="/login" element={<Login />} />
