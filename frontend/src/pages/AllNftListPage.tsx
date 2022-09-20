@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Filter from "../components/filter/Filter"
 import NftList from "../components/nftList/NftList"
 import useQueryParam from "../components/filter/useQueryParam"
@@ -8,26 +8,33 @@ const NftListPage = () => {
 
   if (!filter) {
     filter = {
-      job: "null",
-      hair: "null",
-      tier: "null",
-      color: "null",
-      gender: "null",
-      face: "null",
+      job: null,
+      hair: null,
+      tier: null,
+      color: null,
+      gender: null,
+      face: null,
       sell: false,
       status: [],
       page: 0,
+      address: null,
     }
   }
 
+  useEffect(() => {
+    let newFilter: Filter = { ...filter!, page: curPage }
+    setFilter(newFilter)
+    console.log(newFilter)
+  }, [curPage])
+
   return (
     <div className="relative">
-      <pre className="absolute z-30 bg-white right-0">
+      <pre className="absolute right-0 z-30 bg-white">
         {JSON.stringify(filter || {}, null, 1)}
       </pre>
 
       <Filter setFilter={setFilter} />
-      <NftList type="test" />
+      <NftList page={curPage} setPage={setPage} />
     </div>
   )
 }

@@ -4,15 +4,16 @@ import type { NavigateOptions } from "react-router-dom"
 import FilterForm from "./FilterForm"
 
 interface Filter {
-  job: string
-  hair: string
-  tier: string
-  color: string
-  gender: string
-  face: string
+  job: string | null
+  hair: string | null
+  tier: string | null
+  color: string | null
+  gender: string | null
+  face: string | null
   sell: boolean
   status: string[]
   page: number
+  address: string | null
 }
 
 interface FilterProp {
@@ -35,13 +36,14 @@ const Filter = ({ setFilter }: FilterProp) => {
       sell: formData.get("sell") === "on",
       status: formData.getAll("status") as string[],
       page: 0,
+      address: null,
     }
-    console.log(filter)
+    console.log(JSON.stringify(filter))
     setFilter(filter, { replace: false })
   }
 
   return (
-    <div className="bg-gray-300 relative">
+    <div className="relative bg-gray-300">
       <div>필터영역</div>
       <button
         className="bg-blue-300"
