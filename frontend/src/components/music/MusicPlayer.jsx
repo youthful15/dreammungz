@@ -8,7 +8,9 @@ import { faVolumeXmark, faVolumeUp } from "@fortawesome/free-solid-svg-icons"
 export default function MusicPlayer() {
   const musicName = useRecoilValue(playingMusic)
   const audioRef = useRef()
-  const [isPlaying, setIsPlaying] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  console.log(isPlaying)
 
   useEffect(() => {
     if (isPlaying) {
@@ -25,7 +27,7 @@ export default function MusicPlayer() {
         setIsPlaying(!isPlaying)
       }}
     >
-      <audio autoPlay ref={audioRef} loop>
+      <audio autoPlay id="audio" ref={audioRef} loop>
         <source src={`audios/${musicName}.mp3`} type="audio/mpeg" />
       </audio>
       {isPlaying ? (
