@@ -83,8 +83,6 @@ const NftDetail = () => {
   const [isSelling, setIsSelling] = useState(false)
   const [clickedSell, setClickedSell] = useState(false)
 
-  const [selectedTradeList] = useState(tradeList[0].tradeList)
-
   return (
     <div className="h-full w-full">
       <div className="h-[50%] w-full flex">
@@ -198,31 +196,37 @@ const NftDetail = () => {
           <div className="w-[47.5%]">
             <p>오퍼 리스트</p>
             <div className="bg-white h-[90%] p-2">
-              <div>
-                <div className="flex w-full border border-b-black">
-                  <p className="w-[20%]">Price</p>
-                  <p className="w-[20%]">From</p>
-                  <p className="w-[30%]">Expiration</p>
-                  <p>Date</p>
-                </div>
-              </div>
-
-              {tradeList[0]?.offerList.map(
-                ({
-                  id,
-                  buyerAddress,
-                  buyerNickname,
-                  price,
-                  date,
-                }: OfferListProp) => {
-                  return (
-                    <div className="flex">
-                      <p className="w-[20%]">{price}</p>
-                      <p className="w-[20%]">{date}</p>
-                      <p className="w-[30%]">{buyerNickname}</p>
+              {tradeList ? (
+                <div>
+                  <div>
+                    <div className="flex w-full border border-b-black">
+                      <p className="w-[20%]">Price</p>
+                      <p className="w-[20%]">From</p>
+                      <p className="w-[30%]">Expiration</p>
+                      <p>Date</p>
                     </div>
-                  )
-                }
+                  </div>
+
+                  {tradeList[0]?.offerList.map(
+                    ({
+                      id,
+                      buyerAddress,
+                      buyerNickname,
+                      price,
+                      date,
+                    }: OfferListProp) => {
+                      return (
+                        <div className="flex">
+                          <p className="w-[20%]">{price}</p>
+                          <p className="w-[20%]">{date}</p>
+                          <p className="w-[30%]">{buyerNickname}</p>
+                        </div>
+                      )
+                    }
+                  )}
+                </div>
+              ) : (
+                <div>There is no offer</div>
               )}
             </div>
           </div>
