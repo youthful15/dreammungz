@@ -1,5 +1,11 @@
+import NftHistoryList from "../components/nftHistory/NftHistoryList"
+
 const MyNftHistory = () => {
-  return <div>거래 이력이 없습니다.</div>
+  return (
+    <div className="w-full">
+      <NftHistoryList />
+    </div>
+  )
 }
 
 export default MyNftHistory
