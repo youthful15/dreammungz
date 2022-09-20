@@ -4,7 +4,11 @@ import findKOR from "../utils/findKOR"
 const story = {
   title: "스토리 타이틀",
   content: "장면 내용입니다 여기 어쩌고저쩌고",
-  selection: ["그림을 그린다.", "VS코드를 켠다.", "타입스크립트 싫다"],
+  selection: [
+    { id: 1, content: "그림을 그린다" },
+    { id: 2, content: "글을 쓴다" },
+    { id: 3, content: "이걸 한다" },
+  ],
   image: "이거 삽화 이름임",
   bgm: "이거 bgm 이름임",
   justice: 10,
@@ -47,7 +51,7 @@ function Information() {
 
 function Game() {
   const choiceSelect = (index: number) =>
-    alert(index + 1 + "번 선택지를 고르셨습니다.")
+    alert(index + "번 선택지를 고르셨습니다.")
 
   return (
     <div className="h-full">
@@ -58,13 +62,13 @@ function Game() {
           <div>{story.content}</div>
         </div>
         <div className="px-2">
-          {story.selection.map((select, index) => (
+          {story.selection.map(({ id, content }) => (
             <button
               className="my-2 py-2 w-full bg-purple-100"
-              key={index}
-              onClick={() => choiceSelect((index = index))}
+              key={id}
+              onClick={() => choiceSelect(id)}
             >
-              {select}
+              {content}
             </button>
           ))}
         </div>

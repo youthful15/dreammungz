@@ -8,7 +8,7 @@ const Navbar = () => {
   const [isLogin, setLogin] = useState(false) // 추후 Recoil을 사용하여  상태관리 할 것
 
   return (
-    <nav className="flex flex-col justify-between w-full h-full p-2 space-y-4 text-center">
+    <nav className="flex flex-col justify-between w-full h-full p-4 space-y-4 text-center">
       <ul>
         <li>
           <NavLink to="/">
