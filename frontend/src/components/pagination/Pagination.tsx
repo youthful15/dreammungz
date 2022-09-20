@@ -4,13 +4,18 @@ const totalPage = 182
 const limit = 10
 const activeStyle = "bg-blue-300"
 const curPage = 12
-const Pagination = () => {
-  const [currentPage, setCurrentPage] = useState(0)
-  const [offset, setOffset] = useState(0)
 
-  useEffect(() => {
-    setCurrentPage(curPage)
-  }, [])
+interface PaginationProp {
+  totalPage?: number
+  page: number
+  setPage: React.Dispatch<React.SetStateAction<number>>
+}
+
+const Pagination = ({
+  page: currentPage,
+  setPage: setCurrentPage,
+}: PaginationProp) => {
+  const [offset, setOffset] = useState(0)
 
   useEffect(() => {
     const tmpOffset = Math.floor(currentPage / limit)

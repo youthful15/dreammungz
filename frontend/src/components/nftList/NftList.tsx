@@ -4,7 +4,8 @@ import Pagination from "../pagination/Pagination"
 import NftListItem from "./NftListItem"
 
 interface NftListProp {
-  type: string | undefined
+  page: number
+  setPage: React.Dispatch<React.SetStateAction<number>>
 }
 
 const Info = () => {
@@ -28,8 +29,7 @@ const Status = () => {
   )
 }
 
-const NftList = ({ ...props }) => {
-  const { type, grid } = props
+const NftList = ({ page, setPage }: NftListProp) => {
   const setShowInfo = useSetRecoilState(listModeAtom)
 
   return (
@@ -63,7 +63,7 @@ const NftList = ({ ...props }) => {
             )
           })}
       </div>
-      <Pagination />
+      <Pagination page={page} setPage={setPage} />
     </div>
   )
 }
