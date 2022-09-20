@@ -41,7 +41,7 @@ public class Member {
     @Column(name = "nickname")
     private String nickname;
 
-    @Column(name = "nonce")
+    @Column(name = "nonce", nullable = false)
     private Long nonce;
 
     @CreatedDate

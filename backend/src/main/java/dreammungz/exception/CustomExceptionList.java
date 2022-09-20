@@ -23,7 +23,7 @@ public enum CustomExceptionList {
     JOB_NOT_FOUND(HttpStatus.NOT_FOUND,"E007","직업 정보가 없습니다."),
     GAMESTATUS_NOT_FOUND(HttpStatus.NOT_FOUND,"E008","게임 스탯 수치 정보가 없습니다."),
     STATUS_NOT_FOUND(HttpStatus.NOT_FOUND,"E009","스탯 정보가 없습니다."),
-    NFT_NOT_FOUND(HttpStatus.NOT_FOUND,"E010","NFT 정보가 없습니다.");
+    NFT_NOT_FOUND(HttpStatus.NOT_FOUND,"E010","NFT 정보가 없습니다."),
     MATING_PARENT_GENDER_NOT_CORRECT(HttpStatus.NOT_FOUND, "E101", "성별이 일치하지 않는 부모 강아지가 존재합니다.");
 
 
