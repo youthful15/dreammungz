@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -62,8 +60,15 @@ public class Trade {
     @JoinColumn(name = "buyer_id")
     private Buyer buyer;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "cancel", nullable = false)
+    private Check cancel;
+
+    @Column(name = "contract_id", nullable = false)
+    private Long contractId;
+
     @Builder
-    public Trade(Long id, String state, String negoAble, LocalDateTime startTime, LocalDateTime endTime, Long startPrice, Nft nft, Seller seller) {
+    public Trade(Long id, String state, String negoAble, LocalDateTime startTime, LocalDateTime endTime, Long startPrice, Nft nft, Seller seller, String cancel, Long contractId) {
         this.id = id;
         this.state = State.valueOf(state);
         this.negoAble = Check.valueOf(negoAble);
@@ -72,6 +77,8 @@ public class Trade {
         this.startPrice = startPrice;
         this.nft = nft;
         this.seller = seller;
+        this.cancel = Check.valueOf(cancel);
+        this.contractId = contractId;
     }
 
     public void setState(String state) { this.state = State.valueOf(state);}
