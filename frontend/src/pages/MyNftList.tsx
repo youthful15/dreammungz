@@ -4,12 +4,12 @@ import Filter from "../components/filter/Filter"
 import useQueryParam from "../components/filter/useQueryParam"
 
 const form = {
-  job: null,
-  hair: null,
-  tier: null,
-  color: null,
-  gender: null,
-  face: null,
+  job: "null",
+  hair: "null",
+  tier: "null",
+  color: "null",
+  gender: "null",
+  face: "null",
   sell: false,
   status: [],
   page: 0,
@@ -17,11 +17,13 @@ const form = {
 }
 
 const MyNftList = (props: any) => {
-  let [filter, setFilter] = useState<Filter>(form)
+  let [filter, setFilter] = useState<Filter>()
   const [curPage, setPage] = useState(0)
 
+  if (!filter) filter = form
+
   useEffect(() => {
-    if (filter.page === 0 && curPage === 0) return
+    if (filter?.page === 0 && curPage === 0) return
     let newFilter: Filter = { ...filter!, page: curPage }
     setFilter(newFilter)
   }, [curPage])
@@ -39,7 +41,6 @@ const MyNftList = (props: any) => {
       sell: formData.get("sell") === "on",
     }
     setFilter(newFilter)
-    setPage(0)
   }
 
   return (

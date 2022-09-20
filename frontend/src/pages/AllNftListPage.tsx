@@ -22,10 +22,15 @@ const NftListPage = () => {
   }
 
   useEffect(() => {
+    if (filter?.page === 0 && curPage === 0) return
     let newFilter: Filter = { ...filter!, page: curPage }
     setFilter(newFilter)
     console.log(newFilter)
   }, [curPage])
+
+  useEffect(() => {
+    console.log("전송", filter)
+  }, [filter])
 
   return (
     <div className="relative">
