@@ -33,11 +33,10 @@ function App() {
             </div>
             <div className="w-full p-8 4/5 bg-beige-200 rounded-r-xl">
               <Routes>
-                <Route path="/" element={<Navigate replace to="/nft/list" />} />
+                <Route path="/" element={<Navigate replace to="/mainPage" />} />
                 <Route path="/mainpage" element={<MainPage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/login-tutorial" element={<LoginTutorial />} />
-
                 <Route path="/styles" element={<Sample />} />
                 <Route path="/start" element={<GameStart />} />
                 <Route path="/game" element={<GamePlaying />} />
