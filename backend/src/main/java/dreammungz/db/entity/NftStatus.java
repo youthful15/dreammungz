@@ -38,7 +38,6 @@ public class NftStatus {
 
     @Builder
     public NftStatus(Long id, Long value, Nft nft, Status status) {
-        this.id = id;
         this.value = value;
         this.nft = nft;
         this.status = status;
