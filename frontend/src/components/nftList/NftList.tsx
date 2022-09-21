@@ -1,33 +1,43 @@
 import { useSetRecoilState } from "recoil"
 import listModeAtom from "../../recoil/list/atom"
+import StatList from "../nftInfo/StatList"
 import Pagination from "../pagination/Pagination"
 import NftListItem from "./NftListItem"
+
+const nft = {
+  id: 2,
+
+  job: "VOCALIST",
+  hair: "ORIGINAL",
+  tier: "RARE",
+  color: "BLACK",
+  gender: "M",
+  face: "SHY",
+  sell: "Y",
+  status: [
+    {
+      name: "CUTE",
+      value: 100,
+    },
+    {
+      name: "VOICE",
+      value: 2,
+    },
+    {
+      name: "SENSIBILITY",
+      value: 100,
+    },
+    {
+      name: "FOOTWORK",
+      value: 2,
+    },
+  ],
+  url: "/기자멍.png",
+}
 
 interface NftListProp {
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
-}
-
-const Info = () => {
-  return (
-    <>
-      <div className="text-black text-sm bg-green-300 top-3 right-2 p-0.5 rounded-md m-0.5">
-        영리함 +2
-      </div>
-      <div className="text-white text-sm bg-blue-500 top-3 right-2 p-0.5 rounded-md m-0.5">
-        용기 +1
-      </div>
-      <div className="text-black text-sm bg-green-300 top-3 right-2 p-0.5 rounded-md m-0.5">
-        카리스마 +2
-      </div>
-      <div className="text-black text-sm bg-green-300 top-3 right-2 p-0.5 rounded-md m-0.5">
-        정의로움 +2
-      </div>
-      <div className="text-black text-sm bg-green-300 top-3 right-2 p-0.5 rounded-md m-0.5">
-        감수성 +2
-      </div>
-    </>
-  )
 }
 
 const Status = () => {
@@ -63,10 +73,11 @@ const NftList = ({ page, setPage }: NftListProp) => {
           {Array(8)
             .fill(0)
             .map((_, idx) => {
+              const statList = <StatList statList={nft.status} />
               return (
                 <NftListItem
                   img="/기자멍.png"
-                  info={<Info />}
+                  info={statList}
                   status={<Status />}
                   key={idx}
                 />
