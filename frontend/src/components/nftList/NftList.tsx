@@ -17,6 +17,15 @@ const Info = () => {
       <div className="text-white text-sm bg-blue-500 top-3 right-2 p-0.5 rounded-md m-0.5">
         용기 +1
       </div>
+      <div className="text-black text-sm bg-green-300 top-3 right-2 p-0.5 rounded-md m-0.5">
+        카리스마 +2
+      </div>
+      <div className="text-black text-sm bg-green-300 top-3 right-2 p-0.5 rounded-md m-0.5">
+        정의로움 +2
+      </div>
+      <div className="text-black text-sm bg-green-300 top-3 right-2 p-0.5 rounded-md m-0.5">
+        감수성 +2
+      </div>
     </>
   )
 }
@@ -33,8 +42,8 @@ const NftList = ({ page, setPage }: NftListProp) => {
   const setShowInfo = useSetRecoilState(listModeAtom)
 
   return (
-    <div className="w-full h-full text-center">
-      <div className="mb-1 space-x-2">
+    <div className="w-full h-full text-center relative ">
+      <div className="mb-1 space-x-2 h-[5%]">
         <button
           className="p-1 px-2 rounded-lg bg-brown-200"
           onClick={() => setShowInfo(false)}
@@ -49,21 +58,23 @@ const NftList = ({ page, setPage }: NftListProp) => {
         </button>
       </div>
 
-      <div className="grid grid-cols-4 px-6 mb-2 gap-x-3">
-        {Array(8)
-          .fill(0)
-          .map((_, idx) => {
-            return (
-              <NftListItem
-                img="/기자멍.png"
-                info={<Info />}
-                status={<Status />}
-                key={idx}
-              />
-            )
-          })}
+      <div className="h-[85%] ">
+        <div className="flex flex-wrap h-full">
+          {Array(8)
+            .fill(0)
+            .map((_, idx) => {
+              return (
+                <NftListItem
+                  img="/기자멍.png"
+                  info={<Info />}
+                  status={<Status />}
+                  key={idx}
+                />
+              )
+            })}
+        </div>
+        <Pagination page={page} setPage={setPage} />
       </div>
-      <Pagination page={page} setPage={setPage} />
     </div>
   )
 }
