@@ -40,7 +40,7 @@ function Information() {
         {story.justice}
       </div>
       {story.status.map(({ name, value }, index) => (
-        <div className="flex w-full">
+        <div className="flex w-full" key={index}>
           <span className="w-1/5">{findKOR(name)}</span>
           <progress max="20" value={value} className="w-4/5 html5"></progress>
         </div>
@@ -64,7 +64,7 @@ function Game() {
         <div className="px-2">
           {story.selection.map(({ id, content }) => (
             <button
-              className="my-2 py-2 w-full bg-purple-100"
+              className="w-full py-2 my-2 bg-purple-100"
               key={id}
               onClick={() => choiceSelect(id)}
             >
@@ -79,7 +79,7 @@ function Game() {
 
 export default function GamePlaying() {
   return (
-    <div className="w-full h-full flex">
+    <div className="flex w-full h-full">
       <div className="w-2/5 h-full bg-blue-100">
         <Information />
       </div>
