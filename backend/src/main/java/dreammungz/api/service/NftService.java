@@ -182,7 +182,13 @@ public class NftService {
             List<Requirement> requirementList = requirementRepository.findRequirementByJob(getJob(Long.valueOf(idx)));
             for (Requirement requirement : requirementList) {
                 Long statusIdx = requirement.getStatus().getId();
-                if (getGameStatus(gameData, getStatus(statusIdx)).getValue() < requirement.getSatisfiedAmount()) {
+                //정의로움 음수값 판단 로직 추가
+                if(statusIdx==11){
+                    if(getGameStatus(gameData, getStatus(statusIdx)).getValue()*requirement.getSatisfiedAmount()<0){
+                        satisfied = false;
+                    }
+                }
+                else if (getGameStatus(gameData, getStatus(statusIdx)).getValue() < requirement.getSatisfiedAmount()) {
                     satisfied = false;
                 }
             }
