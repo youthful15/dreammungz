@@ -1,6 +1,7 @@
 import html2canvas from "html2canvas"
 import { useRef, useEffect } from "react"
 import { create } from "ipfs-http-client"
+// import { MFTContract } from "../utils/web3Config"
 
 const NFT = {
   color: "PINK",
@@ -19,7 +20,8 @@ const NFT = {
     },
   ],
   gender: "M",
-  id: 1,
+  // id: "",
+  // metadata: "https://ipfs.io/ipfs/QmNfZ7h7cUTD8mLjpxQK6F4XrPiXHQdDx62SEeMrpbam2d"
 }
 
 export default function GameEnding() {
@@ -36,13 +38,52 @@ export default function GameEnding() {
     let url = ""
     await html2canvas(canvasRef.current!).then(async (canvas) => {
       url = canvas.toDataURL("image/jpg")
-      console.log("확인용", url)
 
-      const response = await fetch(url)
-      const blob = await response.blob()
-      const file = new File([blob], "munggae.png", { type: "image/png" })
+      var arr = url.split(",")
+      var mime = arr[0].match(/:(.*?);/)![1]
+      var bstr = window.atob(arr[1])
+      var n = bstr.length
+      var u8arr = new Uint8Array(n)
+
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n)
+      }
+
+      const file = new File([u8arr], "munggae.png", { type: mime })
       const hash = await client.add(file)
+      const imageURL = "https://ipfs.io/ipfs/" + hash.path
       console.log("살려주세요", hash)
+
+      const newFile = {
+        image: imageURL,
+        color: "PINK",
+        hair: "CURLY",
+        face: "BEAN",
+        tier: "EPIC",
+        job: "DOCTOR",
+        status: [
+          {
+            name: "CUTE",
+            value: 100,
+          },
+          {
+            name: "VOICE",
+            value: 2,
+          },
+        ],
+        gender: "M",
+      }
+
+      const newHash = await client.add(JSON.stringify(newFile))
+      console.log(newHash)
+      const publicAddress = localStorage.getItem("publicAddress")
+
+      // const temp = MFTContract.methods
+      //   .create("https://ipfs.io/ipfs/" + newHash.path)
+      //   .send({ from: publicAddress })
+      //   .then((res: any) => console.log("제발요", res))
+
+      // console.log("이거 맞냐", temp)
     })
   }
 
