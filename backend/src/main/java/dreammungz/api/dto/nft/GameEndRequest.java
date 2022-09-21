@@ -24,7 +24,7 @@ public class GameEndRequest {
     private String hair;
     @ApiModelProperty(value = "얼굴", name = "face", example = "SCAR", dataType = "String")
     private String face;
-    @ApiModelProperty(value = "등급", name = "tier", example = "Rare", dataType = "String")
+    @ApiModelProperty(value = "등급", name = "tier", example = "RARE", dataType = "String")
     private String tier;
     @ApiModelProperty(value = "직업명", name = "job", example = "VOCALIST", dataType = "String")
     private String job;
