@@ -39,7 +39,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     private ApiInfo apiInfoMetaData() {
         return new ApiInfoBuilder().title("드림멍즈")
                 .description("드림멍즈 API")
-                .contact(new Contact("드림멍즈", "https://j7a605.p.ssafy.io/", "dreammungz@gmail.com"))
+                .contact(new Contact("드림멍즈", "https://j7a605.p.ssafy.io/api", "dreammungz@gmail.com"))
                 .version("1.0.0")
                 .build();
     }
