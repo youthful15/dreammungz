@@ -1,9 +1,19 @@
 import { useEffect, useState } from "react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+  faAnglesLeft,
+  faAnglesRight,
+  faAngleLeft,
+  faAngleRight,
+} from "@fortawesome/free-solid-svg-icons"
 
 const totalPage = 182
 const limit = 10
-const activeStyle = "bg-blue-300"
+const activeStyle =
+  "w-8 h-8 m-1  rounded-full bg-pink-500 text-center pt-0.5 text-brown cursor-pointer"
 const curPage = 12
+const buttonStyle =
+  "w-8 h-8 m-1  rounded-full bg-beige-500 text-center pt-0.5 text-brown cursor-pointer "
 
 interface PaginationProp {
   totalPage?: number
@@ -32,15 +42,12 @@ const Pagination = ({
     <>
       {/* <div>페이지 인덱스:{currentPage}</div>
       <div>페이지 오프셋:{offset}</div> */}
-      <div className="flex justify-center">
-        <div className="w-8 h-8 m-1 border " onClick={() => clickPage(0)}>
-          {"<<"}
+      <div className="flex justify-center  absolute bottom-0  w-full">
+        <div className={buttonStyle} onClick={() => clickPage(0)}>
+          <FontAwesomeIcon icon={faAnglesLeft} />
         </div>
-        <div
-          className="w-8 h-8 m-1 border "
-          onClick={() => clickPage(currentPage - 1)}
-        >
-          {"<"}
+        <div className={buttonStyle} onClick={() => clickPage(currentPage - 1)}>
+          <FontAwesomeIcon icon={faAngleLeft} />
         </div>
         {Array(limit)
           .fill(0)
@@ -49,7 +56,7 @@ const Pagination = ({
             if (page > totalPage) return null
             return (
               <div
-                className={`w-8 h-8 border m-1 ${
+                className={`  ${buttonStyle}  ${
                   page === currentPage + 1 && activeStyle
                 } `}
                 onClick={() => clickPage(page - 1)}
@@ -59,17 +66,11 @@ const Pagination = ({
               </div>
             )
           })}
-        <div
-          className="w-8 h-8 m-1 border "
-          onClick={() => clickPage(currentPage + 1)}
-        >
-          {">"}
+        <div className={buttonStyle} onClick={() => clickPage(currentPage + 1)}>
+          <FontAwesomeIcon icon={faAngleRight} />
         </div>
-        <div
-          className="w-8 h-8 m-1 border "
-          onClick={() => clickPage(totalPage - 1)}
-        >
-          {">>"}
+        <div className={buttonStyle} onClick={() => clickPage(totalPage - 1)}>
+          <FontAwesomeIcon icon={faAnglesRight} />
         </div>
       </div>
     </>

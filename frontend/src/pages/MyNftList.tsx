@@ -44,8 +44,11 @@ const MyNftList = (props: any) => {
   }
 
   return (
-    <div>
-      <form onChange={formHandler} className="text-right">
+    <div className=" h-full relative">
+      <form
+        onChange={formHandler}
+        className="text-right absolute z-10 -top-8 right-0"
+      >
         <label>
           <span>판매중인것만 보기</span>
           <input type="checkbox" name="sell" />

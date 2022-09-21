@@ -1,3 +1,6 @@
+import Stat from "../components/nftInfo/Stat"
+import { stat_list } from "../utils/gameWord"
+
 export default function Sample() {
   return (
     <div className="w-full">
@@ -63,6 +66,11 @@ export default function Sample() {
           <div className="bg-pink-800">pink-800</div>
           <div className="bg-pink-900">pink-900</div>
         </div>
+      </div>
+      <div className="mt-8 flex flex-col space-y-2">
+        {stat_list.map((item) => (
+          <Stat name={item.eng} value={1} />
+        ))}
       </div>
     </div>
   )
