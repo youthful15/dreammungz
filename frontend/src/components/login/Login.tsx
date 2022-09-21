@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
-import { chainId } from "../../utils/web3"
+import { chainId } from "../../utils/web3Config"
 import Web3 from "web3"
 export default function Login() {
   const navigate = useNavigate()
