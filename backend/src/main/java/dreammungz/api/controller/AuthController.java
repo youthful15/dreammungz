@@ -42,6 +42,15 @@ public class AuthController {
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "주소 중복 조회", notes = "지갑 주소로 회원 중복여부를 조회한다.", response = AuthResponse.class)
+    @GetMapping("/duplicated/{address}")
+    public ResponseEntity<Boolean> memberDuplicated(
+            @ApiParam(value = "지갑 주소")
+            @PathVariable(value = "address")
+            String address) {
+        return new ResponseEntity<>(authService.getMemberExists(address), HttpStatus.OK);
+    }
+
     @ApiOperation(value = "회원 가입", notes = "지갑 주소로 가입하고 nonce를 조회한다.", response = AuthResponse.class)
     @PostMapping("/signin")
     public ResponseEntity<AuthResponse> memberSignIn(
