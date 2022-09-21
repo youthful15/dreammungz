@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
     */
 
 @RestController
-@RequestMapping("/api/nft")
+@RequestMapping("/nft")
 @RequiredArgsConstructor
 public class NftController {
     private final NftService nftService;
