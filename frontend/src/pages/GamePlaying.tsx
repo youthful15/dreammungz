@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import findKOR from "../utils/findKOR"
 
 const story = {
@@ -27,6 +27,11 @@ const story = {
 }
 
 function Information() {
+  useEffect(() => {
+    return () => {
+      console.log("언마운트")
+    }
+  }, [])
   return (
     <div className="h-full">
       <div>아무튼 게임스러운 디자인</div>
