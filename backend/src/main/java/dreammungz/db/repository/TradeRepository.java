@@ -5,6 +5,7 @@ import dreammungz.db.entity.Trade;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /*
 @author 황승주
@@ -12,7 +13,8 @@ import java.util.List;
 */
 
 public interface TradeRepository extends JpaRepository<Trade, Long> {
-    Boolean existsByNft(Nft nft);
 
+    List<Trade> findAllByNftId(Long nftId);
+    Boolean existsByNft(Nft nft);
     List<Trade> findByNft(Nft nft);
 }

@@ -40,7 +40,7 @@ public class GameService{
                 && (nftRepository.findById(mother).get().getGender() == Gender.F);
     }
 
-    public void inherited(GameStartPostReq gameStart){
+    public void inherited(GameStartRequest gameStart){
         System.out.println("LET'S inherited");
         //[DB] [Game] 생성
         Game game = new Game(null, null);
@@ -243,7 +243,7 @@ public class GameService{
         return gameResponse;
     }
 
-    public void setNextGame(GameInfoPostReq gameInfo) {
+    public void setNextGame(GameInfoRequest gameInfo) {
         //현재 유저의 게임, 스토리, 씬, 선택지 확인
         Game currentGame = memberRepository.findByAddress(gameInfo.getAddress()).get().getGame();
         Long currentScene = currentGame.getCurScene();

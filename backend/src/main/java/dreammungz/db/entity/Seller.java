@@ -32,8 +32,7 @@ public class Seller {
     private Trade trade;
 
     @Builder
-    public Seller(Long id, Member member) {
-        this.id = id;
+    public Seller(Member member) {
         this.member = member;
     }
 

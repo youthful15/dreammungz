@@ -5,9 +5,9 @@ package dreammungz.api.controller;
 @since 22. 09. 13.
  */
 
-import dreammungz.api.dto.game.GameInfoPostReq;
+import dreammungz.api.dto.game.GameInfoRequest;
 import dreammungz.api.dto.game.GameResponse;
-import dreammungz.api.dto.game.GameStartPostReq;
+import dreammungz.api.dto.game.GameStartRequest;
 import dreammungz.api.service.GameService;
 import dreammungz.exception.CustomException;
 import dreammungz.exception.CustomExceptionList;
@@ -29,7 +29,7 @@ public class GameController{
     @ApiOperation(value = "게임 정보", notes = "게임 정보 출력. 현재 게임이 진행중인 사용자인지, 선택지는 몇번인지 구분해준다.")
     @PostMapping("/info")
     public ResponseEntity<GameResponse> gameInfo(
-            @RequestBody @ApiParam(value = "게임 시작 정보 (메이팅 or 분양)", required = true) GameInfoPostReq gameInfo){
+            @RequestBody @ApiParam(value = "게임 시작 정보 (메이팅 or 분양)", required = true) GameInfoRequest gameInfo){
         /*
         게임 정보 3단계 프로세스
         1. 게임 중인지, 특수 상황(재접속 or 새로시작)인지 체크
@@ -59,7 +59,7 @@ public class GameController{
     @ApiOperation(value = "게임 시작", notes = "게임을 시작하는 단계. 모든 초기 설정들이 이루어지고, 게임이 시작된다.")
     @PostMapping("/start")
     public ResponseEntity<GameResponse> gameStart(
-            @RequestBody @ApiParam(value = "게임 시작 정보 (메이팅 or 분양)", required = true) GameStartPostReq gameStart){
+            @RequestBody @ApiParam(value = "게임 시작 정보 (메이팅 or 분양)", required = true) GameStartRequest gameStart){
         /*
         게임 시작 3단계 프로세스
         1. 스탯 선정 (메이팅 or 분양)

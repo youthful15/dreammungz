@@ -39,7 +39,7 @@ public class Trade {
     @Column(name = "start_time", nullable = false, updatable = false)
     private LocalDateTime startTime;
 
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time")
     private LocalDateTime endTime;
 
     @Column(name = "start_price", nullable = false)
@@ -68,16 +68,14 @@ public class Trade {
     private Long contractId;
 
     @Builder
-    public Trade(Long id, String state, String negoAble, LocalDateTime startTime, LocalDateTime endTime, Long startPrice, Nft nft, Seller seller, String cancel, Long contractId) {
-        this.id = id;
-        this.state = State.valueOf(state);
-        this.negoAble = Check.valueOf(negoAble);
+    public Trade(State state, Check negoAble, LocalDateTime startTime, Long startPrice, Nft nft, Seller seller, Check cancel, Long contractId) {
+        this.state = state;
+        this.negoAble = negoAble;
         this.startTime = startTime;
-        this.endTime = endTime;
         this.startPrice = startPrice;
         this.nft = nft;
         this.seller = seller;
-        this.cancel = Check.valueOf(cancel);
+        this.cancel = cancel;
         this.contractId = contractId;
     }
 
@@ -85,6 +83,7 @@ public class Trade {
     public void setBuyer(Buyer buyer) {
         this.buyer = buyer;
     }
+    public void setCancel(Check cancel){ this.cancel = cancel;}
     public void setEndPrice(Long endPrice) { this.endPrice = endPrice; }
     public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
 }
