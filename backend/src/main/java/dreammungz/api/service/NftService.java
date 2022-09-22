@@ -81,6 +81,7 @@ public class NftService {
             // NFT 관련 정보 담기
             NftListResponse.NftInfo nftInfo = NftListResponse.NftInfo.builder()
                     .id(nftItem.getTokenId())
+                    .url(nftItem.getImageUrl())
                     .metadata(nftItem.getMetadata())
                     .job(nftItem.getJob().getName())
                     .hair(nftItem.getHair())
