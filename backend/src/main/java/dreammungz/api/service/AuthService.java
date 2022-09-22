@@ -1,6 +1,7 @@
 package dreammungz.api.service;
 
 import dreammungz.api.dto.auth.AuthResponse;
+import dreammungz.api.dto.auth.NicknameResponse;
 import dreammungz.db.entity.Member;
 import dreammungz.db.repository.MemberRepository;
 import dreammungz.exception.CustomException;
@@ -88,5 +89,13 @@ public class AuthService {
                 .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
 
         member.createNonce();
+    }
+
+    public NicknameResponse getMemberNickname(String address) {
+        NicknameResponse nicknameResponse = new NicknameResponse();
+        Member member = memberRepository.findByAddress(address)
+                .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
+        nicknameResponse.setNickname(member.getNickname());
+        return nicknameResponse;
     }
 }
