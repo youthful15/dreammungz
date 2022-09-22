@@ -1,7 +1,9 @@
 package dreammungz.api.controller;
 
-import dreammungz.api.dto.nft.GameEndRequest;
-import dreammungz.api.dto.nft.GameEndResponse;
+import dreammungz.api.dto.nft.info.GameEndRequest;
+import dreammungz.api.dto.nft.info.GameEndResponse;
+import dreammungz.api.dto.nft.list.NftListRequest;
+import dreammungz.api.dto.nft.list.NftListResponse;
 import dreammungz.api.service.NftService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -21,6 +23,13 @@ import org.springframework.web.bind.annotation.*;
 public class NftController {
     private final NftService nftService;
 
+    @ApiOperation(value = "NFT 리스트 조회", notes = "NFT 리스트를 조회한다.")
+    @PostMapping("/list")
+    public ResponseEntity<NftListResponse> searchNft(@ApiParam(value = "NFT 필터 정보") @RequestBody NftListRequest nftListRequest) {
+        NftListResponse response = nftService.searchNft(nftListRequest);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
 
     @ApiOperation(value = "엔딩 결과 조회", notes = "지갑 주소에 있는 게임 데이터를 조회해 엔딩 결과를 생성한다.", response = GameEndResponse.class)
     @GetMapping("/result/address/{address}")
