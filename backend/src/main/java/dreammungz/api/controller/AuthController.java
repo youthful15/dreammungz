@@ -1,9 +1,6 @@
 package dreammungz.api.controller;
 
-import dreammungz.api.dto.auth.AuthResponse;
-import dreammungz.api.dto.auth.JwtResponse;
-import dreammungz.api.dto.auth.NicknameResponse;
-import dreammungz.api.dto.auth.SignatureRequest;
+import dreammungz.api.dto.auth.*;
 import dreammungz.api.service.AuthService;
 import dreammungz.config.jwt.JwtService;
 import dreammungz.exception.CustomException;
@@ -56,12 +53,11 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<AuthResponse> memberSignIn(
             @ApiParam(value = "지갑 주소")
-            @RequestParam(value = "address")
-            String address) {
-        if (authService.getMemberExists(address)) {
+            @RequestBody SigninRequest signinRequest){
+        if (authService.getMemberExists(signinRequest.getAddress())) {
             throw new CustomException(CustomExceptionList.ADDRESS_DUPLICATED);
         }
-        AuthResponse authResponse = authService.memberSignIn(address);
+        AuthResponse authResponse = authService.memberSignIn(signinRequest.getAddress());
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 
