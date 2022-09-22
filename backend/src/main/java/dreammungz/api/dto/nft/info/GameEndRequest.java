@@ -1,4 +1,4 @@
-package dreammungz.api.dto.nft;
+package dreammungz.api.dto.nft.info;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -24,7 +24,7 @@ public class GameEndRequest {
     private String hair;
     @ApiModelProperty(value = "얼굴", name = "face", example = "SCAR", dataType = "String")
     private String face;
-    @ApiModelProperty(value = "등급", name = "tier", example = "Rare", dataType = "String")
+    @ApiModelProperty(value = "등급", name = "tier", example = "RARE", dataType = "String")
     private String tier;
     @ApiModelProperty(value = "직업명", name = "job", example = "VOCALIST", dataType = "String")
     private String job;
@@ -34,6 +34,8 @@ public class GameEndRequest {
     private List<StatusList> status;
     @ApiModelProperty(value = "토큰 식별자", name = "id", example = "0", dataType = "Long")
     private Long id;
+    @ApiModelProperty(value = "이미지 url", name = "url", example = "image_url", dataType = "String")
+    private String url;
     @ApiModelProperty(value = "메타데이터", name = "metadata", example = "url", dataType = "String")
     private String metadata;
 
@@ -41,7 +43,9 @@ public class GameEndRequest {
     @Setter
     @RequiredArgsConstructor
     static public class StatusList {
+        @ApiModelProperty(value = "능력치 이름", name = "name", example = "VOICE", dataType = "String")
         String name;
+        @ApiModelProperty(value = "능력 수치", name = "value", example = "2", dataType = "Long")
         Long value;
 
         @Builder
