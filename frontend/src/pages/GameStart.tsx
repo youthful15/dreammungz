@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import GenderTag from "../components/game/GenderTag"
+import StatList from "../components/nftInfo/StatList"
 
 const nft = [
   {
@@ -38,6 +39,163 @@ const nft = [
       },
       {
         name: "POPULARITY",
+        value: 2,
+      },
+    ],
+  },
+  {
+    url: "/무명작가멍.png",
+    gender: "M",
+    status: [
+      {
+        name: "CUTE",
+        value: 2,
+      },
+      {
+        name: "VOICE",
+        value: 2,
+      },
+    ],
+  },
+  {
+    url: "/무명작가멍.png",
+    gender: "M",
+    status: [
+      {
+        name: "CUTE",
+        value: 2,
+      },
+      {
+        name: "VOICE",
+        value: 2,
+      },
+    ],
+  },
+  {
+    url: "/무명작가멍.png",
+    gender: "M",
+    status: [
+      {
+        name: "CUTE",
+        value: 2,
+      },
+      {
+        name: "VOICE",
+        value: 2,
+      },
+    ],
+  },
+  {
+    url: "/무명작가멍.png",
+    gender: "M",
+    status: [
+      {
+        name: "CUTE",
+        value: 2,
+      },
+      {
+        name: "VOICE",
+        value: 2,
+      },
+    ],
+  },
+  {
+    url: "/무명작가멍.png",
+    gender: "M",
+    status: [
+      {
+        name: "CUTE",
+        value: 2,
+      },
+      {
+        name: "VOICE",
+        value: 2,
+      },
+    ],
+  },
+  {
+    url: "/무명작가멍.png",
+    gender: "M",
+    status: [
+      {
+        name: "CUTE",
+        value: 2,
+      },
+      {
+        name: "VOICE",
+        value: 2,
+      },
+    ],
+  },
+  {
+    url: "/무명작가멍.png",
+    gender: "M",
+    status: [
+      {
+        name: "CUTE",
+        value: 2,
+      },
+      {
+        name: "VOICE",
+        value: 2,
+      },
+    ],
+  },
+  {
+    url: "/무명작가멍.png",
+    gender: "M",
+    status: [
+      {
+        name: "CUTE",
+        value: 2,
+      },
+      {
+        name: "VOICE",
+        value: 2,
+      },
+    ],
+  },
+  {
+    url: "/무명작가멍.png",
+    gender: "M",
+    status: [
+      {
+        name: "CUTE",
+        value: 2,
+      },
+      {
+        name: "VOICE",
+        value: 2,
+      },
+    ],
+  },
+]
+
+const dogs = [
+  {
+    url: "/운동멍.png",
+    gender: "M",
+    status: [
+      {
+        name: "CUTE",
+        value: 2,
+      },
+      {
+        name: "VOICE",
+        value: 2,
+      },
+    ],
+  },
+  {
+    url: "/무명작가멍.png",
+    gender: "M",
+    status: [
+      {
+        name: "CUTE",
+        value: 2,
+      },
+      {
+        name: "VOICE",
         value: 2,
       },
     ],
@@ -246,6 +404,8 @@ function WeddingModeStart(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
 
 export default function GameStart() {
   const [showContent, setContent] = useState(<StartTutorial />)
+  const [dogF, setDogF] = useState({})
+  const [dogM, setDogM] = useState({})
 
   return (
     <div className="w-full h-full">
