@@ -28,6 +28,9 @@ public class Nft {
     @Column(name = "metadata", nullable = false, unique = true)
     private String metadata;
 
+    @Column(name = "image_url", nullable = false, unique = true)
+    private String imageUrl;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "hair", nullable = false)
     private Hair hair;
@@ -64,8 +67,10 @@ public class Nft {
     private List<Trade> trades = new ArrayList<>();
 
     @Builder
-    public Nft(Long id, Long tokenId, String metadata, String hair, String face, String gender, String color, String tier, Member member, Job job) {        this.id = id;
+    public Nft(Long id, Long tokenId, String imageUrl, String metadata, String hair, String face, String gender, String color, String tier, Member member, Job job) {
+        this.id = id;
         this.tokenId = tokenId;
+        this.imageUrl = imageUrl;
         this.metadata = metadata;
         this.hair = Hair.valueOf(hair);
         this.face = Face.valueOf(face);

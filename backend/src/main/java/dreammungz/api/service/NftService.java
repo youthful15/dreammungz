@@ -50,7 +50,7 @@ public class NftService {
      */
     public NftListResponse searchNft(NftListRequest nftListRequest) {
         NftListResponse nftListResponse = new NftListResponse();
-        PageRequest pageRequest = PageRequest.of(nftListRequest.getPage() - 1, 8);//0페이지부터 시작하기 때문에 -1
+        PageRequest pageRequest = PageRequest.of(nftListRequest.getPage(), 8);//0페이지부터 시작하기 때문에 -1
         // 지갑 주소가 있다면
         // 선택한 직업이 있다면
         // 선택한 모질이 있다면
@@ -94,8 +94,8 @@ public class NftService {
             nftInfos.add(nftInfo);
         }
         nftListResponse.setItems(nftInfos);
-        nftListResponse.setCurrentPage(nftList.getPageable().getPageNumber() + 1);
-        nftListResponse.setTotalPage(nftList.getTotalPages());
+        nftListResponse.setCurrentPage(nftList.getPageable().getPageNumber());
+        nftListResponse.setTotalPage(nftList.getTotalPages()-1);
 
         return nftListResponse;
     }
@@ -106,6 +106,7 @@ public class NftService {
     public void saveNft(String address, GameEndRequest gameEndRequest) {
         Nft nft = Nft.builder()
                 .tokenId(gameEndRequest.getId())
+                .imageUrl(gameEndRequest.getUrl())
                 .metadata(gameEndRequest.getMetadata())
                 .hair(gameEndRequest.getHair())
                 .face(gameEndRequest.getFace())
