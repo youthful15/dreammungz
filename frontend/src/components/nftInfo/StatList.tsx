@@ -7,8 +7,8 @@ type StatListProp = {
 const StatList = ({ statList }: StatListProp) => {
   return (
     <>
-      {statList.map((item) => (
-        <Stat name={item.name} value={item.value} />
+      {statList.map(({ name, value }, index) => (
+        <Stat name={name} value={value} key={index} />
       ))}
     </>
   )
