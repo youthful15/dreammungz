@@ -366,8 +366,13 @@ const MUNGAbi = [
         name: "to",
         type: "address",
       },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
     ],
-    name: "mintToNewMember",
+    name: "mintToMember",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1184,9 +1189,29 @@ const MFTSaleFactoryAbi = [
     type: "function",
     constant: true,
   },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "MFTId",
+        type: "uint256",
+      },
+    ],
+    name: "getSaleStatusOfMFT",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
 ]
 
-const MFTSaleAbi = [
+export const MFTSaleAbi = [
   {
     inputs: [
       {
@@ -1555,7 +1580,7 @@ const MFTSaleAbi = [
   },
 ]
 
-const MFTNegoAbi = [
+export const MFTNegoAbi = [
   {
     inputs: [
       {
@@ -1741,10 +1766,11 @@ const MFTNegoAbi = [
 export const web3 = new Web3(window.ethereum)
 export const chainId = 31221
 
-export const MUNGContractAddress = "0x0767cB0c0721849359dfF50393F6baE312a23Bc2"
-export const MFTContractAddress = "0x41f4087f4ae65EE7c16856CdE4663A9104812296"
+export const OwnerAddress = "0x2AF0D46CC2F86D1B1697A8f86C9b245320564f5F" // 컨트랙트 배포한 지갑 주소
+export const MUNGContractAddress = "0xa88d4a190016F1f340B1FfA4ae4e763bA34fA675"
+export const MFTContractAddress = "0x412EB6A6AD61C98A0Ca1aD1fB0C0AC99424f0e43"
 export const MFTSaleFactoryContractAddress =
-  "0xb0C301e7987Eb3541aAdef935EB3d0add01189F0"
+  "0xdCf9D7175482eF38428977B13D790F06E6FF59F7"
 
 export const MUNGContract = new web3.eth.Contract(MUNGAbi, MUNGContractAddress) // ERC-20
 export const MFTContract = new web3.eth.Contract(MFTAbi, MFTContractAddress) // ERC-721

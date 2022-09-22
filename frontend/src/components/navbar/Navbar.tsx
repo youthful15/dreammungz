@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import NavList from "./NavList"
 import memberAtom from "../../recoil/member/atom"
@@ -10,16 +10,22 @@ const navItemStyle: string =
 
 const Navbar = () => {
   const [member] = useRecoilState(memberAtom)
-
   const [isLogin, setLogin] = useState(false) // 추후 Recoil을 사용하여  상태관리 할 것
+
+  // 로그인했는지 확인
+  useEffect(() => {
+    if (localStorage.getItem("publicAddress")) setLogin(true)
+  }, [])
 
   // balance Test 확인 완료
   const clickBalance = async () => {
-    let balance = await MUNGContract.methods
-      .balanceOf(member.walletAddress)
+    const balance = await MUNGContract.methods
+      .balanceOf(localStorage.getItem("publicAddress"))
       .call()
-    balance = balance * 10 ** -18
-    console.log(balance)
+    // let balance = await MUNGContract.methods
+    //   .balanceOf(member.walletAddress)
+    //   .call()
+    console.log(balance * 10 ** -18)
   }
 
   return (
