@@ -17,4 +17,5 @@ public interface TradeRepository extends JpaRepository<Trade, Long> {
     List<Trade> findAllByNftId(Long nftId);
     Boolean existsByNft(Nft nft);
     List<Trade> findByNft(Nft nft);
+    Optional<Trade> findByContractId(Long contractId);
 }

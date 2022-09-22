@@ -1,11 +1,7 @@
 package dreammungz.api.service;
 
-import dreammungz.api.dto.trade.TradeRegisterRequest;
-import dreammungz.api.dto.trade.TradeStopRequest;
-import dreammungz.db.entity.Member;
-import dreammungz.db.entity.Negotiation;
-import dreammungz.db.entity.Seller;
-import dreammungz.db.entity.Trade;
+import dreammungz.api.dto.trade.*;
+import dreammungz.db.entity.*;
 import dreammungz.db.repository.*;
 import dreammungz.enums.Check;
 import dreammungz.enums.State;
@@ -34,7 +30,6 @@ public class TradeService {
         //Seller DB에 사용자 추가
         Seller seller = new Seller(member);
         sellerRepository.save(seller);
-        System.out.println("HELLO1");
         //Trade DB에 사용 정보 추가
         Trade trade = new Trade(State.PROCEEDING,
                 tradeRegisterRequest.isNegoAble()?Check.Y:Check.N,
@@ -45,7 +40,6 @@ public class TradeService {
                 Check.N,
                 tradeRegisterRequest.getContractId()
                 );
-        System.out.println("HELLO2");
         tradeRepository.save(trade);
     }
 
@@ -53,7 +47,99 @@ public class TradeService {
         Member member = getMember(tradeStopRequest.getAddress());
 
         //nft id가 같고 거래상태(state)가 proceeding인 것을 찾는다.
-        List<Trade> tradeList = tradeRepository.findAllByNftId(nftRepository.findNftByTokenId(tradeStopRequest.getTokenId()).get().getId());
+        Trade trade = getTrade(tradeStopRequest.getTokenId(), member);
+        //해당 거래를 cancel한다.
+        trade.setCancel(Check.Y);
+        tradeRepository.save(trade);
+
+        //nego table의 모든 네고 요청을 cancel 한다.
+        List<Negotiation> negotiations = negotiationRepository.findAllByTradeId(trade.getId());
+        for(Negotiation negotiation : negotiations){
+            negotiation.setCancel(Check.Y);
+        }
+        negotiationRepository.saveAll(negotiations);
+
+    }
+
+    public void purchaseNft(TradePurchaseRequest tradePurchaseRequest){
+        Member member = getMember(tradePurchaseRequest.getAddress());
+        //buyer 만들기
+        Buyer buyer = new Buyer(member);
+
+        //해당 거래를 trade 테이블에서 찾기
+        Trade trade = getTrade(tradePurchaseRequest.getTokenId(), member);
+        trade.setBuyer(buyer);  //buyer 추가
+        trade.setEndTime(LocalDateTime.now());  // 종료시간 추가
+        trade.setEndPrice(trade.getStartPrice());   // 최종거래금액 추가
+        trade.setState(State.COMPLETE);// 거래상태 변경
+        tradeRepository.save(trade);
+
+        //nego table의 모든 네고 요청을 cancel 한다.
+        List<Negotiation> negotiations = negotiationRepository.findAllByTradeId(trade.getId());
+        for(Negotiation negotiation : negotiations){
+            negotiation.setCancel(Check.Y);
+        }
+        negotiationRepository.saveAll(negotiations);
+
+    }
+
+    public void registerOffer(OfferRegisterRequest offerRegisterRequest){
+        Member member = getMember(offerRegisterRequest.getAddress());
+        //negotiation DB에 추가
+        Negotiation negotiation = new Negotiation(
+                offerRegisterRequest.getPrice(),
+                LocalDateTime.now(),
+                Check.N,
+                getTrade(offerRegisterRequest.getTokenId(), member),   //tokenID를 바탕으로 nft->trade 아이디 추적
+                member,
+                Check.N,
+                offerRegisterRequest.getContractId()
+        );
+        negotiationRepository.save(negotiation);
+    }
+
+    public void cancelOffer(OfferCancelRequest offerCancelRequest){
+        Member member = getMember(offerCancelRequest.getAddress());
+        //해당하는 negotiation 찾기
+        Negotiation negotiation = negotiationRepository.findByContractId(offerCancelRequest.getContractId()).get();
+        //negotiation DB 수정
+        negotiation.setCancel(Check.Y);
+        negotiationRepository.save(negotiation);
+    }
+
+    public void acceptOffer(OfferAcceptRequest offerAcceptRequest){
+        //구매 제안자 찾기
+        Negotiation negotiation = negotiationRepository.findByContractId(offerAcceptRequest.getContractId()).get();
+        Member member = negotiation.getMember();
+        //buyer 만들기
+        Buyer buyer = new Buyer(member);
+
+        //해당 거래를 trade 테이블에서 찾기
+        Trade trade = negotiation.getTrade();
+        trade.setBuyer(buyer);  //buyer 추가
+        trade.setEndTime(LocalDateTime.now());  // 종료시간 추가
+        trade.setEndPrice(negotiation.getPrice());   // 최종거래금액 추가
+        trade.setState(State.COMPLETE);// 거래상태 변경
+        tradeRepository.save(trade);
+
+        //nego table의 모든 네고 요청을 cancel 한다.
+        List<Negotiation> negotiations = negotiationRepository.findAllByTradeId(trade.getId());
+        for(Negotiation negotiationTemp : negotiations){
+            if(negotiationTemp == negotiation){
+                negotiationTemp.setChoice(Check.Y); //수락된 네고는 수락되었음을 표시
+            }
+            else {
+                negotiationTemp.setCancel(Check.Y); //다른 네고들은 취소되었음을 표시
+            }
+        }
+        negotiationRepository.saveAll(negotiations);
+    }
+    public Member getMember(String address){
+        return memberRepository.findByAddress(address).orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
+    }
+
+    public Trade getTrade(Long tokenId, Member member){
+        List<Trade> tradeList = tradeRepository.findAllByNftId(nftRepository.findNftByTokenId(tokenId).get().getId());
         Trade trade = null;
         for(Trade trades : tradeList){
             if(trades.getState() == State.PROCEEDING){
@@ -69,20 +155,6 @@ public class TradeService {
             //ERROR2. 현재 판매자 주소가 NFT 판매자가 아닌 경우
             throw new CustomException(CustomExceptionList.NOT_NFT_SELLER);
         }
-        //해당 거래를 cancel한다.
-        trade.setCancel(Check.Y);
-        tradeRepository.save(trade);
-
-        //nego table의 모든 네고 요청을 cancel 한다.
-        List<Negotiation> negotiations = negotiationRepository.findAllByTradeId(trade.getId());
-        for(Negotiation negotiation : negotiations){
-            negotiation.setCancel(Check.Y);
-        }
-        negotiationRepository.saveAll(negotiations);
-
-    }
-
-    public Member getMember(String address){
-        return memberRepository.findByAddress(address).orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
+        return trade;
     }
 }

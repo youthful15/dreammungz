@@ -79,7 +79,7 @@ public class Trade {
         this.contractId = contractId;
     }
 
-    public void setState(String state) { this.state = State.valueOf(state);}
+    public void setState(State state) { this.state = state;}
     public void setBuyer(Buyer buyer) {
         this.buyer = buyer;
     }
