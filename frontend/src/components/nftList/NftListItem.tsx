@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router"
 import { useRecoilValue } from "recoil"
 import listModeAtom from "../../recoil/list/atom"
 import { StatType } from "../nftInfo/Stat"
@@ -12,7 +13,7 @@ const SellStatus = () => {
   )
 }
 
-interface NftListItem {
+export interface NftListItemType {
   id: number
   url: string
   metadata: string
@@ -26,12 +27,18 @@ interface NftListItem {
   status: StatType[]
 }
 
-const NftListItem = ({ item }: { item: NftListItem }) => {
+const NftListItem = ({ item }: { item: NftListItemType }) => {
+  const navigate = useNavigate()
   const showInfo = useRecoilValue(listModeAtom)
   const { id, url, tier, sell, status } = item
 
   return (
-    <div className={`relative  p-2 rounded-lg bg-4   w-[25%]  h-1/2 `}>
+    <div
+      className={`relative  p-2 rounded-lg bg-4   w-[25%]  h-1/2  hover:scale-110`}
+      onClick={() => {
+        navigate(`/nft/detail/${id}`)
+      }}
+    >
       <div
         className={`w-full  flex items-center justify-center flex-col  h-full  rounded-lg  bg-beige-400`}
       >

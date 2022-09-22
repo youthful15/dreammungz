@@ -47,7 +47,7 @@ const NftHistoryList = () => {
           })}
         </tbody>
       </table>
-      <Pagination page={page} setPage={setPage} />
+      <Pagination page={page} setPage={setPage} totalPage={0} />
     </div>
   )
 }

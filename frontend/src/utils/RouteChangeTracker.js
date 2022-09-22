@@ -15,7 +15,7 @@ const RouterChangeTracker = () => {
 
   useEffect(() => {
     if (initialized) {
-      console.log("페이지 이동 " + location.pathname + location.search)
+      // console.log("페이지 이동 " + location.pathname + location.search)
       ReactGA.pageview(location.pathname + location.search)
     }
   }, [initialized, location])

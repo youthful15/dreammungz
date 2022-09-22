@@ -1,15 +1,16 @@
 import { useSetRecoilState } from "recoil"
 import listModeAtom from "../../recoil/list/atom"
 import Pagination from "../pagination/Pagination"
-import NftListItem from "./NftListItem"
-import nft_lst from "../../utils/tmpNftList"
+import NftListItem, { NftListItemType } from "./NftListItem"
 
 interface NftListProp {
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
+  list: NftListItemType[]
+  totalPage: number
 }
 
-const NftList = ({ page, setPage }: NftListProp) => {
+const NftList = ({ page, setPage, totalPage, list }: NftListProp) => {
   const setShowInfo = useSetRecoilState(listModeAtom)
 
   return (
@@ -31,11 +32,11 @@ const NftList = ({ page, setPage }: NftListProp) => {
 
       <div className="h-[85%] ">
         <div className="flex flex-wrap h-full">
-          {nft_lst.items.map((item, idx) => {
-            return <NftListItem item={item} />
+          {list.map((item, idx) => {
+            return <NftListItem item={item} key={item.id} />
           })}
         </div>
-        <Pagination page={page} setPage={setPage} />
+        <Pagination page={page} setPage={setPage} totalPage={totalPage} />
       </div>
     </div>
   )
