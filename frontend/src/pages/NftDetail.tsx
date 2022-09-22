@@ -1,7 +1,14 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import NftListItem2 from "../components/nftList/NftListItem2"
 import Modal from "../components/modal/Modal"
+import {
+  MUNGContract,
+  MFTSaleFactoryContract,
+  MFTContract,
+} from "../utils/Web3Config"
+import axios from "axios"
+import { http } from "../api/axios"
 
 interface TradeListProp {
   sellerNickname: string
@@ -82,7 +89,10 @@ const tradeList: any = [
 
 const NftDetail = () => {
   const navigate = useNavigate()
-  const [myNft, setMyNft] = useState(false) // 본인 NFT 인지 확인
+  const [balance, setBalance] = useState(0) // 본인 지갑
+  const cost = 400
+
+  const [myNft, setMyNft] = useState(true) // 본인 NFT 인지 확인
   const [isSelling, setIsSelling] = useState(false) // 판매중인지 확인
   const [clickedSell, setClickedSell] = useState(false) // 판매 눌렀는지 확인
 
@@ -96,11 +106,61 @@ const NftDetail = () => {
   const modalClose3 = () => setOpen3(false) // 가격 제안하기 모달
   const [proposal, setProposal] = useState<HTMLInputElement>() // 가격 제안 가격
 
+  // 실시간 반영
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget
     setProposal(value)
   }
-  console.log(proposal)
+
+  // MUNG 가져오기
+  const getMung = async () => {
+    const walletAddress = localStorage.getItem("publicAddress")
+    const needRecoil = await MUNGContract.methods
+      .balanceOf(walletAddress)
+      .call()
+    setBalance(needRecoil * 10 ** -18)
+  }
+
+  // 즉시 구매 Format
+  const buyNowFormat = async () => {
+    // 금액이 부족할때
+    if (balance < cost) {
+      await alert("돈이 없습니다.")
+      modalClose2()
+    }
+
+    // 금액이 충분할때
+    else {
+      // console.log(MFTSaleFactoryContract.methods)
+      alert("구매 하는 중입니다.")
+      await modalClose2()
+      setIsSelling(false)
+      navigate("/nft/list") // 즉시 구매시 nft list page로 redirect
+    }
+  }
+
+  // 가격 제안 format
+  const proposalFormat = async () => {
+    // 금액이 부족할때
+    if (balance < cost) {
+      await alert("돈이 없습니다.")
+      modalClose3()
+    }
+
+    // 금액이 충분할때
+    await alert("구매 하는 중입니다.")
+    modalClose3()
+    setIsSelling(false)
+    navigate("/nft/list")
+  }
+
+  // 판매자 판매 등록 format
+  // const sellFormat = async () => {
+
+  // }
+  console.log("거래", MFTSaleFactoryContract.methods)
+  console.log("NFT", MFTContract.methods)
+
   return (
     <div className="h-full w-full">
       {/* 판매 중지 모달 시작 */}
@@ -127,15 +187,13 @@ const NftDetail = () => {
       {/* 즉시 구매 모달 시작 */}
       <Modal isOpen={isOpen2} modalClose={modalClose2}>
         <p className="text-xl font-semibold mb-4">즉시 구매하시겠습니까?</p>
-        <p className="mb-4">즉시 구매 가격: 400</p>
-        <p>나의 MUNG: {100}MUNG</p>
+        <p className="mb-4">즉시 구매 가격: {cost}</p>
+        <p>나의 MUNG: {balance}MUNG</p>
         <div className="flex justify-center">
           <button
             className="mr-4 border border-black"
             onClick={() => {
-              modalClose2()
-              setIsSelling(false)
-              navigate("/nft/list") // 즉시 구매시 nft list page로 redirect
+              buyNowFormat()
             }}
           >
             구매
@@ -187,6 +245,43 @@ const NftDetail = () => {
           />
         </div>
         <div className="w-[50%]">
+          <button
+            onClick={async () => {
+              const body = {
+                color: "RAINBOW",
+                face: "SCAR",
+                gender: "F",
+                hair: "CURLY",
+                id: 0,
+                job: "VOCALIST",
+                metadata: "url",
+                status: [
+                  {
+                    name: "STOUTNESS",
+                    value: 3,
+                  },
+                  {
+                    name: "VOICE",
+                    value: 6,
+                  },
+                ],
+                tier: "RARE",
+                url: "59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0ebd01ce1f79707dd4e205f2dad4730a0264170f9ae02bf0e7d82aafa7ce8e4cc7",
+              }
+              // await axios
+              //   .post(
+              //     `https://localhost:8081/nft/result/address/${localStorage.getItem(
+              //       "publicAddress"
+              //     )}`,
+              //     body
+              //   )
+              //   .then((res: any) => {
+              //     console.log("res", res)
+              //   })
+            }}
+          >
+            테스트 NFT 정보 저장
+          </button>
           <p>DREAMMUNGS</p>
           <p>Tags</p>
           <p>500 MUNG</p>
@@ -202,6 +297,7 @@ const NftDetail = () => {
                 className="border border-black mr-3"
                 onClick={() => {
                   setOpen2(true)
+                  getMung()
                 }}
               >
                 즉시 구매

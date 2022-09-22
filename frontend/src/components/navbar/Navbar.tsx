@@ -1,11 +1,26 @@
 import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import NavList from "./NavList"
-import Web3 from "web3"
-const navItemStyle: string = "bg-brown-300  border rounded-lg shadow-sm"
+import memberAtom from "../../recoil/member/atom"
+import { useRecoilState } from "recoil"
+import { MUNGContract } from "../../utils/Web3Config"
+
+const navItemStyle: string =
+  "bg-brown-300  border rounded-lg shadow-sm cursor-pointer"
 
 const Navbar = () => {
+  const [member] = useRecoilState(memberAtom)
+
   const [isLogin, setLogin] = useState(false) // 추후 Recoil을 사용하여  상태관리 할 것
+
+  // balance Test 확인 완료
+  const clickBalance = async () => {
+    let balance = await MUNGContract.methods
+      .balanceOf(member.walletAddress)
+      .call()
+    balance = balance * 10 ** -18
+    console.log(balance)
+  }
 
   return (
     <nav className="flex flex-col justify-between w-full h-full p-4 space-y-4 text-center">
@@ -28,7 +43,14 @@ const Navbar = () => {
           <Link to="/mypage/list">
             <div className={navItemStyle}>마이페이지 </div>
           </Link>
-          <div className={navItemStyle}>지갑 정보 보기</div>
+          <div
+            className={navItemStyle}
+            onClick={() => {
+              clickBalance()
+            }}
+          >
+            지갑 정보 보기
+          </div>
           <div className={navItemStyle} onClick={() => setLogin(false)}>
             로그아웃
           </div>
