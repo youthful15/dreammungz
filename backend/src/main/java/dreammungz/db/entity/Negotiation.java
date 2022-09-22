@@ -56,14 +56,15 @@ public class Negotiation {
     private Long contractId;
 
     @Builder
-    public Negotiation(Long id, Long price, LocalDateTime negoTime, String choice, Trade trade, Member member, String cancel, Long contractId) {
-        this.id = id;
+    public Negotiation(Long price, LocalDateTime negoTime, Trade trade, Member member, Long contractId) {
         this.price = price;
         this.negoTime = negoTime;
-        this.choice = Check.valueOf(choice);
         this.trade = trade;
         this.member = member;
-        this.cancel = Check.valueOf(cancel);
         this.contractId = contractId;
+    }
+
+    public void setCancel(Check cancel) {
+        this.cancel = cancel;
     }
 }
