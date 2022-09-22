@@ -248,7 +248,7 @@ public class NftService {
                 Long statusIdx = requirement.getStatus().getId();
                 //정의로움 음수값 판단 로직 추가
                 if (statusIdx == 11) {
-                    if (getGameStatus(gameData, getStatus(statusIdx)).getValue() * requirement.getSatisfiedAmount() < 0) {
+                    if (getGameStatus(gameData, getStatus(statusIdx)).getValue() * requirement.getSatisfiedAmount() <= 0) {
                         satisfied = false;
                     }
                 } else if (getGameStatus(gameData, getStatus(statusIdx)).getValue() < requirement.getSatisfiedAmount()) {
