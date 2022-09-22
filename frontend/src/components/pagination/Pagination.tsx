@@ -12,9 +12,7 @@ const limit = 10
 
 const buttonColor = "bg-beige-500"
 const activeColor = "bg-pink-500"
-const activeStyle =
-  "w-8 h-8 m-1  rounded-full  text-center pt-0.5 text-brown cursor-pointer"
-const curPage = 12
+
 const buttonStyle =
   "w-8 h-8 m-1  rounded-full  text-center pt-0.5 text-brown cursor-pointer "
 
@@ -65,7 +63,7 @@ const Pagination = ({
             if (page > totalPage) return null
             return (
               <div
-                className={`  ${`${buttonStyle} ${buttonColor}`}  ${
+                className={`  ${`${buttonStyle} `}  ${
                   page === currentPage + 1 ? activeColor : buttonColor
                 } `}
                 onClick={() => clickPage(page - 1)}
