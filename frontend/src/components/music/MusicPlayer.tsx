@@ -7,16 +7,18 @@ import { faVolumeXmark, faVolumeUp } from "@fortawesome/free-solid-svg-icons"
 
 export default function MusicPlayer() {
   const musicName = useRecoilValue(playingMusic)
-  const audioRef = useRef()
+  const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
   console.log(isPlaying)
 
   useEffect(() => {
-    if (isPlaying) {
-      audioRef.current.play()
-    } else {
-      audioRef.current.pause()
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.play()
+      } else {
+        audioRef.current.pause()
+      }
     }
   }, [isPlaying])
 
