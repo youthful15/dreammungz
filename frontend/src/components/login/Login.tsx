@@ -89,6 +89,7 @@ export default function Login() {
 
     const publicAddress = coinbase.toLowerCase()
 
+    localStorage.setItem("publicAddress", publicAddress)
     let nonce
 
     // Look if user with current publicAddress is already present on backend
@@ -109,7 +110,7 @@ export default function Login() {
       // walletAddress, memberNickname recoil 전역변수에 저장
       setNickname((prev) => {
         const value = { ...prev }
-        value.memberNickname = res.data.data.nickname
+        value.memberNickname = res.data.nickname
         value.walletAddress = publicAddress
         return value
       })

@@ -83,7 +83,7 @@ export default function GameEnding() {
       const newHash = await client.add(JSON.stringify(newFile))
       console.log(newHash)
 
-      const publicAddress = member.walletAddress
+      const publicAddress = localStorage.getItem("publicAddress")
 
       const temp = MFTContract.methods
         .create("https://ipfs.io/ipfs/" + newHash.path)
