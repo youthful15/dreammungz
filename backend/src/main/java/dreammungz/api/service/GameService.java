@@ -69,7 +69,7 @@ public class GameService{
                 for(GameStatus gameStatus : gameStatuses){
                     if(gameStatus.getStatus().equals(parentStatus.getStatus())){
                         //스탯 합산
-                        parentStatus.setValue(parentStatus.getValue() + gameStatus.getValue());
+                        gameStatus.setValue(parentStatus.getValue() + gameStatus.getValue());
                         break;
                     }
                 }
