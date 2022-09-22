@@ -1,21 +1,25 @@
 import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import NavList from "./NavList"
+import memberAtom from "../../recoil/member/atom"
+import { useRecoilState } from "recoil"
 import { MUNGContract } from "../../utils/Web3Config"
 
-const navItemStyle: string = "bg-brown-300  border rounded-lg shadow-sm"
+const navItemStyle: string =
+  "bg-brown-300  border rounded-lg shadow-sm cursor-pointer"
 
 const Navbar = () => {
+  const [member] = useRecoilState(memberAtom)
+
   const [isLogin, setLogin] = useState(false) // 추후 Recoil을 사용하여  상태관리 할 것
-  const [walletStatus, setWalletStatus] = useState("지갑 정보 보기")
 
   // balance Test 확인 완료
   const clickBalance = async () => {
-    const walletAddress = localStorage.getItem("publicAddress")
-    const needRecoil = await MUNGContract.methods
-      .balanceOf(walletAddress)
+    let balance = await MUNGContract.methods
+      .balanceOf(member.walletAddress)
       .call()
-    console.log(needRecoil * 10 ** -18)
+    balance = balance * 10 ** -18
+    console.log(balance)
   }
 
   return (
@@ -45,7 +49,7 @@ const Navbar = () => {
               clickBalance()
             }}
           >
-            {walletStatus}
+            지갑 정보 보기
           </div>
           <div className={navItemStyle} onClick={() => setLogin(false)}>
             로그아웃
