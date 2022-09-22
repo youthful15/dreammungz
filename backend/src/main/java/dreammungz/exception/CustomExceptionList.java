@@ -24,8 +24,9 @@ public enum CustomExceptionList {
     GAMESTATUS_NOT_FOUND(HttpStatus.NOT_FOUND,"E008","게임 스탯 수치 정보가 없습니다."),
     STATUS_NOT_FOUND(HttpStatus.NOT_FOUND,"E009","스탯 정보가 없습니다."),
     NFT_NOT_FOUND(HttpStatus.NOT_FOUND,"E010","NFT 정보가 없습니다."),
-    MATING_PARENT_GENDER_NOT_CORRECT(HttpStatus.NOT_FOUND, "E101", "성별이 일치하지 않는 부모 강아지가 존재합니다.");
-
+    MATING_PARENT_GENDER_NOT_CORRECT(HttpStatus.NOT_FOUND, "E101", "성별이 일치하지 않는 부모 강아지가 존재합니다."),
+    NO_NFT_IN_TRADE(HttpStatus.NOT_FOUND, "E201", "거래중인 목록에 해당 NFT가 없습니다."),
+    NOT_NFT_SELLER(HttpStatus.NOT_FOUND, "E202", "해당 NFT의 판매자가 아닙니다.");
 
     private final HttpStatus status;
     private final String code;
