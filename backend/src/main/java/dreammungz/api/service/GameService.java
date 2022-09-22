@@ -63,8 +63,8 @@ public class GameService{
             game.setMother(gameStart.getMother());
             game.setFather(gameStart.getFather());
             //[DB] [Nft_Status] 능력치 데이터 읽어오기
-            List<NftStatus> parentStatuses = nftStatusRepository.findAllById(gameStart.getFather());
-            parentStatuses.addAll(nftStatusRepository.findAllById(gameStart.getMother()));
+            List<NftStatus> parentStatuses = nftStatusRepository.findAllById(nftRepository.findNftByTokenId(game.getFather()).get().getId());
+            parentStatuses.addAll(nftStatusRepository.findAllById(nftRepository.findNftByTokenId(game.getMother()).get().getId()));
             for(NftStatus parentStatus : parentStatuses){
                 for(GameStatus gameStatus : gameStatuses){
                     if(gameStatus.getStatus().equals(parentStatus.getStatus())){
