@@ -29,9 +29,9 @@ const Navbar = () => {
   }
 
   // 게임 시작 페이지로 이동 로직
-  function gameStart() {
+  async function gameStart() {
     console.log("address가 하드코딩 처리 되어있습니다.")
-    http.post(`game/info`, startData).then((res) => {
+    await http.post(`game/info`, startData).then((res) => {
       if (res.data.title) {
         navigate("/game")
       } else {
