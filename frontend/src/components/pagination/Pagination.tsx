@@ -17,7 +17,7 @@ const buttonStyle =
   "w-8 h-8 m-1  rounded-full  text-center pt-0.5 text-brown cursor-pointer "
 
 interface PaginationProp {
-  totalPage?: number
+  totalPage: number
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
 }
@@ -25,6 +25,7 @@ interface PaginationProp {
 const Pagination = ({
   page: currentPage,
   setPage: setCurrentPage,
+  totalPage,
 }: PaginationProp) => {
   const [offset, setOffset] = useState(0)
 
