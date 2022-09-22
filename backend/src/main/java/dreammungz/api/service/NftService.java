@@ -284,7 +284,7 @@ public class NftService {
 
         //가장 높은값 1개 + 카드 등급에 따라 랜덤으로 뽑은 값 넣기
         for (int i = 0; i < tierIndex + 1; i++) {
-            addStatusList.add(new GameEndResponse.StatusList(statusList.get(selected[i]).getName(), statusList.get(selected[i]).getValue()));
+            addStatusList.add(new GameEndResponse.StatusList(statusList.get(selected[i]).getName(), Long.valueOf(tierIndex+1)));
         }
         gameEndResponse.setStatus(addStatusList);
 
