@@ -1,5 +1,6 @@
 import Stat from "../components/nftInfo/Stat"
-import { stat_list } from "../utils/gameWord"
+import Tier from "../components/nftInfo/Tier"
+import { stat_list, tier_list } from "../utils/gameWord"
 
 export default function Sample() {
   return (
@@ -30,7 +31,7 @@ export default function Sample() {
           <div className="bg-brown-800">brown-800</div>
           <div className="bg-brown-900">brown-900</div>
         </div>
-        <div className="flex flex-col  ">
+        <div className="flex flex-col ">
           <div className="bg-lgBrown">lgBrown</div>
           <div className="bg-lgBrown-100">lgBrown-100</div>
           <div className="bg-lgBrown-200">lgBrown-200</div>
@@ -42,7 +43,7 @@ export default function Sample() {
           <div className="bg-lgBrown-800">lgBrown-800</div>
           <div className="bg-lgBrown-900">lgBrown-900</div>
         </div>
-        <div className="flex flex-col  ">
+        <div className="flex flex-col ">
           <div className="bg-beige">beige</div>
           <div className="bg-beige-100">beige-100</div>
           <div className="bg-beige-200">beige-200</div>
@@ -54,7 +55,7 @@ export default function Sample() {
           <div className="bg-beige-800">beige-800</div>
           <div className="bg-beige-900">beige-900</div>
         </div>
-        <div className="flex flex-col  ">
+        <div className="flex flex-col ">
           <div className="bg-pink">pink</div>
           <div className="bg-pink-100">pink-100</div>
           <div className="bg-pink-200">pink-200</div>
@@ -67,10 +68,20 @@ export default function Sample() {
           <div className="bg-pink-900">pink-900</div>
         </div>
       </div>
-      <div className="mt-8 flex flex-col space-y-2">
-        {stat_list.map((item) => (
-          <Stat name={item.eng} value={1} />
-        ))}
+      <div className="flex space-x-3">
+        <div className="flex flex-col mt-8 space-y-2">
+          {stat_list.map((item) => (
+            <Stat name={item.eng} value={1} />
+          ))}
+        </div>
+        <div className="flex flex-col mt-8 space-y-2">
+          {tier_list.map((item) => (
+            <div className="flex">
+              <Tier tier={item.eng} />
+              <span>{item.kor}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
