@@ -1,4 +1,4 @@
-package dreammungz.api.dto.nft;
+package dreammungz.api.dto.nft.info;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -41,7 +41,9 @@ public class GameEndRequest {
     @Setter
     @RequiredArgsConstructor
     static public class StatusList {
+        @ApiModelProperty(value = "능력치 이름", name = "name", example = "VOICE", dataType = "String")
         String name;
+        @ApiModelProperty(value = "능력 수치", name = "value", example = "2", dataType = "Long")
         Long value;
 
         @Builder

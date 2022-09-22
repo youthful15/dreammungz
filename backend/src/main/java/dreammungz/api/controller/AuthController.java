@@ -2,6 +2,7 @@ package dreammungz.api.controller;
 
 import dreammungz.api.dto.auth.AuthResponse;
 import dreammungz.api.dto.auth.JwtResponse;
+import dreammungz.api.dto.auth.NicknameResponse;
 import dreammungz.api.dto.auth.SignatureRequest;
 import dreammungz.api.service.AuthService;
 import dreammungz.config.jwt.JwtService;
@@ -79,5 +80,15 @@ public class AuthController {
         } else {
             throw new CustomException(CustomExceptionList.SIGNATURE_INVALID);
         }
+    }
+
+    @ApiOperation(value = "닉네임 조회", notes = "지갑 주소로 회원의 닉네임을 조회한다.")
+    @GetMapping("/info/nickname/{address}")
+    public ResponseEntity<NicknameResponse> memberNickname(
+            @ApiParam(value = "지갑 주소")
+            @PathVariable(value = "address")
+            String address) {
+        NicknameResponse response = authService.getMemberNickname(address);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -1,4 +1,4 @@
-package dreammungz.api.dto.nft;
+package dreammungz.api.dto.nft.info;
 
 import dreammungz.enums.*;
 import io.swagger.annotations.ApiModel;
@@ -38,7 +38,9 @@ public class GameEndResponse {
     @Setter
     @RequiredArgsConstructor
     static public class StatusList {
+        @ApiModelProperty(value = "능력치 이름", name = "name", example = "VOICE", dataType = "String")
         StatusName name;
+        @ApiModelProperty(value = "능력 수치", name = "value", example = "2", dataType = "Long")
         Long value;
 
         @Builder

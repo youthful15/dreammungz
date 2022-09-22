@@ -1,8 +1,10 @@
 package dreammungz.api.service;
 
-import dreammungz.api.dto.nft.GameEndRequest;
-import dreammungz.api.dto.nft.GameEndResponse;
 import dreammungz.api.dto.nft.StatusNameValue;
+import dreammungz.api.dto.nft.info.GameEndRequest;
+import dreammungz.api.dto.nft.info.GameEndResponse;
+import dreammungz.api.dto.nft.list.NftListRequest;
+import dreammungz.api.dto.nft.list.NftListResponse;
 import dreammungz.db.entity.*;
 import dreammungz.db.repository.*;
 import dreammungz.enums.*;
@@ -10,6 +12,8 @@ import dreammungz.exception.CustomException;
 import dreammungz.exception.CustomExceptionList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -36,6 +40,65 @@ public class NftService {
     private final StatusRepository statusRepository;
     private final RequirementRepository requirementRepository;
     private final JobRepository jobRepository;
+    private final TradeRepository tradeRepository;
+
+    /*
+    NFT 필터 결과 조회
+    since 2022. 09. 21
+    전체 조회하는 임시 코드입니다.
+    수정 예정
+     */
+    public NftListResponse searchNft(NftListRequest nftListRequest) {
+        NftListResponse nftListResponse = new NftListResponse();
+        PageRequest pageRequest = PageRequest.of(nftListRequest.getPage() - 1, 8);//0페이지부터 시작하기 때문에 -1
+        // 지갑 주소가 있다면
+        // 선택한 직업이 있다면
+        // 선택한 모질이 있다면
+        // 선택한 등급이 있다면
+        // 선택한 성별이 있다면
+        // 선택한 얼굴이 있다면
+        // 판매여부 체크(체크시 판매중인 상품만, 아니면 전체)
+        // 상태값 있다면
+        Page<Nft> nftList = nftRepository.findAll(pageRequest); //페이지 처리해서 조회
+        List<NftListResponse.NftInfo> nftInfos = new ArrayList<>();
+        for (int i = 0; i < nftList.getContent().size(); i++) {
+            Nft nftItem = nftList.getContent().get(i);
+            boolean isSell = false;
+            if (tradeRepository.existsByNft(nftItem)) {
+                List<Trade> trades = tradeRepository.findByNft(nftItem);
+                for (Trade trade : trades) {
+                    if (trade.getCancel().equals(Check.N) && trade.getState().equals(State.PROCEEDING)) {
+                        isSell = true;
+                        break;
+                    }
+                }
+            }
+
+            List<NftListResponse.NftInfo.StatusList> statusLists = new ArrayList<>();
+            for (int j = 0; j < nftItem.getNftStatuses().size(); j++) {
+                statusLists.add(new NftListResponse.NftInfo.StatusList(nftItem.getNftStatuses().get(j).getStatus().getName(), nftItem.getNftStatuses().get(j).getValue()));
+            }
+            // NFT 관련 정보 담기
+            NftListResponse.NftInfo nftInfo = NftListResponse.NftInfo.builder()
+                    .id(nftItem.getTokenId())
+                    .metadata(nftItem.getMetadata())
+                    .job(nftItem.getJob().getName())
+                    .hair(nftItem.getHair())
+                    .tier(nftItem.getTier())
+                    .color(nftItem.getColor())
+                    .gender(nftItem.getGender())
+                    .face(nftItem.getFace())
+                    .sell(isSell)
+                    .status(statusLists)
+                    .build();
+            nftInfos.add(nftInfo);
+        }
+        nftListResponse.setItems(nftInfos);
+        nftListResponse.setCurrentPage(nftList.getPageable().getPageNumber() + 1);
+        nftListResponse.setTotalPage(nftList.getTotalPages());
+
+        return nftListResponse;
+    }
 
     /*
     NFT 정보 저장
@@ -183,12 +246,11 @@ public class NftService {
             for (Requirement requirement : requirementList) {
                 Long statusIdx = requirement.getStatus().getId();
                 //정의로움 음수값 판단 로직 추가
-                if(statusIdx==11){
-                    if(getGameStatus(gameData, getStatus(statusIdx)).getValue()*requirement.getSatisfiedAmount()<0){
+                if (statusIdx == 11) {
+                    if (getGameStatus(gameData, getStatus(statusIdx)).getValue() * requirement.getSatisfiedAmount() < 0) {
                         satisfied = false;
                     }
-                }
-                else if (getGameStatus(gameData, getStatus(statusIdx)).getValue() < requirement.getSatisfiedAmount()) {
+                } else if (getGameStatus(gameData, getStatus(statusIdx)).getValue() < requirement.getSatisfiedAmount()) {
                     satisfied = false;
                 }
             }
@@ -239,11 +301,6 @@ public class NftService {
     private Member getMember(String address) {
         Member member = memberRepository.findByAddress(address).orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
         return member;
-    }
-
-    private Game getGame(Long gameId) {
-        Game game = gameRepository.findById(gameId).orElseThrow(() -> new CustomException(CustomExceptionList.GAME_NOT_FOUND));
-        return game;
     }
 
     private Job getJob(Long jobId) {
