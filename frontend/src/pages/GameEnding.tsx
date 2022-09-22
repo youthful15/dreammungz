@@ -1,7 +1,11 @@
 import html2canvas from "html2canvas"
 import { useRef, useEffect } from "react"
 import { create } from "ipfs-http-client"
-// import { MFTContract } from "../utils/web3Config"
+import { MFTContract } from "../utils/Web3Config"
+
+// Nickname을 전역변수로 넣기 위한 import문
+import memberAtom from "../recoil/member/atom"
+import { useRecoilState } from "recoil"
 
 const NFT = {
   color: "PINK",
@@ -20,11 +24,13 @@ const NFT = {
     },
   ],
   gender: "M",
-  // id: "",
-  // metadata: "https://ipfs.io/ipfs/QmNfZ7h7cUTD8mLjpxQK6F4XrPiXHQdDx62SEeMrpbam2d"
+  id: "",
+  metadata:
+    "https://ipfs.io/ipfs/QmNfZ7h7cUTD8mLjpxQK6F4XrPiXHQdDx62SEeMrpbam2d",
 }
 
 export default function GameEnding() {
+  const [member] = useRecoilState(memberAtom)
   const canvasRef = useRef(null)
   const client = create({
     host: "j7a605.p.ssafy.io",
@@ -76,14 +82,15 @@ export default function GameEnding() {
 
       const newHash = await client.add(JSON.stringify(newFile))
       console.log(newHash)
-      const publicAddress = localStorage.getItem("publicAddress")
 
-      // const temp = MFTContract.methods
-      //   .create("https://ipfs.io/ipfs/" + newHash.path)
-      //   .send({ from: publicAddress })
-      //   .then((res: any) => console.log("제발요", res))
+      const publicAddress = member.walletAddress
 
-      // console.log("이거 맞냐", temp)
+      const temp = MFTContract.methods
+        .create("https://ipfs.io/ipfs/" + newHash.path)
+        .send({ from: publicAddress })
+        .then((res: any) => console.log("제발요", res))
+
+      console.log("이거 맞냐", temp)
     })
   }
 
