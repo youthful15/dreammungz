@@ -13,7 +13,7 @@ const SellStatus = () => {
   )
 }
 
-interface NftListItem {
+export interface NftListItemType {
   id: number
   url: string
   metadata: string
@@ -27,7 +27,7 @@ interface NftListItem {
   status: StatType[]
 }
 
-const NftListItem = ({ item }: { item: NftListItem }) => {
+const NftListItem = ({ item }: { item: NftListItemType }) => {
   const navigate = useNavigate()
   const showInfo = useRecoilValue(listModeAtom)
   const { id, url, tier, sell, status } = item
