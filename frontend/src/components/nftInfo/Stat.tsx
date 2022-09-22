@@ -1,18 +1,4 @@
-const stats: { [index: string]: string } = {
-  STOUTNESS: "튼튼함",
-  CLEVER: "영리함",
-  QUICK: "재빠름",
-  INTUITION: "직감",
-  CHARISMA: "카리스마",
-  POPULARITY: "인기",
-  SENSIBILITY: "감수성",
-  FOOTWORK: "발재주",
-  VOICE: "목청",
-  WEALTH: "재력",
-  JUSTICE: "정의로움",
-  CUTE: "귀여움",
-}
-
+import KOR from "../../utils/findKOR"
 const color: { [index: string]: string } = {
   STOUTNESS: "bg-cyan-400",
   CLEVER: "bg-lime-300",
@@ -38,7 +24,7 @@ const Stat = ({ name, value }: StatType) => {
     <div
       className={`text-black text-xs p-0.5 rounded-md m-0.5 w-20 text-center font-semibold ${color[name]}`}
     >
-      {stats[name]} {value}
+      {KOR(name)} {value}
     </div>
   )
 }
