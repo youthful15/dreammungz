@@ -33,6 +33,8 @@ public class NftListResponse {
     static public class NftInfo {
         @ApiModelProperty(value = "토큰 식별자", name = "id", example = "0", dataType = "Long")
         private Long id;
+        @ApiModelProperty(value = "이미지 url", name = "url", example = "image_url", dataType = "String")
+        private String url;
         @ApiModelProperty(value = "메타데이터", name = "metadata", example = "url", dataType = "String")
         private String metadata;
         @ApiModelProperty(value = "직업명", name = "job", example = "KING", dataType = "String")
@@ -53,8 +55,9 @@ public class NftListResponse {
         private List<StatusList> status;
 
         @Builder
-        public NftInfo(Long id, String metadata, JobName job, Hair hair, Tier tier, Color color, Gender gender, Face face, boolean sell, List<StatusList> status) {
+        public NftInfo(Long id, String url, String metadata, JobName job, Hair hair, Tier tier, Color color, Gender gender, Face face, boolean sell, List<StatusList> status) {
             this.id = id;
+            this.url = url;
             this.metadata = metadata;
             this.job = job;
             this.hair = hair;

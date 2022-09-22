@@ -34,6 +34,8 @@ public class GameEndRequest {
     private List<StatusList> status;
     @ApiModelProperty(value = "토큰 식별자", name = "id", example = "0", dataType = "Long")
     private Long id;
+    @ApiModelProperty(value = "이미지 url", name = "url", example = "image_url", dataType = "String")
+    private String url;
     @ApiModelProperty(value = "메타데이터", name = "metadata", example = "url", dataType = "String")
     private String metadata;
 
