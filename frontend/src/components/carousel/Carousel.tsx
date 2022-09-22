@@ -30,22 +30,22 @@ export default function Carousel() {
       <div className="carousel-inner relative w-full overflow-hidden h-full">
         <div className="carousel-item active float-left w-full">
           <img
-            src="https://mdbcdn.b-cdn.net/img/new/slides/041.webp"
-            className="block w-full"
+            src="https://w.namu.la/s/59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0ebd01ce1f79707dd4e205f2dad4730a0264170f9ae02bf0e7d82aafa7ce8e4cc7"
+            className="block object-cover"
             alt="Wild Landscape"
           />
         </div>
         <div className="carousel-item float-left w-full">
           <img
-            src="https://mdbcdn.b-cdn.net/img/new/slides/042.webp"
-            className="block w-full"
+            src="https://img.sbs.co.kr/newsnet/etv/upload/2022/09/19/30000790950_1280.jpg"
+            className="block object-scale-down"
             alt="Camera"
           />
         </div>
         <div className="carousel-item float-left w-full">
           <img
-            src="https://mdbcdn.b-cdn.net/img/new/slides/043.webp"
-            className="block w-full"
+            src="http://digitalchosun.dizzo.com/site/data/img_dir/2022/06/10/2022061080123_0.jpg"
+            className="block object-cover"
             alt="Exotic Fruits"
           />
         </div>

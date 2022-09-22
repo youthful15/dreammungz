@@ -2,7 +2,7 @@ import html2canvas from "html2canvas"
 import { useRef, useEffect } from "react"
 import { create } from "ipfs-http-client"
 import { MFTContract } from "../utils/Web3Config"
-
+import { http } from "../api/axios"
 // Nickname을 전역변수로 넣기 위한 import문
 import memberAtom from "../recoil/member/atom"
 import { useRecoilState } from "recoil"
@@ -59,6 +59,10 @@ export default function GameEnding() {
       const hash = await client.add(file)
       const imageURL = "https://ipfs.io/ipfs/" + hash.path
       console.log("살려주세요", hash)
+      const imageObject = {
+        url: imageURL,
+      }
+      const nftData = Object.assign(NFT, imageObject)
 
       const newFile = {
         image: imageURL,
@@ -88,7 +92,14 @@ export default function GameEnding() {
       const temp = MFTContract.methods
         .create("https://ipfs.io/ipfs/" + newHash.path)
         .send({ from: publicAddress })
-        .then((res: any) => console.log("제발요", res))
+        .then((res: any) => {
+          http
+            .post(`nft/result/address/${publicAddress}`, nftData)
+            .then((response) =>
+              console.log("NFT DB에 저장되어 있는지 확인", response)
+            )
+          console.log("제발요", res)
+        })
 
       console.log("이거 맞냐", temp)
     })

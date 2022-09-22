@@ -4,12 +4,12 @@ export default function MainPage() {
   return (
     <div className="w-full h-full">
       <div className="h-[50%] py-1">
-        <div className="h-[50%]">
+        {/* <div className="h-[50%]">
           <div className="bg-slate-300 h-full">
             <p>드림멍즈가 처음이신가요? 튜토리얼 바로가기</p>
           </div>
-        </div>
-        <div className="h-[50%] py-1">
+        </div> */}
+        <div className="h-[100%] py-1">
           <div className="h-full">
             <Carousel />
           </div>
