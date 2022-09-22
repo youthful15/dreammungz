@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import Stat, { StatType } from "./Stat"
 
 type StatListProp = {
@@ -5,11 +6,36 @@ type StatListProp = {
 }
 
 const StatList = ({ statList }: StatListProp) => {
+  const [list, setList] = useState<StatType[] | null>(null)
+
+  useEffect(() => {
+    if (statList) {
+      //
+      const newList = [...statList]
+      newList.sort((a, b) => {
+        const nameA = a.name
+        const nameB = b.name
+        if (nameA < nameB) {
+          return 1
+        }
+        if (nameA > nameB) {
+          return -1
+        }
+
+        // names must be equal
+        return 0
+      })
+
+      setList(newList)
+    }
+  }, [statList])
+
   return (
     <>
-      {statList.map(({ name, value }, index) => (
-        <Stat name={name} value={value} key={index} />
-      ))}
+      {list &&
+        list.map(({ name, value }, index) => (
+          <Stat name={name} value={value} key={index} />
+        ))}
     </>
   )
 }
