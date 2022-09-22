@@ -16,7 +16,7 @@ export default function Login() {
   }) => {
     axios({
       method: "POST",
-      url: `http://localhost:8081/auth/signature`,
+      url: `https://j7a605.p.ssafy.io/api/auth/signature`,
       data: {
         address: publicAddress,
         signature: signature,
@@ -45,7 +45,7 @@ export default function Login() {
   const handleSignup = (publicAddress: string) => {
     axios({
       method: "POST",
-      url: `http://localhost:8081/auth/signin`,
+      url: `https://j7a605.p.ssafy.io/api/auth/signin`,
       params: {
         address: publicAddress,
       },
@@ -95,7 +95,7 @@ export default function Login() {
     // Look if user with current publicAddress is already present on backend
     const first = await axios({
       method: "GET",
-      url: `http://localhost:8081/auth/info/${publicAddress}`,
+      url: `https://j7a605.p.ssafy.io/api/auth/info/${publicAddress}`,
     })
       .then((res: any) => res.data.nonce)
       .catch((err: any) => err.response.data.message)
@@ -119,25 +119,22 @@ export default function Login() {
     // 회원가입을 했는지 확인
     await axios({
       method: "GET",
-      url: `http://localhost:8081/auth/duplicated/${publicAddress}`,
+      url: `https://j7a605.p.ssafy.io/api/auth/duplicated/${publicAddress}`,
     }).then((res: any) => {
-      // 첫 회원가입 true -> false 로 바꿔야 함
+      // 첫 회원가입
       if (res.data === false) {
-        // 여기에 코드 추가해야 함
+        window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
+
+        // 여기에 코드 추가해야 함 await
+        MUNGContract.methods
+          .mintToNewMember(publicAddress)
+          .send({ from: publicAddress })
       }
     })
 
-    console.log(1)
-    const b = await MUNGContract.methods.mintToNewMember(
-      "0x2af0d46cc2f86d1b1697a8f86c9b245320564f5f"
-    )
-    console.log(b)
-    // 로직
-    // 돈 mainpage 넘어가기 전에 => 최초가입시 확인 창 띄우기 => mainpage redirect
-    // message ex. 최초가입하셨네요! 만원을 지급해드렸습니다!
+    // Spinner 넣기
 
     navigate("/mainpage")
-    // Pass accessToken back to parent component (to save it in localStorage)
     try {
     } catch (err) {
       window.alert(err)

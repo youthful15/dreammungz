@@ -1741,10 +1741,10 @@ const MFTNegoAbi = [
 export const web3 = new Web3(window.ethereum)
 export const chainId = 31221
 
-export const MUNGContractAddress = "0x9F1B12B640E9BA97a6e0dBFdf8E2E4b36E1Ac339"
-export const MFTContractAddress = "0x253E2BCDD412B8C8bf88F3E62dbF36Cc9FCcF494"
+export const MUNGContractAddress = "0x0767cB0c0721849359dfF50393F6baE312a23Bc2"
+export const MFTContractAddress = "0x41f4087f4ae65EE7c16856CdE4663A9104812296"
 export const MFTSaleFactoryContractAddress =
-  "0x7f26Ee82102aA2785d2d9476D5918b86dEdf3EFc"
+  "0xb0C301e7987Eb3541aAdef935EB3d0add01189F0"
 
 export const MUNGContract = new web3.eth.Contract(MUNGAbi, MUNGContractAddress) // ERC-20
 export const MFTContract = new web3.eth.Contract(MFTAbi, MFTContractAddress) // ERC-721

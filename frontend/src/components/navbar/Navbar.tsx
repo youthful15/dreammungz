@@ -1,21 +1,21 @@
 import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import NavList from "./NavList"
-import { web3, MUNGContract } from "../../utils/Web3Config"
+import { MUNGContract } from "../../utils/Web3Config"
 
 const navItemStyle: string = "bg-brown-300  border rounded-lg shadow-sm"
 
 const Navbar = () => {
   const [isLogin, setLogin] = useState(false) // 추후 Recoil을 사용하여  상태관리 할 것
-
   const [walletStatus, setWalletStatus] = useState("지갑 정보 보기")
 
   // balance Test 확인 완료
-  const getBalance = async () => {
-    const a = localStorage.getItem("publicAddress")
-    const balance = await MUNGContract.methods.balanceOf(a).call()
-    console.log("Contract", balance)
-    console.log(MUNGContract.methods)
+  const clickBalance = async () => {
+    const walletAddress = localStorage.getItem("publicAddress")
+    const needRecoil = await MUNGContract.methods
+      .balanceOf(walletAddress)
+      .call()
+    console.log(needRecoil * 10 ** -18)
   }
 
   return (
@@ -42,7 +42,7 @@ const Navbar = () => {
           <div
             className={navItemStyle}
             onClick={() => {
-              getBalance()
+              clickBalance()
             }}
           >
             {walletStatus}
