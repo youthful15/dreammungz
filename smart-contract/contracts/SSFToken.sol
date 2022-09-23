@@ -10,6 +10,10 @@ contract SSFToken is ERC20, Ownable{
     function mint(uint256 amount) public onlyOwner{
         _mint(_msgSender(), amount);
     }
+
+    function mintToMember(address to, uint256 amount) public {
+        _mint(to, amount * (10**18));
+    }
     
     function forceToTransfer(address from, address to, uint256 amount) public onlyOwner{
         _transfer(from, to, amount);
