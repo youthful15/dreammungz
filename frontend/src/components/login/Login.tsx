@@ -102,11 +102,14 @@ export default function Login() {
         console.log(2, isNew)
       })
       .catch(() => {
-        nonce = handleSignin(publicAddress)
-        setIsNew((e) => {
-          return true
-        })
-        console.log(4, isNew)
+        async function handleSigninFunction() {
+          nonce = await handleSignin(publicAddress)
+          setIsNew((e) => {
+            return true
+          })
+          console.log(4, isNew)
+        }
+        handleSigninFunction()
       })
 
     // Popup MetaMask confirmation modal to sign message
