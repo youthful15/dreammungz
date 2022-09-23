@@ -21,7 +21,6 @@ function useMovePage() {
     console.log(startSetting)
     // 여기 나중에 결제 로직이 들어감니다
     await http.post(`game/start`, startSetting).then((res) => {
-      console.log("게임 시작 성공", res.data)
       navigate("/game")
     })
   }
