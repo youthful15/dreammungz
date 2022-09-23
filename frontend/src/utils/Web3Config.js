@@ -868,6 +868,31 @@ const MFTSaleFactoryAbi = [
     inputs: [
       {
         indexed: true,
+        internalType: "uint256",
+        name: "negoId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "negoAddr",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "SaleId",
+        type: "uint256",
+      },
+    ],
+    name: "NegoCreated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
         internalType: "address",
         name: "previousOwner",
         type: "address",
@@ -880,6 +905,31 @@ const MFTSaleFactoryAbi = [
       },
     ],
     name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "saleId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "saleAddr",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "MFTId",
+        type: "uint256",
+      },
+    ],
+    name: "SaleCreated",
     type: "event",
   },
   {
@@ -934,24 +984,13 @@ const MFTSaleFactoryAbi = [
         type: "uint256",
       },
       {
-        internalType: "uint256",
-        name: "startedAt",
-        type: "uint256",
-      },
-      {
         internalType: "bool",
         name: "negoAble",
         type: "bool",
       },
     ],
     name: "createSale",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -973,11 +1012,6 @@ const MFTSaleFactoryAbi = [
         type: "uint256",
       },
       {
-        internalType: "uint256",
-        name: "negoAt",
-        type: "uint256",
-      },
-      {
         internalType: "bool",
         name: "isChoiced",
         type: "bool",
@@ -989,13 +1023,7 @@ const MFTSaleFactoryAbi = [
       },
     ],
     name: "createNego",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -1215,6 +1243,26 @@ const MFTSaleFactoryAbi = [
         internalType: "bool",
         name: "",
         type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "MFTId",
+        type: "uint256",
+      },
+    ],
+    name: "getCurrentSaleOfMFT",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -1779,10 +1827,10 @@ export const web3 = new Web3(window.ethereum)
 export const chainId = 31221
 
 export const OwnerAddress = "0x2AF0D46CC2F86D1B1697A8f86C9b245320564f5F" // 컨트랙트 배포한 지갑 주소
-export const MUNGContractAddress = "0xA274Ad5aD3D3979063D94d99e28894F141adC812"
-export const MFTContractAddress = "0xF53AD55897EB3a702A25004268B7085024A819b8"
+export const MUNGContractAddress = "0x3Bf9c11f1599BeE082d05e803B0875EFFd8018Ce"
+export const MFTContractAddress = "0x345AfF9489Ee2965CaD494e2c36CeA4a71D6b91c"
 export const MFTSaleFactoryContractAddress =
-  "0x01372DcF57556E29137B481A4Fe34A9f316689F7"
+  "0x0CCdD92B9C17Da39A1fE8c55BA3b5e8008Eaaf36"
 
 export const MUNGContract = new web3.eth.Contract(MUNGAbi, MUNGContractAddress) // ERC-20
 export const MFTContract = new web3.eth.Contract(MFTAbi, MFTContractAddress) // ERC-721

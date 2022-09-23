@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom"
 import NavList from "./NavList"
 import memberAtom from "../../recoil/member/atom"
 import { useRecoilState } from "recoil"
-import { MUNGContract } from "../../utils/Web3Config"
+import { MFTContract, MUNGContract } from "../../utils/Web3Config"
 
 const navItemStyle: string =
   "bg-brown-300  border rounded-lg shadow-sm cursor-pointer"
@@ -53,6 +53,7 @@ const Navbar = () => {
             className={navItemStyle}
             onClick={() => {
               clickBalance()
+              console.log(MFTContract.methods)
             }}
           >
             지갑 정보 보기
