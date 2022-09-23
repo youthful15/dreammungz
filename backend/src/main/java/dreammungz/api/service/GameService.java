@@ -245,7 +245,7 @@ public class GameService{
         return gameResponse;
     }
 
-    public void setNextGame(GameInfoRequest gameInfo) {
+    public void setNextGame(GameSelectRequest gameInfo) {
         //현재 유저의 게임, 스토리, 씬, 선택지 확인
         Game currentGame = memberRepository.findByAddress(gameInfo.getAddress()).get().getGame();
         Selection currentSelection = selectionRepository.findById(gameInfo.getSelection()).get();

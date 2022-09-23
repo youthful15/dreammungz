@@ -5,9 +5,10 @@ package dreammungz.api.controller;
 @since 22. 09. 13.
  */
 
-import dreammungz.api.dto.game.GameInfoRequest;
 import dreammungz.api.dto.game.GameResponse;
+import dreammungz.api.dto.game.GameSelectRequest;
 import dreammungz.api.dto.game.GameStartRequest;
+import dreammungz.api.service.AuthService;
 import dreammungz.api.service.GameService;
 import dreammungz.exception.CustomException;
 import dreammungz.exception.CustomExceptionList;
@@ -26,35 +27,35 @@ import org.springframework.web.bind.annotation.*;
 public class GameController{
 
     final GameService gameService;
-    @ApiOperation(value = "게임 정보", notes = "게임 정보 출력. 현재 게임이 진행중인 사용자인지, 선택지는 몇번인지 구분해준다.")
-    @PostMapping("/info")
+    final AuthService authService;
+    @ApiOperation(value = "게임 페이지 불러오기", notes = "현재 진행중인 게임 페이지를 Response한다.")
+    @GetMapping("/info/{address}")
     public ResponseEntity<GameResponse> gameInfo(
-            @RequestBody @ApiParam(value = "게임 시작 정보 (메이팅 or 분양)", required = true) GameInfoRequest gameInfo){
+            @ApiParam(value = "지갑 주소", required = true) @PathVariable String address){
         /*
-        게임 정보 3단계 프로세스
-        1. 게임 중인지, 특수 상황(재접속 or 새로시작)인지 체크
-        1-1. 게임중이라면, 선택지에 따른 다음 씬 출력
-        1-2-1. 특수상황 중 재접속이라면, 현재 씬 출력
-        1-2-2. 특수상황 중 새로시작이라면, null 출력
-        => front에 전송
+        게임 정보 프로세스
+        1. 게임중인 회원이라면, 현재 페이지 출력
+        2. 게임중이 아니라면, null 출력
          */
         GameResponse gameResponse = new GameResponse();
-        //1. 게임중인지, 특수상황인지 체크
-        if(gameInfo.getSelection() > -1){
-            //1-1. 게임중이라면, 선택지에 따른 다음 씬 출력
-            gameService.setNextGame(gameInfo);  //선택지에 따른 다음 씬으로 DB를 갱신
-            gameResponse = gameService.getGameInformation(gameInfo.getAddress());   //갱신된 DB를 가져오기
+        if(!authService.getMemberExists(address)){
+            //Exception. Member 테이블에 사용자 주소가 없다면 사용자 존재하지 않는다는 예외처리
+            throw new CustomException(CustomExceptionList.MEMBER_NOT_FOUND);
         }
-        else{
-            //1-2. 특수상황
-            if(gameService.checkGameStarted(gameInfo.getAddress())){
-                //1-2-1. 특수상황 중 재접속이라면, 현재 씬 출력
-                gameResponse = gameService.getGameInformation(gameInfo.getAddress());
-            }
-            //1-2-2. 특수상황 중 새로시작이라면, null 출력
+        //게임중인 사용자라면 현재 게임 페이지 정보를 출력한다.
+        if(gameService.checkGameStarted(address)){
+            gameResponse = gameService.getGameInformation(address);
         }
-        //씬, 내용 + 스탯값들을 프론트에 보내기
+        //게임 정보들을 리턴
         return new ResponseEntity<>(gameResponse, HttpStatus.OK);
+    }
+    @ApiOperation(value = "게임 진행하기(선택지 선택)", notes = "현재 진행중인 게임 선택지를 선택한다.")
+    @PostMapping("/select")
+    public ResponseEntity<GameSelectRequest> gameSelect(
+            @RequestBody @ApiParam(value = "사용자 주소와 선택 번호", required = true) GameSelectRequest gameSelect){
+        //선택지에 따라 다음 씬으로 DB를 갱신
+        gameService.setNextGame(gameSelect);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     @ApiOperation(value = "게임 시작", notes = "게임을 시작하는 단계. 모든 초기 설정들이 이루어지고, 게임이 시작된다.")
     @PostMapping("/start")
@@ -101,9 +102,7 @@ public class GameController{
         //3. 게임 스토리 선정
         gameService.setStory(gameStart.getAddress());
 
-        //씬, 내용 + 스탯값들을 프론트에 보내기
-        GameResponse gameResponse = gameService.getGameInformation(gameStart.getAddress());
-        return new ResponseEntity<>(gameResponse, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
