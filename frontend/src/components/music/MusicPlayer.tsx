@@ -10,8 +10,6 @@ export default function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
 
-  console.log(isPlaying)
-
   useEffect(() => {
     if (audioRef.current) {
       if (isPlaying) {
