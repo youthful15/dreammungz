@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom"
 import Modal from "../components/modal/Modal"
 import TransactionHistory from "../components/nftDetail/TransactionHistory"
 import {
+  web3,
   MUNGContract,
   MFTSaleFactoryContract,
   MFTContract,
@@ -163,6 +164,8 @@ export default function NftDetail() {
       .then((res: any) => setIsSelling(res))
   }, [])
 
+  console.log("ss", web3.utils.toBN(cost))
+
   // 실시간 반영
   const onChangeProposal = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value: any = event.currentTarget
@@ -209,7 +212,11 @@ export default function NftDetail() {
 
         // approve 필요 10 ** 18 곱하기
         await MUNGContract.methods
-          .approve(saleContractAddress, cost * 10 ** 18)
+          // web3.utils.toBN(cost)
+          .approve(
+            saleContractAddress,
+            web3.utils.toBN(cost * 10 ** 18).toString()
+          )
           .send({ from: publicAddress })
 
         // 즉시 구매 SMART CONTRACT
