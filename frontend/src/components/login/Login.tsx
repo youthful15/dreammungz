@@ -91,19 +91,21 @@ export default function Login() {
     await localStorage.setItem("publicAddress", publicAddress)
     let nonce: any
 
-    console.log(1, isNew)
     // Look if user with current publicAddress is already present on backend
     await http
       .get(`auth/info/${publicAddress}`)
       .then(async (res) => {
         nonce = await res.data.nonce
-        await setIsNew(false)
+        setIsNew((e) => {
+          return false
+        })
         console.log(2, isNew)
       })
       .catch(async () => {
         nonce = await handleSignin(publicAddress)
-        console.log(3, isNew, nonce)
-        await setIsNew(true)
+        setIsNew((e) => {
+          return true
+        })
         console.log(4, isNew)
       })
 
@@ -125,7 +127,6 @@ export default function Login() {
           .mintToMember(publicAddress, 10000)
           .send({ from: publicAddress })
       }
-      console.log(7, isNew)
 
       // 회원 닉네임 전역변수에 저장
       await http
@@ -145,7 +146,7 @@ export default function Login() {
 
       navigate("/mainpage")
     } catch (err) {
-      console.log("싸피네트워크가 등록되어 있지 않습니다.")
+      alert("싸피네트워크가 등록되어 있지 않습니다!")
     }
   }
 
