@@ -97,9 +97,9 @@ export default function NftDetail() {
 
   const [negoId, setNegoId] = useState(0) // Negotiation Id
   const [clickedNegoId, setClickedNegoId] = useState(0) // 클릭된 아이템의 NegoId
-  const [sellerAddress, setSellerAddress] = useState("") // 판매자 Address
+  const [sellerWalletAddress, setSellerWalletAddress] = useState("") // 판매자 Address
+  const [nftOwnerAddress, setNftOwnerAddress] = useState("") // NFT 주인 Address
 
-  const [myNft, setMyNft] = useState(true) // 본인 NFT 인지 확인
   const [isSelling, setIsSelling] = useState(false) // 판매중인지 확인
   const [clickedSell, setClickedSell] = useState(false) // 판매 눌렀는지 확인
 
@@ -108,7 +108,7 @@ export default function NftDetail() {
 
   const [isOpen2, setOpen2] = useState(false) // 즉시 구매 모달
   const modalClose2 = () => setOpen2(false) // 즉시 구매 모달
-  const [cost, setCost] = useState(0) // 즉시 구매 가격
+  const [cost, setCost] = useState(20) // 즉시 구매 가격
 
   const [isOpen3, setOpen3] = useState(false) // 가격 제안하기 모달
   const modalClose3 = () => setOpen3(false) // 가격 제안하기 모달
@@ -133,15 +133,26 @@ export default function NftDetail() {
             .getCurrentSaleOfMFT(tokenId)
             .call()
 
-          const getSellerAddress =
-            await MFTSaleFactoryContract.methods.getSeller(saleContractId)
-          await setSellerAddress(getSellerAddress)
+          const getSellerAddress = await MFTSaleFactoryContract.methods
+            .getSeller(saleContractId)
+            .call()
+          await setSellerWalletAddress(getSellerAddress)
         }
       } catch (err) {
         console.error(err)
       }
     }
     saleStatusConfirm()
+  }, [])
+
+  // NFT의 주인이 나인지 확인하는 함수
+  async function checkIsOwner() {
+    const tmp = await MFTContract.methods.ownerOf(tokenId).call()
+    setNftOwnerAddress(tmp)
+  }
+
+  useEffect(() => {
+    checkIsOwner()
   }, [])
 
   // 판매 상태 중인지 확인
@@ -527,7 +538,8 @@ export default function NftDetail() {
           <p>Unique</p>
 
           {/* 본인 NFT 인지 확인 */}
-          {publicAddress !== sellerAddress ? (
+          {nftOwnerAddress &&
+          publicAddress?.toLowerCase() !== nftOwnerAddress?.toLowerCase() ? (
             <div className="flex">
               <button
                 className="border border-black mr-3"
@@ -688,7 +700,7 @@ export default function NftDetail() {
                               ❌
                             </p>
                           ) : null}
-                          {sellerAddress === publicAddress ? (
+                          {sellerWalletAddress === publicAddress ? (
                             <p
                               onClick={() => {
                                 setOpen5(true)

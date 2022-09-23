@@ -11,7 +11,7 @@ let NFT = {
   color: "PINK",
   hair: "CURLY",
   face: "BEAN",
-  tier: "NORMAL",
+  tier: "EPIC",
   job: "DOCTOR",
   status: [
     {
