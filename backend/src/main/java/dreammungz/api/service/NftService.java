@@ -42,19 +42,20 @@ public class NftService {
     private final JobRepository jobRepository;
     private final TradeRepository tradeRepository;
     private final NftRepositorySupport nftRepositorySupport;
+
     /*
-    NFT 필터 결과 조회
-    since 2022. 09. 21
-    전체 조회하는 임시 코드입니다.
-    수정 예정
-     */
+    @author 신슬기
+    @since 2022. 09. 23.
+    */
     public MyNftResponse myNftList(String address) {
         MyNftResponse nftListResponse = new MyNftResponse();
-        Member member = getMember(address);
-        List<Nft> nftList= nftRepositorySupport.findAllByMember(member);
-        List<MyNftResponse.NftInfo> nftInfos = new ArrayList<>();
+        Member member = getMember(address); //지갑 주소로 플레이어 정보 조회
+        List<Nft> nftList= nftRepositorySupport.findAllByMember(member); //플레이어가 소유하고 있는 모든 NFT 조회
+        List<MyNftResponse.NftInfo> nftInfos = new ArrayList<>(); //NFT 정보에 대한 리스트
         for (int i = 0; i < nftList.size(); i++) {
             Nft nftItem = nftList.get(i);
+
+            //판매 상태 확인
             boolean isSell = false;
             if (tradeRepository.existsByNft(nftItem)) {
                 List<Trade> trades = tradeRepository.findByNft(nftItem);
@@ -66,11 +67,13 @@ public class NftService {
                 }
             }
 
+            //해당 NFT의 추가 스탯 조회
             List<MyNftResponse.NftInfo.StatusList> statusLists = new ArrayList<>();
             for (int j = 0; j < nftItem.getNftStatuses().size(); j++) {
                 statusLists.add(new MyNftResponse.NftInfo.StatusList(nftItem.getNftStatuses().get(j).getStatus().getName(), nftItem.getNftStatuses().get(j).getValue()));
             }
-            // NFT 관련 정보 담기
+
+            //판매중이 아닌 경우에만 NFT 관련 정보 담기
             if (!isSell) {
                 MyNftResponse.NftInfo nftInfo = MyNftResponse.NftInfo.builder()
                         .id(nftItem.getTokenId())
@@ -88,27 +91,23 @@ public class NftService {
     }
 
     /*
-    @author 신슬기
-    @since 2022. 09. 23.
-    */
+    NFT 필터 결과 조회
+    since 2022. 09. 21
+    전체 조회하는 임시 코드입니다.
+    수정 예정
+     */
     public NftListResponse searchNft(NftListRequest nftListRequest) {
         NftListResponse nftListResponse = new NftListResponse();
-        PageRequest pageRequest = null;
-        //지갑 주소가 없다면 전체 NFT 리스트
-        if(nftListRequest.getAddress()==null){
-            pageRequest = PageRequest.of(nftListRequest.getPage(), 8);
-        }else{ //지갑 주소가 있다면 해당 지갑 주소
-            pageRequest = PageRequest.of(nftListRequest.getPage(), 8);
+        //검색 조건
+        PageRequest pageRequest = PageRequest.of(nftListRequest.getPage(), 8);
+        Page<Nft> nftList = null;
+        // 판매중인 NFT만
+        if(nftListRequest.isSell()){
+            nftList = nftRepositorySupport.findSell(pageRequest,nftListRequest);
+        }else{ // 모든 NFT
+            nftList = nftRepositorySupport.findAll(pageRequest,nftListRequest);
         }
-        // 판매여부 체크(체크시 판매중인 상품만, 아니면 전체)
 
-        // 선택한 직업이 있다면
-        // 선택한 모질이 있다면
-        // 선택한 등급이 있다면
-        // 선택한 성별이 있다면
-        // 선택한 얼굴이 있다면
-        // 상태값 있다면
-        Page<Nft> nftList = nftRepositorySupport.findAll(pageRequest);
         //Page<Nft> nftList = nftRepository.findAll(pageRequest); //페이지 처리해서 조회
         List<NftListResponse.NftInfo> nftInfos = new ArrayList<>();
         for (int i = 0; i < nftList.getContent().size(); i++) {
@@ -154,6 +153,7 @@ public class NftService {
 
     /*
     NFT 정보 저장
+    게임 정보 삭제 로직 추가 예정(NFT 테스트 이후)
      */
     public void saveNft(String address, GameEndRequest gameEndRequest) {
         Nft nft = Nft.builder()

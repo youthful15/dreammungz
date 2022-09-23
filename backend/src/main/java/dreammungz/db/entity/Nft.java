@@ -28,7 +28,7 @@ public class Nft {
     @Column(name = "metadata", nullable = false, unique = true)
     private String metadata;
 
-    @Column(name = "image_url", nullable = false, unique = true)
+    @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
