@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react"
-import type { NavigateOptions } from "react-router-dom"
+import { NavigateOptions, useNavigate } from "react-router-dom"
 import findKOR from "../../utils/findKOR"
 import FilterForm from "./FilterForm"
 
@@ -93,6 +93,7 @@ const Filter = ({ filter: origin, setFilter }: FilterProp) => {
       page: 0,
       address: null,
     })
+    setShowForm(false)
   }
 
   return (
