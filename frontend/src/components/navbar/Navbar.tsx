@@ -2,6 +2,7 @@ import { Link, useNavigate, NavLink } from "react-router-dom"
 import { useEffect, useState } from "react"
 import NavList from "./NavList"
 import memberAtom from "../../recoil/member/atom"
+import playingGame from "../../recoil/game/atom"
 import { useRecoilState } from "recoil"
 import { MUNGContract } from "../../utils/Web3Config"
 import { http } from "../../api/axios"
@@ -13,6 +14,7 @@ const Navbar = () => {
   const navigate = useNavigate()
   const [member] = useRecoilState(memberAtom)
   const [isLogin, setLogin] = useState(false) // 추후 Recoil을 사용하여  상태관리 할 것
+  const [story, setStory] = useRecoilState(playingGame)
 
   // 로그인했는지 확인
   useEffect(() => {
@@ -30,17 +32,19 @@ const Navbar = () => {
     console.log(balance * 10 ** -18)
   }
 
+  const publicAddress = localStorage.getItem("publicAddress")
+
   const startData = {
-    address: "0x1", // 차후 실제 address로 변경 필요
+    address: publicAddress,
     selection: "-1",
   }
 
   // 게임 시작 페이지로 이동 로직
   async function gameStart() {
-    console.log("address가 하드코딩 처리 되어있습니다.")
     await http.post(`game/info`, startData).then((res) => {
       if (res.data.title) {
         navigate("/game")
+        setStory(res.data)
       } else {
         navigate("/start")
       }
