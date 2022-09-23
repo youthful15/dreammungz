@@ -6,4 +6,9 @@ const getNftList = async (filter: Filter) => {
   return data
 }
 
-export { getNftList }
+const getDealHistory = async (address: string, page: number) => {
+  const { data } = await http.get(`trade/address/${address}/page/${page}`)
+  return data
+}
+
+export { getNftList, getDealHistory }
