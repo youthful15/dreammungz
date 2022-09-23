@@ -4,8 +4,10 @@ import { http } from "../api/axios"
 import GenderTag from "../components/game/GenderTag"
 import StatList from "../components/nftInfo/StatList"
 
+const publicAddress = localStorage.getItem("publicAddress")
+
 let startSetting = {
-  address: "0x1",
+  address: publicAddress,
   father: "",
   mating: false,
   mother: "",
@@ -16,6 +18,7 @@ function useMovePage() {
   const navigate = useNavigate()
 
   async function MovePage() {
+    console.log(startSetting)
     // 여기 나중에 결제 로직이 들어감니다
     await http.post(`game/start`, startSetting).then((res) => {
       console.log("게임 시작 성공", res.data)
@@ -91,8 +94,9 @@ function WeddingMode() {
   useEffect(() => {
     let nftList
     async function nftGet() {
-      nftList = await http.get(`nft/address/${"0x1"}`)
-      console.log("지갑 주소가 하드코딩 되어있습니다.")
+      nftList = await http.get(
+        `nft/address/${localStorage.getItem("publicAddress")}`
+      )
       setNft(nftList.data.items)
     }
     nftGet()
@@ -214,12 +218,9 @@ function WeddingMode() {
         <button
           className="h-[10%] bg-red-100"
           onClick={() => {
-            startSetting = {
-              address: "0x1",
-              father: dogM.id,
-              mating: true,
-              mother: dogF.id,
-            }
+            startSetting.father = dogM.id
+            startSetting.mother = dogF.id
+            startSetting.mating = true
             StartGame()
           }}
         >
