@@ -100,7 +100,7 @@ export default function Login() {
         await setIsNew(false)
       })
       .catch(async () => {
-        nonce = handleSignin(publicAddress)
+        nonce = await handleSignin(publicAddress)
         await setIsNew(true)
       })
 
