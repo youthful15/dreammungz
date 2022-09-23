@@ -49,13 +49,16 @@ public class GameController{
         //게임 정보들을 리턴
         return new ResponseEntity<>(gameResponse, HttpStatus.OK);
     }
-    @ApiOperation(value = "게임 진행하기(선택지 선택)", notes = "현재 진행중인 게임 선택지를 선택한다.")
+    @ApiOperation(value = "게임 진행하기(선택지 선택)", notes = "현재 진행중인 게임 선택지를 선택하고, 다음 페이지를 Response한다.")
     @PostMapping("/select")
-    public ResponseEntity<GameSelectRequest> gameSelect(
+    public ResponseEntity<GameResponse> gameSelect(
             @RequestBody @ApiParam(value = "사용자 주소와 선택 번호", required = true) GameSelectRequest gameSelect){
         //선택지에 따라 다음 씬으로 DB를 갱신
         gameService.setNextGame(gameSelect);
-        return new ResponseEntity<>(HttpStatus.OK);
+        GameResponse gameResponse = gameService.getGameInformation(gameSelect.getAddress());
+
+        //게임 정보들을 리턴
+        return new ResponseEntity<>(gameResponse, HttpStatus.OK);
     }
     @ApiOperation(value = "게임 시작", notes = "게임을 시작하는 단계. 모든 초기 설정들이 이루어지고, 게임이 시작된다.")
     @PostMapping("/start")
