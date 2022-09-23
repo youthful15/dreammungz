@@ -1,3 +1,4 @@
+import Gender from "../components/nftInfo/Gender"
 import Stat from "../components/nftInfo/Stat"
 import Tier from "../components/nftInfo/Tier"
 import { stat_list, tier_list } from "../utils/gameWord"
@@ -81,6 +82,10 @@ export default function Sample() {
               <span>{item.kor}</span>
             </div>
           ))}
+        </div>
+        <div className="flex flex-col mt-8 space-y-2">
+          <Gender gender="M" />
+          <Gender gender="F" />
         </div>
       </div>
     </div>
