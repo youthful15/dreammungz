@@ -45,8 +45,8 @@ export default function Login() {
   }
 
   // 회원가입
-  const handleSignin = async (publicAddress: string) => {
-    await http
+  const handleSignin = (publicAddress: string) => {
+    return http
       .post(`auth/signin`, { address: publicAddress })
       .then((res) => res.data.nonce)
       .catch((err) => console.error("에러", err))
