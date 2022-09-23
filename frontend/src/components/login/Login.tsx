@@ -94,15 +94,15 @@ export default function Login() {
     // Look if user with current publicAddress is already present on backend
     await http
       .get(`auth/info/${publicAddress}`)
-      .then(async (res) => {
-        nonce = await res.data.nonce
+      .then((res) => {
+        nonce = res.data.nonce
         setIsNew((e) => {
           return false
         })
         console.log(2, isNew)
       })
-      .catch(async () => {
-        nonce = await handleSignin(publicAddress)
+      .catch(() => {
+        nonce = handleSignin(publicAddress)
         setIsNew((e) => {
           return true
         })
