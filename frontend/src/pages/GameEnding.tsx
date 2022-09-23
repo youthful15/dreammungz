@@ -1,5 +1,5 @@
 import html2canvas from "html2canvas"
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 import { create } from "ipfs-http-client"
 import { MFTContract } from "../utils/Web3Config"
 import { http } from "../api/axios"
@@ -7,29 +7,38 @@ import { http } from "../api/axios"
 import memberAtom from "../recoil/member/atom"
 import { useRecoilState } from "recoil"
 
-let NFT = {
-  color: "PINK",
-  hair: "CURLY",
-  face: "BEAN",
-  tier: "NORMAL",
-  job: "DOCTOR",
-  status: [
-    {
-      name: "QUICK",
-      value: 3,
-    },
-    {
-      name: "VOICE",
-      value: 2,
-    },
-  ],
-  gender: "M",
-  // id: "",
-  // metadata:
-  //   "https://ipfs.io/ipfs/QmNfZ7h7cUTD8mLjpxQK6F4XrPiXHQdDx62SEeMrpbam2d",
-}
-
 export default function GameEnding() {
+  const [NFT, setNFT] = useState({
+    color: "PINK",
+    hair: "CURLY",
+    face: "BEAN",
+    tier: "NORMAL",
+    job: "",
+    status: [
+      {
+        name: "QUICK",
+        value: 3,
+      },
+      {
+        name: "VOICE",
+        value: 2,
+      },
+    ],
+    gender: "M",
+  })
+
+  useEffect(() => {
+    async function GetStory() {
+      await http
+        .get(`nft/result/address/${localStorage.getItem("publicAddress")}`)
+        .then((res) => {
+          setNFT(res.data)
+          console.log(res.data)
+        })
+    }
+    GetStory()
+  }, [])
+
   const publicAddress = localStorage.getItem("publicAddress")
   const [member] = useRecoilState(memberAtom)
   const canvasRef = useRef(null)
@@ -61,32 +70,46 @@ export default function GameEnding() {
 
       // 이미지 URL
       console.log("이미지 URL", imageURL)
-
-      NFT = Object.assign(NFT, { url: imageURL })
+      Object.assign(NFT, { url: imageURL })
 
       // 중요!
       // NFT 별 MetaData를 다르게 하기 위한 코드 2줄
       const nansu = new Date().getTime() + Math.random()
-      const metadataNFT = Object.assign(NFT, { nansu: nansu })
-      const newHash = await client.add(JSON.stringify(metadataNFT))
+      Object.assign(NFT, { nansu: nansu })
+      const newHash = await client.add(JSON.stringify(NFT))
 
       // NFT Token ID
       let nftTokenId
       const metadata = "https://ipfs.io/ipfs/" + newHash.path
+      console.log("메타데이터", metadata)
       const metadataURI = { metadata: metadata }
+      Object.assign(NFT, { id: nftTokenId })
+      Object.assign(NFT, metadataURI)
+
+      const newNFT = {
+        color: NFT.color,
+        hair: NFT.hair,
+        face: NFT.face,
+        tier: NFT.tier,
+        job: NFT.job,
+        status: NFT.status,
+        gender: NFT.gender,
+        metadata: metadata,
+        url: imageURL,
+      }
+
       try {
         await MFTContract.methods
           .create("https://ipfs.io/ipfs/" + newHash.path)
           .send({ from: publicAddress })
           .then((res: any) => {
             nftTokenId = res.events.Transfer.returnValues.tokenId
-            NFT = Object.assign(NFT, { id: nftTokenId })
-            NFT = Object.assign(NFT, metadataURI)
-            console.log("NFT 정보", NFT)
+            Object.assign(newNFT, { id: nftTokenId })
+            console.log("최종", newNFT)
           })
 
         await http
-          .post(`nft/result/address/${publicAddress}`, NFT)
+          .post(`nft/result/address/${publicAddress}`, newNFT)
           .then((response) =>
             console.log("NFT DB에 저장되어 있는지 확인", response)
           )
@@ -97,12 +120,8 @@ export default function GameEnding() {
     })
   }
 
-  useEffect(() => {
-    copyDOM()
-  }, [])
-
   return (
-    <div className="w-full">
+    <div className="w-full flex">
       여기엔딩
       <div className="relative">
         <div ref={canvasRef} className="h-[400px] w-[400px] bg-blue-200">
@@ -128,6 +147,9 @@ export default function GameEnding() {
           />
         </div>
       </div>
+      <button className="p-10 bg-pink-400" onClick={copyDOM}>
+        민팅 버튼
+      </button>
     </div>
   )
 }
