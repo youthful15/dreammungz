@@ -5,6 +5,9 @@ echo 'git pull'
 echo 'jar 파일 삭제'
 rm build/libs/*.jar
 
+echo '빌드 전 cleanQuery'
+./gradlew cleanQuerydslSourceDir
+
 echo '빌드 시작'
 ./gradlew build
 
