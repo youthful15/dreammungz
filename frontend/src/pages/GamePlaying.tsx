@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { http } from "../api/axios"
 import findKOR from "../utils/findKOR"
 
@@ -51,18 +52,25 @@ function Information(story: StoryType) {
 async function choiceSelect({
   id,
   setStory,
+  navigate,
 }: {
   id: number
   setStory: React.Dispatch<React.SetStateAction<StoryType>>
+  navigate: any
 }) {
   const selectData = {
     address: localStorage.getItem("publicAddress"),
     selection: id,
   }
-  await http.post(`game/select`, selectData).then((res) => {
-    console.log(res)
-    setStory(res.data)
-  })
+
+  if (id === 12) {
+    navigate("/ending")
+  } else {
+    await http.post(`game/select`, selectData).then((res) => {
+      console.log(res)
+      setStory(res.data)
+    })
+  }
 }
 
 function Game({
@@ -72,6 +80,7 @@ function Game({
   story: StoryType
   setStory: React.Dispatch<React.SetStateAction<StoryType>>
 }) {
+  const navigate = useNavigate()
   return (
     <div className="h-full bg-beige-100 rounded-2xl p-3 px-10">
       <div className="h-[15%] flex items-center font-bold text-lg">
@@ -89,7 +98,7 @@ function Game({
             <button
               className="w-full py-2 my-2 bg-pink-200 hover:bg-pink-500 rounded-2xl"
               key={id}
-              onClick={() => choiceSelect({ id, setStory })}
+              onClick={() => choiceSelect({ id, setStory, navigate })}
             >
               {content}
             </button>
