@@ -184,23 +184,29 @@ export default function NftDetail() {
       const negoContractId =
         await MFTSaleFactoryContract.methods.getCurrentSaleOfMFT(tokenId)
 
-      // approve 필요
-      await MFTSaleFactoryContract.methods
-        .createNego(negoContractId, publicAddress, proposal, false, false)
-        .send({ from: publicAddress })
-      // console.log(MFTSaleFactoryContract.methods)
+      try {
+        console.log(MFTContract.methods)
+        // approve 필요
+        await MFTSaleFactoryContract.methods
+          .createNego(negoContractId, publicAddress, proposal, false, false)
+          .send({ from: publicAddress })
+        // console.log(MFTSaleFactoryContract.methods)
 
-      // await http
-      //   .post("trade/offerRegister", {
-      //     address: publicAddress,
-      //     contractId: "??",
-      //     price: 1,
-      //     tokenId: tokenId,
-      //   })
-      //   .then((res) => console.log(res))
-      //   .catch((err) => console.error(err))
+        // await http
+        //   .post("trade/offerRegister", {
+        //     address: publicAddress,
+        //     contractId: "??",
+        //     price: 1,
+        //     tokenId: tokenId,
+        //   })
+        //   .then((res) => console.log(res))
+        //   .catch((err) => console.error(err))
 
-      await alert("구매 하는 중입니다.")
+        await alert("구매 하는 중입니다.")
+      } catch (err) {
+        alert("취소되었습니다.")
+      }
+
       modalClose3()
       setIsSelling(false)
       navigate("/nft/list")
