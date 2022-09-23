@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { http } from "../api/axios"
 import findKOR from "../utils/findKOR"
 
@@ -59,10 +60,15 @@ async function choiceSelect({
     address: localStorage.getItem("publicAddress"),
     selection: id,
   }
-  await http.post(`game/select`, selectData).then((res) => {
-    console.log(res)
-    setStory(res.data)
-  })
+
+  if (id === 12) {
+    window.location.replace("https://j7a605.p.ssafy.io/ending")
+  } else {
+    await http.post(`game/select`, selectData).then((res) => {
+      console.log(res)
+      setStory(res.data)
+    })
+  }
 }
 
 function Game({
