@@ -55,7 +55,7 @@ public class TradeController {
     }
 
     @ApiOperation(value = "NFT 네고 제안 취소", notes = "신청했던 NFT 네고 제안을 취소한다.")
-    @PutMapping("/cancelRegister")
+    @PutMapping("/offerCancel")
     public ResponseEntity<OfferCancelRequest> cancelOffer(
             @RequestBody @ApiParam(value = "오퍼 제안을 위한 구매자, NFT 정보", required = true) OfferCancelRequest offerCancelRequest){
         tradeService.cancelOffer(offerCancelRequest);
