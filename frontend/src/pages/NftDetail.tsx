@@ -11,7 +11,6 @@ import {
 } from "../utils/Web3Config"
 import { http } from "../api/axios"
 import NFTImage from "../components/nftDetail/NFTImage"
-import { UInt256, U256 } from "uint256"
 
 interface OfferListProp {
   id: number
