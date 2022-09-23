@@ -46,9 +46,8 @@ export default function Login() {
 
   // 회원가입
   const handleSignin = async (publicAddress: string) => {
-    const data = { address: publicAddress }
     await http
-      .post(`auth/signin`, data)
+      .post(`auth/signin`, { address: publicAddress })
       .then((res) => res.data.nonce)
       .catch((err) => console.error("에러", err))
   }
@@ -89,7 +88,7 @@ export default function Login() {
 
     const publicAddress = coinbase.toLowerCase()
 
-    localStorage.setItem("publicAddress", publicAddress)
+    await localStorage.setItem("publicAddress", publicAddress)
     let nonce: any
 
     console.log(1, isNew)
@@ -97,14 +96,13 @@ export default function Login() {
     await http
       .get(`auth/info/${publicAddress}`)
       .then(async (res) => {
-        nonce = res.data.nonce
+        nonce = await res.data.nonce
         await setIsNew(false)
-
         console.log(2, isNew)
       })
       .catch(async () => {
         nonce = await handleSignin(publicAddress)
-        console.log(3, isNew)
+        console.log(3, isNew, nonce)
         await setIsNew(true)
         console.log(4, isNew)
       })
