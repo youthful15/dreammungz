@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import NftListItem2 from "../components/nftList/NftListItem2"
+import { useNavigate, useLocation } from "react-router-dom"
 import Modal from "../components/modal/Modal"
+import TransactionHistory from "../components/nftDetail/TransactionHistory"
 import {
   MUNGContract,
   MFTSaleFactoryContract,
   MFTContract,
+  MFTSaleFactoryContractAddress,
 } from "../utils/Web3Config"
-import axios from "axios"
 import { http } from "../api/axios"
-
-interface TradeListProp {
-  sellerNickname: string
-  sellerAddress: string
-  buyerNickname: string
-  buyerAddress: string
-  date: string
-  price: number
-}
+import NFTImage from "../components/nftDetail/NFTImage"
 
 interface OfferListProp {
   id: number
@@ -87,9 +79,18 @@ const tradeList: any = [
   },
 ]
 
-const NftDetail = () => {
+export default function NftDetail() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const tokenId = parseInt(location.pathname.split("/")[3])
+  const publicAddress = localStorage.getItem("publicAddress")
+
+  // 판매 등록 정보
+  const [negoAble, setNegoAble] = useState(true)
+  const [buyNowPrice, setbuyNowPrice] = useState(0)
+
   const [balance, setBalance] = useState(0) // 본인 지갑
+
   const cost = 400
 
   const [myNft, setMyNft] = useState(true) // 본인 NFT 인지 확인
@@ -104,24 +105,23 @@ const NftDetail = () => {
 
   const [isOpen3, setOpen3] = useState(false) // 가격 제안하기 모달
   const modalClose3 = () => setOpen3(false) // 가격 제안하기 모달
-  const [proposal, setProposal] = useState<HTMLInputElement>() // 가격 제안 가격
+  const [proposal, setProposal] = useState(0) // 가격 제안 가격
+
+  // 판매 상태 중인지 확인
+  useEffect(() => {
+    MFTSaleFactoryContract.methods
+      .getSaleStatusOfMFT(tokenId)
+      .call()
+      .then((res: any) => setIsSelling(res))
+  }, [])
 
   // 실시간 반영
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.currentTarget
+  const onChangeProposal = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value: any = event.currentTarget
     setProposal(value)
   }
 
-  // MFT 가져오기
-  const getMFT = async () => {
-    const MFT = await MFTSaleFactoryContract
-    console.log(MFT)
-  }
-  useEffect(() => {
-    getMFT()
-  }, [])
-
-  // MUNG 가져오기
+  // 지갑안에 들어있는 MUNG 가져오기
   const getMung = async () => {
     const walletAddress = localStorage.getItem("publicAddress")
     const needRecoil = await MUNGContract.methods
@@ -130,7 +130,26 @@ const NftDetail = () => {
     setBalance(needRecoil * 10 ** -18)
   }
 
-  // 즉시 구매 Format
+  // Sale Contract Id 가져오기
+  const getSaleContractId = async () => {
+    const contractId = await MFTSaleFactoryContract.methods
+      .getCurrentSaleOfMFT(tokenId)
+      .call()
+    console.log(contractId)
+  }
+
+  // NFT 네고 제안 취소 -------------------------------------------------------------------------
+  // const cancelNego = async () => {
+  //   // console.log(MFTSaleFactoryContract.methods)
+
+  //   await http.put("trade/cancelRegister", {
+  //     address: publicAddress,
+  //     contractId: "???",
+  //     tokenId: tokenId,
+  //   })
+  // }
+
+  // NFT 즉시 구매 -------------------------------------------------------------------------
   const buyNowFormat = async () => {
     // 금액이 부족할때
     if (balance < cost) {
@@ -141,6 +160,13 @@ const NftDetail = () => {
     // 금액이 충분할때
     else {
       // console.log(MFTSaleFactoryContract.methods)
+
+      http.post("trade/nftPurchase", {
+        address: publicAddress,
+        contractId: "",
+        tokenId: tokenId,
+      })
+
       alert("구매 하는 중입니다.")
       await modalClose2()
       setIsSelling(false)
@@ -148,27 +174,114 @@ const NftDetail = () => {
     }
   }
 
-  // 가격 제안 format
+  // NFT 네고 제안 -------------------------------------------------------------------------
   const proposalFormat = async () => {
-    // 금액이 부족할때
-    if (balance < cost) {
-      await alert("돈이 없습니다.")
+    if (balance < proposal) {
+      // 금액이 부족할때
+      alert("M 이 부족합니다!")
       modalClose3()
-    }
+    } else {
+      const negoContractId =
+        await MFTSaleFactoryContract.methods.getCurrentSaleOfMFT(tokenId)
 
-    // 금액이 충분할때
-    await alert("구매 하는 중입니다.")
-    modalClose3()
-    setIsSelling(false)
-    navigate("/nft/list")
+      // approve 필요
+      await MFTSaleFactoryContract.methods
+        .createNego(negoContractId, publicAddress, proposal, false, false)
+        .send({ from: publicAddress })
+      // console.log(MFTSaleFactoryContract.methods)
+
+      // await http
+      //   .post("trade/offerRegister", {
+      //     address: publicAddress,
+      //     contractId: "??",
+      //     price: 1,
+      //     tokenId: tokenId,
+      //   })
+      //   .then((res) => console.log(res))
+      //   .catch((err) => console.error(err))
+
+      await alert("구매 하는 중입니다.")
+      modalClose3()
+      setIsSelling(false)
+      navigate("/nft/list")
+    }
   }
 
-  // 판매자 판매 등록 format
-  // const sellFormat = async () => {
+  // NFT 네고 제안 수락 -------------------------------------------------------------------------
+  // const acceptNego = async () => {
+  //   // console.log(MFTSaleFactoryContract.methods)
 
+  //   await http.post("trade/offerAccept", {
+  //     contractId: "??",
+  //     tokenId: tokenId,
+  //   }).then((res) => console.log(res))
+  //   .catch((err) => console.error(err))
   // }
-  console.log("거래", MFTSaleFactoryContract.methods)
-  console.log("NFT", MFTContract.methods)
+
+  // NFT 판매 등록 -------------------------------------------------------------------------
+  const sellFormat = async () => {
+    // 판매 Smart Contract
+    try {
+      // 권한 부여
+      MFTContract.methods
+        .setApprovalForAll(MFTSaleFactoryContractAddress, true)
+        .send({ from: publicAddress })
+
+      await MFTSaleFactoryContract.methods
+        .createSale(tokenId, publicAddress, buyNowPrice, negoAble)
+        .send({ from: publicAddress })
+        .then((res: any) => {
+          console.log("CCCC", res)
+        })
+
+      const contractId = await MFTSaleFactoryContract.methods
+        .getCurrentSaleOfMFT(tokenId)
+        .call()
+      console.log(contractId)
+      await http
+        .post(`trade/nftRegister`, {
+          address: publicAddress,
+          contractId: contractId,
+          negoAble: negoAble,
+          price: buyNowPrice,
+          tokenId: tokenId,
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.error(err))
+    } catch (err) {
+      console.error("판매 등록 에러", err)
+    }
+  }
+
+  // NFT 판매 중단 -------------------------------------------------------------------------
+  const sellAbort = async () => {
+    // sale 상태 확인
+    // export const contractId = MFTSaleFactoryContract.methods.getSaleStatusOfMFT()
+
+    // contractId 받기
+    // export const sellStatus = MFTSaleFactoryContract.methods.getCurrentSaleOfMFT()
+
+    try {
+      const saleContractId = await MFTSaleFactoryContract.methods
+        .getCurrentSaleOfMFT(tokenId)
+        .call()
+
+      await MFTSaleFactoryContract.methods
+        .cancelSale(saleContractId)
+        .send({ from: publicAddress })
+
+      await http
+        .put("trade/nftStop", {
+          address: publicAddress,
+          contractId: saleContractId,
+          tokenId: tokenId,
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.error(err))
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <div className="h-full w-full">
@@ -179,9 +292,10 @@ const NftDetail = () => {
         <div className="flex justify-center">
           <button
             className="mr-4 border border-black"
-            onClick={() => {
-              modalClose1()
-              setIsSelling(false)
+            onClick={async () => {
+              await sellAbort()
+              await modalClose1()
+              await setIsSelling(false)
             }}
           >
             확인
@@ -197,7 +311,7 @@ const NftDetail = () => {
       <Modal isOpen={isOpen2} modalClose={modalClose2}>
         <p className="text-xl font-semibold mb-4">즉시 구매하시겠습니까?</p>
         <p className="mb-4">즉시 구매 가격: {cost}</p>
-        <p>나의 MUNG: {balance}MUNG</p>
+        <p>나의 M: {balance} M</p>
         <div className="flex justify-center">
           <button
             className="mr-4 border border-black"
@@ -216,18 +330,16 @@ const NftDetail = () => {
 
       {/* 가격 제안하기 모달 시작 */}
       <Modal isOpen={isOpen3} modalClose={modalClose3}>
-        <p className="text-xl font-semibold mb-4">
-          얼만큼 가격을 제시하겠습니까?
-        </p>
+        <p className="text-xl font-semibold mb-4">제안하실 M을 입력해주세요</p>
         <p className="mb-4">가격 제시</p>
-        <p>나의 지갑에 들어가 있는 Token 수: {0} MUNG</p>
+        <p>현재 보유 금액: {balance} M</p>
         <input
           className="border border-black"
           id="proposal"
           type="text"
-          onChange={onChange}
+          onChange={onChangeProposal}
         />
-        <label htmlFor="proposal">MUNG</label>
+        <label htmlFor="proposal">M</label>
         <div className="flex justify-center">
           <button
             className="mr-4 border border-black"
@@ -246,58 +358,14 @@ const NftDetail = () => {
       {/* 가격 제안하기 모달 끝 */}
 
       <div className="h-[50%] w-full flex">
+        <NFTImage />
+
         <div className="w-[50%]">
-          <img
-            className="w-[250px] h-[250px] bg-white"
-            src=""
-            alt="NFT 이미지"
-          />
-        </div>
-        <div className="w-[50%]">
-          <button
-            onClick={async () => {
-              const body = {
-                color: "RAINBOW",
-                face: "SCAR",
-                gender: "F",
-                hair: "CURLY",
-                id: 0,
-                job: "VOCALIST",
-                metadata: "url",
-                status: [
-                  {
-                    name: "STOUTNESS",
-                    value: 3,
-                  },
-                  {
-                    name: "VOICE",
-                    value: 6,
-                  },
-                ],
-                tier: "RARE",
-                url: "59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0ebd01ce1f79707dd4e205f2dad4730a0264170f9ae02bf0e7d82aafa7ce8e4cc7",
-              }
-              // await axios
-              //   .post(
-              //     `https://localhost:8081/nft/result/address/${localStorage.getItem(
-              //       "publicAddress"
-              //     )}`,
-              //     body
-              //   )
-              //   .then((res: any) => {
-              //     console.log("res", res)
-              //   })
-            }}
-          >
-            테스트 NFT 정보 저장
-          </button>
           <p>DREAMMUNGS</p>
           <p>Tags</p>
-          <p>500 MUNG</p>
+          <p>500 M</p>
           <p>분양자</p>
           <p>Unique</p>
-
-          {}
 
           {/* 본인 NFT 인지 확인 */}
           {myNft === false ? (
@@ -306,7 +374,6 @@ const NftDetail = () => {
                 className="border border-black mr-3"
                 onClick={() => {
                   setOpen2(true)
-                  getMung()
                 }}
               >
                 즉시 구매
@@ -347,14 +414,20 @@ const NftDetail = () => {
           )}
         </div>
       </div>
-      {clickedSell && clickedSell === true ? (
+
+      {/* 판매 설정 */}
+      {clickedSell === true ? (
         <div className="w-full flex justify-center">
-          <form className="flex justify-center flex-col items-center" action="">
+          <div className="flex justify-center flex-col items-center">
             <div className="mb-4">
               <p className="text-center mb-1">즉시 구매가 설정</p>
               <div className="flex">
-                <input id="price" type="text" />
-                <label htmlFor="price">MUNG</label>
+                <input
+                  id="price"
+                  type="text"
+                  onChange={(e: any) => setbuyNowPrice(e.target.value)}
+                />
+                <label htmlFor="price">M</label>
               </div>
             </div>
 
@@ -368,12 +441,19 @@ const NftDetail = () => {
                     name="whatOffer"
                     value="yes"
                     checked
+                    onChange={(e: any) => setNegoAble(true)}
                   />
                   <label htmlFor="yes">Yes</label>
                 </div>
 
                 <div>
-                  <input type="radio" id="no" name="whatOffer" value="no" />
+                  <input
+                    type="radio"
+                    id="no"
+                    name="whatOffer"
+                    value="no"
+                    onChange={(e: any) => setNegoAble(false)}
+                  />
                   <label htmlFor="no">No</label>
                 </div>
               </div>
@@ -384,8 +464,9 @@ const NftDetail = () => {
                 type="submit"
                 className="border border-black mr-5"
                 onClick={() => {
-                  setClickedSell(false)
-                  setIsSelling(true)
+                  sellFormat()
+                  // await setClickedSell(false)
+                  // await setIsSelling(true)
                 }}
               >
                 판매 등록
@@ -393,49 +474,19 @@ const NftDetail = () => {
 
               <button
                 className="border border-black"
-                onClick={() => {
+                onClick={async () => {
                   setClickedSell(false)
+                  getSaleContractId()
                 }}
               >
                 취소
               </button>
             </div>
-          </form>
+          </div>
         </div>
       ) : (
         <div className="h-[50%] w-full flex">
-          <div className="w-[47.5%]">
-            <p>거래 이력</p>
-            <div className="w-full h-[90%] bg-white p-2">
-              <div className="flex w-full border border-b-black">
-                <p className="w-[20%]">Price</p>
-                <p className="w-[20%]">From</p>
-                <p className="w-[30%]">To</p>
-                <p>Date</p>
-              </div>
-              {tradeList[0]?.tradeList.map(
-                ({
-                  sellerNickname,
-                  sellerAddress,
-                  buyerNickname,
-                  buyerAddress,
-                  date,
-                  price,
-                }: TradeListProp) => {
-                  return (
-                    <NftListItem2
-                      sellerAddress={sellerAddress}
-                      sellerNickname={sellerNickname}
-                      buyerAddress={buyerAddress}
-                      buyerNickname={buyerNickname}
-                      date={date}
-                      price={price}
-                    />
-                  )
-                }
-              )}
-            </div>
-          </div>
+          <TransactionHistory />
           <div className="w-[5%]"></div>
           <div className="w-[47.5%]">
             <p>오퍼 리스트</p>
@@ -460,7 +511,7 @@ const NftDetail = () => {
                       date,
                     }: OfferListProp) => {
                       return (
-                        <div className="flex">
+                        <div className="flex" key={id}>
                           <p className="w-[20%]">{price}</p>
                           <p className="w-[20%]">{date}</p>
                           <p className="w-[30%]">{buyerNickname}</p>
@@ -479,10 +530,3 @@ const NftDetail = () => {
     </div>
   )
 }
-
-export default NftDetail
-
-//
-// NFT 거래
-// NFT 발급
-// NFT

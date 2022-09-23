@@ -72,6 +72,9 @@ const statusName = {
   WINK: "윙크",
   GLASSES: "안경",
   SHY: "샤이",
+  //성별
+  F: "여자",
+  M: "남자",
 }
 
 const findKOR = (status) => {

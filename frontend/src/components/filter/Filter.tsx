@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from "react"
 import type { NavigateOptions } from "react-router-dom"
-
+import findKOR from "../../utils/findKOR"
 import FilterForm from "./FilterForm"
 
 interface Filter {
@@ -16,10 +16,48 @@ interface Filter {
   address: string | null
 }
 
+const buttonStyle = "p-1 m-0.5 border border-gray-700 rounded-md  h-8"
+const SelectedFilters = ({
+  filter,
+  resetFilter,
+}: {
+  filter: Filter
+  resetFilter: () => void
+}) => {
+  const selected: string[] = Object.values(filter)
+    .filter(
+      (val) =>
+        typeof val !== "boolean" && val !== null && typeof val !== "number"
+    )
+    .flat()
+
+  // console.log(selected)
+
+  return (
+    <div className="flex overflow-x-auto">
+      {selected.map((value) => {
+        return <div className={buttonStyle}>{findKOR(value)}</div>
+      })}
+
+      {selected.length !== 0 && (
+        <button
+          className={`${buttonStyle} bg-white`}
+          onClick={() => {
+            resetFilter()
+          }}
+        >
+          필터 초기화
+        </button>
+      )}
+    </div>
+  )
+}
+
 interface FilterProp {
+  filter: Filter
   setFilter: (newQuery: Filter, options?: NavigateOptions | undefined) => void
 }
-const Filter = ({ setFilter }: FilterProp) => {
+const Filter = ({ filter: origin, setFilter }: FilterProp) => {
   const [showForm, setShowForm] = useState(false)
 
   const handleFormChange = (event: ChangeEvent<HTMLFormElement>) => {
@@ -33,7 +71,7 @@ const Filter = ({ setFilter }: FilterProp) => {
       color: formData.get("color") as string,
       gender: formData.get("gender") as string,
       face: formData.get("face") as string,
-      sell: formData.get("sell") === "on",
+      sell: origin.sell,
       status: formData.getAll("status") as string[],
       page: 0,
       address: null,
@@ -42,18 +80,39 @@ const Filter = ({ setFilter }: FilterProp) => {
     setFilter(filter, { replace: false })
   }
 
+  const resetFilter = () => {
+    setFilter({
+      job: null,
+      hair: null,
+      tier: null,
+      color: null,
+      gender: null,
+      face: null,
+      sell: origin.sell,
+      status: [],
+      page: 0,
+      address: null,
+    })
+  }
+
   return (
-    <div className="relative bg-gray-300">
-      <div>필터영역</div>
-      <button
-        className="bg-blue-300"
-        onClick={() => {
-          setShowForm((curState) => !curState)
-        }}
-      >
-        {showForm ? "선택창 닫기" : "선택창 열기 "}
-      </button>
-      {showForm && <FilterForm formHandler={handleFormChange} />}
+    <div className="">
+      <div className="flex ">
+        <button
+          className={`${buttonStyle} ${
+            showForm ? "bg-blue-300" : "bg-white"
+          } absolute top-[145px] left-[270px] z-10`}
+          onClick={() => {
+            setShowForm((curState) => !curState)
+          }}
+        >
+          {showForm ? "필터 닫기" : "필터 열기 "}
+        </button>
+        <SelectedFilters filter={origin} resetFilter={resetFilter} />
+      </div>
+      {showForm && (
+        <FilterForm formHandler={handleFormChange} filter={origin} />
+      )}
     </div>
   )
 }

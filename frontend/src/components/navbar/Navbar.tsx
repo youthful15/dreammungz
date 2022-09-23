@@ -3,8 +3,8 @@ import { useEffect, useState } from "react"
 import NavList from "./NavList"
 import memberAtom from "../../recoil/member/atom"
 import { useRecoilState } from "recoil"
-import { MUNGContract } from "../../utils/Web3Config"
 import { http } from "../../api/axios"
+import { MFTContract, MUNGContract } from "../../utils/Web3Config"
 
 const navItemStyle: string =
   "bg-brown-300  border rounded-lg shadow-sm cursor-pointer"
@@ -75,12 +75,19 @@ const Navbar = () => {
             className={navItemStyle}
             onClick={() => {
               clickBalance()
+              console.log(MFTContract.methods)
             }}
           >
             지갑 정보 보기
           </div>
-          <div className={navItemStyle} onClick={() => setLogin(false)}>
-            로그아웃
+          <div
+            className={navItemStyle}
+            onClick={() => {
+              localStorage.clear()
+              setLogin(false)
+            }}
+          >
+            <Link to="/mainpage">로그아웃</Link>
           </div>
         </div>
       ) : (

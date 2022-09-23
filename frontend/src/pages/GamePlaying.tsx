@@ -48,7 +48,7 @@ function Information(story: StoryType) {
   )
 }
 
-function choiceSelect({
+async function choiceSelect({
   id,
   setStory,
 }: {
@@ -59,7 +59,7 @@ function choiceSelect({
     address: localStorage.getItem("publicAddress"),
     selection: id,
   }
-  http.post(`game/select`, selectData).then((res) => {
+  await http.post(`game/select`, selectData).then((res) => {
     console.log(res)
     setStory(res.data)
   })
