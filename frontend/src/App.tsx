@@ -29,12 +29,12 @@ function App() {
     >
       <MusicPlayer />
 
-      <div className="flex items-center justify-center bg-white shadow-2xl rounded-2xl w-[1295px] h-[715px]">
+      <div className="flex items-center justify-center bg-white shadow-2xl rounded-2xl w-[1295px] h-[715px] relative">
         <div className="flex rounded-xl w-[1280px] h-[700px]">
-          <div className="w-[20%] bg-brown-200 rounded-l-xl">
+          <div className="w-[230px] bg-brown-200 rounded-l-xl">
             <Navbar />
           </div>
-          <div className="w-full p-8 4/5 bg-beige-200 rounded-r-xl">
+          <div className="w-[1050px] p-8  bg-beige-200 rounded-r-xl">
             <Routes>
               <Route path="/" element={<Navigate replace to="/mainPage" />} />
               <Route path="/mainpage" element={<MainPage />} />
