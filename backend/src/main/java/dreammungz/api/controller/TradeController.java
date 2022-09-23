@@ -64,7 +64,7 @@ public class TradeController {
 
 
     @ApiOperation(value = "NFT 네고 제안 수락", notes = "신청받은 NFT 네고 제안을 수락한다.")
-    @PutMapping("/offerAccept")
+    @PostMapping("/offerAccept")
     public ResponseEntity<OfferAcceptRequest> acceptOffer(
             @RequestBody @ApiParam(value = "오퍼 제안을 위한 구매자, NFT 정보", required = true) OfferAcceptRequest offerAcceptRequest){
         tradeService.acceptOffer(offerAcceptRequest);
