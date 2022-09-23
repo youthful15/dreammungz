@@ -85,14 +85,21 @@ const Navbar = () => {
             onClick={() => {
               localStorage.clear()
               setLogin(false)
+              navigate("/mainpage")
             }}
           >
-            <Link to="/mainpage">로그아웃</Link>
+            로그아웃
           </div>
         </div>
       ) : (
-        <div className={navItemStyle} onClick={() => setLogin(true)}>
-          <Link to="/login">로그인</Link>
+        <div
+          className={navItemStyle}
+          onClick={() => {
+            setLogin(true)
+            navigate("/login")
+          }}
+        >
+          로그인
         </div>
       )}
     </nav>
