@@ -17,6 +17,7 @@ interface OfferListProp {
   buyerNickname: string
   price: number
   date: string
+  contractId: number
 }
 
 const tradeList: any = [
@@ -56,6 +57,7 @@ const tradeList: any = [
     offerList: [
       {
         id: 1,
+        contractId: 1,
         buyerAddress: "buy1",
         buyerNickname: "HeyHi",
         price: 70,
@@ -63,6 +65,7 @@ const tradeList: any = [
       },
       {
         id: 2,
+        contractId: 2,
         buyerAddress: "buy2",
         buyerNickname: "wer",
         price: 60,
@@ -70,6 +73,7 @@ const tradeList: any = [
       },
       {
         id: 3,
+        contractId: 3,
         buyerAddress: "buy4",
         buyerNickname: "Byeee",
         price: 65,
@@ -91,9 +95,11 @@ export default function NftDetail() {
 
   const [balance, setBalance] = useState(0) // 본인 지갑
 
-  const cost = 400
+  const [negoId, setNegoId] = useState(0) // Negotiation Id
+  const [clickedNegoId, setClickedNegoId] = useState(0) // 클릭된 아이템의 NegoId
+  const [sellerWalletAddress, setSellerWalletAddress] = useState("") // 판매자 Address
+  const [nftOwnerAddress, setNftOwnerAddress] = useState("") // NFT 주인 Address
 
-  const [myNft, setMyNft] = useState(true) // 본인 NFT 인지 확인
   const [isSelling, setIsSelling] = useState(false) // 판매중인지 확인
   const [clickedSell, setClickedSell] = useState(false) // 판매 눌렀는지 확인
 
@@ -102,10 +108,52 @@ export default function NftDetail() {
 
   const [isOpen2, setOpen2] = useState(false) // 즉시 구매 모달
   const modalClose2 = () => setOpen2(false) // 즉시 구매 모달
+  const [cost, setCost] = useState(20) // 즉시 구매 가격
 
   const [isOpen3, setOpen3] = useState(false) // 가격 제안하기 모달
   const modalClose3 = () => setOpen3(false) // 가격 제안하기 모달
   const [proposal, setProposal] = useState(0) // 가격 제안 가격
+
+  const [isOpen4, setOpen4] = useState(false) // 가격 제안취소 모달
+  const modalClose4 = () => setOpen4(false) // 가격 제안취소 모달
+
+  const [isOpen5, setOpen5] = useState(false) // 가격 제안수락 모달
+  const modalClose5 = () => setOpen5(false) // 가격 제안수락 모달
+
+  useEffect(() => {
+    async function saleStatusConfirm() {
+      try {
+        // 해당 MFT의 거래 상태 확인
+        const saleStatus = await MFTSaleFactoryContract.methods
+          .getSaleStatusOfMFT(tokenId)
+          .call()
+        if (saleStatus === true) {
+          // contractId 받기
+          const saleContractId = await MFTSaleFactoryContract.methods
+            .getCurrentSaleOfMFT(tokenId)
+            .call()
+
+          const getSellerAddress = await MFTSaleFactoryContract.methods
+            .getSeller(saleContractId)
+            .call()
+          await setSellerWalletAddress(getSellerAddress)
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    saleStatusConfirm()
+  }, [])
+
+  // NFT의 주인이 나인지 확인하는 함수
+  async function checkIsOwner() {
+    const tmp = await MFTContract.methods.ownerOf(tokenId).call()
+    setNftOwnerAddress(tmp)
+  }
+
+  useEffect(() => {
+    checkIsOwner()
+  }, [])
 
   // 판매 상태 중인지 확인
   useEffect(() => {
@@ -138,34 +186,48 @@ export default function NftDetail() {
     console.log(contractId)
   }
 
-  // NFT 네고 제안 취소 -------------------------------------------------------------------------
-  // const cancelNego = async () => {
-  //   // console.log(MFTSaleFactoryContract.methods)
-
-  //   await http.put("trade/cancelRegister", {
-  //     address: publicAddress,
-  //     contractId: "???",
-  //     tokenId: tokenId,
-  //   })
-  // }
-
   // NFT 즉시 구매 -------------------------------------------------------------------------
   const buyNowFormat = async () => {
     // 금액이 부족할때
     if (balance < cost) {
-      await alert("돈이 없습니다.")
+      await alert("M이 부족합니다!")
       modalClose2()
     }
 
     // 금액이 충분할때
     else {
-      // console.log(MFTSaleFactoryContract.methods)
+      try {
+        // contractId 받기
+        const saleContractId = await MFTSaleFactoryContract.methods
+          .getCurrentSaleOfMFT(tokenId)
+          .call()
 
-      http.post("trade/nftPurchase", {
-        address: publicAddress,
-        contractId: "",
-        tokenId: tokenId,
-      })
+        // 주소
+        const saleContractAddress = await MFTSaleFactoryContract.methods
+          .getSale(saleContractId)
+          .call()
+
+        // approve 필요 10 ** 18 곱하기
+        await MUNGContract.methods
+          .approve(saleContractAddress, cost * 10 ** 18)
+          .send({ from: publicAddress })
+
+        // 즉시 구매 SMART CONTRACT
+        await MFTSaleFactoryContract.methods
+          .buyNow(saleContractId, publicAddress)
+          .send({ from: publicAddress })
+
+        await http
+          .post("trade/nftPurchase", {
+            address: publicAddress,
+            contractId: saleContractId,
+            tokenId: tokenId,
+          })
+          .then((res) => console.log("즉시구매", res))
+          .catch((err) => console.error(err))
+      } catch (err) {
+        console.error(err)
+      }
 
       alert("구매 하는 중입니다.")
       await modalClose2()
@@ -178,45 +240,117 @@ export default function NftDetail() {
   const proposalFormat = async () => {
     if (balance < proposal) {
       // 금액이 부족할때
-      alert("M 이 부족합니다!")
+      alert("M이 부족합니다!")
       modalClose3()
     } else {
-      const negoContractId =
-        await MFTSaleFactoryContract.methods.getCurrentSaleOfMFT(tokenId)
+      try {
+        // contractId 받기
+        const saleContractId = await MFTSaleFactoryContract.methods
+          .getCurrentSaleOfMFT(tokenId)
+          .call()
 
-      // approve 필요
-      await MFTSaleFactoryContract.methods
-        .createNego(negoContractId, publicAddress, proposal, false, false)
-        .send({ from: publicAddress })
-      // console.log(MFTSaleFactoryContract.methods)
+        const saleContractAddress = await MFTSaleFactoryContract.methods
+          .getSale(saleContractId)
+          .call()
 
-      // await http
-      //   .post("trade/offerRegister", {
-      //     address: publicAddress,
-      //     contractId: "??",
-      //     price: 1,
-      //     tokenId: tokenId,
-      //   })
-      //   .then((res) => console.log(res))
-      //   .catch((err) => console.error(err))
+        // approve 필요 10 ** 18 곱하기
+        await MUNGContract.methods
+          .approve(saleContractAddress, proposal * 10 ** 18)
+          .send({ from: publicAddress })
 
-      await alert("구매 하는 중입니다.")
+        // createNego
+        await MFTSaleFactoryContract.methods
+          .createNego(saleContractId, publicAddress, proposal, false, false)
+          .send({ from: publicAddress })
+          .then((res: any) => {
+            setNegoId(res.events.NegoCreated.returnValues.negoId)
+          })
+
+        // 네고 제안
+        await http
+          .post("trade/offerRegister", {
+            address: publicAddress,
+            contractId: negoId,
+            price: proposal,
+            tokenId: tokenId,
+          })
+          .then((res) => console.log(res))
+          .catch((err) => console.error(err))
+
+        // spiner 필요
+        alert("네고 하는 중입니다")
+      } catch (err) {
+        alert("취소되었습니다.")
+      }
+
       modalClose3()
       setIsSelling(false)
       navigate("/nft/list")
     }
   }
 
-  // NFT 네고 제안 수락 -------------------------------------------------------------------------
-  // const acceptNego = async () => {
-  //   // console.log(MFTSaleFactoryContract.methods)
+  // NFT 네고 제안 취소 -------------------------------------------------------------------------
+  // Nego Contract Id를 Offer List에서 Item 클릭시 해당 Item의 NegoId를 사용할 수 있어야 함
+  const cancelNegoFormat = async () => {
+    // approve 필요 없음
+    // MFTContract.methods.approve()
 
-  //   await http.post("trade/offerAccept", {
-  //     contractId: "??",
-  //     tokenId: tokenId,
-  //   }).then((res) => console.log(res))
-  //   .catch((err) => console.error(err))
-  // }
+    try {
+      // SMART CONTRACT
+      await MFTSaleFactoryContract.methods
+        .cancelNego(clickedNegoId)
+        .send({ from: publicAddress })
+
+      // RESTAPI
+      await http.put("trade/offerCancel", {
+        address: publicAddress,
+        contractId: clickedNegoId,
+        tokenId: tokenId,
+      })
+
+      alert("제안이 취소되었습니다.")
+      // OFFERLIST 초기화 필요
+      // OFFERLIST 초기화 필요
+      // OFFERLIST 초기화 필요
+      // OFFERLIST 초기화 필요
+      // OFFERLIST 초기화 필요 여기에
+      // OFFERLIST 초기화 필요
+      // OFFERLIST 초기화 필요
+      // OFFERLIST 초기화 필요
+      // OFFERLIST 초기화 필요
+      // OFFERLIST 초기화 필요
+      // OFFERLIST 초기화 필요
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  // NFT 네고 제안 수락 -------------------------------------------------------------------------
+  const acceptNegoFormat = async () => {
+    try {
+      // contractId 받기
+      const saleContractId = await MFTSaleFactoryContract.methods
+        .getCurrentSaleOfMFT(tokenId)
+        .call()
+
+      // 판매자 입장 -> negoId 받을 예정
+      // NFT 네고 제안 수락 SMARTCONTRACT
+      await MFTSaleFactoryContract.methods
+        .acceptNego(saleContractId, negoId)
+        .send({ from: publicAddress })
+
+      // NFT 네고 제안 수락 REST API
+      await http
+        .post("trade/offerAccept", {
+          contractId: saleContractId,
+          tokenId: tokenId,
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.error(err))
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   // NFT 판매 등록 -------------------------------------------------------------------------
   const sellFormat = async () => {
@@ -231,7 +365,7 @@ export default function NftDetail() {
         .createSale(tokenId, publicAddress, buyNowPrice, negoAble)
         .send({ from: publicAddress })
         .then((res: any) => {
-          console.log("CCCC", res)
+          console.log("판매등록", res)
         })
 
       const contractId = await MFTSaleFactoryContract.methods
@@ -254,13 +388,7 @@ export default function NftDetail() {
   }
 
   // NFT 판매 중단 -------------------------------------------------------------------------
-  const sellAbort = async () => {
-    // sale 상태 확인
-    // export const contractId = MFTSaleFactoryContract.methods.getSaleStatusOfMFT()
-
-    // contractId 받기
-    // export const sellStatus = MFTSaleFactoryContract.methods.getCurrentSaleOfMFT()
-
+  const sellAbortFormat = async () => {
     try {
       const saleContractId = await MFTSaleFactoryContract.methods
         .getCurrentSaleOfMFT(tokenId)
@@ -293,7 +421,7 @@ export default function NftDetail() {
           <button
             className="mr-4 border border-black"
             onClick={async () => {
-              await sellAbort()
+              await sellAbortFormat()
               await modalClose1()
               await setIsSelling(false)
             }}
@@ -343,9 +471,10 @@ export default function NftDetail() {
         <div className="flex justify-center">
           <button
             className="mr-4 border border-black"
-            onClick={() => {
-              modalClose3()
-              setIsSelling(false)
+            onClick={async () => {
+              await proposalFormat()
+              await modalClose3()
+              await setIsSelling(false)
             }}
           >
             구매
@@ -357,6 +486,47 @@ export default function NftDetail() {
       </Modal>
       {/* 가격 제안하기 모달 끝 */}
 
+      {/* 가격 제안취소 모달 시작 */}
+      <Modal isOpen={isOpen4} modalClose={modalClose4}>
+        <p className="text-xl font-semibold mb-4">제안을 취소하시겠습니까?</p>
+        <div className="flex justify-center">
+          <button
+            className="mr-4 border border-black"
+            onClick={async () => {
+              await cancelNegoFormat()
+              await modalClose4()
+              // await setIsSelling(false)
+            }}
+          >
+            확인
+          </button>
+          <button className="border border-black" onClick={() => modalClose4()}>
+            닫기
+          </button>
+        </div>
+      </Modal>
+      {/* 가격 제안취소 모달 끝 */}
+
+      {/* 가격 제안수락 모달 시작 */}
+      <Modal isOpen={isOpen5} modalClose={modalClose5}>
+        <p className="text-xl font-semibold mb-4">제안을 수락하시겠습니까?</p>
+        <div className="flex justify-center">
+          <button
+            className="mr-4 border border-black"
+            onClick={async () => {
+              await acceptNegoFormat()
+              await modalClose5()
+              // await setIsSelling(false)
+            }}
+          >
+            확인
+          </button>
+          <button className="border border-black" onClick={() => modalClose5()}>
+            닫기
+          </button>
+        </div>
+      </Modal>
+      {/* 가격 제안수락 모달 끝 */}
       <div className="h-[50%] w-full flex">
         <NFTImage />
 
@@ -368,11 +538,13 @@ export default function NftDetail() {
           <p>Unique</p>
 
           {/* 본인 NFT 인지 확인 */}
-          {myNft === false ? (
+          {nftOwnerAddress &&
+          publicAddress?.toLowerCase() !== nftOwnerAddress?.toLowerCase() ? (
             <div className="flex">
               <button
                 className="border border-black mr-3"
                 onClick={() => {
+                  getMung()
                   setOpen2(true)
                 }}
               >
@@ -381,6 +553,7 @@ export default function NftDetail() {
               <button
                 className="border border-black"
                 onClick={() => {
+                  getMung()
                   setOpen3(true)
                 }}
               >
@@ -504,7 +677,9 @@ export default function NftDetail() {
 
                   {tradeList[0]?.offerList.map(
                     ({
+                      // Contract ID == Nego ID,  ==> contractId,
                       id,
+                      contractId,
                       buyerAddress,
                       buyerNickname,
                       price,
@@ -515,6 +690,25 @@ export default function NftDetail() {
                           <p className="w-[20%]">{price}</p>
                           <p className="w-[20%]">{date}</p>
                           <p className="w-[30%]">{buyerNickname}</p>
+                          {buyerAddress === publicAddress ? (
+                            <p
+                              onClick={async () => {
+                                await setClickedNegoId(contractId)
+                                setOpen4(true)
+                              }}
+                            >
+                              ❌
+                            </p>
+                          ) : null}
+                          {sellerWalletAddress === publicAddress ? (
+                            <p
+                              onClick={() => {
+                                setOpen5(true)
+                              }}
+                            >
+                              수락
+                            </p>
+                          ) : null}
                         </div>
                       )
                     }
