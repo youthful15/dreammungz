@@ -1,14 +1,16 @@
+import { Link, useNavigate, NavLink } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { Link, NavLink } from "react-router-dom"
 import NavList from "./NavList"
 import memberAtom from "../../recoil/member/atom"
 import { useRecoilState } from "recoil"
+import { http } from "../../api/axios"
 import { MFTContract, MUNGContract } from "../../utils/Web3Config"
 
 const navItemStyle: string =
   "bg-brown-300  border rounded-lg shadow-sm cursor-pointer"
 
 const Navbar = () => {
+  const navigate = useNavigate()
   const [member] = useRecoilState(memberAtom)
   const [isLogin, setLogin] = useState(false) // 추후 Recoil을 사용하여  상태관리 할 것
 
@@ -28,6 +30,26 @@ const Navbar = () => {
     console.log(balance * 10 ** -18)
   }
 
+  const publicAddress = localStorage.getItem("publicAddress")
+
+  const startData = {
+    address: publicAddress,
+    selection: "-1",
+  }
+
+  // 게임 시작 페이지로 이동 로직
+  async function gameStart() {
+    await http
+      .get(`game/info/${localStorage.getItem("publicAddress")}`)
+      .then((res) => {
+        if (res.data.title) {
+          navigate("/game")
+        } else {
+          navigate("/start")
+        }
+      })
+  }
+
   return (
     <nav className="flex flex-col justify-between w-full h-full p-4 space-y-4 text-center">
       <ul>
@@ -37,9 +59,9 @@ const Navbar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/start" className="flex justify-center w-full">
+          <button onClick={gameStart} className="flex justify-center w-full">
             <img src="/paw.png" alt="" className="" />
-          </NavLink>
+          </button>
         </li>
 
         <NavList />
