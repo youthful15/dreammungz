@@ -527,7 +527,7 @@ export default function NftDetail() {
           <p>Unique</p>
 
           {/* 본인 NFT 인지 확인 */}
-          {myNft === false ? (
+          {publicAddress !== sellerAddress ? (
             <div className="flex">
               <button
                 className="border border-black mr-3"
