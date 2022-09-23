@@ -92,16 +92,21 @@ export default function Login() {
     localStorage.setItem("publicAddress", publicAddress)
     let nonce: any
 
+    console.log(1, isNew)
     // Look if user with current publicAddress is already present on backend
     await http
       .get(`auth/info/${publicAddress}`)
       .then(async (res) => {
         nonce = res.data.nonce
         await setIsNew(false)
+
+        console.log(2, isNew)
       })
       .catch(async () => {
         nonce = await handleSignin(publicAddress)
+        console.log(3, isNew)
         await setIsNew(true)
+        console.log(4, isNew)
       })
 
     // Popup MetaMask confirmation modal to sign message
@@ -113,14 +118,16 @@ export default function Login() {
     // SSAFY Network 연결
     try {
       await handleEthereumNetwork(chainId)
-
+      console.log(5, isNew)
       // 최초가입시 10000 MUNG 지급
       if (isNew === true) {
+        console.log(6, isNew)
         window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
         MUNGContract.methods
           .mintToMember(publicAddress, 10000)
           .send({ from: publicAddress })
       }
+      console.log(7, isNew)
 
       // 회원 닉네임 전역변수에 저장
       await http
