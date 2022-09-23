@@ -125,7 +125,7 @@ export default function NftDetail() {
       try {
         // 해당 MFT의 거래 상태 확인
         const saleStatus = await MFTSaleFactoryContract.methods
-          .getSaleStatusOFMFT(tokenId)
+          .getSaleStatusOfMFT(tokenId)
           .call()
         if (saleStatus === true) {
           // contractId 받기
@@ -532,6 +532,7 @@ export default function NftDetail() {
               <button
                 className="border border-black mr-3"
                 onClick={() => {
+                  getMung()
                   setOpen2(true)
                 }}
               >
@@ -540,6 +541,7 @@ export default function NftDetail() {
               <button
                 className="border border-black"
                 onClick={() => {
+                  getMung()
                   setOpen3(true)
                 }}
               >
