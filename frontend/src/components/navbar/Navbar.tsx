@@ -57,8 +57,14 @@ const Navbar = () => {
           >
             지갑 정보 보기
           </div>
-          <div className={navItemStyle} onClick={() => setLogin(false)}>
-            로그아웃
+          <div
+            className={navItemStyle}
+            onClick={() => {
+              localStorage.clear()
+              setLogin(false)
+            }}
+          >
+            <Link to="/mainpage">로그아웃</Link>
           </div>
         </div>
       ) : (

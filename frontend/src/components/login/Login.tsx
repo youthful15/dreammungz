@@ -10,6 +10,7 @@ import { useRecoilState } from "recoil"
 
 export default function Login() {
   const [, setNickname] = useRecoilState(memberAtom)
+  const [isNew, setIsNew] = useState(false)
 
   const navigate = useNavigate()
   let web3: any
@@ -52,7 +53,7 @@ export default function Login() {
       .catch((err) => console.error("에러", err))
   }
 
-  // 네트워크 연결 함수
+  // SSAFY 네트워크 연결 함수
   const handleEthereumNetwork = async (chainId: number) => {
     await window.ethereum.request({
       method: "wallet_switchEthereumChain",
@@ -94,15 +95,13 @@ export default function Login() {
     // Look if user with current publicAddress is already present on backend
     await http
       .get(`auth/info/${publicAddress}`)
-      .then((res) => {
+      .then(async (res) => {
         nonce = res.data.nonce
+        await setIsNew(false)
       })
-      .catch(() => {
+      .catch(async () => {
         nonce = handleSignin(publicAddress)
-        window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
-        MUNGContract.methods
-          .mintToMember(publicAddress, 10000)
-          .send({ from: publicAddress })
+        await setIsNew(true)
       })
 
     // Popup MetaMask confirmation modal to sign message
@@ -111,29 +110,37 @@ export default function Login() {
     // Send signature to backend on the /auth route
     await handleAuthenticate(third)
 
-    const accounts = await window.ethereum.request({ method: "eth_accounts" })
-    await handleEthereumNetwork(chainId)
-
-    // 회원 닉네임 전역변수에 저장
-    await http
-      .get(`auth/info/nickname/${publicAddress}`)
-      .then((res) => {
-        // walletAddress, memberNickname recoil 전역변수에 저장
-        setNickname((prev) => {
-          const value = { ...prev }
-          value.memberNickname = res.data.nickname
-          value.walletAddress = publicAddress
-          return value
-        })
-      })
-      .catch((err) => console.error("닉네임 에러", err))
-
-    // Spinner 넣기
-
-    navigate("/mainpage")
+    // SSAFY Network 연결
     try {
+      await handleEthereumNetwork(chainId)
+
+      // 최초가입시 10000 MUNG 지급
+      if (isNew === true) {
+        window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
+        MUNGContract.methods
+          .mintToMember(publicAddress, 10000)
+          .send({ from: publicAddress })
+      }
+
+      // 회원 닉네임 전역변수에 저장
+      await http
+        .get(`auth/info/nickname/${publicAddress}`)
+        .then((res) => {
+          // walletAddress, memberNickname recoil 전역변수에 저장
+          setNickname((prev) => {
+            const value = { ...prev }
+            value.memberNickname = res.data.nickname
+            value.walletAddress = publicAddress
+            return value
+          })
+        })
+        .catch((err) => console.error("닉네임 에러", err))
+
+      // Spinner 넣기
+
+      navigate("/mainpage")
     } catch (err) {
-      window.alert(err)
+      console.log("싸피네트워크가 등록되어 있지 않습니다.")
     }
   }
 
