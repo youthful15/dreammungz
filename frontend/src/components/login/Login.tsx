@@ -10,7 +10,6 @@ import { useRecoilState } from "recoil"
 
 export default function Login() {
   const [, setNickname] = useRecoilState(memberAtom)
-  const [isNew, setIsNew] = useState(false)
 
   const navigate = useNavigate()
   let web3: any
@@ -90,23 +89,21 @@ export default function Login() {
 
     await localStorage.setItem("publicAddress", publicAddress)
     let nonce: any
+    let isNew: boolean = false
 
     // Look if user with current publicAddress is already present on backend
     await http
       .get(`auth/info/${publicAddress}`)
       .then((res) => {
         nonce = res.data.nonce
-        setIsNew((e) => {
-          return false
-        })
+        isNew = false
+
         console.log(2, isNew)
       })
       .catch(() => {
         async function handleSigninFunction() {
           nonce = await handleSignin(publicAddress)
-          await setIsNew((e) => {
-            return true
-          })
+          isNew = true
         }
         handleSigninFunction()
         console.log(4, isNew)
@@ -123,7 +120,7 @@ export default function Login() {
       await handleEthereumNetwork(chainId)
       console.log(5, isNew)
       // 최초가입시 10000 MUNG 지급
-      if (isNew === true) {
+      if (isNew) {
         console.log(6, isNew)
         window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
         MUNGContract.methods
