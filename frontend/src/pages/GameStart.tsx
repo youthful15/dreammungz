@@ -353,7 +353,7 @@ function WeddingMode() {
             </div>
             <div className="flex flex-col justify-center w-1/2 p-2">
               <div>압바멍</div>
-              <div>{dogF.url ? <ShowDog dog={dogM} /> : null}</div>
+              <div>{dogM.url ? <ShowDog dog={dogM} /> : null}</div>
               <div className="flex flex-wrap">
                 <StatList statList={dogM.status} />
               </div>
