@@ -47,6 +47,8 @@ contract MFTSaleFactory is Ownable {
     mapping(uint256 => uint256[]) private _negoIdsOfSale;
     // 해당 MFT ID의 판매 상태
     mapping(uint256 => bool) private _saleStatusOfMFT;
+    // 해당 MFT ID가 현재 판매중인 Sale
+    mapping(uint256 => uint256) private _currentSaleOfMFT;
 
     // SSAFY 토큰(SSF) 활용을 위한 ERC-20 토큰 컨트랙트 주소
     address private _SSFTokenContractAddress;
@@ -89,7 +91,7 @@ contract MFTSaleFactory is Ownable {
         uint256 buyNowPrice, 
         bool negoAble
         ) public {
-        require(buyNowPrice >= 0, "Price must be higher than 0.");
+        require((buyNowPrice * (10**18)) >= 0, "Price must be higher than 0.");
         require(MFT(_MFTContractAddress).ownerOf(MFTId) == seller, "Seller is not owner.");
         require(!_saleStatusOfMFT[MFTId], "This MFT is already on sale.");
 
@@ -98,7 +100,7 @@ contract MFTSaleFactory is Ownable {
         uint256 newMFTSaleId = _saleIds.current();
         
         // 새로운 Sale 컨트랙트 생성
-        MFTSale newMFTSale = new MFTSale(MFTId, seller, buyNowPrice, block.timestamp, negoAble, _SSFTokenContractAddress, _MFTContractAddress);
+        MFTSale newMFTSale = new MFTSale(MFTId, seller, (buyNowPrice * (10**18)), block.timestamp, negoAble, _SSFTokenContractAddress, _MFTContractAddress);
 
         // 새로운 Sale 컨트랙트가 거래 대상인 MFT에 대한 접근 권한을 획득
         MFT(_MFTContractAddress).approve(address(newMFTSale), MFTId);
@@ -110,6 +112,7 @@ contract MFTSaleFactory is Ownable {
         _saleIdsByWallet[seller].push(newMFTSaleId);
         _saleIdsOfMFT[MFTId].push(newMFTSaleId);
         _saleStatusOfMFT[MFTId] = true;
+        _currentSaleOfMFT[MFTId] = newMFTSaleId;
 
         emit SaleCreated(newMFTSaleId, address(newMFTSale), MFTId);
     }
@@ -137,17 +140,17 @@ contract MFTSaleFactory is Ownable {
         bool isChoiced,
         bool isCanceled
     ) public {
-        require(negoPrice >= 0, "Price must be higher than 0.");
+        require((negoPrice * (10 ** 18)) >= 0, "Price must be higher than 0.");
         require(!MFTSale(_saleAddrs[saleId]).getIsEnded(), "This sale is already ended.");
         require(MFTSale(_saleAddrs[saleId]).getNegoAble(), "This sale prohibits a negotiation.");
-        require(SSFToken(_SSFTokenContractAddress).balanceOf(negoer) >= negoPrice, "Negoer's balance is exhausted.");
+        require(SSFToken(_SSFTokenContractAddress).balanceOf(negoer) >= (negoPrice * (10 ** 18)), "Negoer's balance is exhausted.");
 
         // 새로운 Nego의 ID 결정
         _negoIds.increment();
         uint256 newMFTNegoId = _negoIds.current();
 
         // 새로운 Nego 컨트랙트 생성
-        MFTNego newMFTNego = new MFTNego(_saleAddrs[saleId], negoer, negoPrice, block.timestamp, isChoiced, isCanceled);
+        MFTNego newMFTNego = new MFTNego(_saleAddrs[saleId], negoer, (negoPrice * (10 ** 18)), block.timestamp, isChoiced, isCanceled);
 
         // Nego 관리정보 갱신
         _negoAddrs[newMFTNegoId] = address(newMFTNego);
@@ -155,7 +158,7 @@ contract MFTSaleFactory is Ownable {
         _negoIdsOfSale[saleId].push(newMFTNegoId);
 
         // Sale 컨트랙트 내 Nego 관리 함수 호출
-        MFTSale(_saleAddrs[saleId]).reportNego(newMFTNegoId, address(newMFTNego), negoer, negoPrice, block.timestamp, isChoiced, isCanceled);
+        MFTSale(_saleAddrs[saleId]).reportNego(newMFTNegoId, address(newMFTNego), negoer, (negoPrice * (10 ** 18)), block.timestamp, isChoiced, isCanceled);
     
         emit NegoCreated(newMFTNegoId, address(newMFTNego), saleId);
     }
@@ -381,5 +384,18 @@ contract MFTSaleFactory is Ownable {
     */
     function getSaleStatusOfMFT(uint256 MFTId) public view returns(bool) {
         return _saleStatusOfMFT[MFTId];
+    }
+
+    /**
+    * getCurrentSaleOfMFT
+    * 해당 MFT의 Sale ID를 반환 
+    *
+    * @ param uint256 MFTId MFT ID
+    * @ return uint256 현재 거래
+    * @ exception MFT가 현재 판매중이어야함
+    */
+    function getCurrentSaleOfMFT(uint256 MFTId) public view returns(uint256) {
+        require(_saleStatusOfMFT[MFTId], "This MFT is not on sale.");
+        return _currentSaleOfMFT[MFTId];
     }
 }
