@@ -1,5 +1,6 @@
 package dreammungz.api.service;
 
+import dreammungz.api.dto.nft.MyNftResponse;
 import dreammungz.api.dto.nft.StatusNameValue;
 import dreammungz.api.dto.nft.info.GameEndRequest;
 import dreammungz.api.dto.nft.info.GameEndResponse;
@@ -35,31 +36,80 @@ public class NftService {
     private final NftRepository nftRepository;
     private final NftStatusRepository nftStatusRepository;
     private final MemberRepository memberRepository;
-    private final GameRepository gameRepository;
     private final GameStatusRepository gameStatusRepository;
     private final StatusRepository statusRepository;
     private final RequirementRepository requirementRepository;
     private final JobRepository jobRepository;
     private final TradeRepository tradeRepository;
-
+    private final NftRepositorySupport nftRepositorySupport;
     /*
     NFT 필터 결과 조회
     since 2022. 09. 21
     전체 조회하는 임시 코드입니다.
     수정 예정
      */
+    public MyNftResponse myNftList(String address) {
+        MyNftResponse nftListResponse = new MyNftResponse();
+        Member member = getMember(address);
+        List<Nft> nftList= nftRepositorySupport.findAllByMember(member);
+        List<MyNftResponse.NftInfo> nftInfos = new ArrayList<>();
+        for (int i = 0; i < nftList.size(); i++) {
+            Nft nftItem = nftList.get(i);
+            boolean isSell = false;
+            if (tradeRepository.existsByNft(nftItem)) {
+                List<Trade> trades = tradeRepository.findByNft(nftItem);
+                for (Trade trade : trades) {
+                    if (trade.getCancel().equals(Check.N) && trade.getState().equals(State.PROCEEDING)) {
+                        isSell = true;
+                        break;
+                    }
+                }
+            }
+
+            List<MyNftResponse.NftInfo.StatusList> statusLists = new ArrayList<>();
+            for (int j = 0; j < nftItem.getNftStatuses().size(); j++) {
+                statusLists.add(new MyNftResponse.NftInfo.StatusList(nftItem.getNftStatuses().get(j).getStatus().getName(), nftItem.getNftStatuses().get(j).getValue()));
+            }
+            // NFT 관련 정보 담기
+            if (!isSell) {
+                MyNftResponse.NftInfo nftInfo = MyNftResponse.NftInfo.builder()
+                        .id(nftItem.getTokenId())
+                        .url(nftItem.getImageUrl())
+                        .tier(nftItem.getTier())
+                        .gender(nftItem.getGender())
+                        .status(statusLists)
+                        .build();
+                nftInfos.add(nftInfo);
+            }
+        }
+        nftListResponse.setItems(nftInfos);
+
+        return nftListResponse;
+    }
+
+    /*
+    @author 신슬기
+    @since 2022. 09. 23.
+    */
     public NftListResponse searchNft(NftListRequest nftListRequest) {
         NftListResponse nftListResponse = new NftListResponse();
-        PageRequest pageRequest = PageRequest.of(nftListRequest.getPage(), 8);//0페이지부터 시작하기 때문에 -1
-        // 지갑 주소가 있다면
+        PageRequest pageRequest = null;
+        //지갑 주소가 없다면 전체 NFT 리스트
+        if(nftListRequest.getAddress()==null){
+            pageRequest = PageRequest.of(nftListRequest.getPage(), 8);
+        }else{ //지갑 주소가 있다면 해당 지갑 주소
+            pageRequest = PageRequest.of(nftListRequest.getPage(), 8);
+        }
+        // 판매여부 체크(체크시 판매중인 상품만, 아니면 전체)
+
         // 선택한 직업이 있다면
         // 선택한 모질이 있다면
         // 선택한 등급이 있다면
         // 선택한 성별이 있다면
         // 선택한 얼굴이 있다면
-        // 판매여부 체크(체크시 판매중인 상품만, 아니면 전체)
         // 상태값 있다면
-        Page<Nft> nftList = nftRepository.findAll(pageRequest); //페이지 처리해서 조회
+        Page<Nft> nftList = nftRepositorySupport.findAll(pageRequest);
+        //Page<Nft> nftList = nftRepository.findAll(pageRequest); //페이지 처리해서 조회
         List<NftListResponse.NftInfo> nftInfos = new ArrayList<>();
         for (int i = 0; i < nftList.getContent().size(); i++) {
             Nft nftItem = nftList.getContent().get(i);
@@ -100,6 +150,7 @@ public class NftService {
 
         return nftListResponse;
     }
+
 
     /*
     NFT 정보 저장
