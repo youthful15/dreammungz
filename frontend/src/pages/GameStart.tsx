@@ -4,186 +4,6 @@ import { http } from "../api/axios"
 import GenderTag from "../components/game/GenderTag"
 import StatList from "../components/nftInfo/StatList"
 
-const nft = [
-  {
-    id: "1",
-    url: "/운동멍.png",
-    gender: "F",
-    status: [
-      {
-        name: "CHARISMA",
-        value: 2,
-      },
-      {
-        name: "VOICE",
-        value: 2,
-      },
-    ],
-  },
-  {
-    id: "2",
-    url: "/무명작가멍.png",
-    gender: "M",
-    status: [
-      {
-        name: "CHARISMA",
-        value: 2,
-      },
-      {
-        name: "VOICE",
-        value: 2,
-      },
-      {
-        name: "INTUITION",
-        value: 2,
-      },
-      {
-        name: "CLEVER",
-        value: 2,
-      },
-      {
-        name: "POPULARITY",
-        value: 2,
-      },
-    ],
-  },
-  {
-    id: "3",
-    url: "/기자멍.png",
-    gender: "M",
-    status: [
-      {
-        name: "CHARISMA",
-        value: 2,
-      },
-      {
-        name: "VOICE",
-        value: 2,
-      },
-    ],
-  },
-  {
-    id: "4",
-    url: "/운동멍.png",
-    gender: "M",
-    status: [
-      {
-        name: "VOICE",
-        value: 2,
-      },
-      {
-        name: "INTUITION",
-        value: 2,
-      },
-    ],
-  },
-  {
-    id: "5",
-    url: "/무명작가멍.png",
-    gender: "M",
-    status: [
-      {
-        name: "CLEVER",
-        value: 2,
-      },
-      {
-        name: "POPULARITY",
-        value: 2,
-      },
-    ],
-  },
-  {
-    id: "6",
-    url: "/무명작가멍.png",
-    gender: "M",
-    status: [
-      {
-        name: "CHARISMA",
-        value: 2,
-      },
-      {
-        name: "VOICE",
-        value: 2,
-      },
-    ],
-  },
-  {
-    id: "string",
-    url: "/무명작가멍.png",
-    gender: "M",
-    status: [
-      {
-        name: "CHARISMA",
-        value: 2,
-      },
-      {
-        name: "VOICE",
-        value: 2,
-      },
-    ],
-  },
-  {
-    id: "string",
-    url: "/무명작가멍.png",
-    gender: "M",
-    status: [
-      {
-        name: "CHARISMA",
-        value: 2,
-      },
-      {
-        name: "VOICE",
-        value: 2,
-      },
-    ],
-  },
-  {
-    id: "string",
-    url: "/무명작가멍.png",
-    gender: "M",
-    status: [
-      {
-        name: "CHARISMA",
-        value: 2,
-      },
-      {
-        name: "VOICE",
-        value: 2,
-      },
-    ],
-  },
-  {
-    id: "string",
-    url: "/무명작가멍.png",
-    gender: "M",
-    status: [
-      {
-        name: "CHARISMA",
-        value: 2,
-      },
-      {
-        name: "VOICE",
-        value: 2,
-      },
-    ],
-  },
-  {
-    id: "string",
-    url: "/무명작가멍.png",
-    gender: "M",
-    status: [
-      {
-        name: "CHARISMA",
-        value: 2,
-      },
-      {
-        name: "VOICE",
-        value: 2,
-      },
-    ],
-  },
-]
-
 let startSetting = {
   address: "0x1",
   father: "",
@@ -194,7 +14,6 @@ let startSetting = {
 // 게임 시작 API
 function useMovePage() {
   const navigate = useNavigate()
-  console.log(startSetting)
 
   async function MovePage() {
     // 여기 나중에 결제 로직이 들어감니다
@@ -204,11 +23,6 @@ function useMovePage() {
     })
   }
   return MovePage
-}
-
-// 웨딩 모드 시작
-function WeddingModeStart() {
-  alert("결제를 해야함니다")
 }
 
 // 시작 화면 설명
@@ -246,6 +60,7 @@ type DogType = {
   gender: string
   status: StatType[]
   id: string
+  tier: string
 }
 type StatType = {
   name: string
@@ -254,9 +69,37 @@ type StatType = {
 
 // 웨딩 모드 설명
 function WeddingMode() {
+  const [nft, setNft] = useState([
+    {
+      id: "",
+      url: "",
+      gender: "",
+      status: [
+        {
+          name: "",
+          value: 2,
+        },
+        {
+          name: "",
+          value: 2,
+        },
+      ],
+      tier: "",
+    },
+  ])
+
+  useEffect(() => {
+    let nftList
+    async function nftGet() {
+      nftList = await http.get(`nft/address/${"0x1"}`)
+      console.log("지갑 주소가 하드코딩 되어있습니다.")
+      setNft(nftList.data.items)
+    }
+    nftGet()
+  }, [])
+
   const MovePage = useMovePage()
   function StartGame() {
-    console.log("여기잇다", startSetting)
     MovePage()
   }
 
@@ -265,12 +108,14 @@ function WeddingMode() {
     gender: "",
     status: [],
     id: "",
+    tier: "",
   })
   const [dogM, setDogM] = useState<DogType>({
     url: "",
     gender: "",
     status: [],
     id: "",
+    tier: "",
   })
 
   const [babyStatus, setBabyStatus] = useState<StatType[]>([])
