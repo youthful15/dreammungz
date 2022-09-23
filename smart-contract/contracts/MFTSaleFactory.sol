@@ -18,6 +18,9 @@ import "./MFTNego.sol";
 contract MFTSaleFactory is Ownable {
     using Counters for Counters.Counter;
 
+    event SaleCreated(uint256 indexed saleId, address saleAddr, uint256 MFTId);
+    event NegoCreated(uint256 indexed negoId, address negoAddr, uint256 SaleId);
+
     // Sale ID(1씩 자동 증가)
     Counters.Counter private _saleIds;
     // Nego ID(1씩 자동 증가)
@@ -75,7 +78,7 @@ contract MFTSaleFactory is Ownable {
     * @ param uint256 buyNowPrice 즉시 구매 금액
     * @ param uint256 startedAt 판매 시작 시간
     * @ param bool negoAble 제안 가능 여부 
-    * @ return uint256 생성된 Sale 컨트랙트 Id
+    * @ return None
     * @ exception 즉시 구매 금액은 0 이상이어야 함
     * @ exception MFT가 판매자의 소유여야 함    
     * @ exception 해당 MFT가 판매중이어서는 안됨
@@ -84,9 +87,8 @@ contract MFTSaleFactory is Ownable {
         uint256 MFTId,
         address seller,
         uint256 buyNowPrice, 
-        uint256 startedAt, 
         bool negoAble
-        ) public returns(uint256) {
+        ) public {
         require(buyNowPrice >= 0, "Price must be higher than 0.");
         require(MFT(_MFTContractAddress).ownerOf(MFTId) == seller, "Seller is not owner.");
         require(!_saleStatusOfMFT[MFTId], "This MFT is already on sale.");
@@ -96,7 +98,7 @@ contract MFTSaleFactory is Ownable {
         uint256 newMFTSaleId = _saleIds.current();
         
         // 새로운 Sale 컨트랙트 생성
-        MFTSale newMFTSale = new MFTSale(MFTId, seller, buyNowPrice, startedAt, negoAble, _SSFTokenContractAddress, _MFTContractAddress);
+        MFTSale newMFTSale = new MFTSale(MFTId, seller, buyNowPrice, block.timestamp, negoAble, _SSFTokenContractAddress, _MFTContractAddress);
 
         // 새로운 Sale 컨트랙트가 거래 대상인 MFT에 대한 접근 권한을 획득
         MFT(_MFTContractAddress).approve(address(newMFTSale), MFTId);
@@ -109,7 +111,7 @@ contract MFTSaleFactory is Ownable {
         _saleIdsOfMFT[MFTId].push(newMFTSaleId);
         _saleStatusOfMFT[MFTId] = true;
 
-        return newMFTSaleId;
+        emit SaleCreated(newMFTSaleId, address(newMFTSale), MFTId);
     }
     
     /**
@@ -122,7 +124,7 @@ contract MFTSaleFactory is Ownable {
     * @ param uint256 negoAt 제안 일시
     * @ param bool isChoiced 제안 채택 여부
     * @ param bool isCanceled 제안 취소 여부
-    * @ return uint256 생성된 Nego 컨트랙트 Id
+    * @ return None
     * @ exception 제안 금액은 0 이상이어야 함
     * @ exception 제안 하는 Sale은 진행중이어야 함
     * @ exception 제안 하는 Sale은 제안 가능 여부가 true이어야 함
@@ -132,10 +134,9 @@ contract MFTSaleFactory is Ownable {
         uint256 saleId,
         address negoer,
         uint256 negoPrice,
-        uint256 negoAt,
         bool isChoiced,
         bool isCanceled
-    ) public returns(uint256) {
+    ) public {
         require(negoPrice >= 0, "Price must be higher than 0.");
         require(!MFTSale(_saleAddrs[saleId]).getIsEnded(), "This sale is already ended.");
         require(MFTSale(_saleAddrs[saleId]).getNegoAble(), "This sale prohibits a negotiation.");
@@ -146,7 +147,7 @@ contract MFTSaleFactory is Ownable {
         uint256 newMFTNegoId = _negoIds.current();
 
         // 새로운 Nego 컨트랙트 생성
-        MFTNego newMFTNego = new MFTNego(_saleAddrs[saleId], negoer, negoPrice, negoAt, isChoiced, isCanceled);
+        MFTNego newMFTNego = new MFTNego(_saleAddrs[saleId], negoer, negoPrice, block.timestamp, isChoiced, isCanceled);
 
         // Nego 관리정보 갱신
         _negoAddrs[newMFTNegoId] = address(newMFTNego);
@@ -154,9 +155,9 @@ contract MFTSaleFactory is Ownable {
         _negoIdsOfSale[saleId].push(newMFTNegoId);
 
         // Sale 컨트랙트 내 Nego 관리 함수 호출
-        MFTSale(_saleAddrs[saleId]).reportNego(newMFTNegoId, address(newMFTNego), negoer, negoPrice, negoAt, isChoiced, isCanceled);
+        MFTSale(_saleAddrs[saleId]).reportNego(newMFTNegoId, address(newMFTNego), negoer, negoPrice, block.timestamp, isChoiced, isCanceled);
     
-        return newMFTNegoId;
+        emit NegoCreated(newMFTNegoId, address(newMFTNego), saleId);
     }
 
     /**
