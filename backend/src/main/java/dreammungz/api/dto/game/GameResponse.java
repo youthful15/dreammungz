@@ -56,4 +56,15 @@ public class GameResponse{
             name = "justice",
             dataType = "Long")
     private Long justice;
+
+    public GameResponse(String title, String content, String image, String bgm){
+        this.title = title;
+        this.content = content;
+        this.image = image;
+        this.bgm = bgm;
+    }
+
+    public GameResponse(){
+
+    }
 }
