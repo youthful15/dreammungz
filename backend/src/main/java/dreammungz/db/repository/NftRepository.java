@@ -20,7 +20,7 @@ public interface NftRepository extends JpaRepository<Nft, Long>, JpaSpecificatio
     @since 2022. 09. 16.
     */
     Optional<Nft> findNftByTokenId(Long tokenId);
-
+    boolean existsByTokenId(Long tokenId);
     Page<Nft> findAll(Pageable pageable);
     //Page<Nft> findAll(Specification<Nft> spec, Pageable pagealbe); //Specification를 이용해 동적 조건 검색
 
