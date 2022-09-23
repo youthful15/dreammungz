@@ -213,7 +213,10 @@ export default function NftDetail() {
         // approve 필요 10 ** 18 곱하기
         await MUNGContract.methods
           // web3.utils.toBN(cost)
-          .approve(saleContractAddress, web3.utils.toBN(cost).toString())
+          .approve(
+            saleContractAddress,
+            web3.utils.toBN(cost * 10 ** 18).toString()
+          )
           .send({ from: publicAddress })
 
         // 즉시 구매 SMART CONTRACT
