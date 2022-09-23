@@ -7,6 +7,7 @@ import dreammungz.api.dto.nft.list.NftListRequest;
 import dreammungz.db.entity.Job;
 import dreammungz.db.entity.Member;
 import dreammungz.db.entity.Nft;
+import dreammungz.db.entity.Status;
 import dreammungz.enums.*;
 import dreammungz.exception.CustomException;
 import dreammungz.exception.CustomExceptionList;
@@ -16,9 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static dreammungz.db.entity.QNft.nft;
+import static dreammungz.db.entity.QNftStatus.nftStatus;
 import static dreammungz.db.entity.QTrade.trade;
 
 /*
@@ -46,7 +49,8 @@ public class NftRepositorySupport extends QuerydslRepositorySupport {
                 .select(nft).distinct()
                 .from(nft)
                 .leftJoin(nft.trades, trade)
-                .where(trade.state.eq(State.PROCEEDING), trade.cancel.eq(Check.N), eqAddress(nftListRequest.getAddress()), eqJob(nftListRequest.getJob()), eqHair(nftListRequest.getHair())
+                .leftJoin(nft.nftStatuses, nftStatus)
+                .where(eqStatus(nftListRequest.getStatus()),trade.state.eq(State.PROCEEDING), trade.cancel.eq(Check.N), eqAddress(nftListRequest.getAddress()), eqJob(nftListRequest.getJob()), eqHair(nftListRequest.getHair())
                         , eqTier(nftListRequest.getTier()), eqColor(nftListRequest.getColor()), eqGender(nftListRequest.getGender())
                         , eqFace(nftListRequest.getFace()));
         List<Nft> nfts = this.getQuerydsl().applyPagination(pageable, query).orderBy(nft.tokenId.desc()).fetch();
@@ -57,8 +61,8 @@ public class NftRepositorySupport extends QuerydslRepositorySupport {
         JPQLQuery<Nft> query = queryFactory
                 .select(nft).distinct()
                 .from(nft)
-                .innerJoin(nft.nftStatuses)
-                .where(eqAddress(nftListRequest.getAddress()), eqJob(nftListRequest.getJob()), eqHair(nftListRequest.getHair())
+                .leftJoin(nft.nftStatuses, nftStatus)
+                .where(eqStatus(nftListRequest.getStatus()),eqAddress(nftListRequest.getAddress()), eqJob(nftListRequest.getJob()), eqHair(nftListRequest.getHair())
                         , eqTier(nftListRequest.getTier()), eqColor(nftListRequest.getColor()), eqGender(nftListRequest.getGender())
                         , eqFace(nftListRequest.getFace()));
         List<Nft> nfts = this.getQuerydsl().applyPagination(pageable, query).orderBy(nft.tokenId.desc()).fetch();
@@ -130,19 +134,19 @@ public class NftRepositorySupport extends QuerydslRepositorySupport {
         return nft.face.eq(face);
     }
 
-    /*
+
     private BooleanExpression eqStatus(List<String> status) {
         if (status.size()==0) {
             return null;
         }
-        List<Long> id = new ArrayList<>();
+        List<StatusName> id = new ArrayList<>();
         for(int i=0;i< status.size();i++){
             Status statusValue = statusRepository.findByName(StatusName.valueOf(status.get(i))).orElseThrow(() -> new CustomException(CustomExceptionList.STATUS_NOT_FOUND));
-            id.add(statusValue.getId());
+            id.add(statusValue.getName());
         }
-        return nftStatus.status.id.in(id);
+        return nftStatus.status.name.in(id);
     }
-    */
+
 
 
 }
