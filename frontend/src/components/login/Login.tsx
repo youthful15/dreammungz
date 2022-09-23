@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { http } from "../../api/axios"
 import { chainId, MUNGContract } from "../../utils/Web3Config"
@@ -43,18 +43,17 @@ export default function Login() {
     }
   }
 
-  const handleSignup = (publicAddress: string) => {
-    http
-      .post("auth/signin", {
-        params: {
-          address: publicAddress,
-        },
-      })
+  // 회원가입
+  const handleSignin = async (publicAddress: string) => {
+    const data = { address: publicAddress }
+    await http
+      .post(`auth/signin`, data)
       .then((res) => res.data.nonce)
+      .catch((err) => console.error("에러", err))
   }
 
   // 네트워크 연결 함수
-  const handleNetwork = async (chainId: number) => {
+  const handleEthereumNetwork = async (chainId: number) => {
     await window.ethereum.request({
       method: "wallet_switchEthereumChain",
       params: [{ chainId: web3.utils.toHex(chainId) }],
@@ -89,31 +88,22 @@ export default function Login() {
 
     const publicAddress = coinbase.toLowerCase()
 
-    let nonce
+    localStorage.setItem("publicAddress", publicAddress)
+    let nonce: any
 
     // Look if user with current publicAddress is already present on backend
-    const first = await http
+    await http
       .get(`auth/info/${publicAddress}`)
-      .then((res) => res.data.nonce)
-      .catch((err) => err.response.data.message)
-
-    // 존재하면 exception의 에러메시지
-    if (first !== "존재하지 않는 회원입니다.") {
-      nonce = first
-    } else {
-      nonce = await handleSignup(publicAddress)
-    }
-
-    // 회원 닉네임 전역변수에 저장
-    http.get(`auth/info/nickname/${publicAddress}`).then((res) => {
-      // walletAddress, memberNickname recoil 전역변수에 저장
-      setNickname((prev) => {
-        const value = { ...prev }
-        value.memberNickname = res.data.data.nickname
-        value.walletAddress = publicAddress
-        return value
+      .then((res) => {
+        nonce = res.data.nonce
       })
-    })
+      .catch(() => {
+        nonce = handleSignin(publicAddress)
+        window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
+        MUNGContract.methods
+          .mintToMember(publicAddress, 10000)
+          .send({ from: publicAddress })
+      })
 
     // Popup MetaMask confirmation modal to sign message
     const third = await handleSignMessage({ publicAddress, nonce })
@@ -122,22 +112,21 @@ export default function Login() {
     await handleAuthenticate(third)
 
     const accounts = await window.ethereum.request({ method: "eth_accounts" })
-    await handleNetwork(chainId)
+    await handleEthereumNetwork(chainId)
 
-    // 회원가입을 했는지 확인
+    // 회원 닉네임 전역변수에 저장
     await http
-      .get(`https://j7a605.p.ssafy.io/api/auth/duplicated/${publicAddress}`)
+      .get(`auth/info/nickname/${publicAddress}`)
       .then((res) => {
-        // 첫 회원가입
-        if (res.data === false) {
-          window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
-
-          // 여기에 코드 추가해야 함 await
-          MUNGContract.methods
-            .mintToNewMember(publicAddress)
-            .send({ from: publicAddress })
-        }
+        // walletAddress, memberNickname recoil 전역변수에 저장
+        setNickname((prev) => {
+          const value = { ...prev }
+          value.memberNickname = res.data.nickname
+          value.walletAddress = publicAddress
+          return value
+        })
       })
+      .catch((err) => console.error("닉네임 에러", err))
 
     // Spinner 넣기
 
@@ -149,18 +138,16 @@ export default function Login() {
   }
 
   return (
-    <div>
-      <button
-        className="Login-button Login-mm flex items-center border bg-[#273850] p-2"
-        onClick={handleClick}
-      >
-        <img
-          src="images/metamask.png"
-          className="mr-1"
-          alt="Metamask 로그인 이미지"
-        />
-        <p className="font-semibold text-white">MetaMask 로그인</p>
-      </button>
+    <div
+      className="Login-button Login-mm flex items-center border bg-[#273850] p-2"
+      onClick={handleClick}
+    >
+      <img
+        src="images/metamask.png"
+        className="mr-1"
+        alt="Metamask 로그인 이미지"
+      />
+      <p className="font-semibold text-white">MetaMask 로그인</p>
     </div>
   )
 }

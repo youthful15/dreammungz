@@ -2,7 +2,7 @@ import html2canvas from "html2canvas"
 import { useRef, useEffect } from "react"
 import { create } from "ipfs-http-client"
 import { MFTContract } from "../utils/Web3Config"
-
+import { http } from "../api/axios"
 // Nickname을 전역변수로 넣기 위한 import문
 import memberAtom from "../recoil/member/atom"
 import { useRecoilState } from "recoil"
@@ -45,11 +45,11 @@ export default function GameEnding() {
     await html2canvas(canvasRef.current!).then(async (canvas) => {
       url = canvas.toDataURL("image/jpg")
 
-      var arr = url.split(",")
-      var mime = arr[0].match(/:(.*?);/)![1]
-      var bstr = window.atob(arr[1])
-      var n = bstr.length
-      var u8arr = new Uint8Array(n)
+      let arr = url.split(",")
+      let mime = arr[0].match(/:(.*?);/)![1]
+      let bstr = window.atob(arr[1])
+      let n = bstr.length
+      let u8arr = new Uint8Array(n)
 
       while (n--) {
         u8arr[n] = bstr.charCodeAt(n)
@@ -58,10 +58,12 @@ export default function GameEnding() {
       const file = new File([u8arr], "munggae.png", { type: mime })
       const hash = await client.add(file)
       const imageURL = "https://ipfs.io/ipfs/" + hash.path
-      console.log("살려주세요", hash)
 
-      const newFile = {
-        image: imageURL,
+      // 이미지 URL
+      console.log("이미지 URL", imageURL)
+
+      let newFile = {
+        url: imageURL,
         color: "PINK",
         hair: "CURLY",
         face: "BEAN",
@@ -81,16 +83,34 @@ export default function GameEnding() {
       }
 
       const newHash = await client.add(JSON.stringify(newFile))
-      console.log(newHash)
+      console.log("aa", newHash)
 
-      const publicAddress = member.walletAddress
+      const publicAddress = localStorage.getItem("publicAddress")
+      // NFT Token ID
+      let nftTokenId
+      const metadata = "https://ipfs.io/ipfs/" + newHash.path
+      const metadataURI = { metadata: metadata }
+      try {
+        await MFTContract.methods
+          .create("https://ipfs.io/ipfs/" + newHash.path)
+          .send({ from: publicAddress })
+          .then((res: any) => {
+            console.log("제발요", res)
+            nftTokenId = res.events.Transfer.returnValues.tokenId
+            newFile = Object.assign(newFile, { id: nftTokenId })
+            newFile = Object.assign(newFile, metadataURI)
+            console.log("뉴파일", newFile)
+          })
 
-      const temp = MFTContract.methods
-        .create("https://ipfs.io/ipfs/" + newHash.path)
-        .send({ from: publicAddress })
-        .then((res: any) => console.log("제발요", res))
-
-      console.log("이거 맞냐", temp)
+        await http
+          .post(`nft/result/address/${publicAddress}`, newFile)
+          .then((response) =>
+            console.log("NFT DB에 저장되어 있는지 확인", response)
+          )
+          .catch((error) => console.error("안의 error", error))
+      } catch (err) {
+        console.error("NFT 민팅 에러", err)
+      }
     })
   }
 

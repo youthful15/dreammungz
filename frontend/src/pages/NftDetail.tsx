@@ -112,6 +112,15 @@ const NftDetail = () => {
     setProposal(value)
   }
 
+  // MFT 가져오기
+  const getMFT = async () => {
+    const MFT = await MFTSaleFactoryContract
+    console.log(MFT)
+  }
+  useEffect(() => {
+    getMFT()
+  }, [])
+
   // MUNG 가져오기
   const getMung = async () => {
     const walletAddress = localStorage.getItem("publicAddress")
