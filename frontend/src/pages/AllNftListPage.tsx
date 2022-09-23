@@ -9,7 +9,6 @@ import Filter from "../components/filter/Filter"
 import NftList from "../components/nftList/NftList"
 import useQueryParam from "../components/filter/useQueryParam"
 import { getNftList } from "../api/nft"
-import { isTemplateExpression } from "typescript"
 
 const useNftList = (page: number) => {
   return useQuery(["nftList", page], () => getNftList(page))
@@ -47,13 +46,13 @@ const NftListPage = () => {
   }, [filter])
 
   return (
-    <div className="relative flex flex-col h-full">
+    <div className="flex flex-col h-full ">
       {/* <pre className="absolute right-0 z-30 bg-white">
         {JSON.stringify(filter || {}, null, 1)}
       </pre> */}
-
-      <div className="h-[15%]">
-        <Filter setFilter={setFilter} />
+      <h1 className="mb-3 text-2xl font-bold">드림멍즈의 모든 강아지들 </h1>
+      <div className="h-[10%]">
+        <Filter setFilter={setFilter} filter={filter} />
       </div>
       <div className="h-[85%]">
         {data && (
@@ -62,6 +61,8 @@ const NftListPage = () => {
             setPage={setPage}
             totalPage={data.totalPage + 1}
             list={data.items}
+            setFilter={setFilter}
+            filter={filter}
           />
         )}
       </div>
