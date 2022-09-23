@@ -61,19 +61,35 @@ public class GameController{
     public ResponseEntity<GameResponse> gameStart(
             @RequestBody @ApiParam(value = "게임 시작 정보 (메이팅 or 분양)", required = true) GameStartRequest gameStart){
         /*
-        게임 시작 3단계 프로세스
+        게임 시작 4단계 프로세스
+        0. 게임 진행 여부 확인
         1. 스탯 선정 (메이팅 or 분양)
         2. 기타 초기 설정
         3. 스토리 선정
         => front에 전송
          */
 
+        //0. 게임 진행 여부 확인 : 이미 게임을 진행하고 있는 유저라면 게임 새롭게 시작을 할 수 없다.
+        if(gameService.checkGameStarted(gameStart.getAddress())){
+            throw new CustomException(CustomExceptionList.MEMBER_IS_GAMING);
+        }
+
         //1. 스탯 설정 : 교배를 통한 게임 시작인지, 분양을 통한 게임 시작인지 확인하기 (DB에 저장)
         if(gameStart.isMating()){
-            //교배 조건. 메이팅의 성별이 유효한가? (남-father, 여-mother)
+            //교배 조건1. 해당 개체가 유효한 개체인가?
+//            if(!gameService.isNftValid(gameStart.getMother(), gameStart.getFather())){
+//                //throw : 부모 개체가 유효하지 않습니다.
+//                throw new CustomException(CustomExceptionList.MATING_PARENT_NOT_VALID);
+//            }
+            //교배 조건2. 메이팅의 성별이 유효한가? (남-father, 여-mother)
             if(!gameService.isGenderValid(gameStart.getFather(), gameStart.getMother())){
                 //throw : 부모 개체의 성별이 유효하지 않습니다.
                 throw new CustomException(CustomExceptionList.MATING_PARENT_GENDER_NOT_CORRECT);
+            }
+            //교배 조건3. 부모 개체가 둘 다 본인 소유인가?
+            if(!gameService.isNftOwner(gameStart.getFather(), gameStart.getMother(), gameStart.getAddress())){
+                //throw : 부모 개체의 소유자가 아닙니다.
+                throw new CustomException(CustomExceptionList.MATING_PARENT_NOT_OWNER);
             }
         }
         //메이팅 조건이 모두 일치하거나, 분양인 경우에만 실행

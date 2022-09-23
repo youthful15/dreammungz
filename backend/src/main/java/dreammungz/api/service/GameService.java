@@ -34,14 +34,25 @@ public class GameService{
     final NftRepository nftRepository;
     final NftStatusRepository nftStatusRepository;
 
+    public boolean isNftValid(Long father, Long mother){
+        //부모 개체가 유효한 NFT인지 체크
+        return nftRepository.existsByTokenId(father)
+                && nftRepository.existsByTokenId(mother);
+    }
     public boolean isGenderValid(Long father, Long mother){
         //부모의 성별이 유효하게 지정되었는지 체크
-        return (nftRepository.findById(father).get().getGender() == Gender.M)
-                && (nftRepository.findById(mother).get().getGender() == Gender.F);
+        return (nftRepository.findNftByTokenId(father).get().getGender() == Gender.M)
+                && (nftRepository.findNftByTokenId(mother).get().getGender() == Gender.F);
+    }
+
+    public boolean isNftOwner(Long father, Long mother, String address){
+        //부모 개체가 해당 유저의 NFT 소유권인지 체크
+        Member member = memberRepository.findByAddress(address).get();
+        return nftRepository.findNftByTokenId(father).get().getMember() == member
+                && nftRepository.findNftByTokenId(mother).get().getMember() == member;
     }
 
     public void inherited(GameStartRequest gameStart){
-        System.out.println("LET'S inherited");
         //[DB] [Game] 생성
         Game game = new Game(null, null);
         game.setCurScene((long) 1); //첫번째 씬을 프롤로그 첫 씬으로 설정
