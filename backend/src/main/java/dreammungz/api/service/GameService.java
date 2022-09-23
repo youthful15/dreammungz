@@ -117,8 +117,8 @@ public class GameService{
         int normalListCount = normalStories.size();
         int longListCount = longStories.size();
 
-        final int shortFinalCount = 1;
-        final int normalFinalCount = 2;
+        final int shortFinalCount = 8;
+        final int normalFinalCount = 1;
         final int longFinalCount = 1;
 
         final int storiesSumCount = shortFinalCount + normalFinalCount + longFinalCount;
