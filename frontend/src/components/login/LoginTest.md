@@ -11,11 +11,86 @@ import { useRecoilState } from "recoil"
 export default function Login() {
   const [, setNickname] = useRecoilState(memberAtom)
   const [isNew, setIsNew] = useState(false)
+  const [nonce, setNonce] = useState("")
+  const publicAddress: any = localStorage.getItem("publicAddress")
 
-  // 회원가입을 최초로 한 사람인지 check
-  const changeCheck = () => {
-    setIsNew((check: boolean) => !check)
+  async function handleSignMessageAsync(publicAddress: any) {
+    return await handleSignMessage({ publicAddress, nonce })
   }
+
+  async function handleAuthenticateAsync(third: any) {
+    await handleAuthenticate(third)
+  }
+
+  async function handleEthereumNetworkAsync(chainId: any) {
+    await handleEthereumNetwork(chainId)
+  }
+
+  async function setNicknameAsync(publicAddress: any) {
+    // 회원 닉네임 전역변수에 저장
+    await http
+      .get(`auth/info/nickname/${publicAddress}`)
+      .then((res) => {
+        // walletAddress, memberNickname recoil 전역변수에 저장
+        setNickname((prev) => {
+          const value = { ...prev }
+          value.memberNickname = res.data.nickname
+          value.walletAddress = publicAddress
+          return value
+        })
+      })
+      .catch((err) => console.error("닉네임 에러", err))
+  }
+
+  async function handleSigninAsync(publicAddress: any) {
+    const fetchedNonce = await handleSignin(publicAddress)
+    setNonce(fetchedNonce)
+    setIsNew(true)
+  }
+
+  async function checkPublicAddressBackend() {
+    await http
+      .get(`auth/info/${publicAddress}`)
+      .then((res) => {
+        setNonce(res.data.nonce)
+        setIsNew(false)
+      })
+      .catch(() => {
+        handleSigninAsync(publicAddress)
+      })
+  }
+
+  useEffect(() => {
+    const publicAddress: any = localStorage.getItem("publicAddress")
+    const third = handleSignMessageAsync(publicAddress)
+    // Popup MetaMask confirmation modal to sign message
+
+    // Send signature to backend on the /auth route
+    handleAuthenticateAsync(third)
+
+    // SSAFY Network 연결
+    try {
+      handleEthereumNetworkAsync(chainId)
+      console.log(5, isNew)
+      // 최초가입시 10000 MUNG 지급
+      if (isNew === true) {
+        console.log(6, isNew)
+        window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
+        MUNGContract.methods
+          .mintToMember(publicAddress, 10000)
+          .send({ from: publicAddress })
+      }
+
+      setNicknameAsync(publicAddress)
+
+      // Spinner 넣기
+
+      navigate("/mainpage")
+    } catch (err) {
+      alert("싸피네트워크가 등록되어 있지 않습니다!")
+    }
+  }, [isNew])
+  // 회원가입을 최초로 한 사람인지 check
 
   const navigate = useNavigate()
   let web3: any
@@ -61,7 +136,7 @@ export default function Login() {
   const handleEthereumNetwork = async (chainId: number) => {
     await window.ethereum.request({
       method: "wallet_switchEthereumChain",
-      params: [{ chainId: web3.utils.toHex(chainId) }],
+      params: [{ chainId: web3?.utils.toHex(chainId) }],
     })
   }
 
@@ -92,64 +167,10 @@ export default function Login() {
     }
 
     const publicAddress = coinbase.toLowerCase()
-
-    await localStorage.setItem("publicAddress", publicAddress)
-    let nonce: any
+    localStorage.setItem("publicAddress", publicAddress)
 
     // Look if user with current publicAddress is already present on backend
-    await http
-      .get(`auth/info/${publicAddress}`)
-      .then((res) => {
-        nonce = res.data.nonce
-      })
-      .catch(() => {
-        async function handleSigninFunction() {
-          nonce = await handleSignin(publicAddress)
-          await changeCheck()
-        }
-        handleSigninFunction()
-        console.log(4, isNew)
-      })
-
-    // Popup MetaMask confirmation modal to sign message
-    const third = await handleSignMessage({ publicAddress, nonce })
-
-    // Send signature to backend on the /auth route
-    await handleAuthenticate(third)
-
-    // SSAFY Network 연결
-    try {
-      await handleEthereumNetwork(chainId)
-      console.log(5, isNew)
-      // 최초가입시 10000 MUNG 지급
-      if (isNew === true) {
-        console.log(6, isNew)
-      }
-      window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
-      await MUNGContract.methods
-        .mintToMember(publicAddress, 10000)
-        .send({ from: publicAddress })
-
-      // 회원 닉네임 전역변수에 저장
-      await http
-        .get(`auth/info/nickname/${publicAddress}`)
-        .then((res) => {
-          // walletAddress, memberNickname recoil 전역변수에 저장
-          setNickname((prev) => {
-            const value = { ...prev }
-            value.memberNickname = res.data.nickname
-            value.walletAddress = publicAddress
-            return value
-          })
-        })
-        .catch((err) => console.error("닉네임 에러", err))
-
-      // Spinner 넣기
-
-      navigate("/mainpage")
-    } catch (err) {
-      alert("싸피네트워크가 등록되어 있지 않습니다!")
-    }
+    checkPublicAddressBackend()
   }
 
   return (
