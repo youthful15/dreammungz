@@ -86,7 +86,7 @@ contract MFTSaleFactory is Ownable {
         uint256 buyNowPrice, 
         uint256 startedAt, 
         bool negoAble
-        ) public {
+        ) public returns(uint256) {
         require(buyNowPrice >= 0, "Price must be higher than 0.");
         require(MFT(_MFTContractAddress).ownerOf(MFTId) == seller, "Seller is not owner.");
         require(!_saleStatusOfMFT[MFTId], "This MFT is already on sale.");
@@ -135,7 +135,7 @@ contract MFTSaleFactory is Ownable {
         uint256 negoAt,
         bool isChoiced,
         bool isCanceled
-    ) public {
+    ) public returns(uint256) {
         require(negoPrice >= 0, "Price must be higher than 0.");
         require(!MFTSale(_saleAddrs[saleId]).getIsEnded(), "This sale is already ended.");
         require(MFTSale(_saleAddrs[saleId]).getNegoAble(), "This sale prohibits a negotiation.");
