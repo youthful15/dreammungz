@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue } from "recoil"
+import { useRecoilValue } from "recoil"
 import { useRef, useState, useEffect } from "react"
 import playingMusic from "../../recoil/music/atom"
 
