@@ -70,4 +70,11 @@ public class TradeController {
         tradeService.acceptOffer(offerAcceptRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @ApiOperation(value = "거래 이력 조회", notes = "회원의 거래 이력을 조회", response = TradeHistoryResponse.class)
+    @GetMapping("/address/{address}/page/{page}")
+    public ResponseEntity<TradeHistoryResponse> tradeHistory(@PathVariable String address,@ApiParam(value = "현재 페이지", required = true) @PathVariable int page){
+        TradeHistoryResponse response = tradeService.tradeHistory(address, page);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
 }

@@ -5,13 +5,17 @@ import dreammungz.db.entity.*;
 import dreammungz.db.repository.*;
 import dreammungz.enums.Check;
 import dreammungz.enums.State;
+import dreammungz.enums.TradeType;
 import dreammungz.exception.CustomException;
 import dreammungz.exception.CustomExceptionList;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,6 +25,7 @@ public class TradeService {
     final MemberRepository memberRepository;
     final SellerRepository sellerRepository;
     final TradeRepository tradeRepository;
+    final TradeRepositorySupport tradeRepositorySupport;
     final NegotiationRepository negotiationRepository;
     final NftRepository nftRepository;
 
@@ -143,6 +148,36 @@ public class TradeService {
         nft.setMember(member);
         nftRepository.save(nft);
     }
+
+    public TradeHistoryResponse tradeHistory(String address, int page){
+        TradeHistoryResponse response = new TradeHistoryResponse();
+        PageRequest pageRequest = PageRequest.of(page, 10); //10개씩 페이징
+
+        // 거래가 완료된 거래 내역들만 조회
+        Page<Trade> tradeList = tradeRepositorySupport.findHistoryByAddress(pageRequest,address);
+        List<TradeHistoryResponse.TradeItem> tradeItems = new ArrayList<>();
+        for(int i=0;i<tradeList.getContent().size();i++){
+                Trade trade = tradeList.getContent().get(i);
+                TradeHistoryResponse.TradeItem tradeItem = TradeHistoryResponse.TradeItem.builder()
+                        .id(trade.getNft().getTokenId())
+                        .url(trade.getNft().getImageUrl())
+                        .metadata(trade.getNft().getMetadata())
+                        .type((trade.getSeller().getMember().getAddress().equals(address)? TradeType.SELL:TradeType.BUY)) //판매인지 구매인지 판단
+                        .sellerNickname(trade.getSeller().getMember().getNickname())
+                        .sellerAddress(trade.getSeller().getMember().getAddress())
+                        .buyerNickname(trade.getBuyer().getMember().getNickname())
+                        .buyerAddress(trade.getBuyer().getMember().getAddress())
+                        .date(trade.getEndTime())
+                        .price(trade.getEndPrice())
+                        .build();
+                tradeItems.add(tradeItem);
+            }
+        response.setItems(tradeItems);
+        response.setCurrentPage(tradeList.getPageable().getPageNumber()); //현재 페이지
+        response.setTotalPage(tradeList.getTotalPages()-1); //마지막 페이지
+        return response;
+    }
+
     public Member getMember(String address){
         return memberRepository.findByAddress(address).orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
     }
