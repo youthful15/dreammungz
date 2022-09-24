@@ -108,7 +108,7 @@ export default function NftDetail() {
   const [sellerWalletAddress, setSellerWalletAddress] = useState("") // 판매자 Address
   const [nftOwnerAddress, setNftOwnerAddress] = useState("") // NFT 주인 Address
 
-  const [isSelling, setIsSelling] = useState(false) // 판매중인지 확인
+  const [isSelling, setIsSelling] = useState<any>(false) // 판매중인지 확인
   const [clickedSell, setClickedSell] = useState(false) // 판매 눌렀는지 확인
 
   const [isOpen1, setOpen1] = useState(false) // 판매 중지 모달
@@ -388,12 +388,11 @@ export default function NftDetail() {
           <p>분양자</p>
           <p>Unique</p>
 
-          {isSelling ? (
-            <div>
-              {/* 본인 NFT 인지 확인 */}
-              {nftOwnerAddress &&
-              publicAddress?.toLowerCase() !==
-                nftOwnerAddress?.toLowerCase() ? (
+          <div>
+            {/* 본인 NFT 인지 확인 */}
+            {nftOwnerAddress &&
+            publicAddress?.toLowerCase() !== nftOwnerAddress?.toLowerCase() ? (
+              isSelling === true ? (
                 <div className="flex">
                   <button
                     className="border border-black mr-3"
@@ -414,33 +413,33 @@ export default function NftDetail() {
                     가격 제안하기
                   </button>
                 </div>
-              ) : (
-                <div className="flex">
-                  {isSelling === true ? (
-                    // 본인 NFT && 판매중인 경우
-                    <button
-                      className="w-full border border-black"
-                      onClick={() => {
-                        setOpen1(true)
-                      }}
-                    >
-                      판매 중지
-                    </button>
-                  ) : (
-                    // 본인 NFT && 판매 올리지 않았을 경우
-                    <button
-                      className="w-full border border-black"
-                      onClick={() => {
-                        setClickedSell(true)
-                      }}
-                    >
-                      판매 시작
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
-          ) : null}
+              ) : null
+            ) : (
+              <div className="flex">
+                {isSelling === true ? (
+                  // 본인 NFT && 판매중인 경우
+                  <button
+                    className="w-full border border-black"
+                    onClick={() => {
+                      setOpen1(true)
+                    }}
+                  >
+                    판매 중지
+                  </button>
+                ) : (
+                  // 본인 NFT && 판매 올리지 않았을 경우
+                  <button
+                    className="w-full border border-black"
+                    onClick={() => {
+                      setClickedSell(true)
+                    }}
+                  >
+                    판매 시작
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
