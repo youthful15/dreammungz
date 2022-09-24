@@ -36,7 +36,11 @@ export const SelectedFilters = ({
   return (
     <div className="flex flex-wrap overflow-x-auto">
       {selected.map((value) => {
-        return <div className={buttonStyle}>{findKOR(value)}</div>
+        return (
+          <div className={buttonStyle} key={value}>
+            {findKOR(value)}
+          </div>
+        )
       })}
 
       {selected.length !== 0 && (
@@ -75,7 +79,7 @@ const Filter = ({ filter: origin, setFilter, showForm }: FilterProp) => {
       page: 0,
       address: null,
     }
-    console.log(JSON.stringify(filter))
+    // console.log(JSON.stringify(filter))
     setFilter(filter, { replace: false })
   }
 

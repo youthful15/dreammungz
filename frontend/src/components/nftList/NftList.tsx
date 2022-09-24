@@ -25,9 +25,10 @@ const filterForm = {
 interface NftListProp {
   useFilter: boolean
 }
-const useNftList = (filter: Filter) => {
+const useNftList = (data: Filter) => {
+  let filter: Filter = data === null ? filterForm : data
   return useQuery(["nftList", filter], () => getNftList(filter), {
-    staleTime: 60000,
+    cacheTime: 0,
   })
 }
 const NftList = ({ useFilter }: NftListProp) => {
@@ -36,27 +37,25 @@ const NftList = ({ useFilter }: NftListProp) => {
   const [showSell, setShowSell] = useState(false)
   const [page, setPage] = useState(0)
   const { status, data, error, isFetching } = useNftList(filter!)
+
   const [showForm, setShowForm] = useState(false)
 
-  // if (!filter) {
-  //   filter = {
-  //     ...filterForm,
-  //   }
-  // }
   useEffect(() => {
     setFilter(filterForm)
   }, [])
 
   useEffect(() => {
-    console.log(data)
-  }, [data])
-
-  useEffect(() => {
     if (filter) {
-      const showFilter = { ...filter, sell: showSell }
+      const showFilter = { ...filter, sell: showSell, page: 0 }
       setFilter(showFilter)
     }
   }, [showSell])
+
+  useEffect(() => {
+    if (filter) {
+      setFilter({ ...filter, page })
+    }
+  }, [page])
 
   const resetFilter = () => {
     setFilter({ ...filterForm })

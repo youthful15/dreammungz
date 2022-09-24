@@ -72,12 +72,12 @@ export default function Sample() {
       <div className="flex space-x-3">
         <div className="flex flex-col mt-8 space-y-2">
           {stat_list.map((item) => (
-            <Stat name={item.eng} value={1} />
+            <Stat name={item.eng} value={1} key={item.eng} />
           ))}
         </div>
         <div className="flex flex-col mt-8 space-y-2">
-          {tier_list.map((item) => (
-            <div className="flex">
+          {tier_list.map((item, i) => (
+            <div className="flex" key={i}>
               <Tier tier={item.eng} />
               <span>{item.kor}</span>
             </div>
