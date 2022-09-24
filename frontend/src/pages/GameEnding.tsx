@@ -44,7 +44,7 @@ export default function GameEnding() {
   const canvasRef = useRef(null)
   const client = create({
     // url: "https://j7a605.p.ssafy.io:5001/",
-    host: "j7a605.p.ssafy.io/",
+    host: "j7a605.p.ssafy.io",
     port: 5001,
     protocol: "http",
   })
