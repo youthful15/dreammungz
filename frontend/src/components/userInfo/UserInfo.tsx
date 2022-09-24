@@ -8,7 +8,7 @@ const UserInfo = () => {
     <>
       {!editing ? (
         <div className="flex">
-          <h1 className="text-2xl font-bold ">{nickname}</h1>
+          <h1 className="text-2xl font-bold ">{nickname}의 NFT 페이지 </h1>
           <button
             className="p-1 ml-4 bg-white rounded-lg"
             onClick={() => {

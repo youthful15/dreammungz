@@ -55,7 +55,7 @@ const NftList = ({ useFilter }: NftListProp) => {
   }
 
   return (
-    <div className="flex flex-col w-full h-full text-center ">
+    <div className="flex flex-col w-full h-[640px] text-center ">
       <div className="flex justify-end w-full mb-4 space-x-2 ">
         {useFilter && (
           <div className="flex w-3/5 ">

@@ -10,16 +10,14 @@ const menu = [
 
 const MyPage = () => {
   return (
-    <div className="flex flex-col items-center w-full h-full ">
-      <div className="w-full  h-[15%]   flex flex-col justify-end bg-white">
+    <div className="w-full h-full">
+      <div className="w-full  h-[10%]  mb-3  flex items-center ">
         <UserInfo />
-        <div className="  border-beige">
-          <TabList list={menu} />
-        </div>
+        <TabList list={menu} />
       </div>
-      <div className="w-full h-[85%] ">
-        {/* <div className=" bg-green-100 h-[580px]"> */}
+      <div className="w-full  h-[90%]">
         <Outlet />
+        {/* <div className=" bg-green-100 h-[580px]"> */}
         {/* </div> */}
       </div>
     </div>
