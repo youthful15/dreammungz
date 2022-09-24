@@ -167,7 +167,7 @@ export const acceptNegoFormat = async ({
     // NFT 네고 제안 수락 REST API
     await http
       .post("trade/offerAccept", {
-        contractId: saleContractId,
+        contractId: negoId,
         tokenId: tokenId,
       })
       .then((res) => console.log(res))
