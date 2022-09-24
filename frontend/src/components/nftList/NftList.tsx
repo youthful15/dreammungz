@@ -25,22 +25,31 @@ const filterForm = {
 interface NftListProp {
   useFilter: boolean
 }
-const useNftList = (page: number) => {
-  return useQuery(["nftList", page], () => getNftList(page))
+const useNftList = (filter: Filter) => {
+  return useQuery(["nftList", filter], () => getNftList(filter), {
+    staleTime: 60000,
+  })
 }
 const NftList = ({ useFilter }: NftListProp) => {
   let [filter, setFilter] = useQueryParam<Filter>("search")
   const setShowInfo = useSetRecoilState(listModeAtom)
   const [showSell, setShowSell] = useState(false)
   const [page, setPage] = useState(0)
-  const { status, data, error, isFetching } = useNftList(page)
+  const { status, data, error, isFetching } = useNftList(filter!)
   const [showForm, setShowForm] = useState(false)
 
-  if (!filter) {
-    filter = {
-      ...filterForm,
-    }
-  }
+  // if (!filter) {
+  //   filter = {
+  //     ...filterForm,
+  //   }
+  // }
+  useEffect(() => {
+    setFilter(filterForm)
+  }, [])
+
+  useEffect(() => {
+    console.log(data)
+  }, [data])
 
   useEffect(() => {
     if (filter) {
@@ -69,7 +78,9 @@ const NftList = ({ useFilter }: NftListProp) => {
             >
               {showForm ? "필터 닫기" : "필터 열기 "}
             </button>
-            <SelectedFilters filter={filter} resetFilter={resetFilter} />
+            {filter && (
+              <SelectedFilters filter={filter!} resetFilter={resetFilter} />
+            )}
           </div>
         )}
         <div className="w-2/5">
@@ -94,7 +105,7 @@ const NftList = ({ useFilter }: NftListProp) => {
         </div>
       </div>
 
-      {useFilter && (
+      {useFilter && filter && (
         <Filter setFilter={setFilter} filter={filter} showForm={showForm} />
       )}
       {data && (
