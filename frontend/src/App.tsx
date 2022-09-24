@@ -6,7 +6,6 @@ import MusicPlayer from "./components/music/MusicPlayer"
 import Navbar from "./components/navbar/Navbar"
 import Sample from "./pages/Sample"
 import MainPage from "./pages/MainPage"
-import AllNftListPage from "./pages/AllNftListPage"
 import NftDetail from "./pages/NftDetail"
 import GameStart from "./pages/GameStart"
 import GamePlaying from "./pages/GamePlaying"
@@ -17,6 +16,7 @@ import MyNftList from "./pages/MyNftList"
 import MyNftHistory from "./pages/MyNftHistory"
 import Login from "./pages/Login"
 import LoginTutorial from "./pages/LoginTutorial"
+import NftListPage from "./pages/NftListPage"
 
 function App() {
   RouterChangeTracker()
@@ -45,7 +45,7 @@ function App() {
               <Route path="/game" element={<GamePlaying />} />
               <Route path="/ending" element={<GameEnding />} />
               <Route path="/nft">
-                <Route path="list" element={<AllNftListPage />} />
+                <Route path="list" element={<NftListPage />} />
                 <Route path="detail/:id" element={<NftDetail />} />
               </Route>
               <Route path="/mypage" element={<MyPage />}>

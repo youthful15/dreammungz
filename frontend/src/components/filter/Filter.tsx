@@ -17,7 +17,7 @@ interface Filter {
 }
 
 const buttonStyle = "p-1 m-0.5 border border-gray-700 rounded-md  h-8"
-const SelectedFilters = ({
+export const SelectedFilters = ({
   filter,
   resetFilter,
 }: {
@@ -34,7 +34,7 @@ const SelectedFilters = ({
   // console.log(selected)
 
   return (
-    <div className="flex overflow-x-auto">
+    <div className="flex flex-wrap overflow-x-auto">
       {selected.map((value) => {
         return <div className={buttonStyle}>{findKOR(value)}</div>
       })}
@@ -55,11 +55,10 @@ const SelectedFilters = ({
 
 interface FilterProp {
   filter: Filter
+  showForm: boolean
   setFilter: (newQuery: Filter, options?: NavigateOptions | undefined) => void
 }
-const Filter = ({ filter: origin, setFilter }: FilterProp) => {
-  const [showForm, setShowForm] = useState(false)
-
+const Filter = ({ filter: origin, setFilter, showForm }: FilterProp) => {
   const handleFormChange = (event: ChangeEvent<HTMLFormElement>) => {
     let form = event.currentTarget
     let formData = new FormData(form)
@@ -80,36 +79,10 @@ const Filter = ({ filter: origin, setFilter }: FilterProp) => {
     setFilter(filter, { replace: false })
   }
 
-  const resetFilter = () => {
-    setFilter({
-      job: null,
-      hair: null,
-      tier: null,
-      color: null,
-      gender: null,
-      face: null,
-      sell: origin.sell,
-      status: [],
-      page: 0,
-      address: null,
-    })
-    setShowForm(false)
-  }
-
   return (
     <div className="">
       <div className="flex ">
-        <button
-          className={`${buttonStyle} ${
-            showForm ? "bg-blue-300" : "bg-white"
-          } absolute top-[145px] left-[270px] z-10`}
-          onClick={() => {
-            setShowForm((curState) => !curState)
-          }}
-        >
-          {showForm ? "필터 닫기" : "필터 열기 "}
-        </button>
-        <SelectedFilters filter={origin} resetFilter={resetFilter} />
+        {/* <SelectedFilters filter={origin} resetFilter={resetFilter} /> */}
       </div>
       {showForm && (
         <FilterForm formHandler={handleFormChange} filter={origin} />
