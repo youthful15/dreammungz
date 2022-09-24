@@ -44,9 +44,9 @@ export default function GameEnding() {
   const canvasRef = useRef(null)
   const client = create({
     // url: "https://j7a605.p.ssafy.io:5001/",
-    host: "j7a605.p.ssafy.io/ipfs",
-    port: 443,
-    protocol: "https",
+    host: "j7a605.p.ssafy.io/",
+    port: 5001,
+    protocol: "http",
   })
 
   const copyDOM = async () => {
