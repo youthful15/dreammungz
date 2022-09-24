@@ -43,10 +43,7 @@ export default function GameEnding() {
   const [member] = useRecoilState(memberAtom)
   const canvasRef = useRef(null)
   const client = create({
-    // url: "https://j7a605.p.ssafy.io:5001/",
-    host: "j7a605.p.ssafy.io",
-    port: 5001,
-    protocol: "http",
+    url: "https://j7a605.p.ssafy.io/ipfs/",
   })
 
   const copyDOM = async () => {
