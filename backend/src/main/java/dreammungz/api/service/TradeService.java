@@ -47,7 +47,7 @@ public class TradeService {
         Member member = getMember(tradeStopRequest.getAddress());
 
         //nft id가 같고 거래상태(state)가 proceeding인 것을 찾는다.
-        Trade trade = getTrade(tradeStopRequest.getTokenId(), member);
+        Trade trade = getTrade(tradeStopRequest.getContractId());
         //해당 거래를 cancel한다.
         trade.setCancel(Check.Y);
         tradeRepository.save(trade);
@@ -67,7 +67,7 @@ public class TradeService {
         Buyer buyer = new Buyer(member);
 
         //해당 거래를 trade 테이블에서 찾기
-        Trade trade = getTrade(tradePurchaseRequest.getTokenId(), member);
+        Trade trade = getTrade(tradePurchaseRequest.getContractId());
         trade.setBuyer(buyer);  //buyer 추가
         trade.setEndTime(LocalDateTime.now());  // 종료시간 추가
         trade.setEndPrice(trade.getStartPrice());   // 최종거래금액 추가
@@ -90,7 +90,7 @@ public class TradeService {
                 offerRegisterRequest.getPrice(),
                 LocalDateTime.now(),
                 Check.N,
-                getTrade(offerRegisterRequest.getTokenId(), member),   //tokenID를 바탕으로 nft->trade 아이디 추적
+                getTrade(offerRegisterRequest.getContractId()),   //tokenID를 바탕으로 nft->trade 아이디 추적
                 member,
                 Check.N,
                 offerRegisterRequest.getContractId()
@@ -138,23 +138,7 @@ public class TradeService {
         return memberRepository.findByAddress(address).orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
     }
 
-    public Trade getTrade(Long tokenId, Member member){
-        List<Trade> tradeList = tradeRepository.findAllByNftId(nftRepository.findNftByTokenId(tokenId).get().getId());
-        Trade trade = null;
-        for(Trade trades : tradeList){
-            if(trades.getState() == State.PROCEEDING){
-                trade = trades;
-                break;
-            }
-        }
-        if(trade == null){
-            //ERROR1.NFT가 TRADE 명단에 없는 경우
-            throw new CustomException(CustomExceptionList.NO_NFT_IN_TRADE);
-        }
-        else if(trade.getSeller().getMember() != member){
-            //ERROR2. 현재 판매자 주소가 NFT 판매자가 아닌 경우
-            throw new CustomException(CustomExceptionList.NOT_NFT_SELLER);
-        }
-        return trade;
+    public Trade getTrade(Long contractId){
+        return tradeRepository.findByContractId(contractId).get();
     }
 }
