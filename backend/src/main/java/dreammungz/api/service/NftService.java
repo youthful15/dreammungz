@@ -113,11 +113,13 @@ public class NftService {
         for (int i = 0; i < nftList.getContent().size(); i++) {
             Nft nftItem = nftList.getContent().get(i);
             boolean isSell = false;
+            Long price = 0L;
             if (tradeRepository.existsByNft(nftItem)) {
                 List<Trade> trades = tradeRepository.findByNft(nftItem);
                 for (Trade trade : trades) {
                     if (trade.getCancel().equals(Check.N) && trade.getState().equals(State.PROCEEDING)) {
                         isSell = true;
+                        price = trade.getStartPrice();
                         break;
                     }
                 }
@@ -139,6 +141,7 @@ public class NftService {
                     .gender(nftItem.getGender())
                     .face(nftItem.getFace())
                     .sell(isSell)
+                    .price(price)
                     .status(statusLists)
                     .build();
             nftInfos.add(nftInfo);
