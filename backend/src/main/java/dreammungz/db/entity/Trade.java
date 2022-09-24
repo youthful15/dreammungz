@@ -64,7 +64,7 @@ public class Trade {
     @Column(name = "cancel", nullable = false)
     private Check cancel;
 
-    @Column(name = "contract_id", nullable = false)
+    @Column(name = "contract_id", unique = true, nullable = false)
     private Long contractId;
 
     @Builder
