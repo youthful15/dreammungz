@@ -120,7 +120,7 @@ export default function NftDetail() {
 
   const [isOpen3, setOpen3] = useState(false) // 가격 제안하기 모달
   const modalClose3 = () => setOpen3(false) // 가격 제안하기 모달
-  const [proposal, setProposal] = useState(0) // 가격 제안 가격
+  const [proposal, setProposal] = useState(20) // 가격 제안 가격
 
   const [isOpen4, setOpen4] = useState(false) // 가격 제안취소 모달
   const modalClose4 = () => setOpen4(false) // 가격 제안취소 모달
@@ -132,7 +132,7 @@ export default function NftDetail() {
     async function saleStatusConfirm() {
       try {
         // 해당 MFT의 거래 상태 확인
-        const saleStatus = await MFTSaleFactoryContract.methods
+        const saleStatus: any = await MFTSaleFactoryContract.methods
           .getSaleStatusOfMFT(tokenId)
           .call()
         if (saleStatus === true) {
@@ -174,9 +174,11 @@ export default function NftDetail() {
   console.log("ss", web3.utils.toBN(cost))
 
   // 실시간 반영
-  const onChangeProposal = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeProposal = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value: any = event.currentTarget
-    setProposal(value)
+    await setProposal(value)
   }
 
   // 지갑안에 들어있는 MUNG 가져오기
@@ -208,6 +210,7 @@ export default function NftDetail() {
     tokenId: number
     publicAddress: string
   }) => {
+    proposal = 20
     if (balance < proposal) {
       // 금액이 부족할때
       alert("M이 부족합니다!")
@@ -224,31 +227,39 @@ export default function NftDetail() {
 
         // approve 필요 10 ** 18 곱하기
         await MUNGContract.methods
-          .approve(saleContractAddress, proposal * 10 ** 18)
+          .approve(
+            saleContractAddress,
+            web3.utils.toBN(proposal * 10 ** 18).toString()
+          )
           .send({ from: publicAddress })
 
+        console.log("여기서부터 안됨", 5, proposal)
         // createNego
         await MFTSaleFactoryContract.methods
           .createNego(saleContractId, publicAddress, proposal, false, false)
-          .send({ from: publicAddress })
-          .then((res: any) => {
-            setNegoId(res.events.NegoCreated.returnValues.negoId)
-          })
+          .call()
+        // .send({ from: publicAddress })
+        // .then((res: any) => {
+        //   setNegoId(res.events.NegoCreated.returnValues.negoId)
+        // })
 
-        // 네고 제안
-        await http
-          .post("trade/offerRegister", {
-            address: publicAddress,
-            contractId: negoId,
-            price: proposal,
-            tokenId: tokenId,
-          })
-          .then((res) => console.log(res))
-          .catch((err) => console.error(err))
+        // console.log("Nego Id:", negoId)
+
+        // // 네고 제안
+        // await http
+        //   .post("trade/offerRegister", {
+        //     address: publicAddress,
+        //     contractId: negoId,
+        //     price: proposal,
+        //     tokenId: tokenId,
+        //   })
+        //   .then((res) => console.log(res))
+        //   .catch((err) => console.error(err))
 
         // spiner 필요
         alert("네고 하는 중입니다")
       } catch (err) {
+        console.error(err)
         alert("취소되었습니다.")
       }
 
@@ -267,6 +278,7 @@ export default function NftDetail() {
           <button
             className="mr-4 border border-black"
             onClick={async () => {
+              await getMung()
               await sellAbortFormat({ tokenId, publicAddress })
               await modalClose1()
               await setIsSelling(false)
@@ -289,7 +301,8 @@ export default function NftDetail() {
         <div className="flex justify-center">
           <button
             className="mr-4 border border-black"
-            onClick={() => {
+            onClick={async () => {
+              await getMung()
               buyNowFormat({ balance, cost, tokenId, publicAddress })
             }}
           >
@@ -318,6 +331,7 @@ export default function NftDetail() {
           <button
             className="mr-4 border border-black"
             onClick={async () => {
+              await getMung()
               await proposalFormat({
                 balance,
                 proposal,
@@ -388,6 +402,33 @@ export default function NftDetail() {
           <p>분양자</p>
           <p>Unique</p>
 
+          {/* TEST CODE */}
+          {/* TEST CODE */}
+          {/* TEST CODE */}
+          {/* TEST CODE */}
+          {/* TEST CODE */}
+          <button
+            className="border border-black"
+            onClick={() => {
+              setOpen4(true)
+            }}
+          >
+            네고 취소
+          </button>
+          <button
+            className="border border-black"
+            onClick={() => {
+              setOpen5(true)
+            }}
+          >
+            네고 승낙
+          </button>
+          {/* TEST CODE */}
+          {/* TEST CODE */}
+          {/* TEST CODE */}
+          {/* TEST CODE */}
+          {/* TEST CODE */}
+          {/* TEST CODE */}
           <div>
             {/* 본인 NFT 인지 확인 */}
             {nftOwnerAddress &&
@@ -396,8 +437,8 @@ export default function NftDetail() {
                 <div className="flex">
                   <button
                     className="border border-black mr-3"
-                    onClick={() => {
-                      getMung()
+                    onClick={async () => {
+                      await getMung()
                       setOpen2(true)
                     }}
                   >
@@ -405,8 +446,8 @@ export default function NftDetail() {
                   </button>
                   <button
                     className="border border-black"
-                    onClick={() => {
-                      getMung()
+                    onClick={async () => {
+                      await getMung()
                       setOpen3(true)
                     }}
                   >
@@ -491,7 +532,8 @@ export default function NftDetail() {
               <button
                 type="submit"
                 className="border border-black mr-5"
-                onClick={() => {
+                onClick={async () => {
+                  await getMung()
                   sellFormat({ publicAddress, negoAble, tokenId, buyNowPrice })
                   // await setClickedSell(false)
                   // await setIsSelling(true)
@@ -543,11 +585,12 @@ export default function NftDetail() {
                       return (
                         <div className="flex" key={id}>
                           <p className="w-[20%]">{price}</p>
-                          <p className="w-[20%]">{date}</p>
-                          <p className="w-[30%]">{buyerNickname}</p>
+                          <p className="w-[20%]">{buyerNickname}</p>
+                          <p className="w-[30%]">{date}</p>
                           {buyerAddress === publicAddress ? (
                             <p
                               onClick={async () => {
+                                await getMung()
                                 await setClickedNegoId(contractId)
                                 setOpen4(true)
                               }}

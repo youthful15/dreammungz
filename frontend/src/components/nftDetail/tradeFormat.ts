@@ -82,6 +82,68 @@ export const sellAbortFormat = async ({
   }
 }
 
+// NFT 즉시 구매 -------------------------------------------------------------------------
+export const buyNowFormat = async ({
+  balance,
+  cost,
+  tokenId,
+  publicAddress,
+}: {
+  balance: any
+  cost: any
+  tokenId: number
+  publicAddress: string
+}) => {
+  // 금액이 부족할때
+  if (balance < cost) {
+    await alert("M이 부족합니다!")
+  }
+
+  // 금액이 충분할때
+  else {
+    try {
+      // contractId 받기
+      const saleContractId = await MFTSaleFactoryContract.methods
+        .getCurrentSaleOfMFT(tokenId)
+        .call()
+
+      // 주소
+      const saleContractAddress = await MFTSaleFactoryContract.methods
+        .getSale(saleContractId)
+        .call()
+      console.log("SaleContractAddress", saleContractAddress)
+      // approve 필요 10 ** 18 곱하기
+      await MUNGContract.methods
+        // web3.utils.toBN(cost)
+        .approve(
+          saleContractAddress,
+          web3.utils.toBN(cost * 10 ** 18).toString()
+        )
+        .send({ from: publicAddress })
+
+      // 즉시 구매 SMART CONTRACT
+      await MFTSaleFactoryContract.methods
+        .buyNow(saleContractId, publicAddress)
+        .send({ from: publicAddress })
+
+      await http
+        .post("trade/nftPurchase", {
+          address: publicAddress,
+          contractId: parseInt(saleContractId),
+          tokenId: tokenId,
+        })
+        .then((res) => console.log("즉시구매", res))
+        .catch((err) => console.error(err))
+    } catch (err) {
+      console.error(err)
+    }
+
+    alert("구매 하는 중입니다.")
+    // setIsSelling(false)
+    // navigate("/nft/list") // 즉시 구매시 nft list page로 redirect
+  }
+}
+
 // NFT 네고 제안 수락 -------------------------------------------------------------------------
 export const acceptNegoFormat = async ({
   tokenId,
@@ -158,67 +220,5 @@ export const cancelNegoFormat = async ({
     // OFFERLIST 초기화 필요
   } catch (err) {
     console.error(err)
-  }
-}
-
-// NFT 즉시 구매 -------------------------------------------------------------------------
-export const buyNowFormat = async ({
-  balance,
-  cost,
-  tokenId,
-  publicAddress,
-}: {
-  balance: any
-  cost: any
-  tokenId: number
-  publicAddress: string
-}) => {
-  // 금액이 부족할때
-  if (balance < cost) {
-    await alert("M이 부족합니다!")
-  }
-
-  // 금액이 충분할때
-  else {
-    try {
-      // contractId 받기
-      const saleContractId = await MFTSaleFactoryContract.methods
-        .getCurrentSaleOfMFT(tokenId)
-        .call()
-
-      // 주소
-      const saleContractAddress = await MFTSaleFactoryContract.methods
-        .getSale(saleContractId)
-        .call()
-
-      // approve 필요 10 ** 18 곱하기
-      await MUNGContract.methods
-        // web3.utils.toBN(cost)
-        .approve(
-          saleContractAddress,
-          web3.utils.toBN(cost * 10 ** 18).toString()
-        )
-        .send({ from: publicAddress })
-
-      // 즉시 구매 SMART CONTRACT
-      await MFTSaleFactoryContract.methods
-        .buyNow(saleContractId, publicAddress)
-        .send({ from: publicAddress })
-
-      await http
-        .post("trade/nftPurchase", {
-          address: publicAddress,
-          contractId: parseInt(saleContractId),
-          tokenId: tokenId,
-        })
-        .then((res) => console.log("즉시구매", res))
-        .catch((err) => console.error(err))
-    } catch (err) {
-      console.error(err)
-    }
-
-    alert("구매 하는 중입니다.")
-    // setIsSelling(false)
-    // navigate("/nft/list") // 즉시 구매시 nft list page로 redirect
   }
 }
