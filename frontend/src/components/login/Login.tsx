@@ -7,11 +7,9 @@ import Web3 from "web3"
 // Nickname을 전역변수로 넣기 위한 import문
 import memberAtom from "../../recoil/member/atom"
 import { useRecoilState } from "recoil"
-import { resolveModuleName } from "typescript"
 
 export default function Login() {
-  const [member, setMember] = useRecoilState(memberAtom)
-  const [nonce, setNonce] = useState("")
+  const [, setMember] = useRecoilState(memberAtom)
 
   const navigate = useNavigate()
   let web3: any
