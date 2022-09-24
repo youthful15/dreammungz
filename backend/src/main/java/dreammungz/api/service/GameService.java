@@ -214,8 +214,8 @@ public class GameService{
         GameResponse gameResponse = new GameResponse(
                 story.getTitle(),
                 scene.getContent(),
-                scene.getBgm(),
-                scene.getImage()
+                scene.getImage(),
+                scene.getBgm()
         );
 
         //선택지 List 받아오기
