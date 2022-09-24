@@ -81,6 +81,10 @@ public class TradeService {
         }
         negotiationRepository.saveAll(negotiations);
 
+        //NFT테이블에 해당 NFT의 member_id를 구매자로 변경한다.
+        Nft nft = nftRepository.findNftByTokenId(tradePurchaseRequest.getTokenId()).get();
+        nft.setMember(member);
+        nftRepository.save(nft);
     }
 
     public void registerOffer(OfferRegisterRequest offerRegisterRequest){
@@ -133,6 +137,11 @@ public class TradeService {
             }
         }
         negotiationRepository.saveAll(negotiations);
+
+        //NFT테이블에 해당 NFT의 member_id를 구매자로 변경한다.
+        Nft nft = nftRepository.findNftByTokenId(offerAcceptRequest.getTokenId()).get();
+        nft.setMember(member);
+        nftRepository.save(nft);
     }
     public Member getMember(String address){
         return memberRepository.findByAddress(address).orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));

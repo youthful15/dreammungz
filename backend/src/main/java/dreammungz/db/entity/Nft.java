@@ -80,4 +80,8 @@ public class Nft {
         this.member = member;
         this.job = job;
     }
+
+    public void setMember(Member member){
+        this.member = member;
+    }
 }
