@@ -140,7 +140,16 @@ export default function Login() {
       await handleEthereumNetwork(chainId)
 
       // 최초 가입 시 10000 M 지급
-      if (isNew === true) {
+      // isNew === true 로 바꿔야 함
+      // isNew === true 로 바꿔야 함
+      // isNew === true 로 바꿔야 함
+      // isNew === true 로 바꿔야 함
+      // isNew === true 로 바꿔야 함
+      // isNew === true 로 바꿔야 함
+      // isNew === true 로 바꿔야 함
+      // isNew === true 로 바꿔야 함
+      // isNew === true 로 바꿔야 함
+      if (isNew !== true) {
         window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
         await MUNGContract.methods
           .mintToMember(publicAddress, 10000)

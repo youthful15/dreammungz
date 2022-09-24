@@ -22,7 +22,7 @@ export const sellFormat = async ({
   // 판매 Smart Contract
   try {
     // 권한 부여
-    MFTContract.methods
+    await MFTContract.methods
       .setApprovalForAll(MFTSaleFactoryContractAddress, true)
       .send({ from: publicAddress })
 

@@ -1827,7 +1827,7 @@ export const web3 = new Web3(window.ethereum)
 export const chainId = 31221
 
 export const OwnerAddress = "0x7DF856996D5d086cdcC4C65a23e1B48Ced20c328" // 컨트랙트 배포한 지갑 주소
-export const MUNGContractAddress = "0x3Bf9c11f1599BeE082d05e803B0875EFFd8018Ce"
+export const MUNGContractAddress = "0x7DF856996D5d086cdcC4C65a23e1B48Ced20c328"
 export const MFTContractAddress = "0x56245A853919dd6dE67333A70c9eD0047Ce45402"
 export const MFTSaleFactoryContractAddress =
   "0x4510433eCD9987AbF6B9e2EF095543e1810A453a"

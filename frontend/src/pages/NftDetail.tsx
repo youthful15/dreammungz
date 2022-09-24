@@ -214,10 +214,9 @@ export default function NftDetail() {
     } else {
       try {
         // contractId 받기
-        let saleContractId = await MFTSaleFactoryContract.methods
+        const saleContractId = await MFTSaleFactoryContract.methods
           .getCurrentSaleOfMFT(tokenId)
           .call()
-        saleContractId = parseInt(saleContractId)
 
         const saleContractAddress = await MFTSaleFactoryContract.methods
           .getSale(saleContractId)
@@ -230,15 +229,23 @@ export default function NftDetail() {
           )
           .send({ from: publicAddress })
 
-        console.log("여부터 안됨", saleContractId, publicAddress, proposal)
+        console.log("saleContractId", saleContractId)
+        console.log("saleContractAddress", saleContractAddress)
+        console.log("proposal", proposal)
 
         // createNego
+
+        // saleId ->  salecontractId
+        // negoer -> 제안자 지갑 주소
+        // negoprice -> proposal(제안금액)
+        // isChoiced -> 제안 채택 여부(false)
+        // isCanceled -> 제안 취소 여부(false)
         await MFTSaleFactoryContract.methods
           .createNego(saleContractId, publicAddress, proposal, false, false)
           .send({ from: publicAddress })
-          .then((res: any) => {
-            setNegoId(res.events.NegoCreated.returnValues.negoId)
-          })
+        // .then((res: any) => {
+        //   setNegoId(res.events.NegoCreated.returnValues.negoId)
+        // })
 
         console.log("Nego Id:", negoId)
 
