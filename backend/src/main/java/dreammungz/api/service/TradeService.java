@@ -99,10 +99,10 @@ public class TradeService {
                 offerRegisterRequest.getPrice(),
                 LocalDateTime.now(),
                 Check.N,
-                getTrade(offerRegisterRequest.getContractId()),   //tokenID를 바탕으로 nft->trade 아이디 추적
+                getTrade(offerRegisterRequest.getTradeContractId()),   //tokenID를 바탕으로 nft->trade 아이디 추적
                 member,
                 Check.N,
-                offerRegisterRequest.getContractId()
+                offerRegisterRequest.getNegoContractId()
         );
         negotiationRepository.save(negotiation);
     }
