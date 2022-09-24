@@ -108,20 +108,27 @@ const NftList = ({ useFilter }: NftListProp) => {
       {useFilter && filter && (
         <Filter setFilter={setFilter} filter={filter} showForm={showForm} />
       )}
-      {data && (
-        <div className=" relative h-[80%] flex  flex-col justify-between ">
-          <div className="flex flex-wrap h-[98%] mb-0.5">
-            {data?.items?.map((item: NftListItemType, idx: number) => {
-              return <NftListItem item={item} key={item.id} />
-            })}
-          </div>
+
+      <div className=" relative h-[80%] flex  flex-col justify-between ">
+        <div className="flex flex-wrap h-[98%] mb-0.5">
+          {data?.items?.map((item: NftListItemType, idx: number) => {
+            return <NftListItem item={item} key={item.id} />
+          })}
+          {data?.items?.length === 0 && (
+            <div className="flex items-center justify-center w-full h-full">
+              <div className="">해당 조건을 만족하는 멍개가 없습니다.</div>
+            </div>
+          )}
+        </div>
+
+        {data && data?.totalPage !== -1 && (
           <Pagination
             page={page}
             setPage={setPage}
             totalPage={data.totalPage + 1}
           />
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }
