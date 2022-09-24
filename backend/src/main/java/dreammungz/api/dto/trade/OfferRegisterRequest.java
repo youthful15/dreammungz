@@ -13,6 +13,8 @@ public class OfferRegisterRequest {
     Long tokenId;
     @ApiModelProperty(value="제안 가격", name="price", example="10", dataType ="Long")
     Long price;
-    @ApiModelProperty(value="negotiation 컨트랙트 식별 ID", name="contract_id", example="1", dataType ="Long")
-    Long contractId;
+    @ApiModelProperty(value="trade 컨트랙트 식별 ID", name="trade_contract_id", example="1", dataType ="Long")
+    Long tradeContractId;
+    @ApiModelProperty(value="negotiation 컨트랙트 식별 ID", name="nego_contract_id", example="1", dataType ="Long")
+    Long negoContractId;
 }
