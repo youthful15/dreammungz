@@ -44,7 +44,7 @@ const Pagination = ({
     <>
       {/* <div>페이지 인덱스:{currentPage}</div>
       <div>페이지 오프셋:{offset}</div> */}
-      <div className="absolute bottom-0 flex justify-center w-full">
+      <div className="bottom-0 flex justify-center w-full ">
         <div
           className={`${buttonStyle} ${buttonColor}`}
           onClick={() => clickPage(0)}

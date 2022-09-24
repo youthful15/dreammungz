@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useRecoilState } from "recoil"
 import { http } from "../api/axios"
 import findKOR from "../utils/findKOR"
+import playingMusic from "../recoil/music/atom"
 
 interface StoryType {
   title: string
@@ -23,9 +25,9 @@ interface SelectType {
 
 function Information(story: StoryType) {
   return (
-    <div className="h-full bg-pink-100 rounded-2xl p-3 px-10">
+    <div className="h-full p-3 px-10 bg-pink-100 rounded-2xl">
       <div className="h-[15%] flex items-center font-bold text-lg">
-        <div className="bg-brown-100 w-full flex justify-center p-2 rounded-2xl">
+        <div className="flex justify-center w-full p-2 bg-brown-100 rounded-2xl">
           <div>DREAMMUNGZ</div>
         </div>
       </div>
@@ -39,7 +41,7 @@ function Information(story: StoryType) {
           {story.justice}
         </div>
         {story.status.map(({ name, value }, index) => (
-          <div className="flex w-full items-center" key={index}>
+          <div className="flex items-center w-full" key={index}>
             <span className="w-1/5">{findKOR(name)}</span>
             <progress max="10" value={value} className="w-4/5 html5"></progress>
           </div>
@@ -53,10 +55,14 @@ async function choiceSelect({
   id,
   setStory,
   navigate,
+  music,
+  setMusic,
 }: {
   id: number
   setStory: React.Dispatch<React.SetStateAction<StoryType>>
   navigate: any
+  music: string
+  setMusic: any
 }) {
   const selectData = {
     address: localStorage.getItem("publicAddress"),
@@ -69,6 +75,9 @@ async function choiceSelect({
     await http.post(`game/select`, selectData).then((res) => {
       console.log(res)
       setStory(res.data)
+      if (music !== res.data.bgm) {
+        setMusic(res.data.bgm)
+      }
     })
   }
 }
@@ -76,21 +85,29 @@ async function choiceSelect({
 function Game({
   story,
   setStory,
+  music,
+  setMusic,
 }: {
   story: StoryType
   setStory: React.Dispatch<React.SetStateAction<StoryType>>
+  music: string
+  setMusic: any
 }) {
   const navigate = useNavigate()
   return (
-    <div className="h-full bg-beige-100 rounded-2xl p-3 px-10">
+    <div className="h-full p-3 px-10 bg-beige-100 rounded-2xl">
       <div className="h-[15%] flex items-center font-bold text-lg">
-        <div className="bg-brown-100 w-full flex justify-center p-2 rounded-2xl">
+        <div className="flex justify-center w-full p-2 bg-brown-100 rounded-2xl">
           {story.title}
         </div>
       </div>
       <div className="h-[85%] flex flex-col justify-between pb-3">
         <div>
-          <img src={story.image} alt="" />
+          <img
+            className="pb-5"
+            src={`assets/illust/${story.image}.jpg`}
+            alt=""
+          />
           <div>{story.content}</div>
         </div>
         <div className="px-2">
@@ -98,7 +115,9 @@ function Game({
             <button
               className="w-full py-2 my-2 bg-pink-200 hover:bg-pink-500 rounded-2xl"
               key={id}
-              onClick={() => choiceSelect({ id, setStory, navigate })}
+              onClick={() =>
+                choiceSelect({ id, setStory, navigate, music, setMusic })
+              }
             >
               {content}
             </button>
@@ -134,6 +153,8 @@ export default function GamePlaying() {
       { name: "WEALTH", value: 10 },
     ],
   })
+  const [music, setMusic] = useRecoilState(playingMusic)
+
   useEffect(() => {
     async function GetStory() {
       await http
@@ -141,6 +162,9 @@ export default function GamePlaying() {
         .then((res) => {
           setStory(res.data)
           console.log(res)
+          if (music !== res.data.bgm) {
+            setMusic(res.data.bgm)
+          }
         })
     }
     GetStory()
@@ -152,7 +176,12 @@ export default function GamePlaying() {
         <Information {...story} />
       </div>
       <div className="w-3/5 h-full pl-5">
-        <Game story={story} setStory={setStory} />
+        <Game
+          story={story}
+          setStory={setStory}
+          music={music}
+          setMusic={setMusic}
+        />
       </div>
     </div>
   )

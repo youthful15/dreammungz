@@ -10,7 +10,7 @@ const Tier = ({ tier }: { tier: string }) => {
   const symbol = tier.at(0)
   return (
     <div
-      className={` relative rounded-lg w-[20px]  h-[25px] text-center  bg-gradient-to-br  ${color[tier]}  border-2 border-white m-0.5 `}
+      className={` relative rounded-lg w-[20px]  h-[25px] text-center  bg-gradient-to-br  ${color[tier]}  border-2 border-white m-0.5 outline  outline-1 outline-beige-700`}
     >
       <div className="text-sm font-extrabold text-white">{symbol}</div>
     </div>

@@ -27,9 +27,13 @@ export default function MusicPlayer() {
         setIsPlaying(!isPlaying)
       }}
     >
-      <audio autoPlay id="audio" ref={audioRef} loop>
-        <source src={`audios/${musicName}.mp3`} type="audio/mpeg" />
-      </audio>
+      <audio
+        src={`audios/${musicName}.mp3`}
+        autoPlay
+        id="audio"
+        ref={audioRef}
+        loop
+      ></audio>
       {isPlaying ? (
         <FontAwesomeIcon
           icon={faVolumeUp}
