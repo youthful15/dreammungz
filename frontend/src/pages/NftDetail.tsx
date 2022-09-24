@@ -87,7 +87,7 @@ const tradeList: any = [
 export default function NftDetail() {
   const navigate = useNavigate()
   const location = useLocation()
-  const tokenId = parseInt(location.pathname.split("/")[3])
+  const tokenId: any = parseInt(location.pathname.split("/")[3])
   const publicAddress = localStorage.getItem("publicAddress")
 
   // 판매 등록 정보
@@ -227,8 +227,8 @@ export default function NftDetail() {
         await http
           .post("trade/nftPurchase", {
             address: publicAddress,
-            contractId: saleContractId,
-            tokenId: tokenId,
+            contractId: parseInt(saleContractId),
+            tokenId: parseInt(tokenId),
           })
           .then((res) => console.log("즉시구매", res))
           .catch((err) => console.error(err))
