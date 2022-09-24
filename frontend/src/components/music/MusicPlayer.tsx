@@ -1,4 +1,4 @@
-import { useRecoilValue } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { useRef, useState, useEffect } from "react"
 import playingMusic from "../../recoil/music/atom"
 
@@ -27,9 +27,13 @@ export default function MusicPlayer() {
         setIsPlaying(!isPlaying)
       }}
     >
-      <audio autoPlay id="audio" ref={audioRef} loop>
-        <source src={`audios/${musicName}.mp3`} type="audio/mpeg" />
-      </audio>
+      <audio
+        src={`audios/${musicName}.mp3`}
+        autoPlay
+        id="audio"
+        ref={audioRef}
+        loop
+      ></audio>
       {isPlaying ? (
         <FontAwesomeIcon
           icon={faVolumeUp}
