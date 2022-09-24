@@ -236,22 +236,22 @@ export default function NftDetail() {
         await MFTSaleFactoryContract.methods
           .createNego(saleContractId, publicAddress, proposal, false, false)
           .send({ from: publicAddress })
-        // .then((res: any) => {
-        //   setNegoId(res.events.NegoCreated.returnValues.negoId)
-        // })
+          .then((res: any) => {
+            setNegoId(res.events.NegoCreated.returnValues.negoId)
+          })
 
         console.log("Nego Id:", negoId)
 
         // // 네고 제안
-        // await http
-        //   .post("trade/offerRegister", {
-        //     address: publicAddress,
-        //     contractId: negoId,
-        //     price: proposal,
-        //     tokenId: tokenId,
-        //   })
-        //   .then((res) => console.log(res))
-        //   .catch((err) => console.error(err))
+        await http
+          .post("trade/offerRegister", {
+            address: publicAddress,
+            contractId: negoId,
+            price: proposal,
+            tokenId: tokenId,
+          })
+          .then((res) => console.log(res))
+          .catch((err) => console.error(err))
 
         // spiner 필요
         alert("네고 하는 중입니다")
