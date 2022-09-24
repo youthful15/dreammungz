@@ -228,7 +228,7 @@ export default function NftDetail() {
           .post("trade/nftPurchase", {
             address: publicAddress,
             contractId: parseInt(saleContractId),
-            tokenId: tokenId,
+            tokenId: parseInt(tokenId),
           })
           .then((res) => console.log("즉시구매", res))
           .catch((err) => console.error(err))

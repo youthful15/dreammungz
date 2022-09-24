@@ -7,33 +7,34 @@ import Web3 from "web3"
 // Nickname을 전역변수로 넣기 위한 import문
 import memberAtom from "../../recoil/member/atom"
 import { useRecoilState } from "recoil"
+import { resolveModuleName } from "typescript"
 
-export default function Login() {
-  const [, setNickname] = useRecoilState(memberAtom)
-  const [isNew, setIsNew] = useState(false)
-
-  // 회원가입을 최초로 한 사람인지 check
-  const changeCheck = () => {
-    setIsNew((check: boolean) => !check)
-  }
+export default function LoginTest() {
+  const [member, setMember] = useRecoilState(memberAtom)
+  const [nonce, setNonce] = useState("")
 
   const navigate = useNavigate()
   let web3: any
 
-  const handleAuthenticate = ({
+  // Functions
+  const handleAuthenticate = async ({
     publicAddress,
     signature,
   }: {
     publicAddress: string
     signature: string
   }) => {
-    const data = { address: publicAddress, signature: signature }
-    http.post(`auth/signature`, data).then((res) => {
-      localStorage.setItem("token", res.data.token)
-      localStorage.setItem("expiration", res.data.expiration)
-    })
+    await http
+      .post(`auth/signature`, {
+        address: publicAddress,
+        signature: signature,
+      })
+      .then((res) => {
+        localStorage.setItem("token", res.data.token)
+        localStorage.setItem("expiration", res.data.expiration)
+      })
+      .catch((err) => console.error("handleAuthentiacte ERROR", err))
   }
-
   const handleSignMessage = async ({
     publicAddress,
     nonce,
@@ -48,7 +49,6 @@ export default function Login() {
       throw new Error("You need to sign the message to be able to log in.")
     }
   }
-
   // 회원가입
   const handleSignin = (publicAddress: string) => {
     return http
@@ -56,13 +56,27 @@ export default function Login() {
       .then((res) => res.data.nonce)
       .catch((err) => console.error("에러", err))
   }
-
   // SSAFY 네트워크 연결 함수
   const handleEthereumNetwork = async (chainId: number) => {
     await window.ethereum.request({
       method: "wallet_switchEthereumChain",
-      params: [{ chainId: web3.utils.toHex(chainId) }],
+      params: [{ chainId: web3?.utils.toHex(chainId) }],
     })
+  }
+  // 회원 닉네임 저장 함수
+  const saveNickname = async ({ publicAddress }: { publicAddress: string }) => {
+    await http
+      .get(`auth/info/nickname/${publicAddress}`)
+      .then((res) => {
+        // walletAddress, memberNickname recoil 전역변수에 저장
+        setMember((prev) => {
+          const value = { ...prev }
+          value.memberNickname = res.data.nickname
+          value.walletAddress = publicAddress
+          return value
+        })
+      })
+      .catch((err) => console.error("닉네임 에러", err))
   }
 
   const handleClick = async () => {
@@ -91,58 +105,51 @@ export default function Login() {
       return
     }
 
-    const publicAddress = coinbase.toLowerCase()
+    const publicAddress = await coinbase.toLowerCase()
 
-    await localStorage.setItem("publicAddress", publicAddress)
+    // 지갑주소 Recoil 변수 저장
+    await setMember((prev) => {
+      const value = { ...prev }
+      value.walletAddress = publicAddress
+      return value
+    })
     let nonce: any
-
+    let isNew: any
     // Look if user with current publicAddress is already present on backend
     await http
       .get(`auth/info/${publicAddress}`)
       .then((res) => {
         nonce = res.data.nonce
+        isNew = false
       })
       .catch(() => {
         async function handleSigninFunction() {
           nonce = await handleSignin(publicAddress)
-          await changeCheck()
         }
         handleSigninFunction()
-        console.log(4, isNew)
+        isNew = true
       })
 
     // Popup MetaMask confirmation modal to sign message
-    const third = await handleSignMessage({ publicAddress, nonce })
+    const auth: any = await handleSignMessage({ publicAddress, nonce })
 
     // Send signature to backend on the /auth route
-    await handleAuthenticate(third)
+    await handleAuthenticate(auth)
 
     // SSAFY Network 연결
     try {
       await handleEthereumNetwork(chainId)
-      console.log(5, isNew)
-      // 최초가입시 10000 MUNG 지급
+
+      // 최초 가입 시 10000 M 지급
       if (isNew === true) {
-        console.log(6, isNew)
+        window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
+        await MUNGContract.methods
+          .mintToMember(publicAddress, 10000)
+          .send({ from: publicAddress })
       }
-      window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
-      await MUNGContract.methods
-        .mintToMember(publicAddress, 10000)
-        .send({ from: publicAddress })
 
       // 회원 닉네임 전역변수에 저장
-      await http
-        .get(`auth/info/nickname/${publicAddress}`)
-        .then((res) => {
-          // walletAddress, memberNickname recoil 전역변수에 저장
-          setNickname((prev) => {
-            const value = { ...prev }
-            value.memberNickname = res.data.nickname
-            value.walletAddress = publicAddress
-            return value
-          })
-        })
-        .catch((err) => console.error("닉네임 에러", err))
+      await saveNickname({ publicAddress })
 
       // Spinner 넣기
 
