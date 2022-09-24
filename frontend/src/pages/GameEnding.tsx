@@ -43,9 +43,10 @@ export default function GameEnding() {
   const [member] = useRecoilState(memberAtom)
   const canvasRef = useRef(null)
   const client = create({
-    host: "j7a605.p.ssafy.io",
-    port: 5001,
-    protocol: "http",
+    // url: "https://j7a605.p.ssafy.io:5001/",
+    host: "j7a605.p.ssafy.io/ipfs",
+    port: 443,
+    protocol: "https",
   })
 
   const copyDOM = async () => {
@@ -121,7 +122,7 @@ export default function GameEnding() {
   }
 
   return (
-    <div className="w-full flex">
+    <div className="flex w-full">
       여기엔딩
       <div className="relative">
         <div ref={canvasRef} className="h-[400px] w-[400px] bg-blue-200">
