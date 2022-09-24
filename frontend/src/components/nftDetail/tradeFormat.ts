@@ -111,10 +111,8 @@ export const buyNowFormat = async ({
       const saleContractAddress = await MFTSaleFactoryContract.methods
         .getSale(saleContractId)
         .call()
-      console.log("SaleContractAddress", saleContractAddress)
-      // approve 필요 10 ** 18 곱하기
+
       await MUNGContract.methods
-        // web3.utils.toBN(cost)
         .approve(
           saleContractAddress,
           web3.utils.toBN(cost * 10 ** 18).toString()

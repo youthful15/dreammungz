@@ -7,7 +7,6 @@ import {
   MUNGContract,
   MFTSaleFactoryContract,
   MFTContract,
-  MFTSaleFactoryContractAddress,
 } from "../utils/Web3Config"
 import { http } from "../api/axios"
 import NFTImage from "../components/nftDetail/NFTImage"
@@ -171,8 +170,6 @@ export default function NftDetail() {
       .then((res: any) => setIsSelling(res))
   }, [])
 
-  console.log("ss", web3.utils.toBN(cost))
-
   // 실시간 반영
   const onChangeProposal = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -205,8 +202,8 @@ export default function NftDetail() {
     tokenId,
     publicAddress,
   }: {
-    balance: any
-    proposal: any
+    balance: number
+    proposal: number
     tokenId: number
     publicAddress: string
   }) => {
@@ -217,15 +214,15 @@ export default function NftDetail() {
     } else {
       try {
         // contractId 받기
-        const saleContractId = await MFTSaleFactoryContract.methods
+        let saleContractId = await MFTSaleFactoryContract.methods
           .getCurrentSaleOfMFT(tokenId)
           .call()
+        saleContractId = parseInt(saleContractId)
 
         const saleContractAddress = await MFTSaleFactoryContract.methods
           .getSale(saleContractId)
           .call()
 
-        // approve 필요 10 ** 18 곱하기
         await MUNGContract.methods
           .approve(
             saleContractAddress,
@@ -233,17 +230,17 @@ export default function NftDetail() {
           )
           .send({ from: publicAddress })
 
-        console.log("여기서부터 안됨", 5, proposal)
+        console.log("여부터 안됨", saleContractId, publicAddress, proposal)
+
         // createNego
         await MFTSaleFactoryContract.methods
           .createNego(saleContractId, publicAddress, proposal, false, false)
-          .call()
-        // .send({ from: publicAddress })
+          .send({ from: publicAddress })
         // .then((res: any) => {
         //   setNegoId(res.events.NegoCreated.returnValues.negoId)
         // })
 
-        // console.log("Nego Id:", negoId)
+        console.log("Nego Id:", negoId)
 
         // // 네고 제안
         // await http
