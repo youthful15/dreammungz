@@ -9,7 +9,7 @@ import memberAtom from "../../recoil/member/atom"
 import { useRecoilState } from "recoil"
 import { resolveModuleName } from "typescript"
 
-export default function LoginTest() {
+export default function Login() {
   const [member, setMember] = useRecoilState(memberAtom)
   const [nonce, setNonce] = useState("")
 
@@ -106,6 +106,7 @@ export default function LoginTest() {
     }
 
     const publicAddress = await coinbase.toLowerCase()
+    localStorage.setItem("publicAddress", publicAddress)
 
     // 지갑주소 Recoil 변수 저장
     await setMember((prev) => {
