@@ -188,9 +188,6 @@ export const cancelNegoFormat = async ({
   publicAddress: string
   tokenId: number
 }) => {
-  // approve 필요 없음
-  // MFTContract.methods.approve()
-
   try {
     // SMART CONTRACT
     await MFTSaleFactoryContract.methods

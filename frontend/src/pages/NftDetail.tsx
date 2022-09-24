@@ -232,30 +232,25 @@ export default function NftDetail() {
         console.log("saleContractId", saleContractId)
         console.log("saleContractAddress", saleContractAddress)
         console.log("proposal", proposal)
+        let createdNegoId
 
         // createNego
-
-        // saleId ->  salecontractId
-        // negoer -> 제안자 지갑 주소
-        // negoprice -> proposal(제안금액)
-        // isChoiced -> 제안 채택 여부(false)
-        // isCanceled -> 제안 취소 여부(false)
         await MFTSaleFactoryContract.methods
           .createNego(saleContractId, publicAddress, proposal, false, false)
           .send({ from: publicAddress })
-        // .then((res: any) => {
-        //   setNegoId(res.events.NegoCreated.returnValues.negoId)
-        // })
-
-        console.log("Nego Id:", negoId)
+          .then((res: any) => {
+            setNegoId(res.events.NegoCreated.returnValues.negoId)
+            createdNegoId = parseInt(res.events.NegoCreated.returnValues.negoId)
+          })
 
         // // 네고 제안
         await http
           .post("trade/offerRegister", {
             address: publicAddress,
-            contractId: negoId,
+            tradeContractId: saleContractId,
             price: proposal,
             tokenId: tokenId,
+            negoContractId: createdNegoId,
           })
           .then((res) => console.log(res))
           .catch((err) => console.error(err))
