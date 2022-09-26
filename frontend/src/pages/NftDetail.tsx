@@ -430,6 +430,19 @@ export default function NftDetail() {
             {/* TEST CODE */}
             {/* TEST CODE */}
             <button
+              onClick={async () => {
+                const saleId = ""
+                const negoId = ""
+
+                await MFTSaleFactoryContract.methods
+                  .refundNego(saleId, negoId, publicAddress)
+                  .send({ from: publicAddress })
+                  .then((res: any) => console.log(res))
+              }}
+            >
+              네고 환불종민이만 눌르자
+            </button>
+            <button
               className="border border-black"
               onClick={() => {
                 setOpen4(true)
