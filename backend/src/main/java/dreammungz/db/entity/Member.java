@@ -93,5 +93,6 @@ public class Member {
     public void setPlaying(Check playing){
         this.playing = playing;
     }
+    public void setNickname(String nickname) { this.nickname = nickname; }
 
 }
