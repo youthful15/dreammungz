@@ -20,6 +20,7 @@ import NftListPage from "./pages/NftListPage"
 
 function App() {
   RouterChangeTracker()
+
   return (
     <div
       style={{

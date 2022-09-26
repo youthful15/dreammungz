@@ -1,3 +1,5 @@
+import React from "react"
+
 const tradeList: any = [
   {
     url: "image_url",
@@ -69,11 +71,11 @@ interface TradeListProp {
 
 export default function TransactionHistory() {
   return (
-    <div className="w-[47.5%]">
-      <p>거래 이력</p>
-      <div className="w-full h-[90%] bg-white p-2">
-        <div className="flex w-full border border-b-black">
-          <p className="w-[20%]">Price</p>
+    <div className="w-[47.5%] border rounded-lg border-black">
+      <p className="text-xl font-semibold ml-2">거래 이력</p>
+      <div className="w-full h-[90%] bg-transparent p-2">
+        <div className="flex w-full border border-b-black border-t-transparent border-l-transparent border-r-transparent">
+          <p className="w-[20%]">가격</p>
           <p className="w-[20%]">From</p>
           <p className="w-[30%]">To</p>
           <p>Date</p>
@@ -92,13 +94,26 @@ export default function TransactionHistory() {
           ) => {
             return (
               <div key={idx}>
-                <ul className="flex">
-                  <li>{sellerAddress}</li>
-                  <li>{sellerNickname}</li>
-                  <li>{buyerAddress}</li>
-                  <li>{buyerNickname}</li>
+                <ul className="flex py-1">
+                  <li className="w-[20%]">{price}</li>
+
+                  {/* 마이페이지 가게 만들기 */}
+                  <li
+                    className="w-[20%] text-lgBrown-600
+ hover:text-lgBrown-700 cursor-pointer"
+                    onClick={() => {}}
+                  >
+                    {sellerNickname}
+                  </li>
+                  {/* 마이페이지 가게 만들기 */}
+                  <li
+                    className="w-[30%] text-lgBrown-600
+ hover:text-lgBrown-700 cursor-pointer"
+                    onClick={() => {}}
+                  >
+                    {buyerNickname}
+                  </li>
                   <li>{date}</li>
-                  <li>{price}</li>
                 </ul>
               </div>
             )
