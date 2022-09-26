@@ -28,7 +28,6 @@ const Pagination = ({
   totalPage,
 }: PaginationProp) => {
   const [offset, setOffset] = useState(0)
-  console.log("토탈페이지", totalPage)
 
   useEffect(() => {
     const tmpOffset = Math.floor(currentPage / limit)

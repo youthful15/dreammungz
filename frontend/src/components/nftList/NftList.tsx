@@ -3,8 +3,8 @@ import listModeAtom from "../../recoil/list/atom"
 import Pagination from "../pagination/Pagination"
 import NftListItem, { NftListItemType } from "./NftListItem"
 import Filter, { SelectedFilters } from "../filter/Filter"
-import type { NavigateOptions } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { NavigateOptions, useLocation } from "react-router-dom"
+import { useEffect, useRef, useState } from "react"
 import useQueryParam from "../filter/useQueryParam"
 import { useQuery } from "@tanstack/react-query"
 import { getNftList } from "../../api/nft"
@@ -37,12 +37,21 @@ const NftList = ({ useFilter }: NftListProp) => {
   const [showSell, setShowSell] = useState(false)
   const [page, setPage] = useState(0)
   const { status, data, error, isFetching } = useNftList(filter!)
+  const componentJustMounted = useRef(true)
+  const location = useLocation()
+  const pageRef = useRef(0)
 
   const [showForm, setShowForm] = useState(false)
 
   useEffect(() => {
-    setFilter(filterForm)
+    if (!filter) filter = filterForm
+    setPage(filter.page)
   }, [])
+
+  useEffect(() => {
+    // console.log("필터 변경 ", filter?.page, pageRef.current)
+    if (filter && filter.page !== pageRef.current) setPage(filter.page)
+  }, [filter])
 
   useEffect(() => {
     if (filter) {
@@ -52,6 +61,7 @@ const NftList = ({ useFilter }: NftListProp) => {
   }, [showSell])
 
   useEffect(() => {
+    pageRef.current = page
     if (filter) {
       setFilter({ ...filter, page })
     }
