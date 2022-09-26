@@ -96,4 +96,12 @@ public class AuthController {
         NicknameResponse response = authService.getMemberNickname(address);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @ApiOperation(value = "닉네임 변경", notes = "지갑 주소와 닉네임으로 회원의 닉네임을 변경한다.")
+    @PutMapping("/info/nickname")
+    public ResponseEntity<NicknameRequest> changeNickname(
+            @RequestBody NicknameRequest nicknameRequest) {
+        authService.changeNickname(nicknameRequest);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

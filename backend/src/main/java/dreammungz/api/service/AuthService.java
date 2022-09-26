@@ -1,6 +1,7 @@
 package dreammungz.api.service;
 
 import dreammungz.api.dto.auth.AuthResponse;
+import dreammungz.api.dto.auth.NicknameRequest;
 import dreammungz.api.dto.auth.NicknameResponse;
 import dreammungz.db.entity.Member;
 import dreammungz.db.repository.MemberRepository;
@@ -97,5 +98,14 @@ public class AuthService {
                 .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
         nicknameResponse.setNickname(member.getNickname());
         return nicknameResponse;
+    }
+
+    public void changeNickname(NicknameRequest nicknameRequest){
+        //주소를 기반으로 멤버를 찾고
+        Member member = memberRepository.findByAddress(nicknameRequest.getAddress()).get();
+        //변경할 닉네임을 설정
+        member.setNickname(nicknameRequest.getNickname());
+        //DB에 반영
+        memberRepository.save(member);
     }
 }
