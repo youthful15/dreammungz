@@ -1,6 +1,6 @@
-import { useRecoilValue } from "recoil"
-import { useRef, useState, useEffect } from "react"
-import playingMusic from "../../recoil/music/atom"
+import { useRecoilValue, useRecoilState } from "recoil"
+import { useRef, useEffect } from "react"
+import playingMusic, { playingNow } from "../../recoil/music/atom"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faVolumeXmark, faVolumeUp } from "@fortawesome/free-solid-svg-icons"
@@ -8,7 +8,7 @@ import { faVolumeXmark, faVolumeUp } from "@fortawesome/free-solid-svg-icons"
 export default function MusicPlayer() {
   const musicName = useRecoilValue(playingMusic)
   const audioRef = useRef<HTMLAudioElement>(null)
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useRecoilState(playingNow)
 
   useEffect(() => {
     if (audioRef.current) {
@@ -19,6 +19,14 @@ export default function MusicPlayer() {
       }
     }
   }, [isPlaying])
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (!isPlaying) {
+        audioRef.current.pause()
+      }
+    }
+  }, [musicName])
 
   return (
     <button
