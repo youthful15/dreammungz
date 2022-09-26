@@ -2,8 +2,8 @@ package dreammungz.api.service;
 
 import dreammungz.api.dto.nft.MyNftResponse;
 import dreammungz.api.dto.nft.StatusNameValue;
-import dreammungz.api.dto.nft.info.GameEndRequest;
-import dreammungz.api.dto.nft.info.GameEndResponse;
+import dreammungz.api.dto.nft.end.GameEndRequest;
+import dreammungz.api.dto.nft.end.GameEndResponse;
 import dreammungz.api.dto.nft.list.NftListRequest;
 import dreammungz.api.dto.nft.list.NftListResponse;
 import dreammungz.db.entity.*;
@@ -44,68 +44,21 @@ public class NftService {
     private final NftRepositorySupport nftRepositorySupport;
 
     /*
-    @author 신슬기
-    @since 2022. 09. 23.
-    */
-    public MyNftResponse myNftList(String address) {
-        MyNftResponse nftListResponse = new MyNftResponse();
-        Member member = getMember(address); //지갑 주소로 플레이어 정보 조회
-        List<Nft> nftList= nftRepositorySupport.findAllByMember(member); //플레이어가 소유하고 있는 모든 NFT 조회
-        List<MyNftResponse.NftInfo> nftInfos = new ArrayList<>(); //NFT 정보에 대한 리스트
-        for (int i = 0; i < nftList.size(); i++) {
-            Nft nftItem = nftList.get(i);
-
-            //판매 상태 확인
-            boolean isSell = false;
-            if (tradeRepository.existsByNft(nftItem)) {
-                List<Trade> trades = tradeRepository.findByNft(nftItem);
-                for (Trade trade : trades) {
-                    if (trade.getCancel().equals(Check.N) && trade.getState().equals(State.PROCEEDING)) {
-                        isSell = true;
-                        break;
-                    }
-                }
-            }
-
-            //해당 NFT의 추가 스탯 조회
-            List<MyNftResponse.NftInfo.StatusList> statusLists = new ArrayList<>();
-            for (int j = 0; j < nftItem.getNftStatuses().size(); j++) {
-                statusLists.add(new MyNftResponse.NftInfo.StatusList(nftItem.getNftStatuses().get(j).getStatus().getName(), nftItem.getNftStatuses().get(j).getValue()));
-            }
-
-            //판매중이 아닌 경우에만 NFT 관련 정보 담기
-            if (!isSell) {
-                MyNftResponse.NftInfo nftInfo = MyNftResponse.NftInfo.builder()
-                        .id(nftItem.getTokenId())
-                        .url(nftItem.getImageUrl())
-                        .tier(nftItem.getTier())
-                        .gender(nftItem.getGender())
-                        .status(statusLists)
-                        .build();
-                nftInfos.add(nftInfo);
-            }
-        }
-        nftListResponse.setItems(nftInfos);
-
-        return nftListResponse;
-    }
-
-    /*
     NFT 필터 결과 조회
     since 2022. 09. 21
     전체 조회하는 임시 코드입니다.
     수정 예정
-     */
+    */
     public NftListResponse searchNft(NftListRequest nftListRequest) {
         NftListResponse nftListResponse = new NftListResponse();
         //검색 조건
         PageRequest pageRequest = PageRequest.of(nftListRequest.getPage(), 8);
         Page<Nft> nftList = null;
         // 판매중인 NFT만
-        if(nftListRequest.isSell()){
-            nftList = nftRepositorySupport.findSell(pageRequest,nftListRequest);
-        }else{ // 모든 NFT
-            nftList = nftRepositorySupport.findAll(pageRequest,nftListRequest);
+        if (nftListRequest.isSell()) {
+            nftList = nftRepositorySupport.findSell(pageRequest, nftListRequest);
+        } else { // 모든 NFT
+            nftList = nftRepositorySupport.findAll(pageRequest, nftListRequest);
         }
 
         //Page<Nft> nftList = nftRepository.findAll(pageRequest); //페이지 처리해서 조회
@@ -148,11 +101,57 @@ public class NftService {
         }
         nftListResponse.setItems(nftInfos);
         nftListResponse.setCurrentPage(nftList.getPageable().getPageNumber());
-        nftListResponse.setTotalPage(nftList.getTotalPages()-1);
+        nftListResponse.setTotalPage(nftList.getTotalPages() - 1);
 
         return nftListResponse;
     }
 
+    /*
+    @author 신슬기
+    @since 2022. 09. 23.
+    */
+    public MyNftResponse myNftList(String address) {
+        MyNftResponse nftListResponse = new MyNftResponse();
+        Member member = getMember(address); //지갑 주소로 플레이어 정보 조회
+        List<Nft> nftList = nftRepositorySupport.findAllByMember(member); //플레이어가 소유하고 있는 모든 NFT 조회
+        List<MyNftResponse.NftInfo> nftInfos = new ArrayList<>(); //NFT 정보에 대한 리스트
+        for (int i = 0; i < nftList.size(); i++) {
+            Nft nftItem = nftList.get(i);
+
+            //판매 상태 확인
+            boolean isSell = false;
+            if (tradeRepository.existsByNft(nftItem)) {
+                List<Trade> trades = tradeRepository.findByNft(nftItem);
+                for (Trade trade : trades) {
+                    if (trade.getCancel().equals(Check.N) && trade.getState().equals(State.PROCEEDING)) {
+                        isSell = true;
+                        break;
+                    }
+                }
+            }
+
+            //해당 NFT의 추가 스탯 조회
+            List<MyNftResponse.NftInfo.StatusList> statusLists = new ArrayList<>();
+            for (int j = 0; j < nftItem.getNftStatuses().size(); j++) {
+                statusLists.add(new MyNftResponse.NftInfo.StatusList(nftItem.getNftStatuses().get(j).getStatus().getName(), nftItem.getNftStatuses().get(j).getValue()));
+            }
+
+            //판매중이 아닌 경우에만 NFT 관련 정보 담기
+            if (!isSell) {
+                MyNftResponse.NftInfo nftInfo = MyNftResponse.NftInfo.builder()
+                        .id(nftItem.getTokenId())
+                        .url(nftItem.getImageUrl())
+                        .tier(nftItem.getTier())
+                        .gender(nftItem.getGender())
+                        .status(statusLists)
+                        .build();
+                nftInfos.add(nftInfo);
+            }
+        }
+        nftListResponse.setItems(nftInfos);
+
+        return nftListResponse;
+    }
 
     /*
     NFT 정보 저장
@@ -182,6 +181,8 @@ public class NftService {
                     .build();
             nftStatusRepository.save(nftStatus);
         }
+
+
     }
 
     /*
@@ -195,6 +196,7 @@ public class NftService {
     */
     public GameEndResponse makeEnd(String address) {
         GameEndResponse gameEndResponse = new GameEndResponse();
+        // 0. 현재 장면이 8번이 아니면 엔딩이 아니기 때문에 예외 처리
         // 1. 색 결정
         Game gameData = getMember(address).getGame();
         Long mother = gameData.getMother();
@@ -339,11 +341,10 @@ public class NftService {
 
         //가장 높은값 1개 + 카드 등급에 따라 랜덤으로 뽑은 값 넣기
         for (int i = 0; i < tierIndex + 1; i++) {
-            addStatusList.add(new GameEndResponse.StatusList(statusList.get(selected[i]).getName(), Long.valueOf(tierIndex+1)));
+            addStatusList.add(new GameEndResponse.StatusList(statusList.get(selected[i]).getName(), Long.valueOf(tierIndex + 1)));
         }
         gameEndResponse.setStatus(addStatusList);
 
-        //게임 데이터 삭제 로직이 들어가는 부분(테스트할 때 게임 데이터 날라갈 것 같아서 일단 제외했습니다. 추후 추가)
         return gameEndResponse;
     }
 
