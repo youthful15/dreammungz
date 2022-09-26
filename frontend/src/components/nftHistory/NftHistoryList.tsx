@@ -1,6 +1,8 @@
+import { useQueries, useQuery } from "@tanstack/react-query"
 import { useState } from "react"
+import { getDealHistory } from "../../api/nft"
 import Pagination from "../pagination/Pagination"
-import HistoryItem from "./HistoryListItem"
+import HistoryItem, { HistoryListHead } from "./HistoryListItem"
 
 const items = [
   {
@@ -25,29 +27,98 @@ const items = [
     date: "yyyy-mm-dd",
     price: 12,
   },
+  {
+    id: 1,
+    url: "metadata_url",
+    type: "SELL",
+    sellerNickname: "a12d2f3",
+    sellerAddress: "0x23423423423423",
+    buyerNickname: "sdf2de2",
+    buyerAddress: "0x34234f3r324234",
+    date: "2022-09-16",
+    price: 12,
+  },
+  {
+    id: 2,
+    url: "metadata_url",
+    type: "BUY",
+    sellerNickname: "df2de2",
+    sellerAddress: "0x34234f3r324234",
+    buyerNickname: "a12d2f3",
+    buyerAddress: "0x23423423423423",
+    date: "yyyy-mm-dd",
+    price: 12,
+  },
+  {
+    id: 1,
+    url: "metadata_url",
+    type: "SELL",
+    sellerNickname: "a12d2f3",
+    sellerAddress: "0x23423423423423",
+    buyerNickname: "sdf2de2",
+    buyerAddress: "0x34234f3r324234",
+    date: "2022-09-16",
+    price: 12,
+  },
+  {
+    id: 2,
+    url: "metadata_url",
+    type: "BUY",
+    sellerNickname: "df2de2",
+    sellerAddress: "0x34234f3r324234",
+    buyerNickname: "a12d2f3",
+    buyerAddress: "0x23423423423423",
+    date: "yyyy-mm-dd",
+    price: 12,
+  },
 ]
+const thead = {
+  id: "ID",
+  price: "가격",
+  type: " 거래 종류 ",
+  date: "거래 날짜 ",
+}
 
-const NftHistoryList = () => {
+type dealItemType = {
+  id: number
+  url: string
+  metadata: string
+  type: string
+  sellerNickname: string
+  sellerAddress: string
+  buyerNickname: string
+  buyerAddress: string
+  date: string
+  price: number
+}
+
+const NftHistoryList = ({ address }: { address: string }) => {
   const [page, setPage] = useState(0)
+  const { data } = useQuery(["DealList", page], () =>
+    getDealHistory(address, page)
+  )
   return (
-    <div className="w-full text-center border ">
-      <table className="w-full border-separate table-auto border-spacing-2">
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>종류</th>
-            <th>가격</th>
-            <th>From</th>
-            <th>날짜</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((item) => {
-            return <HistoryItem item={item} />
+    <div className="relative flex flex-col items-center justify-center w-full h-full text-center ">
+      <div className="w-4/5 space-y-4 h-[80%] ">
+        <HistoryListHead item={thead} />
+        {data &&
+          data.items.map((item: dealItemType, idx: number) => {
+            const deal = { ...item, date: item.date.split(" ")[0] }
+            return <HistoryItem item={deal} key={idx} />
           })}
-        </tbody>
-      </table>
-      <Pagination page={page} setPage={setPage} totalPage={0} />
+
+        {/* {items.map((item, idx: number) => {
+          const deal = { ...item, date: item.date.split(" ")[0] }
+          return <HistoryItem item={deal} key={idx} />
+        })} */}
+      </div>
+      {data && (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalPage={data.totalPage + 1}
+        />
+      )}
     </div>
   )
 }

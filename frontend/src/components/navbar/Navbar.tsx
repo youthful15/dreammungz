@@ -4,8 +4,7 @@ import NavList from "./NavList"
 import memberAtom from "../../recoil/member/atom"
 import { useRecoilState } from "recoil"
 import { http } from "../../api/axios"
-import { MFTContract, MUNGContract } from "../../utils/Web3Config"
-
+import { getBalance } from "../../utils/web3"
 const navItemStyle: string =
   "bg-brown-300  border rounded-lg shadow-sm cursor-pointer"
 
@@ -13,22 +12,20 @@ const Navbar = () => {
   const navigate = useNavigate()
   const [member] = useRecoilState(memberAtom)
   const [isLogin, setLogin] = useState(false) // 추후 Recoil을 사용하여  상태관리 할 것
+  const [balance, setBalance] = useState(0)
+  const [showBalance, setShowBalance] = useState(false)
 
   // 로그인했는지 확인
   useEffect(() => {
     if (localStorage.getItem("publicAddress")) setLogin(true)
   }, [])
 
-  // balance Test 확인 완료
-  const clickBalance = async () => {
-    const balance = await MUNGContract.methods
-      .balanceOf(localStorage.getItem("publicAddress"))
-      .call()
-    // let balance = await MUNGContract.methods
-    //   .balanceOf(member.walletAddress)
-    //   .call()
-    console.log(balance * 10 ** -18)
-  }
+  // 지갑 정보 변경
+  useEffect(() => {
+    setTimeout(() => {
+      setShowBalance(false)
+    }, 5000)
+  }, [showBalance])
 
   const publicAddress = localStorage.getItem("publicAddress")
 
@@ -73,12 +70,17 @@ const Navbar = () => {
           </Link>
           <div
             className={navItemStyle}
-            onClick={() => {
-              clickBalance()
-              console.log(MFTContract.methods)
+            onClick={async () => {
+              const receivedBalance = await getBalance()
+              setShowBalance(true)
+              setBalance(receivedBalance)
             }}
           >
-            지갑 정보 보기
+            {showBalance ? (
+              <p className="text-xl font-semibold text-white">{balance} M</p>
+            ) : (
+              "지갑 보기"
+            )}
           </div>
           <div
             className={navItemStyle}

@@ -17,6 +17,7 @@ import {
   acceptNegoFormat,
   cancelNegoFormat,
 } from "../components/nftDetail/tradeFormat"
+import { getBalance } from "../utils/web3"
 
 interface OfferListProp {
   id: number
@@ -178,15 +179,6 @@ export default function NftDetail() {
     await setProposal(value)
   }
 
-  // 지갑안에 들어있는 MUNG 가져오기
-  const getMung = async () => {
-    const walletAddress = localStorage.getItem("publicAddress")
-    const needRecoil = await MUNGContract.methods
-      .balanceOf(walletAddress)
-      .call()
-    setBalance(needRecoil * 10 ** -18)
-  }
-
   // Sale Contract Id 가져오기
   const getSaleContractId = async () => {
     const contractId = await MFTSaleFactoryContract.methods
@@ -244,6 +236,13 @@ export default function NftDetail() {
           })
 
         // // 네고 제안
+        console.log(
+          publicAddress,
+          saleContractId,
+          proposal,
+          tokenId,
+          createdNegoId
+        )
         await http
           .post("trade/offerRegister", {
             address: publicAddress,
@@ -277,7 +276,8 @@ export default function NftDetail() {
           <button
             className="mr-4 border border-black"
             onClick={async () => {
-              await getMung()
+              const receivedBalance = await getBalance()
+              await setBalance(receivedBalance)
               await sellAbortFormat({ tokenId, publicAddress })
               await modalClose1()
               await setIsSelling(false)
@@ -301,7 +301,8 @@ export default function NftDetail() {
           <button
             className="mr-4 border border-black"
             onClick={async () => {
-              await getMung()
+              const receivedBalance = await getBalance()
+              await setBalance(receivedBalance)
               buyNowFormat({ balance, cost, tokenId, publicAddress })
             }}
           >
@@ -330,7 +331,8 @@ export default function NftDetail() {
           <button
             className="mr-4 border border-black"
             onClick={async () => {
-              await getMung()
+              const receivedBalance = await getBalance()
+              await setBalance(receivedBalance)
               await proposalFormat({
                 balance,
                 proposal,
@@ -437,7 +439,8 @@ export default function NftDetail() {
                   <button
                     className="border border-black mr-3"
                     onClick={async () => {
-                      await getMung()
+                      const receivedBalance = await getBalance()
+                      await setBalance(receivedBalance)
                       setOpen2(true)
                     }}
                   >
@@ -446,7 +449,8 @@ export default function NftDetail() {
                   <button
                     className="border border-black"
                     onClick={async () => {
-                      await getMung()
+                      const receivedBalance = await getBalance()
+                      await setBalance(receivedBalance)
                       setOpen3(true)
                     }}
                   >
@@ -532,7 +536,8 @@ export default function NftDetail() {
                 type="submit"
                 className="border border-black mr-5"
                 onClick={async () => {
-                  await getMung()
+                  const receivedBalance = await getBalance()
+                  await setBalance(receivedBalance)
                   sellFormat({ publicAddress, negoAble, tokenId, buyNowPrice })
                   // await setClickedSell(false)
                   // await setIsSelling(true)
@@ -557,16 +562,15 @@ export default function NftDetail() {
         <div className="h-[50%] w-full flex">
           <TransactionHistory />
           <div className="w-[5%]"></div>
-          <div className="w-[47.5%]">
-            <p>오퍼 리스트</p>
-            <div className="bg-white h-[90%] p-2">
+          <div className="w-[47.5%] border rounded-lg border-black">
+            <p className="text-xl font-semibold ml-2">오퍼 리스트</p>
+            <div className="w-full bg-transparent h-[90%] p-2">
               {tradeList ? (
                 <div>
                   <div>
-                    <div className="flex w-full border border-b-black">
-                      <p className="w-[20%]">Price</p>
+                    <div className="flex w-full border border-b-black border-t-transparent border-l-transparent border-r-transparent">
+                      <p className="w-[20%]">가격</p>
                       <p className="w-[20%]">From</p>
-                      <p className="w-[30%]">Expiration</p>
                       <p>Date</p>
                     </div>
                   </div>
@@ -583,29 +587,41 @@ export default function NftDetail() {
                     }: OfferListProp) => {
                       return (
                         <div className="flex" key={id}>
-                          <p className="w-[20%]">{price}</p>
-                          <p className="w-[20%]">{buyerNickname}</p>
-                          <p className="w-[30%]">{date}</p>
-                          {buyerAddress === publicAddress ? (
-                            <p
-                              onClick={async () => {
-                                await getMung()
-                                await setClickedNegoId(contractId)
-                                setOpen4(true)
-                              }}
+                          <ul className="w-full flex py-1">
+                            <li className="w-[20%]">{price}</li>
+
+                            <li
+                              className="w-[20%] text-lgBrown-600
+ hover:text-lgBrown-700 cursor-pointer"
                             >
-                              ❌
-                            </p>
-                          ) : null}
-                          {sellerWalletAddress === publicAddress ? (
-                            <p
-                              onClick={() => {
-                                setOpen5(true)
-                              }}
-                            >
-                              수락
-                            </p>
-                          ) : null}
+                              {buyerNickname}
+                            </li>
+                            <li className="w-[30%]">{date}</li>
+
+                            {buyerAddress === publicAddress ? (
+                              <li
+                                className="border border-black"
+                                onClick={async () => {
+                                  const receivedBalance = await getBalance()
+                                  await setBalance(receivedBalance)
+                                  await setClickedNegoId(contractId)
+                                  setOpen4(true)
+                                }}
+                              >
+                                오퍼 삭제
+                              </li>
+                            ) : null}
+                            {sellerWalletAddress === publicAddress ? (
+                              <li
+                                className="border border-black"
+                                onClick={() => {
+                                  setOpen5(true)
+                                }}
+                              >
+                                오퍼 수락
+                              </li>
+                            ) : null}
+                          </ul>
                         </div>
                       )
                     }

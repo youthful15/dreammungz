@@ -1826,7 +1826,7 @@ export const MFTNegoAbi = [
 export const web3 = new Web3(window.ethereum)
 export const chainId = 31221
 
-export const OwnerAddress = "0x7DF856996D5d086cdcC4C65a23e1B48Ced20c328" // 컨트랙트 배포한 지갑 주소
+export const OwnerAddress = "0x2AF0D46CC2F86D1B1697A8f86C9b245320564f5F" // 컨트랙트 배포한 지갑 주소
 export const MUNGContractAddress = "0x7DF856996D5d086cdcC4C65a23e1B48Ced20c328"
 export const MFTContractAddress = "0x56245A853919dd6dE67333A70c9eD0047Ce45402"
 export const MFTSaleFactoryContractAddress =

@@ -87,19 +87,19 @@ const NftList = ({ useFilter }: NftListProp) => {
             className="p-1 px-2 rounded-lg bg-brown-200"
             onClick={() => setShowInfo(false)}
           >
-            이미지만 보기{" "}
+            이미지만{" "}
           </button>
           <button
             className="p-1 px-2 rounded-lg bg-brown-200"
             onClick={() => setShowInfo(true)}
           >
-            정보와 함께 보기{" "}
+            정보 보기{" "}
           </button>
           <button
             className="p-1 px-2 rounded-lg bg-brown-200"
             onClick={() => setShowSell((prev) => !prev)}
           >
-            {showSell ? "전체 목록 보기" : "판매중인것만 보기"}
+            {showSell ? "전체 목록" : "판매중"}
           </button>
         </div>
       </div>
