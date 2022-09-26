@@ -152,7 +152,7 @@ public class TradeService {
 
     public TradeHistoryResponse tradeHistory(String address, int page){
         TradeHistoryResponse response = new TradeHistoryResponse();
-        PageRequest pageRequest = PageRequest.of(page, 10); //10개씩 페이징
+        PageRequest pageRequest = PageRequest.of(page, 6); //6개씩 페이징
 
         // 거래가 완료된 거래 내역들만 조회
         Page<Trade> tradeList = tradeRepositorySupport.findHistoryByAddress(pageRequest,address);
