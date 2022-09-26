@@ -3,9 +3,7 @@ package dreammungz.api.dto.nft.list;
 import dreammungz.enums.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -28,6 +26,7 @@ public class NftListResponse {
 
     @Getter
     @Setter
+    @RequiredArgsConstructor
     static public class NftInfo {
         @ApiModelProperty(value = "토큰 식별자", name = "id", example = "0", dataType = "Long")
         private Long id;
@@ -74,6 +73,7 @@ public class NftListResponse {
 
         @Getter
         @Setter
+        @RequiredArgsConstructor
         static public class StatusList {
             @ApiModelProperty(value = "능력치 이름", name = "name", example = "VOICE", dataType = "String")
             StatusName name;

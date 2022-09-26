@@ -222,6 +222,7 @@ public class TradeService {
 
         //sell true면 offer 리스트 담기(진행중인 건만)
         List<Trade> isSell = tradeRepositorySupport.findSellByTokenId(id);
+        List<NftInfoResponse.Offer> offers = new ArrayList<>();
         if(isSell.size()!=0){
             nftInfoResponse.setTraceId(isSell.get(0).getContractId());
             nftInfoResponse.setSell(true);
@@ -230,7 +231,6 @@ public class TradeService {
             nftInfoResponse.setSellerNickname(isSell.get(0).getSeller().getMember().getNickname());
             nftInfoResponse.setSellerAddress(isSell.get(0).getSeller().getMember().getAddress());
             List<Negotiation> negos = negotiationRepositorySupport.findByTradeId(isSell.get(0).getId());
-            List<NftInfoResponse.Offer> offers = new ArrayList<>();
             for(int i=0;i<negos.size();i++){
                 NftInfoResponse.Offer offer = NftInfoResponse.Offer.builder()
                         .offerId(negos.get(i).getContractId())
@@ -244,6 +244,7 @@ public class TradeService {
             nftInfoResponse.setOffer(offers);
         }else{
             nftInfoResponse.setSell(false);
+            nftInfoResponse.setOffer(offers);
         }
         return nftInfoResponse;
     }

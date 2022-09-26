@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import dreammungz.enums.TradeType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +27,7 @@ public class TradeHistoryResponse {
 
     @Getter
     @Setter
+    @RequiredArgsConstructor
     static public class TradeItem {
         @ApiModelProperty(value = "토큰 식별자", name = "id", example = "1", dataType = "Long")
         private Long id;
