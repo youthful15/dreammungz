@@ -3,6 +3,7 @@ package dreammungz.db.repository;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import dreammungz.db.entity.Trade;
+import dreammungz.enums.Check;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import static dreammungz.db.entity.QTrade.trade;
 import static dreammungz.enums.State.COMPLETE;
+import static dreammungz.enums.State.PROCEEDING;
 
 /*
 @author 신슬기
@@ -36,6 +38,23 @@ public class TradeRepositorySupport extends QuerydslRepositorySupport {
                 .from(trade);
         List<Trade> trades = this.getQuerydsl().applyPagination(pageable, query).orderBy(trade.endTime.desc()).fetch();
         return new PageImpl<>(trades, pageable, query.fetchCount());
+    }
+
+    public List<Trade> findByTokenId(Long tokenId){
+        return queryFactory
+                .select(trade)
+                .where(trade.nft.tokenId.eq(tokenId),trade.state.eq(COMPLETE))
+                .from(trade)
+                .orderBy(trade.endTime.desc())
+                .fetch();
+    }
+
+    public List<Trade> findSellByTokenId(Long tokenId){
+        return queryFactory
+                .select(trade)
+                .where(trade.nft.tokenId.eq(tokenId),trade.state.eq(PROCEEDING), trade.cancel.eq(Check.N))
+                .from(trade)
+                .fetch();
     }
 
 }

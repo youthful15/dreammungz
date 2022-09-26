@@ -77,4 +77,12 @@ public class TradeController {
         TradeHistoryResponse response = tradeService.tradeHistory(address, page);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
+
+    @ApiOperation(value = "NFT 상세 정보 조회", notes = "NFT의 판매정보, 상세정보, 가격 제안 내역을 제공한다.", response = NftInfoResponse.class)
+    @GetMapping("/nft/{id}")
+    public ResponseEntity<NftInfoResponse> nftInfo(@ApiParam(value = "NFT 토큰 id", required = true) @PathVariable Long id) {
+        NftInfoResponse response = tradeService.nftInfo(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

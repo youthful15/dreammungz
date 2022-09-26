@@ -1,8 +1,8 @@
 package dreammungz.api.controller;
 
 import dreammungz.api.dto.nft.MyNftResponse;
-import dreammungz.api.dto.nft.info.GameEndRequest;
-import dreammungz.api.dto.nft.info.GameEndResponse;
+import dreammungz.api.dto.nft.end.GameEndRequest;
+import dreammungz.api.dto.nft.end.GameEndResponse;
 import dreammungz.api.dto.nft.list.NftListRequest;
 import dreammungz.api.dto.nft.list.NftListResponse;
 import dreammungz.api.service.NftService;
