@@ -18,7 +18,7 @@ import {
   cancelNegoFormat,
 } from "../components/nftDetail/tradeFormat"
 import { getBalance } from "../utils/web3"
-
+import { getNftDetail } from "../components/nftDetail/nftDetailRestapi"
 interface OfferListProp {
   id: number
   buyerAddress: string
@@ -97,6 +97,9 @@ export default function NftDetail() {
   const tokenId: any = parseInt(location.pathname.split("/")[3])
   const publicAddress: any = localStorage.getItem("publicAddress")
 
+  // NFT 정보
+  const [nftInfo, setNftInfo] = useState<any>()
+
   // 판매 등록 정보
   const [negoAble, setNegoAble] = useState(true)
   const [buyNowPrice, setbuyNowPrice] = useState(0)
@@ -152,6 +155,14 @@ export default function NftDetail() {
     }
     saleStatusConfirm()
   }, [])
+
+  useEffect(() => {
+    async function getNftDetailFunction() {
+      const getAllNftDetail: any = await getNftDetail({ tokenId })
+      await setNftInfo(getAllNftDetail.data)
+    }
+    getNftDetailFunction()
+  }, [tokenId])
 
   // NFT의 주인이 나인지 확인하는 함수
   async function checkIsOwner() {
@@ -402,99 +413,102 @@ export default function NftDetail() {
         </div>
       </Modal>
       {/* 가격 제안수락 모달 끝 */}
-      <div className="h-[50%] w-full flex">
-        <NFTImage />
+      {nftInfo ? (
+        <div className="h-[50%] w-full flex">
+          <NFTImage />
 
-        <div className="w-[50%]">
-          <p>DREAMMUNGS</p>
-          <p>Tags</p>
-          <p>500 M</p>
-          <p>분양자</p>
-          <p>Unique</p>
+          <div className="w-[50%]">
+            <p>DREAMMUNGS</p>
+            <p>Tags</p>
+            <p>500 M</p>
+            <p>분양자</p>
+            <p>Unique</p>
 
-          {/* TEST CODE */}
-          {/* TEST CODE */}
-          {/* TEST CODE */}
-          {/* TEST CODE */}
-          {/* TEST CODE */}
-          <button
-            className="border border-black"
-            onClick={() => {
-              setOpen4(true)
-            }}
-          >
-            네고 취소
-          </button>
-          <button
-            className="border border-black"
-            onClick={() => {
-              setOpen5(true)
-            }}
-          >
-            네고 승낙
-          </button>
-          {/* TEST CODE */}
-          {/* TEST CODE */}
-          {/* TEST CODE */}
-          {/* TEST CODE */}
-          {/* TEST CODE */}
-          {/* TEST CODE */}
-          <div>
-            {/* 본인 NFT 인지 확인 */}
-            {nftOwnerAddress &&
-            publicAddress?.toLowerCase() !== nftOwnerAddress?.toLowerCase() ? (
-              isSelling === true ? (
+            {/* TEST CODE */}
+            {/* TEST CODE */}
+            {/* TEST CODE */}
+            {/* TEST CODE */}
+            {/* TEST CODE */}
+            <button
+              className="border border-black"
+              onClick={() => {
+                setOpen4(true)
+              }}
+            >
+              네고 취소
+            </button>
+            <button
+              className="border border-black"
+              onClick={() => {
+                setOpen5(true)
+              }}
+            >
+              네고 승낙
+            </button>
+            {/* TEST CODE */}
+            {/* TEST CODE */}
+            {/* TEST CODE */}
+            {/* TEST CODE */}
+            {/* TEST CODE */}
+            {/* TEST CODE */}
+            <div>
+              {/* 본인 NFT 인지 확인 */}
+              {nftOwnerAddress &&
+              publicAddress?.toLowerCase() !==
+                nftOwnerAddress?.toLowerCase() ? (
+                isSelling === true ? (
+                  <div className="flex">
+                    <button
+                      className="border border-black mr-3"
+                      onClick={async () => {
+                        const receivedBalance = await getBalance()
+                        await setBalance(receivedBalance)
+                        setOpen2(true)
+                      }}
+                    >
+                      즉시 구매
+                    </button>
+                    <button
+                      className="border border-black"
+                      onClick={async () => {
+                        const receivedBalance = await getBalance()
+                        await setBalance(receivedBalance)
+                        setOpen3(true)
+                      }}
+                    >
+                      가격 제안하기
+                    </button>
+                  </div>
+                ) : null
+              ) : (
                 <div className="flex">
-                  <button
-                    className="border border-black mr-3"
-                    onClick={async () => {
-                      const receivedBalance = await getBalance()
-                      await setBalance(receivedBalance)
-                      setOpen2(true)
-                    }}
-                  >
-                    즉시 구매
-                  </button>
-                  <button
-                    className="border border-black"
-                    onClick={async () => {
-                      const receivedBalance = await getBalance()
-                      await setBalance(receivedBalance)
-                      setOpen3(true)
-                    }}
-                  >
-                    가격 제안하기
-                  </button>
+                  {isSelling === true ? (
+                    // 본인 NFT && 판매중인 경우
+                    <button
+                      className="w-full border border-black"
+                      onClick={() => {
+                        setOpen1(true)
+                      }}
+                    >
+                      판매 중지
+                    </button>
+                  ) : (
+                    // 본인 NFT && 판매 올리지 않았을 경우
+                    <button
+                      className="w-full border border-black"
+                      onClick={() => {
+                        setClickedSell(true)
+                      }}
+                    >
+                      판매 시작
+                    </button>
+                  )}
                 </div>
-              ) : null
-            ) : (
-              <div className="flex">
-                {isSelling === true ? (
-                  // 본인 NFT && 판매중인 경우
-                  <button
-                    className="w-full border border-black"
-                    onClick={() => {
-                      setOpen1(true)
-                    }}
-                  >
-                    판매 중지
-                  </button>
-                ) : (
-                  // 본인 NFT && 판매 올리지 않았을 경우
-                  <button
-                    className="w-full border border-black"
-                    onClick={() => {
-                      setClickedSell(true)
-                    }}
-                  >
-                    판매 시작
-                  </button>
-                )}
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
 
       {/* 판매 설정 */}
       {clickedSell === true ? (
