@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil"
 import { http } from "../api/axios"
 import findKOR from "../utils/findKOR"
 import playingMusic from "../recoil/music/atom"
+import parse from "html-react-parser"
 
 interface StoryType {
   title: string
@@ -108,7 +109,7 @@ function Game({
             src={`assets/illust/${story.image}.jpg`}
             alt=""
           />
-          <div>{story.content}</div>
+          <div>{parse(story.content)}</div>
         </div>
         <div className="px-2">
           {story.selection.map(({ id, content }) => (
