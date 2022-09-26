@@ -236,6 +236,13 @@ export default function NftDetail() {
           })
 
         // // 네고 제안
+        console.log(
+          publicAddress,
+          saleContractId,
+          proposal,
+          tokenId,
+          createdNegoId
+        )
         await http
           .post("trade/offerRegister", {
             address: publicAddress,
