@@ -27,6 +27,7 @@ public class TradeService {
     final TradeRepository tradeRepository;
     final TradeRepositorySupport tradeRepositorySupport;
     final NegotiationRepository negotiationRepository;
+    final NegotiationRepositorySupport negotiationRepositorySupport;
     final NftRepository nftRepository;
 
     public void registerNft(TradeRegisterRequest tradeRegisterRequest){
@@ -151,7 +152,7 @@ public class TradeService {
 
     public TradeHistoryResponse tradeHistory(String address, int page){
         TradeHistoryResponse response = new TradeHistoryResponse();
-        PageRequest pageRequest = PageRequest.of(page, 10); //10개씩 페이징
+        PageRequest pageRequest = PageRequest.of(page, 6); //6개씩 페이징
 
         // 거래가 완료된 거래 내역들만 조회
         Page<Trade> tradeList = tradeRepositorySupport.findHistoryByAddress(pageRequest,address);
@@ -178,11 +179,84 @@ public class TradeService {
         return response;
     }
 
+    public NftInfoResponse nftInfo(Long id){
+        NftInfoResponse nftInfoResponse = new NftInfoResponse();
+        NftInfoResponse.Nft nft = new NftInfoResponse.Nft();
+        //token id로 nft 정보 조회
+        Nft nftItem = getNft(id);
+        List<NftInfoResponse.Nft.Status> statusList = new ArrayList<>();
+        for(int i=0;i<nftItem.getNftStatuses().size();i++){
+            NftStatus status = nftItem.getNftStatuses().get(i);
+            statusList.add(new NftInfoResponse.Nft.Status(status.getStatus().getName(),status.getValue()));
+        }
+        nft = NftInfoResponse.Nft.builder()
+                .id(id)
+                .url(nftItem.getImageUrl())
+                .metadata(nftItem.getMetadata())
+                .job(nftItem.getJob().getName())
+                .color(nftItem.getColor())
+                .gender(nftItem.getGender())
+                .tier(nftItem.getTier())
+                .face(nftItem.getFace())
+                .hair(nftItem.getHair())
+                .status(statusList)
+                .build();
+        nftInfoResponse.setNft(nft);
+        //거래 이력 조회(완료된 건만) -> 거래중인 내역이 있다면 sell -> true 및 관련 정보 담기
+        List<Trade> tradeList = tradeRepositorySupport.findByTokenId(id);
+        List<NftInfoResponse.Trade> tradeItems = new ArrayList<>();
+        for(int i=0;i<tradeList.size();i++){
+            Trade trade = tradeList.get(i);
+            NftInfoResponse.Trade tradeItem = NftInfoResponse.Trade.builder()
+                    .tradeId(trade.getContractId())
+                    .sellerNickname(trade.getSeller().getMember().getNickname())
+                    .sellerAddress(trade.getSeller().getMember().getAddress())
+                    .buyerNickname(trade.getBuyer().getMember().getNickname())
+                    .buyerAddress(trade.getBuyer().getMember().getAddress())
+                    .tradeDate(trade.getEndTime())
+                    .tradePrice(trade.getEndPrice())
+                    .build();
+            tradeItems.add(tradeItem);
+        }
+        nftInfoResponse.setTrade(tradeItems);
+
+        //sell true면 offer 리스트 담기(진행중인 건만)
+        List<Trade> isSell = tradeRepositorySupport.findSellByTokenId(id);
+        if(isSell.size()!=0){
+            nftInfoResponse.setTraceId(isSell.get(0).getContractId());
+            nftInfoResponse.setSell(true);
+            nftInfoResponse.setNego((isSell.get(0).getNegoAble()==Check.Y)?true:false);
+            nftInfoResponse.setPrice(isSell.get(0).getStartPrice());
+            nftInfoResponse.setSellerNickname(isSell.get(0).getSeller().getMember().getNickname());
+            nftInfoResponse.setSellerAddress(isSell.get(0).getSeller().getMember().getAddress());
+            List<Negotiation> negos = negotiationRepositorySupport.findByTradeId(isSell.get(0).getId());
+            List<NftInfoResponse.Offer> offers = new ArrayList<>();
+            for(int i=0;i<negos.size();i++){
+                NftInfoResponse.Offer offer = NftInfoResponse.Offer.builder()
+                        .offerId(negos.get(i).getContractId())
+                        .offerPrice(negos.get(i).getPrice())
+                        .offerNickname(negos.get(i).getMember().getNickname())
+                        .offerAddress(negos.get(i).getMember().getAddress())
+                        .offerDate(negos.get(i).getNegoTime())
+                        .build();
+                offers.add(offer);
+            }
+            nftInfoResponse.setOffer(offers);
+        }else{
+            nftInfoResponse.setSell(false);
+        }
+        return nftInfoResponse;
+    }
+
     public Member getMember(String address){
         return memberRepository.findByAddress(address).orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
     }
 
     public Trade getTrade(Long contractId){
         return tradeRepository.findByContractId(contractId).get();
+    }
+    private Nft getNft(Long tokenId) {
+        Nft nft = nftRepository.findNftByTokenId(tokenId).orElseThrow(() -> new CustomException(CustomExceptionList.NFT_NOT_FOUND));
+        return nft;
     }
 }

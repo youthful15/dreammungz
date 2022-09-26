@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -30,7 +29,6 @@ public class TradeHistoryResponse {
 
     @Getter
     @Setter
-    @RequiredArgsConstructor
     static public class TradeItem {
         @ApiModelProperty(value = "토큰 식별자", name = "id", example = "1", dataType = "Long")
         private Long id;

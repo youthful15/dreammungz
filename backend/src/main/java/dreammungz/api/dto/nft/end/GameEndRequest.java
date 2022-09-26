@@ -1,10 +1,9 @@
-package dreammungz.api.dto.nft.info;
+package dreammungz.api.dto.nft.end;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -41,7 +40,6 @@ public class GameEndRequest {
 
     @Getter
     @Setter
-    @RequiredArgsConstructor
     static public class StatusList {
         @ApiModelProperty(value = "능력치 이름", name = "name", example = "VOICE", dataType = "String")
         String name;
