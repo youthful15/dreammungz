@@ -52,17 +52,22 @@ public class Negotiation {
     @Column(name = "cancel", nullable = false)
     private Check cancel;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "refund", nullable = false)
+    private Check refund;
+
     @Column(name = "contract_id", unique = true, nullable = false)
     private Long contractId;
 
     @Builder
-    public Negotiation(Long price, LocalDateTime negoTime, Check choice, Trade trade, Member member, Check cancel, Long contractId) {
+    public Negotiation(Long price, LocalDateTime negoTime, Check choice, Trade trade, Member member, Check cancel, Check refund, Long contractId) {
         this.price = price;
         this.negoTime = negoTime;
         this.choice = choice;
         this.trade = trade;
         this.member = member;
         this.cancel = cancel;
+        this.refund = refund;
         this.contractId = contractId;
     }
 
@@ -70,4 +75,5 @@ public class Negotiation {
         this.cancel = cancel;
     }
     public void setChoice(Check choice) { this.choice = choice; }
+    public void setRefund(Check refund) { this.refund = refund; }
 }

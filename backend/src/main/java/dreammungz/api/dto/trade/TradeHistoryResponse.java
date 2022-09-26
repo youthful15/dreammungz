@@ -16,7 +16,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ApiModel(value = "거래 이력", description = "플레이어가 가지고 있는 NFT")
+@ApiModel(value = "거래 이력", description = "플레이어의 거래 이력")
 public class TradeHistoryResponse {
     @ApiModelProperty(value = "거래 리스트", name = "items")
     private List<TradeItem> items;

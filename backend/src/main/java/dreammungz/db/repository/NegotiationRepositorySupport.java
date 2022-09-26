@@ -1,8 +1,12 @@
 package dreammungz.db.repository;
 
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import dreammungz.db.entity.Negotiation;
 import dreammungz.enums.Check;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -32,6 +36,15 @@ public class NegotiationRepositorySupport extends QuerydslRepositorySupport {
                 .from(negotiation)
                 .orderBy(trade.endTime.desc())
                 .fetch();
+    }
+
+    public Page<Negotiation> findHistoryByAddress(Pageable pageable, String address) {
+        JPQLQuery<Negotiation> query = queryFactory
+                .select(negotiation)
+                .where(negotiation.member.address.eq(address))
+                .from(negotiation);
+        List<Negotiation> negotiations = this.getQuerydsl().applyPagination(pageable, query).orderBy(negotiation.negoTime.desc()).fetch();
+        return new PageImpl<>(negotiations, pageable, query.fetchCount());
     }
 
 }
