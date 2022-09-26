@@ -6,6 +6,11 @@ const navItemList = [
   { title: "강아지 구경", path: "/nft/list" },
   // { title: "커뮤니티", path: "/community" },
   { title: "디자인(개발용)", path: "/styles" },
+  {
+    title: "유저페이지(id:0x2)",
+    // path: `/personal/${localStorage.getItem("publicAddress")}/list`,
+    path: `/personal/0x2/list`,
+  },
 ]
 
 const NavList = () => {

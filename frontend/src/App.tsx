@@ -17,6 +17,9 @@ import MyNftHistory from "./pages/MyNftHistory"
 import Login from "./pages/Login"
 import LoginTutorial from "./pages/LoginTutorial"
 import NftListPage from "./pages/NftListPage"
+import PersonalPage from "./pages/PersonalPage"
+import NftListByUser from "./pages/NftListByUser"
+import DealHistoryByUser from "./pages/DealHistoryByUser"
 
 function App() {
   RouterChangeTracker()
@@ -52,6 +55,10 @@ function App() {
               <Route path="/mypage" element={<MyPage />}>
                 <Route path="list" element={<MyNftList />} />
                 <Route path="history" element={<MyNftHistory />} />
+              </Route>
+              <Route path="/personal/:address" element={<PersonalPage />}>
+                <Route path="list" element={<NftListByUser />} />
+                <Route path="history" element={<DealHistoryByUser />} />
               </Route>
             </Routes>
           </div>

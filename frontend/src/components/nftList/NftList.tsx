@@ -3,7 +3,7 @@ import listModeAtom from "../../recoil/list/atom"
 import Pagination from "../pagination/Pagination"
 import NftListItem, { NftListItemType } from "./NftListItem"
 import Filter, { SelectedFilters } from "../filter/Filter"
-import { NavigateOptions, useLocation } from "react-router-dom"
+import { NavigateOptions, useLocation, useParams } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
 import useQueryParam from "../filter/useQueryParam"
 import { useQuery } from "@tanstack/react-query"
@@ -25,28 +25,35 @@ const filterForm = {
 interface NftListProp {
   useFilter: boolean
 }
-const useNftList = (data: Filter) => {
+const useNftList = (data: Filter, address: string) => {
   let filter: Filter = data === null ? filterForm : data
-  return useQuery(["nftList", filter], () => getNftList(filter), {
+  return useQuery(["nftList", filter, address], () => getNftList(filter), {
     cacheTime: 0,
   })
 }
 const NftList = ({ useFilter }: NftListProp) => {
+  const { address } = useParams()
   let [filter, setFilter] = useQueryParam<Filter>("search")
   const setShowInfo = useSetRecoilState(listModeAtom)
   const [showSell, setShowSell] = useState(false)
   const [page, setPage] = useState(0)
-  const { status, data, error, isFetching } = useNftList(filter!)
-  const componentJustMounted = useRef(true)
-  const location = useLocation()
+  const { status, data, error, isFetching } = useNftList(filter!, address!)
   const pageRef = useRef(0)
-
   const [showForm, setShowForm] = useState(false)
 
   useEffect(() => {
-    if (!filter) filter = filterForm
+    if (!filter) {
+      console.log("주소:", address)
+      filter = filterForm
+      filter.address = address!
+    }
     setPage(filter.page)
   }, [])
+
+  useEffect(() => {
+    console.log("address", address, filter)
+    if (filter && address) setFilter({ ...filter!, address })
+  }, [address])
 
   useEffect(() => {
     // console.log("필터 변경 ", filter?.page, pageRef.current)
