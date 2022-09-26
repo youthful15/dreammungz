@@ -1,14 +1,23 @@
+import { useQuery } from "@tanstack/react-query"
 import { useState } from "react"
+import { useParams } from "react-router"
+import { getUserNickname } from "../../api/auth"
 
 const originNick = "천재지영!!"
 const UserInfo = () => {
+  const { address } = useParams()
   const [editing, setEditing] = useState(false)
-  const [nickname, setNickname] = useState("천재지영!!")
+  const { data } = useQuery(["nickname", address], () =>
+    getUserNickname(address!)
+  )
+
   return (
     <>
       {!editing ? (
         <div className="flex">
-          <h1 className="text-2xl font-bold ">{nickname}의 NFT 페이지 </h1>
+          <h1 className="text-2xl font-bold ">
+            {data?.nickname}의 NFT 페이지{" "}
+          </h1>
           <button
             className="p-1 ml-4 bg-white rounded-lg"
             onClick={() => {
@@ -22,9 +31,9 @@ const UserInfo = () => {
         <div className="space-x-2">
           <input
             type="text"
-            defaultValue={nickname}
+            defaultValue={data?.nickname}
             onChange={(e) => {
-              setNickname(e.target.value)
+              console.log("닉넴변경")
             }}
           />
           <button
@@ -38,7 +47,6 @@ const UserInfo = () => {
           <button
             className="border"
             onClick={() => {
-              setNickname(originNick)
               setEditing(false)
             }}
           >
