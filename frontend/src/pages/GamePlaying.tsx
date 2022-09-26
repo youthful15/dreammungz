@@ -35,9 +35,11 @@ function Information(story: StoryType) {
         </div>
       </div>
       <div className="h-[85%] flex flex-col justify-between pb-3">
-        <div>
-          귀여움
-          <progress max="10" value="20" className="html5"></progress>
+        <div className="flex">
+          <span className="w-1/5 flex justify-center mr-2">귀여움</span>
+          <div className="h-6 w-4/5 rounded-full relative bg-lgBrown-500">
+            <div className="h-6 w-full bg-gradient-to-r from-pink-100 to-pink-500 rounded-full border-lgBrown-500 border-4"></div>
+          </div>
         </div>
         <div>
           정의로움
@@ -45,8 +47,12 @@ function Information(story: StoryType) {
         </div>
         {story.status.map(({ name, value }, index) => (
           <div className="flex items-center w-full" key={index}>
-            <span className="w-1/5">{findKOR(name)}</span>
-            <progress max="10" value={value} className="w-4/5 html5"></progress>
+            <span className="w-1/5 flex justify-center mr-2">
+              {findKOR(name)}
+            </span>
+            <div className="h-6 w-4/5 rounded-full relative bg-lgBrown-500">
+              <div className="h-6 w-1/5 bg-gradient-to-r from-pink-100 to-pink-500 rounded-l-full border-lgBrown-500 border-4"></div>
+            </div>
           </div>
         ))}
       </div>
@@ -98,31 +104,29 @@ function Game({
 }) {
   const navigate = useNavigate()
   return (
-    <div className="h-full p-3 px-10 rounded-2xl ridiBatang shadow-md border-2 bg-white">
+    <div className="h-full p-3 pb-6 px-10 rounded-2xl ridiBatang shadow-md border-2 bg-white">
       <div className="h-[15%] flex items-center font-bold text-xl">
         <div className="flex justify-center items-center w-full p-2 pt-3 bg-brown-100 border-brown-200 rounded-2xl">
           {story.title}
         </div>
       </div>
-      <div className="h-[85%] flex flex-col justify-between pb-3">
-        <div className="text-sm leading-7">
-          <img
-            className="pb-5"
-            src={`assets/illust/${story.image}.jpg`}
-            alt=""
-          />
+      <div className="h-[85%] flex flex-col justify-between overflow-scroll scrollbar-hide pt-">
+        {story.image ? (
+          <img className="pb-5" src={`assets/illust/${story.image}`} alt="" />
+        ) : null}
+        <div className="text-sm leading-7 ">
           <div id="target">{parse(story.content)}</div>
         </div>
-        <div className="">
+        <div className="pt-4">
           {story.selection.map(({ id, content }) => (
             <button
-              className="w-full py-2 my-2 bg-pink-200 hover:bg-pink-500 rounded-2xl"
+              className="w-full p-2 my-2 bg-pink-200 hover:bg-pink-500 rounded-2xl"
               key={id}
               onClick={() =>
                 choiceSelect({ id, setStory, navigate, music, setMusic })
               }
             >
-              {content}
+              {parse(content)}
             </button>
           ))}
         </div>
