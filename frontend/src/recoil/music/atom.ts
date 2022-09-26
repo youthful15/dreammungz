@@ -5,4 +5,9 @@ const playingMusic = atom({
   default: "Default",
 })
 
+export const playingNow = atom({
+  key: "playingNow",
+  default: false,
+})
+
 export default playingMusic
