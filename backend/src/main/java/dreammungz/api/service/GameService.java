@@ -117,9 +117,15 @@ public class GameService{
         int normalListCount = normalStories.size();
         int longListCount = longStories.size();
 
-        final int shortFinalCount = 8;
-        final int normalFinalCount = 1;
-        final int longFinalCount = 1;
+        //스토리 탐색 수 설정
+        final int shortFinalCount = 8;  //단편 수
+        final int normalFinalCount = 1; //중편 수
+        final int longFinalCount = 1;   //장편 수
+        
+//        //모든 스토리를 탐색할 수 있게 설정
+//        final int shortFinalCount = shortListCount;
+//        final int normalFinalCount = normalListCount;
+//        final int longFinalCount = longListCount;
 
         final int storiesSumCount = shortFinalCount + normalFinalCount + longFinalCount;
         final int storiesFinalCount = shortFinalCount + normalFinalCount + longFinalCount + 2;
