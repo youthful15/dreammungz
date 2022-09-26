@@ -1,5 +1,5 @@
 import { useRecoilValue, useRecoilState } from "recoil"
-import { useRef, useState, useEffect } from "react"
+import { useRef, useEffect } from "react"
 import playingMusic, { playingNow } from "../../recoil/music/atom"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -19,6 +19,14 @@ export default function MusicPlayer() {
       }
     }
   }, [isPlaying])
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (!isPlaying) {
+        audioRef.current.pause()
+      }
+    }
+  }, [musicName])
 
   return (
     <button
