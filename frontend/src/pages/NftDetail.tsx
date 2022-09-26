@@ -221,6 +221,15 @@ export default function NftDetail() {
           )
           .send({ from: publicAddress })
 
+        const sellerAddress = await MFTContract.methods.ownerOf(tokenId).call()
+
+        await MUNGContract.methods
+          .approve(
+            sellerAddress,
+            web3.utils.toBN(proposal * 10 ** 18).toString()
+          )
+          .send({ from: publicAddress })
+
         console.log("saleContractId", saleContractId)
         console.log("saleContractAddress", saleContractAddress)
         console.log("proposal", proposal)

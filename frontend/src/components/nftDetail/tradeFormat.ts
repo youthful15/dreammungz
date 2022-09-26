@@ -153,6 +153,7 @@ export const acceptNegoFormat = async ({
   publicAddress: string
 }) => {
   try {
+    const testNegoId = 19
     // contractId 받기
     const saleContractId = await MFTSaleFactoryContract.methods
       .getCurrentSaleOfMFT(tokenId)
@@ -161,13 +162,13 @@ export const acceptNegoFormat = async ({
     // 판매자 입장 -> negoId 받을 예정
     // NFT 네고 제안 수락 SMARTCONTRACT
     await MFTSaleFactoryContract.methods
-      .acceptNego(saleContractId, negoId)
+      .acceptNego(saleContractId, testNegoId)
       .send({ from: publicAddress })
 
     // NFT 네고 제안 수락 REST API
     await http
       .post("trade/offerAccept", {
-        contractId: negoId,
+        contractId: testNegoId,
         tokenId: tokenId,
       })
       .then((res) => console.log(res))
