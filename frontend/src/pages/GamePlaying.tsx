@@ -1,3 +1,5 @@
+import "../utils/font.css"
+
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useRecoilState } from "recoil"
@@ -26,7 +28,7 @@ interface SelectType {
 
 function Information(story: StoryType) {
   return (
-    <div className="h-full p-3 px-10 bg-pink-100 rounded-2xl">
+    <div className="h-full p-3 px-10 bg-pink-100 rounded-2xl shadow-md border-2 mapleStory">
       <div className="h-[15%] flex items-center font-bold text-lg">
         <div className="flex justify-center w-full p-2 bg-brown-100 rounded-2xl">
           <div>DREAMMUNGZ</div>
@@ -96,22 +98,22 @@ function Game({
 }) {
   const navigate = useNavigate()
   return (
-    <div className="h-full p-3 px-10 bg-beige-100 rounded-2xl">
-      <div className="h-[15%] flex items-center font-bold text-lg">
-        <div className="flex justify-center w-full p-2 bg-brown-100 rounded-2xl">
+    <div className="h-full p-3 px-10 rounded-2xl ridiBatang shadow-md border-2 bg-white">
+      <div className="h-[15%] flex items-center font-bold text-xl">
+        <div className="flex justify-center items-center w-full p-2 pt-3 bg-brown-100 border-brown-200 rounded-2xl">
           {story.title}
         </div>
       </div>
       <div className="h-[85%] flex flex-col justify-between pb-3">
-        <div>
+        <div className="text-sm leading-7">
           <img
             className="pb-5"
             src={`assets/illust/${story.image}.jpg`}
             alt=""
           />
-          <div>{parse(story.content)}</div>
+          <div id="target">{parse(story.content)}</div>
         </div>
-        <div className="px-2">
+        <div className="">
           {story.selection.map(({ id, content }) => (
             <button
               className="w-full py-2 my-2 bg-pink-200 hover:bg-pink-500 rounded-2xl"
