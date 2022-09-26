@@ -31,13 +31,13 @@ public class OfferHistoryResponse {
     @Setter
     @RequiredArgsConstructor
     static public class Offer {
-        @ApiModelProperty(value = "토큰 식별자", name = "tokenId", example = "0", dataType = "Long")
+        @ApiModelProperty(value = "토큰 식별자", name = "tokenId", example = "1", dataType = "Long")
         private Long tokenId;
         @ApiModelProperty(value = "제안 컨트랙트 id", name = "offerId", example = "1", dataType = "Long")
         private Long offerId;
         @ApiModelProperty(value = "거래 컨트랙트 id", name = "tradeId", example = "1", dataType = "Long")
         private Long tradeId;
-        @ApiModelProperty(value = "제안자 닉네임", name = "offerNickname", example = "offerNickname", dataType = "String")
+        @ApiModelProperty(value = "제안자 닉네임", name = "offerNickname", example = "제안자닉네임", dataType = "String")
         private String offerNickname;
         @ApiModelProperty(value = "제안자 지갑주소", name = "offerAddress", example = "0x1", dataType = "String")
         private String offerAddress;

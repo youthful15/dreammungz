@@ -278,8 +278,10 @@ public class TradeService {
                 offers.add(offer);
             }
             nftInfoResponse.setOffer(offers);
-        }else{
+        }else{ // 판매 안하면 소유자의 주소와 닉네임 반환(판매중이면 판매자의 주소와 닉네임)
             nftInfoResponse.setSell(false);
+            nftInfoResponse.setSellerAddress(nftItem.getMember().getAddress());
+            nftInfoResponse.setSellerNickname(nftItem.getMember().getNickname());
             nftInfoResponse.setOffer(offers);
         }
         return nftInfoResponse;
