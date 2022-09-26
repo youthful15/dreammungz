@@ -270,6 +270,31 @@ contract MFTSaleFactory is Ownable {
         _saleStatusOfMFT[finishedSale.getMFTId()] = false;
     }
 
+    /**
+    * refundNego
+    * 해당 Nego를 환불 받는다.
+    * 
+    * @ param uint256 saleId 채택된 Nego가 포함된 Sale ID
+    * @ param uint256 negoId 채택된 Nego ID
+    * @ param address refunder 환불하는 사람의 지갑 주소
+    * @ return None
+    * @ exception 거래가 종료상태여야 함
+    * @ exception negoer가 refunder여야 함
+    */
+    function refundNego(
+        uint256 saleId,
+        uint256 negoId,
+        address refunder
+    ) public {
+        MFTSale finishedSale = MFTSale(_saleAddrs[saleId]);
+        require(finishedSale.getIsEnded(), "This sale is not ended yet.");
+        
+        MFTNego refundedNego = MFTNego(_negoAddrs[negoId]);
+        require(refundedNego.getNegoer() == refunder, "Refunder is not a negoer.");
+
+        finishedSale.refundNego(negoId, refunder);
+    }
+
     /** 
     * reportBuyer
     * Sale 종료 후 구매자 정보 기록

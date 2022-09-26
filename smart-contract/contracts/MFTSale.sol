@@ -157,13 +157,14 @@ contract MFTSale is Ownable, IERC721Receiver {
         // Sale을 취소 상태로 설정
         _isCanceled = true;
 
-        // Sale의 Nego들을 환불 및 취소 처리
+        // Sale의 Nego들을 취소 처리
         for(uint i = 0; i < _negoIds.length; i++) {
             // 이미 취소된 Nego인지 확인
-            if(!MFTNego(_negoAddrs[_negoIds[i]]).getIsCanceled()) continue;
+            if(MFTNego(_negoAddrs[_negoIds[i]]).getIsCanceled()) continue;
             
             // Nego를 취소 처리
-            cancelNego(_negoIds[i]);
+            MFTNego canceledNego = MFTNego(_negoAddrs[_negoIds[i]]);
+            canceledNego.cancel();
         }
 
         // Sale을 종료 상태로 변경
@@ -198,13 +199,14 @@ contract MFTSale is Ownable, IERC721Receiver {
         // 구매 관련 정보를 갱신
         _buyer = buyer;
 
-        // Sale의 Nego들을 환불 및 취소 처리
+        // Sale의 Nego들을 취소 처리
         for(uint i = 0; i < _negoIds.length; i++) {
             // 이미 취소된 Nego인지 확인
-            if(!MFTNego(_negoAddrs[_negoIds[i]]).getIsCanceled()) continue;
+            if(MFTNego(_negoAddrs[_negoIds[i]]).getIsCanceled()) continue;
             
             // Nego를 취소 처리
-            cancelNego(_negoIds[i]);
+            MFTNego canceledNego = MFTNego(_negoAddrs[_negoIds[i]]);
+            canceledNego.cancel();
         }
 
         // 해당 Sale을 종료 처리
@@ -250,15 +252,16 @@ contract MFTSale is Ownable, IERC721Receiver {
         // 구매 관련 정보를 갱신
         _buyer = negoer;
 
-        // Sale의 Nego들을 환불 및 취소 처리
+        // Sale의 Nego들을 취소 처리
         for(uint i = 0; i < _negoIds.length; i++) {
             // 이미 취소된 Nego인지 확인
-            if(!MFTNego(_negoAddrs[_negoIds[i]]).getIsCanceled()) continue;
+            if(MFTNego(_negoAddrs[_negoIds[i]]).getIsCanceled()) continue;
             // 선택된 Nego인지 확인
             if(MFTNego(_negoAddrs[_negoIds[i]]).getIsChoiced()) continue;
 
             // Nego를 취소 처리
-            cancelNego(_negoIds[i]);
+            MFTNego canceledNego = MFTNego(_negoAddrs[_negoIds[i]]);
+            canceledNego.cancel();
         }
 
         // 해당 Sale을 종료 처리
@@ -288,6 +291,30 @@ contract MFTSale is Ownable, IERC721Receiver {
 
         // Nego 컨트랙트의 취소 함수 호출
         canceledNego.cancel();
+    }
+
+    /**
+    * refundNego
+    * 해당 Nego를 환불 받는다.
+    * 
+    * @ param uint256 negoId 채택된 Nego ID
+    * @ param address refunder 환불하는 사람의 지갑 주소
+    * @ return None
+    * @ exception 거래가 종료상태여야 함
+    * @ exception negoer가 refunder여야 함
+    */
+    function refundNego(
+        uint256 negoId,
+        address refunder
+    ) public {    
+        require(_isEnded, "This sale is not ended yet.");
+        
+        MFTNego refundedNego = MFTNego(_negoAddrs[negoId]);
+        require(refundedNego.getNegoer() == refunder, "Refunder is not a negoer.");
+
+        _SSFTokenContract.transfer(refundedNego.getNegoer(), refundedNego.getNegoPrice());
+
+        refundedNego.refund();
     }
 
     /**
@@ -399,7 +426,7 @@ contract MFTSale is Ownable, IERC721Receiver {
         return _isCanceled;
     }
 
-        /**
+    /**
     * getNegoAble
     * 해당 Sale의 제안 가능 여부를 반환
     *
@@ -409,24 +436,6 @@ contract MFTSale is Ownable, IERC721Receiver {
     */
     function getNegoAble() public view returns(bool) {
         return _negoAble;
-    }
-
-    /**
-    * getNegoAddrs
-    * 해당 Sale의 제안 컨트랙트 주소 목록을 반환
-    *
-    * @ param None
-    * @ return uint256[] 제안 컨트랙트 목록
-    * @ exception None
-    */
-    function getNegoAddrs() public view returns(address[] memory) {
-        address[] memory negoAddrList;
-
-        for(uint i = 0; i < _negoIds.length; i++) {
-            negoAddrList[i] = _negoAddrs[_negoIds[i]];
-        }
-
-        return negoAddrList;
     }
 
     function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes memory _data) override external pure returns(bytes4)

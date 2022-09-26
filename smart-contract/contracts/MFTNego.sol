@@ -26,6 +26,8 @@ contract MFTNego is Ownable {
     bool private _isChoiced;
     // 취소 여부
     bool private _isCanceled;
+    // 환불 여부
+    bool private _isRefunded;
 
     /**
     * constructor
@@ -58,6 +60,7 @@ contract MFTNego is Ownable {
         _negoAt = negoAt;
         _isChoiced = isChoiced;
         _isCanceled = isCanceled;
+        _isRefunded = false;
     }
 
     /**
@@ -82,6 +85,18 @@ contract MFTNego is Ownable {
     */
     function cancel() public {
         _isCanceled = true;
+    }
+
+    /**
+    * refund
+    * 해당 Nego를 환불 상태로 변경한다.
+    * 
+    * @ param None
+    * @ return None
+    * @ exception None
+    */
+    function refund() public {
+        _isRefunded = true;
     }
 
     /**
@@ -154,5 +169,17 @@ contract MFTNego is Ownable {
     */
     function getIsCanceled() public view returns(bool) {
         return _isCanceled;
+    }
+
+    /**
+    * getIsRefunded
+    * 해당 Nego의 환불 여부 반환
+    *
+    * @ param None
+    * @ return bool 환불 여부
+    * @ exception None
+    */
+    function getIsRefunded() public view returns(bool) {
+        return _isRefunded;
     }
 }
