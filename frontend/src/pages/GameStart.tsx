@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { start } from "repl"
 import { http } from "../api/axios"
 import GenderTag from "../components/game/GenderTag"
 import StatList from "../components/nftInfo/StatList"
@@ -25,8 +26,10 @@ function useMovePage(price: number) {
 
     // price 만큼 결제합니다. 결제 성공시 아래 navigate 실행~
     await http.post(`game/start`, startSetting).then((res) => {
+      console.log("넘기자", startSetting)
       navigate("/game")
     })
+    startSetting.mating = true
   }
   return MovePage
 }
@@ -246,7 +249,6 @@ function WeddingMode() {
             startSetting.mother = dogF.id
             startSetting.mating = true
             StartGame()
-            startSetting.mating = false
           }}
         >
           {price} MUNG으로 시작하기
