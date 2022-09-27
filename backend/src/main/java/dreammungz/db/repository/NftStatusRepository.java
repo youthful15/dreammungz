@@ -11,5 +11,5 @@ import java.util.List;
 */
 
 public interface NftStatusRepository extends JpaRepository<NftStatus, Long> {
-    List<NftStatus> findAllById(Long id);
+    List<NftStatus> findAllByNftId(Long nftId);
 }

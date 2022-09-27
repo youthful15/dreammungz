@@ -74,11 +74,11 @@ public class GameService{
             game.setMother(gameStart.getMother());
             game.setFather(gameStart.getFather());
             //[DB] [Nft_Status] 능력치 데이터 읽어오기
-            List<NftStatus> parentStatuses = nftStatusRepository.findAllById(nftRepository.findNftByTokenId(game.getFather()).get().getId());
-            parentStatuses.addAll(nftStatusRepository.findAllById(nftRepository.findNftByTokenId(game.getMother()).get().getId()));
+            List<NftStatus> parentStatuses = nftStatusRepository.findAllByNftId(nftRepository.findNftByTokenId(game.getFather()).get().getId());
+            parentStatuses.addAll(nftStatusRepository.findAllByNftId(nftRepository.findNftByTokenId(game.getMother()).get().getId()));
             for(NftStatus parentStatus : parentStatuses){
                 for(GameStatus gameStatus : gameStatuses){
-                    if(gameStatus.getStatus().equals(parentStatus.getStatus())){
+                    if(gameStatus.getStatus().getName().equals(parentStatus.getStatus().getName())){
                         //스탯 합산
                         gameStatus.setValue(parentStatus.getValue() + gameStatus.getValue());
                         break;
