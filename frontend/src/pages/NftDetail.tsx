@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import Modal from "../components/modal/Modal"
+import SpinnerModal from "../components/modal/SpinnerModal"
 import TradeHistory from "../components/nftDetail/TradeHistory"
 import { MFTContract } from "../utils/Web3Config"
 import NFTImage from "../components/nftDetail/NFTImage"
@@ -75,7 +76,7 @@ export default function NftDetail() {
   return (
     <div className="h-full w-full">
       {/* 스피너 모달 시작 */}
-      <Modal
+      <SpinnerModal
         isOpen={trade.modalOpen6}
         modalClose={() => {
           setTrade((prev) => {
@@ -86,7 +87,7 @@ export default function NftDetail() {
         }}
       >
         <Spinner />
-      </Modal>
+      </SpinnerModal>
       {/* 스피너 모달 끝 */}
 
       {/* 판매 중지 모달 시작 */}
