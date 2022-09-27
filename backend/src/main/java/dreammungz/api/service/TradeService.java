@@ -197,6 +197,8 @@ public class TradeService {
                 Negotiation negotiation = negoList.getContent().get(i);
                 OfferHistoryResponse.Offer offerItem = OfferHistoryResponse.Offer.builder()
                         .tokenId(negotiation.getTrade().getNft().getTokenId())
+                        .url(negotiation.getTrade().getNft().getImageUrl())
+                        .metadata(negotiation.getTrade().getNft().getMetadata())
                         .offerId(negotiation.getContractId())
                         .tradeId(negotiation.getTrade().getContractId())
                         .offerNickname(negotiation.getMember().getNickname())
