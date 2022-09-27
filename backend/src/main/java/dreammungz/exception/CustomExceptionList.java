@@ -24,7 +24,7 @@ public enum CustomExceptionList {
     GAMESTATUS_NOT_FOUND(HttpStatus.NOT_FOUND,"E008","게임 스탯 수치 정보가 없습니다."),
     STATUS_NOT_FOUND(HttpStatus.NOT_FOUND,"E009","스탯 정보가 없습니다."),
     NFT_NOT_FOUND(HttpStatus.NOT_FOUND,"E010","NFT 정보가 없습니다."),
-    NOT_GAME_ENDING(HttpStatus.FORBIDDEN, "E011", "이미 가입된 지갑 주소입니다."),
+    NOT_GAME_ENDING(HttpStatus.FORBIDDEN, "E011", "엔딩 페이지로 강제 접근했습니다."),
     MATING_PARENT_NOT_VALID(HttpStatus.NOT_FOUND, "E101", "부모 강아지의 정보가 유효하지 않습니다."),
     MATING_PARENT_GENDER_NOT_CORRECT(HttpStatus.NOT_FOUND, "E102", "성별이 일치하지 않는 부모 강아지가 존재합니다."),
     MATING_PARENT_NOT_OWNER(HttpStatus.NOT_FOUND, "E103", "부모 강아지의 소유자가 아닙니다."),

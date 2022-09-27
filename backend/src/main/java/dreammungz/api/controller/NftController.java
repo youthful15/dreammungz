@@ -50,6 +50,7 @@ public class NftController {
     @PostMapping("/result/address/{address}")
     public ResponseEntity<GameEndRequest> saveNft(@ApiParam(value = "NFT 정보", required = true) @RequestBody GameEndRequest gameEndRequest, @ApiParam(value = "지갑 주소", required = true) @PathVariable String address) {
         nftService.saveNft(address, gameEndRequest);
+        nftService.deleteGame(address);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

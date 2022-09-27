@@ -3,8 +3,13 @@ package dreammungz.api.service;
 import dreammungz.api.dto.auth.AuthResponse;
 import dreammungz.api.dto.auth.NicknameRequest;
 import dreammungz.api.dto.auth.NicknameResponse;
+import dreammungz.db.entity.Achievement;
 import dreammungz.db.entity.Member;
+import dreammungz.db.repository.AchievementRepository;
+import dreammungz.db.repository.JobRepository;
 import dreammungz.db.repository.MemberRepository;
+import dreammungz.enums.Check;
+import dreammungz.enums.JobName;
 import dreammungz.exception.CustomException;
 import dreammungz.exception.CustomExceptionList;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +31,8 @@ import java.security.SignatureException;
 @Transactional
 public class AuthService {
     final MemberRepository memberRepository;
+    final JobRepository jobRepository;
+    final AchievementRepository achievementRepository;
 
     public Boolean getMemberExists(String address) {
         return memberRepository.existsByAddress(address);
@@ -107,5 +114,16 @@ public class AuthService {
         member.setNickname(nicknameRequest.getNickname());
         //DB에 반영
         memberRepository.save(member);
+    }
+
+    public void setAchievement(String address){
+        //주소를 기반으로 멤버 찾기
+        Member member = memberRepository.findByAddress(address)
+                .orElseThrow(() -> new CustomException(CustomExceptionList.MEMBER_NOT_FOUND));
+        JobName [] jobNames = JobName.values();
+        for(int idx=0;idx<jobNames.length;idx++){ //모든 직업에 대해 업적 리스트 추가
+            Achievement achievement = new Achievement(Check.N,member, jobRepository.findByName(jobNames[idx]).get());
+            achievementRepository.save(achievement);
+        }
     }
 }

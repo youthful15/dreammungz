@@ -58,6 +58,7 @@ public class AuthController {
             throw new CustomException(CustomExceptionList.ADDRESS_DUPLICATED);
         }
         AuthResponse authResponse = authService.memberSignIn(signinRequest.getAddress());
+        authService.setAchievement(signinRequest.getAddress()); //회원가입시 업적리스트 추가
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 

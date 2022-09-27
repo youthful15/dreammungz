@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,6 +43,10 @@ public class NftService {
     private final JobRepository jobRepository;
     private final TradeRepository tradeRepository;
     private final NftRepositorySupport nftRepositorySupport;
+    private final GameStoryRepository gameStoryRepository;
+    private final GameRepository gameRepository;
+    private final AchievementRepository achievementRepository;
+
 
     /*
     NFT 필터 결과 조회
@@ -182,7 +187,43 @@ public class NftService {
             nftStatusRepository.save(nftStatus);
         }
 
+        //업적 기록
+        Achievement achievement = achievementRepository.findByMemberAndJob(nft.getMember(), nft.getJob()).get();
+        if (achievement.getAchieve() == Check.N) {
+            achievement.setTier(nft.getTier());
+            achievement.setAchieveDate(LocalDateTime.now());
+        } else {
+            if (nft.getTier().ordinal() > achievement.getTier().ordinal()) {
+                achievement.setTier(nft.getTier());
+                achievement.setAchieveDate(LocalDateTime.now());
+            }
+        }
+        achievement.setAchieve(Check.Y);
+        achievementRepository.save(achievement);
+    }
 
+    public void deleteGame(String address) {
+        //게임 데이터 삭제 및 변경
+        Member member = getMember(address); //플레이 상태 N으로 변경
+        Game game = member.getGame();
+        member.setPlaying(Check.N);
+        member.setGame(null);
+        memberRepository.save(member);
+
+        // 게임 Status 삭제
+        List<GameStatus> statuses = gameStatusRepository.findAllByGameId(game.getId());
+        for (int i = 0; i < statuses.size(); i++) {
+            gameStatusRepository.deleteById(statuses.get(i).getId());
+        }
+
+        // 게임 스토리 삭제
+        List<GameStory> stories = gameStoryRepository.findAllByGameId(game.getId());
+        for (int i = 0; i < stories.size(); i++) {
+            gameStoryRepository.deleteById(stories.get(i).getId());
+        }
+
+        // 게임 데이터 삭제
+        gameRepository.deleteById(game.getId());
     }
 
     /*
@@ -197,8 +238,11 @@ public class NftService {
     public GameEndResponse makeEnd(String address) {
         GameEndResponse gameEndResponse = new GameEndResponse();
         // 0. 현재 장면이 8번이 아니면 엔딩이 아니기 때문에 예외 처리
-        // 1. 색 결정
         Game gameData = getMember(address).getGame();
+        if (gameData.getCurScene() != 8) {
+           throw new CustomException(CustomExceptionList.NOT_GAME_ENDING);
+        }
+        // 1. 색 결정
         Long mother = gameData.getMother();
         Long father = gameData.getFather();
         Color[][] colors = {{Color.WHITE, Color.BLACK, Color.BROWN}, {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE},
