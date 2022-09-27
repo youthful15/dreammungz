@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { http } from "../api/axios"
 import GenderTag from "../components/game/GenderTag"
 import StatList from "../components/nftInfo/StatList"
-
+import { pushGameStart } from "../utils/web3"
 const publicAddress = localStorage.getItem("publicAddress")
 
 let startSetting = {
@@ -19,7 +19,11 @@ function useMovePage(price: number) {
 
   async function MovePage() {
     console.log(startSetting)
-    // 여기 나중에 결제 로직이 들어감니다
+
+    // 결제 로직
+    const cost = 100
+    await pushGameStart(publicAddress, cost)
+
     // price 만큼 결제합니다. 결제 성공시 아래 navigate 실행~
     await http.post(`game/start`, startSetting).then((res) => {
       navigate("/game")
@@ -72,7 +76,7 @@ type StatType = {
 
 // 웨딩 모드 설명
 function WeddingMode() {
-  const [price, setPrice] = useState(0)
+  const [price, setPrice] = useState<any>(0)
   const [nft, setNft] = useState([
     {
       id: "",
@@ -238,10 +242,11 @@ function WeddingMode() {
         </div>
         <button
           className="h-[10%] bg-red-100"
-          onClick={() => {
+          onClick={async () => {
             startSetting.father = dogM.id
             startSetting.mother = dogF.id
             startSetting.mating = true
+            await pushGameStart(publicAddress, price)
             StartGame()
             startSetting.mating = false
           }}

@@ -116,10 +116,7 @@ export const buyNowFormat = async ({
         .call()
 
       await MUNGContract.methods
-        .approve(
-          saleContractAddress,
-          web3.utils.toBN(cost * 10 ** 18).toString()
-        )
+        .approve(publicAddress, web3.utils.toBN(cost * 10 ** 18).toString())
         .send({ from: publicAddress })
 
       // 즉시 구매 SMART CONTRACT
