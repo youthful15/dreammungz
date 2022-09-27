@@ -1,12 +1,19 @@
 import React, { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import findKOR from "../../utils/findKOR"
 
 export default function NftMainDetail(info: any) {
   const navigate = useNavigate()
+  console.log(2)
+  console.log(findKOR(info.info.nft.job), info.info.nft.job)
   return (
     <div>
-      <p className="text-xl font-semibold">직업: {info.info.nft.job}</p>
-      <p className="text-xl font-semibold">성별: {info.info.nft.gender}</p>
+      <p className="text-xl font-semibold">
+        직업: {findKOR(info.info.nft.job)}
+      </p>
+      <p className="text-xl font-semibold">
+        성별: {findKOR(info.info.nft.gender)}
+      </p>
       <p className="text-xl font-semibold">Tags</p>
       <div className="flex">
         {info.info.nft.status.map((res: any, index: number) => {
@@ -16,12 +23,14 @@ export default function NftMainDetail(info: any) {
               className="border border-pink-500
       pr-2"
             >
-              {res.name} {res.value}
+              {findKOR(res.name)} {res.value}
             </p>
           )
         })}
       </div>
-      <p className="text-xl font-semibold">등급: {info.info.nft.tier}</p>
+      <p className="text-xl font-semibold">
+        등급: {findKOR(info.info.nft.tier)}
+      </p>
       {info.info.sell === true ? (
         <div>
           <div className="flex">
@@ -41,7 +50,7 @@ export default function NftMainDetail(info: any) {
       ) : (
         <div>
           <p className="text-xl font-semibold">
-            보유자: {info.info.sellerNickname}
+            보유자: {findKOR(info.info.sellerNickname)}
           </p>
         </div>
       )}

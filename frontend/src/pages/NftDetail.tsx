@@ -14,7 +14,7 @@ import {
   cancelNegoFormat,
   proposalFormat,
 } from "../components/nftDetail/tradeFormat"
-import { getNftDetail } from "../components/nftDetail/nftDetailRestapi"
+import { getNftDetail } from "../api/nft"
 import NftMainDetail from "../components/nftDetail/NftMainDetail"
 import NftTradeButton from "../components/nftDetail/NftTradeButton"
 import memberAtom from "../recoil/member/atom"
@@ -28,7 +28,7 @@ export default function NftDetail() {
   const [trade, setTrade] = useRecoilState(tradeAtom)
   const navigate = useNavigate()
   const location = useLocation()
-  const tokenId: any = parseInt(location.pathname.split("/")[3])
+  const tokenId: number = parseInt(location.pathname.split("/")[3])
   const publicAddress: any = localStorage.getItem("publicAddress")
 
   // NFT 정보
@@ -42,7 +42,7 @@ export default function NftDetail() {
   const [nftOwnerAddress, setNftOwnerAddress] = useState("") // NFT 주인 Address
 
   useEffect(() => {
-    getNftDetailFunction({ tokenId })
+    getNftDetailFunction(tokenId)
     setTrade((prev) => {
       const variable = { ...prev }
       variable.isSellingForm = false
@@ -51,12 +51,13 @@ export default function NftDetail() {
   }, [])
 
   // 해당 NFT의 모든 정보 nftInfo로 저장
-  async function getNftDetailFunction({ tokenId }: { tokenId: number }) {
-    const getAllNftDetail: any = await getNftDetail({ tokenId })
-    await setNftInfo(getAllNftDetail.data)
+  async function getNftDetailFunction(tokenId: number) {
+    // const getAllNftDetail: any = await getNftDetail({ tokenId })
+    const { data } = await getNftDetail(tokenId)
+    await setNftInfo(data)
     await setTrade((prev) => {
       const variable = { ...prev }
-      variable.buyNowPrice = getAllNftDetail.data.price
+      variable.buyNowPrice = data.price
       return { ...variable }
     })
   }

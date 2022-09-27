@@ -11,6 +11,7 @@ interface OfferHistoryItem {
   refund: boolean
   tokenId: number
   tradeId: number
+  url: string
 }
 
 export const OfferHistoryListHead = ({ item }: any) => {
@@ -41,6 +42,7 @@ const OfferHistoryItem = ({ ...props }) => {
     refund,
     tokenId,
     tradeId,
+    url,
   } = props.item
 
   // refund, cancel, choice
@@ -66,7 +68,7 @@ const OfferHistoryItem = ({ ...props }) => {
       className="bg-white  flex  w-full space-x-1 h-[50px]  items-cente justify-around leading-[50px]  rounded-2xl shadow-md hover:scale-110 cursor-pointer"
     >
       <div className=" w-[40px]">{tokenId}</div>
-      <img src={"url"} className="w-[45px] h-[45px] " />
+      <img src={url} className="w-[45px] h-[45px] " />
       <div className=" w-[100px]">{typeReturn()}</div>
       <div className=" w-[100px]">{offerPrice} M </div>
       <div className=" w-[100px]">{offerNickname}</div>

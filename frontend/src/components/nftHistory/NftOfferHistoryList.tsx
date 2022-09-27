@@ -1,7 +1,6 @@
 import { useQueries, useQuery } from "@tanstack/react-query"
 import { useState } from "react"
-import { http } from "../../api/axios"
-import { getOfferHistory, getDealHistory } from "../../api/nft"
+import { getOfferHistory } from "../../api/nft"
 import Pagination from "../pagination/Pagination"
 import OfferHistoryItem, { OfferHistoryListHead } from "./OfferHistoryListItem"
 
@@ -23,22 +22,16 @@ type dealItemType = {
   refund: boolean
   tokenId: number
   tradeId: number
+  url: string
 }
 
 const NftOfferHistoryList = ({ address }: { address: string }) => {
   const [page, setPage] = useState(0)
 
-  // http
-  //   .get(`trade/nego/address/0x3f667595fb29d223623ae5cd8a4621f85cc426d9/page/0`)
-  //   .then((res) => console.log("RES", res))
-  //   .catch((err) => console.error(err))
-
   console.log(address, page)
-  const { data, error } = useQuery(["OfferList", page], () =>
+  const { data } = useQuery(["OfferList", page], () =>
     getOfferHistory(address, page)
   )
-  console.log("나와야하는 것", data)
-  console.log("에러", error)
   return (
     <div className="relative flex flex-col items-center justify-center w-full h-full text-center ">
       <div className="w-4/5 space-y-4 h-[80%] ">
