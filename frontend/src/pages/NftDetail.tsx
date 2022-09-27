@@ -53,11 +53,11 @@ export default function NftDetail() {
   // 해당 NFT의 모든 정보 nftInfo로 저장
   async function getNftDetailFunction(tokenId: number) {
     // const getAllNftDetail: any = await getNftDetail({ tokenId })
-    const { data } = await getNftDetail(tokenId)
+    const data = await getNftDetail(tokenId)
     await setNftInfo(data)
     await setTrade((prev) => {
       const variable = { ...prev }
-      variable.buyNowPrice = data.price
+      variable.buyNowPrice = data.nft.price
       return { ...variable }
     })
   }

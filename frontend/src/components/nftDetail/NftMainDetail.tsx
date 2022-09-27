@@ -4,7 +4,6 @@ import findKOR from "../../utils/findKOR"
 
 export default function NftMainDetail(info: any) {
   const navigate = useNavigate()
-  console.log(2)
   console.log(findKOR(info.info.nft.job), info.info.nft.job)
   return (
     <div>
