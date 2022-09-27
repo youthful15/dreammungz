@@ -218,3 +218,84 @@ export const cancelNegoFormat = async ({
     console.error(err)
   }
 }
+
+// NFT 네고 제안 -------------------------------------------------------------------------
+export const proposalFormat = async ({
+  balance,
+  proposal,
+  tokenId,
+  publicAddress,
+}: {
+  balance: number
+  proposal: number
+  tokenId: number
+  publicAddress: string
+}) => {
+  proposal = 20
+  if (balance < proposal) {
+    // 금액이 부족할때
+    alert("M이 부족합니다!")
+  } else {
+    try {
+      // contractId 받기
+      const saleContractId = await MFTSaleFactoryContract.methods
+        .getCurrentSaleOfMFT(tokenId)
+        .call()
+
+      const saleContractAddress = await MFTSaleFactoryContract.methods
+        .getSale(saleContractId)
+        .call()
+
+      await MUNGContract.methods
+        .approve(
+          saleContractAddress,
+          web3.utils.toBN(proposal * 10 ** 18).toString()
+        )
+        .send({ from: publicAddress })
+
+      const sellerAddress = await MFTContract.methods.ownerOf(tokenId).call()
+
+      await MUNGContract.methods
+        .approve(sellerAddress, web3.utils.toBN(proposal * 10 ** 18).toString())
+        .send({ from: publicAddress })
+
+      console.log("saleContractId", saleContractId)
+      console.log("saleContractAddress", saleContractAddress)
+      console.log("proposal", proposal)
+      let createdNegoId
+
+      // createNego
+      await MFTSaleFactoryContract.methods
+        .createNego(saleContractId, publicAddress, proposal, false, false)
+        .send({ from: publicAddress })
+        .then((res: any) => {
+          createdNegoId = parseInt(res.events.NegoCreated.returnValues.negoId)
+        })
+
+      // // 네고 제안
+      console.log(
+        publicAddress,
+        saleContractId,
+        proposal,
+        tokenId,
+        createdNegoId
+      )
+      await http
+        .post("trade/offerRegister", {
+          address: publicAddress,
+          tradeContractId: saleContractId,
+          price: proposal,
+          tokenId: tokenId,
+          negoContractId: createdNegoId,
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.error(err))
+
+      // spiner 필요
+      alert("네고 하는 중입니다")
+    } catch (err) {
+      console.error(err)
+      alert("취소되었습니다.")
+    }
+  }
+}
