@@ -7,7 +7,6 @@ import { http } from "../api/axios"
 import findKOR from "../utils/findKOR"
 import playingMusic from "../recoil/music/atom"
 import parse from "html-react-parser"
-import { url } from "inspector"
 
 interface StoryType {
   title: string
@@ -36,10 +35,10 @@ function Information(story: StoryType) {
         </div>
       </div>
       <div className="h-[85%] flex flex-col justify-between pb-3">
-        <div className="flex">
+        <div className="flex items-center">
           <span className="w-1/5 flex justify-center mr-2">귀여움</span>
           <div className="h-5 w-4/5 rounded-full relative bg-lgBrown-500">
-            <div className="absolute h-5 w-full bg-gradient-to-r from-red-500 via-yellow-300 to-green-500 rounded-full border-lgBrown-500 border-[3px]"></div>
+            <div className="absolute h-5 w-full bg-gradient-to-r from-red-500 via-yellow-300 to-green-500 rounded-full border-lgBrown-500"></div>
             <div className="absolute content-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold">
               MAX!
             </div>
@@ -47,7 +46,7 @@ function Information(story: StoryType) {
         </div>
         <div className="flex w-full items-center">
           <div className="w-1/5 flex justify-center mr-3">정의로움</div>
-          {/* <div>{story.justice}</div> */}
+          <div>{story.justice}</div>
           <div className="w-[75%] h-1 my-5 rounded-full bg-gradient-to-r from-brown-500 to-pink-500 relative">
             <span className="absolute bottom-2 text-sm right-0 text-pink-500">
               착해!
@@ -57,9 +56,9 @@ function Information(story: StoryType) {
             </span>
             <img
               src="images/paw.png"
-              className={`w-10 absolute top-1/2 left-1/2 transform -translate-x-[${
-                story.justice * 100 + 50
-              }%] -translate-y-1/2`}
+              className={`w-10 absolute top-1/2 left-[${
+                story.justice + 50
+              }%] transform -translate-x-1/2 -translate-y-1/2`}
             ></img>
           </div>
         </div>
@@ -176,7 +175,7 @@ export default function GamePlaying() {
     ],
     image: "이거 삽화 이름임",
     bgm: "이거 bgm 이름임",
-    justice: 10,
+    justice: 0,
     status: [
       { name: "STOUTNESS", value: 10 },
       { name: "CLEVER", value: 10 },
@@ -199,6 +198,7 @@ export default function GamePlaying() {
         .then((res) => {
           setStory(res.data)
           console.log(res)
+          console.log("이거 왜 안되는데???", story.justice * 10 + 50)
           if (music !== res.data.bgm) {
             setMusic(res.data.bgm)
           }
