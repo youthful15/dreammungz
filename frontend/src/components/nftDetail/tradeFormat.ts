@@ -231,7 +231,6 @@ export const proposalFormat = async ({
   tokenId: number
   publicAddress: string
 }) => {
-  proposal = 20
   if (balance < proposal) {
     // 금액이 부족할때
     alert("M이 부족합니다!")

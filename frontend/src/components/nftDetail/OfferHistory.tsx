@@ -1,9 +1,12 @@
+import React from "react"
+import { useNavigate } from "react-router-dom"
 import { useRecoilState } from "recoil"
 import tradeAtom from "../../recoil/trade/atom"
 import memberAtom from "../../recoil/member/atom"
 import { getBalance } from "../../utils/web3"
 
 export default function OfferHistory(info: any, publicAddress: string) {
+  const navigate = useNavigate()
   const [, setTrade] = useRecoilState(tradeAtom)
   const [, setMember] = useRecoilState(memberAtom)
 
@@ -16,7 +19,7 @@ export default function OfferHistory(info: any, publicAddress: string) {
             <div>
               <div className="flex w-full border border-b-black border-t-transparent border-l-transparent border-r-transparent">
                 <p className="w-[20%]">가격</p>
-                <p className="w-[20%]">From</p>
+                <p className="w-[40%]">From</p>
                 <p>Date</p>
               </div>
             </div>
@@ -45,21 +48,24 @@ export default function OfferHistory(info: any, publicAddress: string) {
                 tradeId: number
               }) => {
                 return (
-                  <div className="flex" key={tradeId}>
+                  <div className="" key={tradeId}>
                     <ul className="w-full flex py-1">
                       <li className="w-[20%]">{offerPrice}</li>
 
                       <li
-                        className="w-[20%] text-lgBrown-600
+                        className="w-[40%] text-lgBrown-600
 hover:text-lgBrown-700 cursor-pointer"
+                        onClick={() => {
+                          navigate(`/personal/${offerAddress}/list`)
+                        }}
                       >
                         {offerNickname}
                       </li>
-                      <li className="w-[30%]">{offerDate}</li>
+                      <li>{offerDate}</li>
 
                       {offerAddress === publicAddress ? (
                         <li
-                          className="border border-black"
+                          className="border border-black w-[10%]"
                           onClick={async () => {
                             const receivedBalance = await getBalance()
                             setMember((prev) => {
@@ -75,12 +81,12 @@ hover:text-lgBrown-700 cursor-pointer"
                             })
                           }}
                         >
-                          오퍼 삭제
+                          ❌
                         </li>
                       ) : null}
-                      {info.info.sellerAddress === publicAddress ? (
+                      {info.info.sellerAddress === info.publicAddress ? (
                         <li
-                          className="border border-black"
+                          className="cursor-pointer"
                           onClick={() => {
                             setTrade((prev) => {
                               const variable = { ...prev }
@@ -89,7 +95,7 @@ hover:text-lgBrown-700 cursor-pointer"
                             })
                           }}
                         >
-                          오퍼 수락
+                          ✅
                         </li>
                       ) : null}
                     </ul>

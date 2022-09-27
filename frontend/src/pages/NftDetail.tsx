@@ -191,21 +191,24 @@ export default function NftDetail() {
           <button
             className="mr-4 border border-black"
             onClick={async () => {
-              const receivedBalance = await getBalance()
-              await setBalance(receivedBalance)
               const proposal = trade.offerPrice
-              await proposalFormat({
-                balance,
-                proposal,
-                tokenId,
-                publicAddress,
-              })
-              await setTrade((prev) => {
-                const variable = { ...prev }
-                variable.modalOpen3 = false
-                return { ...variable }
-              })
-              // navigate("/nft/list")
+              if (proposal === 0) {
+                alert("0M 이상 제안하셔야 합니다. 다시 입력해주세요.")
+              } else {
+                const receivedBalance = await getBalance()
+                await setBalance(receivedBalance)
+                await proposalFormat({
+                  balance,
+                  proposal,
+                  tokenId,
+                  publicAddress,
+                })
+                await setTrade((prev) => {
+                  const variable = { ...prev }
+                  variable.modalOpen3 = false
+                  return { ...variable }
+                })
+              }
             }}
           >
             구매

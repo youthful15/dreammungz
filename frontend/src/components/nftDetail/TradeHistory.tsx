@@ -1,6 +1,8 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function TradeHistory(info: any) {
+  const navigate = useNavigate()
   return (
     <div className="w-[47.5%] border rounded-lg border-black">
       <p className="text-xl font-semibold ml-2">거래 이력</p>
@@ -36,19 +38,21 @@ export default function TradeHistory(info: any) {
                     <ul className="flex py-1">
                       <li className="w-[20%]">{tradePrice}</li>
 
-                      {/* 마이페이지 가게 만들기 */}
                       <li
                         className="w-[20%] text-lgBrown-600
  hover:text-lgBrown-700 cursor-pointer"
-                        onClick={() => {}}
+                        onClick={() => {
+                          navigate(`/personal/${sellerAddress}/list`)
+                        }}
                       >
                         {sellerNickname}
                       </li>
-                      {/* 마이페이지 가게 만들기 */}
                       <li
                         className="w-[30%] text-lgBrown-600
  hover:text-lgBrown-700 cursor-pointer"
-                        onClick={() => {}}
+                        onClick={() => {
+                          navigate(`/personal/${buyerAddress}/list`)
+                        }}
                       >
                         {buyerNickname}
                       </li>
