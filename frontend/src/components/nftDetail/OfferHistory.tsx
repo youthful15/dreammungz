@@ -9,7 +9,7 @@ export default function OfferHistory(info: any, publicAddress: string) {
   const navigate = useNavigate()
   const [, setTrade] = useRecoilState(tradeAtom)
   const [, setMember] = useRecoilState(memberAtom)
-
+  console.log(info)
   return (
     <div className="w-[47.5%] border rounded-lg border-black">
       <p className="text-xl font-semibold ml-2">오퍼 리스트</p>
@@ -63,9 +63,9 @@ hover:text-lgBrown-700 cursor-pointer"
                       </li>
                       <li>{offerDate}</li>
 
-                      {offerAddress === publicAddress ? (
+                      {offerAddress === info.publicAddress ? (
                         <li
-                          className="border border-black w-[10%]"
+                          className="w-[10%] cursor-pointer"
                           onClick={async () => {
                             const receivedBalance = await getBalance()
                             setMember((prev) => {

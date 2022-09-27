@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
+import { useRecoilState } from "recoil"
+import { MFTContract } from "../utils/Web3Config"
+import { getBalance } from "../utils/web3"
 import Modal from "../components/modal/Modal"
 import SpinnerModal from "../components/modal/SpinnerModal"
 import TradeHistory from "../components/nftDetail/TradeHistory"
-import { MFTContract } from "../utils/Web3Config"
 import NFTImage from "../components/nftDetail/NFTImage"
 import {
   buyNowFormat,
-  sellFormat,
   sellAbortFormat,
   acceptNegoFormat,
   cancelNegoFormat,
   proposalFormat,
 } from "../components/nftDetail/tradeFormat"
-import { getBalance } from "../utils/web3"
 import { getNftDetail } from "../components/nftDetail/nftDetailRestapi"
 import NftMainDetail from "../components/nftDetail/NftMainDetail"
 import NftTradeButton from "../components/nftDetail/NftTradeButton"
 import memberAtom from "../recoil/member/atom"
 import tradeAtom from "../recoil/trade/atom"
-import { useRecoilState } from "recoil"
 import NftSellFormat from "../components/nftDetail/NftSellFormat"
 import OfferHistory from "../components/nftDetail/OfferHistory"
 import Spinner from "../components/spinner/Spinner"
@@ -38,13 +37,9 @@ export default function NftDetail() {
   const [balance, setBalance] = useState(0) // 본인 지갑
   useEffect(() => {
     setBalance(member.walletBalance)
-  }, [member.walletBalance])
-  useEffect(() => {
-    setCost(trade.buyNowPrice)
-  }, [trade.buyNowPrice])
+  }, [])
 
   const [nftOwnerAddress, setNftOwnerAddress] = useState("") // NFT 주인 Address
-  const [cost, setCost] = useState(20) // 즉시 구매 가격
 
   useEffect(() => {
     getNftDetailFunction({ tokenId })
@@ -54,14 +49,16 @@ export default function NftDetail() {
       return { ...variable }
     })
   }, [])
-  useEffect(() => {
-    getNftDetailFunction({ tokenId })
-  }, [member])
 
   // 해당 NFT의 모든 정보 nftInfo로 저장
   async function getNftDetailFunction({ tokenId }: { tokenId: number }) {
     const getAllNftDetail: any = await getNftDetail({ tokenId })
     await setNftInfo(getAllNftDetail.data)
+    await setTrade((prev) => {
+      const variable = { ...prev }
+      variable.buyNowPrice = getAllNftDetail.data.price
+      return { ...variable }
+    })
   }
 
   // NFT의 주인이 나인지 확인하는 함수
@@ -109,10 +106,21 @@ export default function NftDetail() {
             onClick={async () => {
               const receivedBalance = await getBalance()
               await setBalance(receivedBalance)
+              await setTrade((prev) => {
+                const variable = { ...prev }
+                variable.modalOpen1 = false
+                variable.modalOpen6 = true
+                return { ...variable }
+              })
               await sellAbortFormat({ tokenId, publicAddress })
               await setTrade((prev) => {
                 const variable = { ...prev }
                 variable.modalOpen1 = false
+                return { ...variable }
+              })
+              await setTrade((prev) => {
+                const variable = { ...prev }
+                variable.modalOpen6 = false
                 return { ...variable }
               })
             }}
@@ -147,7 +155,7 @@ export default function NftDetail() {
         }
       >
         <p className="text-xl font-semibold mb-4">즉시 구매하시겠습니까?</p>
-        <p className="mb-4">즉시 구매 가격: {cost}</p>
+        <p className="mb-4">즉시 구매 가격: {trade.buyNowPrice}</p>
         <p>나의 M: {balance} M</p>
         <div className="flex justify-center">
           <button
@@ -155,8 +163,22 @@ export default function NftDetail() {
             onClick={async () => {
               const receivedBalance = await getBalance()
               await setBalance(receivedBalance)
+              const cost = trade.buyNowPrice
 
-              buyNowFormat({ balance, cost, tokenId, publicAddress })
+              await setTrade((prev) => {
+                const variable = { ...prev }
+                variable.modalOpen2 = false
+                variable.modalOpen6 = true
+                return { ...variable }
+              })
+
+              await buyNowFormat({ balance, cost, tokenId, publicAddress })
+
+              await setTrade((prev) => {
+                const variable = { ...prev }
+                variable.modalOpen6 = false
+                return { ...variable }
+              })
             }}
           >
             구매
@@ -189,7 +211,7 @@ export default function NftDetail() {
         }
       >
         <p className="text-xl font-semibold mb-4">제안하실 M을 입력해주세요</p>
-        <p className="mb-4">가격 제시</p>
+        <p className="mb-4">가격 제시 {trade.offerPrice}</p>
         <p>현재 보유 금액: {balance} M</p>
         <input
           className="border border-black"
@@ -215,6 +237,12 @@ export default function NftDetail() {
               } else {
                 const receivedBalance = await getBalance()
                 await setBalance(receivedBalance)
+                await setTrade((prev) => {
+                  const variable = { ...prev }
+                  variable.modalOpen3 = false
+                  variable.modalOpen6 = true
+                  return { ...variable }
+                })
                 await proposalFormat({
                   balance,
                   proposal,
@@ -223,7 +251,7 @@ export default function NftDetail() {
                 })
                 await setTrade((prev) => {
                   const variable = { ...prev }
-                  variable.modalOpen3 = false
+                  variable.modalOpen6 = false
                   return { ...variable }
                 })
               }
@@ -264,10 +292,16 @@ export default function NftDetail() {
             className="mr-4 border border-black"
             onClick={async () => {
               const clickedNegoId = trade.selectedOfferId
-              await cancelNegoFormat({ clickedNegoId, publicAddress, tokenId })
               await setTrade((prev) => {
                 const variable = { ...prev }
                 variable.modalOpen4 = false
+                variable.modalOpen6 = true
+                return { ...variable }
+              })
+              await cancelNegoFormat({ clickedNegoId, publicAddress, tokenId })
+              await setTrade((prev) => {
+                const variable = { ...prev }
+                variable.modalOpen6 = false
                 return { ...variable }
               })
             }}
@@ -307,10 +341,16 @@ export default function NftDetail() {
             className="mr-4 border border-black"
             onClick={async () => {
               const negoId = trade.selectedOfferId
-              await acceptNegoFormat({ tokenId, negoId, publicAddress })
               await setTrade((prev) => {
                 const variable = { ...prev }
                 variable.modalOpen5 = false
+                variable.modalOpen6 = true
+                return { ...variable }
+              })
+              await acceptNegoFormat({ tokenId, negoId, publicAddress })
+              await setTrade((prev) => {
+                const variable = { ...prev }
+                variable.modalOpen6 = false
                 return { ...variable }
               })
             }}

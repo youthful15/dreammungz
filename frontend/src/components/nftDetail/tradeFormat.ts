@@ -115,8 +115,17 @@ export const buyNowFormat = async ({
         .getSale(saleContractId)
         .call()
 
+      const aWeiValue = 10 ** 18
+
+      // 0.003 Mwei == 3000 wei
+      const bWeiValue = cost
+
+      const totalWeiValue = web3.utils
+        .toBN(aWeiValue)
+        .mul(web3.utils.toBN(bWeiValue))
+
       await MUNGContract.methods
-        .approve(publicAddress, web3.utils.toBN(cost * 10 ** 18).toString())
+        .approve(saleContractAddress, totalWeiValue)
         .send({ from: publicAddress })
 
       // 즉시 구매 SMART CONTRACT
@@ -136,9 +145,7 @@ export const buyNowFormat = async ({
       console.error(err)
     }
 
-    alert("구매 하는 중입니다.")
-    // setIsSelling(false)
-    // navigate("/nft/list") // 즉시 구매시 nft list page로 redirect
+    window.location.reload()
   }
 }
 
@@ -173,6 +180,8 @@ export const acceptNegoFormat = async ({
       })
       .then((res) => console.log(res))
       .catch((err) => console.error(err))
+
+    window.location.reload()
   } catch (err) {
     console.error(err)
   }
@@ -203,8 +212,11 @@ export const cancelNegoFormat = async ({
     })
 
     alert("제안이 취소되었습니다.")
+    window.location.reload()
+
     // OFFERLIST 초기화 필요
     // OFFERLIST 초기화 필요
+
     // OFFERLIST 초기화 필요
     // OFFERLIST 초기화 필요
     // OFFERLIST 초기화 필요 여기에
@@ -290,8 +302,7 @@ export const proposalFormat = async ({
         .then((res) => console.log(res))
         .catch((err) => console.error(err))
 
-      // spiner 필요
-      alert("네고 하는 중입니다")
+      window.location.reload()
     } catch (err) {
       console.error(err)
       alert("취소되었습니다.")

@@ -1,7 +1,6 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
-interface NftMainDetailProp {}
 export default function NftMainDetail(info: any) {
   const navigate = useNavigate()
   return (

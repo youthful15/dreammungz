@@ -6,9 +6,6 @@ import tradeAtom from "../recoil/trade/atom"
 import { useRecoilState } from "recoil"
 
 const Login = () => {
-  window.ethereum
-    .request({ method: "eth_requestAccounts" })
-    .then((res: any) => console.log(res))
   const [trade, setTrade] = useRecoilState(tradeAtom)
   return (
     <div className="h-full w-full flex justify-center items-center">
@@ -23,7 +20,10 @@ const Login = () => {
           })
         }}
       >
-        <Spinner />
+        <div className="flex items-center">
+          <Spinner />
+          <p className="text-3xl font-bold">로그인 중입니다.</p>
+        </div>
       </SpinnerModal>
       {/* 스피너 모달 끝 */}
       <div>
