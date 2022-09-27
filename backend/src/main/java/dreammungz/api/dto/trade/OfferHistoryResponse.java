@@ -33,6 +33,10 @@ public class OfferHistoryResponse {
     static public class Offer {
         @ApiModelProperty(value = "토큰 식별자", name = "tokenId", example = "1", dataType = "Long")
         private Long tokenId;
+        @ApiModelProperty(value = "이미지 url", name = "url", example = "image_url", dataType = "String")
+        private String url;
+        @ApiModelProperty(value = "메타데이터", name = "metadata", example = "metadata", dataType = "String")
+        private String metadata;
         @ApiModelProperty(value = "제안 컨트랙트 id", name = "offerId", example = "1", dataType = "Long")
         private Long offerId;
         @ApiModelProperty(value = "거래 컨트랙트 id", name = "tradeId", example = "1", dataType = "Long")
@@ -53,8 +57,10 @@ public class OfferHistoryResponse {
         @ApiModelProperty(value = "환불 여부", name = "refund", example = "true", dataType = "boolean")
         private boolean refund;
         @Builder
-        public Offer(Long tokenId, Long offerId, Long tradeId, String offerNickname, String offerAddress, LocalDateTime offerDate, Long offerPrice, boolean choice, boolean cancel, boolean refund) {
+        public Offer(Long tokenId, String url, String metadata, Long offerId, Long tradeId, String offerNickname, String offerAddress, LocalDateTime offerDate, Long offerPrice, boolean choice, boolean cancel, boolean refund) {
             this.tokenId = tokenId;
+            this.url = url;
+            this.metadata = metadata;
             this.offerId = offerId;
             this.tradeId = tradeId;
             this.offerNickname = offerNickname;

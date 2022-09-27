@@ -35,7 +35,7 @@ public class Game {
     @Column(name="father")
     private Long father;
 
-    @OneToOne(mappedBy = "game", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "game", fetch = FetchType.LAZY)
     private Member member;
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
