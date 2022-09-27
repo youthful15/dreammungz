@@ -47,6 +47,8 @@ export const sellFormat = async ({
       })
       .then((res) => console.log(res))
       .catch((err) => console.error(err))
+
+    window.location.reload()
   } catch (err) {
     console.error("판매 등록 에러", err)
   }
@@ -77,6 +79,8 @@ export const sellAbortFormat = async ({
       })
       .then((res) => console.log(res))
       .catch((err) => console.error(err))
+
+    window.location.reload()
   } catch (err) {
     console.log(err)
   }

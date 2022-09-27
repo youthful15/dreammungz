@@ -13,6 +13,7 @@ export default function NftTradeButton({
 }) {
   const [trade, setTrade] = useRecoilState(tradeAtom)
   const [member, setMember] = useRecoilState(memberAtom)
+
   return (
     <div>
       {/* TEST CODE */}
@@ -31,37 +32,59 @@ export default function NftTradeButton({
   >
     네고 환불종민이만 눌르자
   </button> */}
-      <button
-        className="border border-black"
-        onClick={() => {
-          setTrade((prev) => {
-            const variable = { ...prev }
-            variable.modalOpen4 = true
-            return { ...variable }
-          })
-        }}
-      >
-        네고 취소(네고 테스트 코드입니다.)
-      </button>
-      <button
-        className="border border-black"
-        onClick={() => {
-          setTrade((prev) => {
-            const variable = { ...prev }
-            variable.modalOpen5 = true
-            return { ...variable }
-          })
-        }}
-      >
-        네고 승낙(네고 테스트 코드입니다.)
-      </button>
-      {/* TEST CODE */}
       {/* TEST CODE */}
 
       {nftOwnerAddress &&
       publicAddress?.toLowerCase() !== nftOwnerAddress?.toLowerCase() &&
       info.sell === true ? (
-        <div className="flex">
+        nftOwnerAddress &&
+        publicAddress?.toLowerCase() !== nftOwnerAddress?.toLowerCase() &&
+        info.sell === true &&
+        info.nego ? (
+          <div className="flex">
+            <button
+              className="border border-black mr-3"
+              onClick={async () => {
+                const receivedBalance = await getBalance()
+                await setMember((prev) => {
+                  const variable = { ...prev }
+                  variable.walletBalance = receivedBalance
+                  return { ...variable }
+                })
+
+                setTrade((prev) => {
+                  const variable = { ...prev }
+                  variable.modalOpen2 = true
+                  return { ...variable }
+                })
+              }}
+            >
+              즉시 구매
+            </button>
+            <button
+              className="border border-black"
+              onClick={async () => {
+                const receivedBalance = await getBalance()
+                await setMember((prev) => {
+                  const variable = { ...prev }
+                  variable.walletBalance = receivedBalance
+                  return { ...variable }
+                })
+
+                setTrade((prev) => {
+                  const variable = { ...prev }
+                  variable.modalOpen3 = true
+                  return { ...variable }
+                })
+              }}
+            >
+              가격 제안하기
+            </button>
+          </div>
+        ) : nftOwnerAddress &&
+          publicAddress?.toLowerCase() !== nftOwnerAddress?.toLowerCase() &&
+          info.sell === true &&
+          info.nego === false ? (
           <button
             className="border border-black mr-3"
             onClick={async () => {
@@ -81,26 +104,7 @@ export default function NftTradeButton({
           >
             즉시 구매
           </button>
-          <button
-            className="border border-black"
-            onClick={async () => {
-              const receivedBalance = await getBalance()
-              await setMember((prev) => {
-                const variable = { ...prev }
-                variable.walletBalance = receivedBalance
-                return { ...variable }
-              })
-
-              setTrade((prev) => {
-                const variable = { ...prev }
-                variable.modalOpen3 = true
-                return { ...variable }
-              })
-            }}
-          >
-            가격 제안하기
-          </button>
-        </div>
+        ) : null
       ) : nftOwnerAddress &&
         publicAddress?.toLowerCase() === nftOwnerAddress?.toLowerCase() &&
         info.sell === true ? (
