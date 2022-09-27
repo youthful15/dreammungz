@@ -21,7 +21,7 @@ function useMovePage(price: number) {
     console.log(startSetting)
 
     // 결제 로직
-    const cost = 100
+    const cost = 10
     await pushGameStart(publicAddress, cost)
 
     // price 만큼 결제합니다. 결제 성공시 아래 navigate 실행~
