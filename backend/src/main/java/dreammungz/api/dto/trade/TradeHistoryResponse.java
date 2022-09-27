@@ -16,7 +16,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ApiModel(value = "거래 이력", description = "플레이어가 가지고 있는 NFT")
+@ApiModel(value = "거래 이력", description = "플레이어의 거래 이력")
 public class TradeHistoryResponse {
     @ApiModelProperty(value = "거래 리스트", name = "items")
     private List<TradeItem> items;
@@ -37,11 +37,11 @@ public class TradeHistoryResponse {
         private String metadata;
         @ApiModelProperty(value = "구매/판매", name = "type", example = "BUY", dataType = "String")
         private TradeType type;
-        @ApiModelProperty(value = "판매자 닉네임", name = "sellerNickname", example = "판매자닉넴", dataType = "String")
+        @ApiModelProperty(value = "판매자 닉네임", name = "sellerNickname", example = "판매자닉네임", dataType = "String")
         private String sellerNickname;
         @ApiModelProperty(value = "판매자 지갑 주소", name = "sellerAddress", example = "0x1", dataType = "String")
         private String sellerAddress;
-        @ApiModelProperty(value = "구매자 닉네임", name = "buyerNickname", example = "구매자닉넴", dataType = "String")
+        @ApiModelProperty(value = "구매자 닉네임", name = "buyerNickname", example = "구매자닉네임", dataType = "String")
         private String buyerNickname;
         @ApiModelProperty(value = "구매자 지갑 주소", name = "buyerAddress", example = "0x2", dataType = "String")
         private String buyerAddress;

@@ -103,6 +103,7 @@ public class TradeService {
                 getTrade(offerRegisterRequest.getTradeContractId()),   //tokenID를 바탕으로 nft->trade 아이디 추적
                 member,
                 Check.N,
+                Check.N,
                 offerRegisterRequest.getNegoContractId()
         );
         negotiationRepository.save(negotiation);
@@ -114,6 +115,12 @@ public class TradeService {
         Negotiation negotiation = negotiationRepository.findByContractId(offerCancelRequest.getContractId()).get();
         //negotiation DB 수정
         negotiation.setCancel(Check.Y);
+        negotiationRepository.save(negotiation);
+    }
+
+    public void refundOffer(Long id){
+        Negotiation negotiation = negotiationRepository.findByContractId(id).get();
+        negotiation.setRefund(Check.Y);
         negotiationRepository.save(negotiation);
     }
 
@@ -179,6 +186,35 @@ public class TradeService {
         return response;
     }
 
+    public OfferHistoryResponse offerHistory(String address, int page){
+        OfferHistoryResponse response = new OfferHistoryResponse();
+        PageRequest pageRequest = PageRequest.of(page, 6); //6개씩 페이징
+
+        // 지갑 주소에 대한 negotiation 조회
+        Page<Negotiation> negoList = negotiationRepositorySupport.findHistoryByAddress(pageRequest,address);
+        List<OfferHistoryResponse.Offer> offerItems = new ArrayList<>();
+        for(int i=0;i<negoList.getContent().size();i++){
+                Negotiation negotiation = negoList.getContent().get(i);
+                OfferHistoryResponse.Offer offerItem = OfferHistoryResponse.Offer.builder()
+                        .tokenId(negotiation.getTrade().getNft().getTokenId())
+                        .offerId(negotiation.getContractId())
+                        .tradeId(negotiation.getTrade().getContractId())
+                        .offerNickname(negotiation.getMember().getNickname())
+                        .offerAddress(negotiation.getMember().getAddress())
+                        .offerDate(negotiation.getNegoTime())
+                        .offerPrice(negotiation.getPrice())
+                        .choice(negotiation.getChoice()==Check.Y)
+                        .cancel(negotiation.getCancel()==Check.Y)
+                        .refund(negotiation.getRefund()==Check.Y)
+                        .build();
+                offerItems.add(offerItem);
+            }
+        response.setOffer(offerItems);
+        response.setCurrentPage(negoList.getPageable().getPageNumber()); //현재 페이지
+        response.setTotalPage(negoList.getTotalPages()-1); //마지막 페이지
+        return response;
+    }
+
     public NftInfoResponse nftInfo(Long id){
         NftInfoResponse nftInfoResponse = new NftInfoResponse();
         NftInfoResponse.Nft nft = new NftInfoResponse.Nft();
@@ -226,7 +262,7 @@ public class TradeService {
         if(isSell.size()!=0){
             nftInfoResponse.setTraceId(isSell.get(0).getContractId());
             nftInfoResponse.setSell(true);
-            nftInfoResponse.setNego((isSell.get(0).getNegoAble()==Check.Y)?true:false);
+            nftInfoResponse.setNego(isSell.get(0).getNegoAble()==Check.Y);
             nftInfoResponse.setPrice(isSell.get(0).getStartPrice());
             nftInfoResponse.setSellerNickname(isSell.get(0).getSeller().getMember().getNickname());
             nftInfoResponse.setSellerAddress(isSell.get(0).getSeller().getMember().getAddress());
@@ -242,8 +278,10 @@ public class TradeService {
                 offers.add(offer);
             }
             nftInfoResponse.setOffer(offers);
-        }else{
+        }else{ // 판매 안하면 소유자의 주소와 닉네임 반환(판매중이면 판매자의 주소와 닉네임)
             nftInfoResponse.setSell(false);
+            nftInfoResponse.setSellerAddress(nftItem.getMember().getAddress());
+            nftInfoResponse.setSellerNickname(nftItem.getMember().getNickname());
             nftInfoResponse.setOffer(offers);
         }
         return nftInfoResponse;

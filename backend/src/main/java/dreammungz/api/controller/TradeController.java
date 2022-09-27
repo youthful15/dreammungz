@@ -62,6 +62,12 @@ public class TradeController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "NFT 네고 제안 환불", notes = "네고 제안을 환불한다.")
+    @PutMapping("/refund/{id}")
+    public ResponseEntity<String> refundOffer(@ApiParam(value = "nego 컨트랙트 id", required = true) @PathVariable Long id){
+        tradeService.refundOffer(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @ApiOperation(value = "NFT 네고 제안 수락", notes = "신청받은 NFT 네고 제안을 수락한다.")
     @PostMapping("/offerAccept")
@@ -73,7 +79,7 @@ public class TradeController {
 
     @ApiOperation(value = "거래 이력 조회", notes = "회원의 거래 이력을 조회", response = TradeHistoryResponse.class)
     @GetMapping("/address/{address}/page/{page}")
-    public ResponseEntity<TradeHistoryResponse> tradeHistory(@PathVariable String address,@ApiParam(value = "현재 페이지", required = true) @PathVariable int page){
+    public ResponseEntity<TradeHistoryResponse> tradeHistory(@ApiParam(value = "지갑 주소", required = true) @PathVariable String address,@ApiParam(value = "현재 페이지", required = true) @PathVariable int page){
         TradeHistoryResponse response = tradeService.tradeHistory(address, page);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
@@ -82,6 +88,13 @@ public class TradeController {
     @GetMapping("/nft/{id}")
     public ResponseEntity<NftInfoResponse> nftInfo(@ApiParam(value = "NFT 토큰 id", required = true) @PathVariable Long id) {
         NftInfoResponse response = tradeService.nftInfo(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "네고 이력 조회", notes = "플레이어의 네고 이력을 조회한다.", response = OfferHistoryResponse.class)
+    @GetMapping("/nego/address/{address}/page/{page}")
+    public ResponseEntity<OfferHistoryResponse> offerHistory(@ApiParam(value = "지갑 주소", required = true) @PathVariable String address, @ApiParam(value = "현재 페이지", required = true) @PathVariable int page) {
+        OfferHistoryResponse response = tradeService.offerHistory(address,page);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
