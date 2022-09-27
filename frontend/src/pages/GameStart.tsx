@@ -21,8 +21,7 @@ function useMovePage(price: number) {
     console.log(startSetting)
 
     // 결제 로직
-    const cost = 10
-    await pushGameStart(publicAddress, cost)
+    await pushGameStart(publicAddress, price)
 
     // price 만큼 결제합니다. 결제 성공시 아래 navigate 실행~
     await http.post(`game/start`, startSetting).then((res) => {
@@ -242,11 +241,10 @@ function WeddingMode() {
         </div>
         <button
           className="h-[10%] bg-red-100"
-          onClick={async () => {
+          onClick={() => {
             startSetting.father = dogM.id
             startSetting.mother = dogF.id
             startSetting.mating = true
-            await pushGameStart(publicAddress, price)
             StartGame()
             startSetting.mating = false
           }}

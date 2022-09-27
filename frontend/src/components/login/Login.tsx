@@ -154,7 +154,7 @@ export default function Login() {
 
         try {
           await MUNGContract.methods
-            .mintToMember(publicAddress, 100)
+            .mintToMember(publicAddress, 1000)
             .send({ from: publicAddress })
         } catch {
           window.alert("돈을 거부하다니..")
