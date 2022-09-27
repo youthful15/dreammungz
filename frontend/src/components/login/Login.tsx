@@ -151,9 +151,15 @@ export default function Login() {
       // isNew === true 로 바꿔야 함
       if (isNew !== true) {
         window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
-        await MUNGContract.methods
-          .mintToMember(publicAddress, 10000)
-          .send({ from: publicAddress })
+
+        try {
+          await MUNGContract.methods
+            .mintToMember(publicAddress, 100)
+            .send({ from: publicAddress })
+        } catch {
+          window.alert("돈을 거부하다니..")
+          window.location.replace("/mainpage")
+        }
       }
 
       // 회원 닉네임 전역변수에 저장

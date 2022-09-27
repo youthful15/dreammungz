@@ -21,6 +21,7 @@ import tradeAtom from "../recoil/trade/atom"
 import { useRecoilState } from "recoil"
 import NftSellFormat from "../components/nftDetail/NftSellFormat"
 import OfferHistory from "../components/nftDetail/OfferHistory"
+import Spinner from "../components/spinner/Spinner"
 
 export default function NftDetail() {
   const [member] = useRecoilState(memberAtom)
@@ -71,9 +72,23 @@ export default function NftDetail() {
     checkIsOwner({ tokenId })
   }, [])
 
-  console.log("NFTINFO", nftInfo)
   return (
     <div className="h-full w-full">
+      {/* 스피너 모달 시작 */}
+      <Modal
+        isOpen={trade.modalOpen6}
+        modalClose={() => {
+          setTrade((prev) => {
+            const variable = { ...prev }
+            variable.modalOpen6 = false
+            return { ...variable }
+          })
+        }}
+      >
+        <Spinner />
+      </Modal>
+      {/* 스피너 모달 끝 */}
+
       {/* 판매 중지 모달 시작 */}
       <Modal
         isOpen={trade.modalOpen1}
@@ -139,6 +154,7 @@ export default function NftDetail() {
             onClick={async () => {
               const receivedBalance = await getBalance()
               await setBalance(receivedBalance)
+
               buyNowFormat({ balance, cost, tokenId, publicAddress })
             }}
           >
@@ -186,6 +202,7 @@ export default function NftDetail() {
             })
           }}
         />
+
         <label htmlFor="proposal">M</label>
         <div className="flex justify-center">
           <button

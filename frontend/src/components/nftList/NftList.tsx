@@ -43,7 +43,6 @@ const NftList = ({ useFilter }: NftListProp) => {
 
   useEffect(() => {
     if (!filter) {
-      console.log("주소:", address)
       filter = filterForm
       filter.address = address!
     }
@@ -51,7 +50,9 @@ const NftList = ({ useFilter }: NftListProp) => {
   }, [])
 
   useEffect(() => {
-    console.log("address", address, filter)
+    if (!filter && address) {
+      setFilter({ ...filterForm, address })
+    }
     if (filter && address) setFilter({ ...filter!, address })
   }, [address])
 

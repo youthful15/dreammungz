@@ -65,7 +65,7 @@ const Navbar = () => {
       </ul>
       {isLogin ? (
         <div>
-          <Link to="/mypage/list">
+          <Link to={`/personal/${localStorage.getItem("publicAddress")}/list`}>
             <div className={navItemStyle}>마이페이지 </div>
           </Link>
           <div
