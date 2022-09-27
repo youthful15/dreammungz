@@ -11,4 +11,14 @@ const getDealHistory = async (address: string, page: number) => {
   return data
 }
 
-export { getNftList, getDealHistory }
+const getOfferHistory = async (address: string, page: number) => {
+  const { data } = await http.get(`trade/nego/address/${address}/page/${page}`)
+  return data
+}
+
+const getNftDetail = async (tokenId: number) => {
+  const { data } = await http.get(`trade/nft/${tokenId}`)
+  return data
+}
+
+export { getNftDetail, getNftList, getDealHistory, getOfferHistory }

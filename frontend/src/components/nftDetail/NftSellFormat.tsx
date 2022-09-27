@@ -15,6 +15,7 @@ export default function NftSellFormat({
   const [negoAble, setNegoAble] = useState(true) // 판매 등록 정보
   const [trade, setTrade] = useRecoilState(tradeAtom)
   const [, setMember] = useRecoilState(memberAtom)
+
   return (
     <div className="w-full flex justify-center">
       <div className="flex justify-center flex-col items-center">
@@ -45,7 +46,7 @@ export default function NftSellFormat({
                 id="yes"
                 name="whatOffer"
                 value="yes"
-                checked
+                defaultChecked
                 onClick={() => setNegoAble(true)}
               />
               <label htmlFor="yes">Yes</label>

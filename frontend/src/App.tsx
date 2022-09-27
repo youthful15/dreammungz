@@ -17,6 +17,7 @@ import NftListPage from "./pages/NftListPage"
 import PersonalPage from "./pages/PersonalPage"
 import NftListByUser from "./pages/NftListByUser"
 import DealHistoryByUser from "./pages/DealHistoryByUser"
+import OfferHistoryByUser from "./pages/OfferHistoryByUser"
 
 function App() {
   RouterChangeTracker()
@@ -52,6 +53,7 @@ function App() {
               <Route path="/personal/:address" element={<PersonalPage />}>
                 <Route path="list" element={<NftListByUser />} />
                 <Route path="history" element={<DealHistoryByUser />} />
+                <Route path="offer" element={<OfferHistoryByUser />} />
               </Route>
             </Routes>
           </div>
