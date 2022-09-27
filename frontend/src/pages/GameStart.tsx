@@ -14,12 +14,13 @@ let startSetting = {
 }
 
 // 게임 시작 API
-function useMovePage() {
+function useMovePage(price: number) {
   const navigate = useNavigate()
 
   async function MovePage() {
     console.log(startSetting)
     // 여기 나중에 결제 로직이 들어감니다
+    // price 만큼 결제합니다. 결제 성공시 아래 navigate 실행~
     await http.post(`game/start`, startSetting).then((res) => {
       navigate("/game")
     })
@@ -34,7 +35,7 @@ function StartTutorial() {
 
 // 베이비 모드 설명
 function BabyMode() {
-  const MovePage = useMovePage()
+  const MovePage = useMovePage(100)
   function StartGame() {
     MovePage()
   }
@@ -43,7 +44,7 @@ function BabyMode() {
     <div>
       <div className="pb-10">이것은 베이비모드 설명입니다</div>
       <button className="p-10 bg-red-100" onClick={StartGame}>
-        100 SSF로 시작하기
+        100 MUNG으로 시작하기
       </button>
     </div>
   )
@@ -71,6 +72,7 @@ type StatType = {
 
 // 웨딩 모드 설명
 function WeddingMode() {
+  const [price, setPrice] = useState(0)
   const [nft, setNft] = useState([
     {
       id: "",
@@ -101,7 +103,7 @@ function WeddingMode() {
     nftGet()
   }, [])
 
-  const MovePage = useMovePage()
+  const MovePage = useMovePage(price)
   function StartGame() {
     MovePage()
   }
@@ -123,8 +125,8 @@ function WeddingMode() {
 
   const [babyStatus, setBabyStatus] = useState<StatType[]>([])
 
-  // 아기 강아지 스테이터스 로직
   useEffect(() => {
+    // 아기 강아지 스테이터스 로직
     const babyStatus = [
       { name: "STOUTNESS", value: 0 },
       { name: "CLEVER", value: 0 },
@@ -153,6 +155,26 @@ function WeddingMode() {
     })
 
     setBabyStatus(newStatus)
+
+    // 가격 계산 로직
+    const priceLogic: object = {
+      NORMAL: 100,
+      RARE: 200,
+      EPIC: 300,
+      UNIQUE: 400,
+      LEGENDARY: 500,
+    }
+
+    if (dogF.tier && dogM.tier) {
+      setPrice(
+        priceLogic[dogF.tier as keyof object] +
+          priceLogic[dogM.tier as keyof object]
+      )
+    } else if (dogF.tier) {
+      setPrice(priceLogic[dogF.tier as keyof object])
+    } else if (dogM.tier) {
+      setPrice(priceLogic[dogM.tier as keyof object])
+    }
   }, [dogF, dogM])
 
   return (
@@ -221,9 +243,10 @@ function WeddingMode() {
             startSetting.mother = dogF.id
             startSetting.mating = true
             StartGame()
+            startSetting.mating = false
           }}
         >
-          100 SSF로 시작하기
+          {price} MUNG으로 시작하기
         </button>
       </div>
     </div>
@@ -249,7 +272,7 @@ export default function GameStart() {
             className="w-full h-full bg-blue-200"
             onClick={() => setContent(<WeddingMode />)}
           >
-            교배 모드 버튼
+            웨딩 모드 버튼
           </button>
         </div>
       </div>
