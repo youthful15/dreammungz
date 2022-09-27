@@ -76,6 +76,11 @@ export default function NftSellFormat({
                 return { ...variable }
               })
               const buyNowPrice = trade.buyNowPrice
+              await setTrade((prev) => {
+                const variable = { ...prev }
+                variable.modalOpen6 = true
+                return { ...variable }
+              })
               sellFormat({ publicAddress, negoAble, tokenId, buyNowPrice })
             }}
           >

@@ -36,7 +36,6 @@ export const sellFormat = async ({
     const contractId = await MFTSaleFactoryContract.methods
       .getCurrentSaleOfMFT(tokenId)
       .call()
-    console.log(contractId)
     await http
       .post(`trade/nftRegister`, {
         address: publicAddress,
