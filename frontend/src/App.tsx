@@ -11,9 +11,6 @@ import GameStart from "./pages/GameStart"
 import GamePlaying from "./pages/GamePlaying"
 import GameEnding from "./pages/GameEnding"
 
-import MyPage from "./pages/MyPage"
-import MyNftList from "./pages/MyNftList"
-import MyNftHistory from "./pages/MyNftHistory"
 import Login from "./pages/Login"
 import LoginTutorial from "./pages/LoginTutorial"
 import NftListPage from "./pages/NftListPage"
@@ -51,10 +48,6 @@ function App() {
               <Route path="/nft">
                 <Route path="list" element={<NftListPage />} />
                 <Route path="detail/:id" element={<NftDetail />} />
-              </Route>
-              <Route path="/mypage" element={<MyPage />}>
-                <Route path="list" element={<MyNftList />} />
-                <Route path="history" element={<MyNftHistory />} />
               </Route>
               <Route path="/personal/:address" element={<PersonalPage />}>
                 <Route path="list" element={<NftListByUser />} />
