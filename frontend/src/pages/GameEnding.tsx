@@ -106,6 +106,7 @@ export default function GameEnding() {
             console.log("최종", newNFT)
           })
 
+        console.log("들어가나", newNFT)
         await http
           .post(`nft/result/address/${publicAddress}`, newNFT)
           .then((response) =>

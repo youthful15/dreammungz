@@ -10,12 +10,11 @@ export default function useQueryParam<T>(
   let paramValue = searchParams.get(key)
 
   let value = useMemo(() => JSURL.parse(paramValue), [paramValue])
-
   let setValue = useCallback(
     (newValue: T, options?: NavigateOptions) => {
       let newSearchParams = new URLSearchParams(searchParams)
       newSearchParams.set(key, JSURL.stringify(newValue))
-      setSearchParams(newSearchParams, options)
+      setSearchParams(newSearchParams, { replace: false })
     },
     [key, searchParams, setSearchParams]
   )
