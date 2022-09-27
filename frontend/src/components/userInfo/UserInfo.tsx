@@ -7,9 +7,12 @@ const originNick = "천재지영!!"
 const UserInfo = () => {
   const { address } = useParams()
   const [editing, setEditing] = useState(false)
-  const { data } = useQuery(["nickname", address], () =>
+  const { data, error } = useQuery(["nickname", address], () =>
     getUserNickname(address!)
   )
+  if (error) {
+    console.log(error)
+  }
 
   return (
     <>
