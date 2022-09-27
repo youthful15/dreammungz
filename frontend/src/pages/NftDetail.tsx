@@ -37,7 +37,7 @@ export default function NftDetail() {
   const [balance, setBalance] = useState(0) // 본인 지갑
   useEffect(() => {
     setBalance(member.walletBalance)
-  }, [])
+  }, [member])
 
   const [nftOwnerAddress, setNftOwnerAddress] = useState("") // NFT 주인 Address
 

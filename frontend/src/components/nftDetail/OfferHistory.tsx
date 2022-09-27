@@ -9,7 +9,7 @@ export default function OfferHistory(info: any, publicAddress: string) {
   const navigate = useNavigate()
   const [, setTrade] = useRecoilState(tradeAtom)
   const [, setMember] = useRecoilState(memberAtom)
-  console.log(info)
+
   return (
     <div className="w-[47.5%] border rounded-lg border-black">
       <p className="text-xl font-semibold ml-2">오퍼 리스트</p>

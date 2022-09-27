@@ -5,6 +5,7 @@ import UserInfo from "../components/userInfo/UserInfo"
 const personalMenu = [
   { title: "내 NFT 목록", path: "list" },
   { title: "거래 내역 ", path: "history" },
+  { title: "오퍼 내역 ", path: "offer" },
 ]
 
 const PersonalPage = () => {
