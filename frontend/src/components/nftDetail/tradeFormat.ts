@@ -8,17 +8,12 @@ import {
 import { http } from "../../api/axios"
 
 // NFT 판매 등록 -------------------------------------------------------------------------
-export const sellFormat = async ({
-  publicAddress,
-  negoAble,
-  tokenId,
-  buyNowPrice,
-}: {
-  publicAddress: string
-  negoAble: boolean
-  tokenId: number
-  buyNowPrice: any
-}) => {
+export const sellFormat = async (
+  publicAddress: string,
+  negoAble: boolean,
+  tokenId: number,
+  buyNowPrice: number
+) => {
   // 판매 Smart Contract
   try {
     // 권한 부여
@@ -54,13 +49,10 @@ export const sellFormat = async ({
 }
 
 // NFT 판매 중단 -------------------------------------------------------------------------
-export const sellAbortFormat = async ({
-  tokenId,
-  publicAddress,
-}: {
-  tokenId: number
+export const sellAbortFormat = async (
+  tokenId: number,
   publicAddress: string
-}) => {
+) => {
   try {
     const saleContractId = await MFTSaleFactoryContract.methods
       .getCurrentSaleOfMFT(tokenId)
@@ -86,17 +78,12 @@ export const sellAbortFormat = async ({
 }
 
 // NFT 즉시 구매 -------------------------------------------------------------------------
-export const buyNowFormat = async ({
-  balance,
-  cost,
-  tokenId,
-  publicAddress,
-}: {
-  balance: any
-  cost: any
-  tokenId: number
+export const buyNowFormat = async (
+  balance: number,
+  cost: number,
+  tokenId: number,
   publicAddress: string
-}) => {
+) => {
   // 금액이 부족할때
   if (balance < cost) {
     await alert("M이 부족합니다!")
@@ -150,17 +137,12 @@ export const buyNowFormat = async ({
 }
 
 // NFT 네고 제안 수락 -------------------------------------------------------------------------
-export const acceptNegoFormat = async ({
-  tokenId,
-  negoId,
-  publicAddress,
-}: {
-  tokenId: number
-  negoId: number
+export const acceptNegoFormat = async (
+  tokenId: number,
+  negoId: number,
   publicAddress: string
-}) => {
+) => {
   try {
-    const testNegoId = 19
     // contractId 받기
     const saleContractId = await MFTSaleFactoryContract.methods
       .getCurrentSaleOfMFT(tokenId)
@@ -169,13 +151,13 @@ export const acceptNegoFormat = async ({
     // 판매자 입장 -> negoId 받을 예정
     // NFT 네고 제안 수락 SMARTCONTRACT
     await MFTSaleFactoryContract.methods
-      .acceptNego(saleContractId, testNegoId)
+      .acceptNego(saleContractId, negoId)
       .send({ from: publicAddress })
 
     // NFT 네고 제안 수락 REST API
     await http
       .post("trade/offerAccept", {
-        contractId: testNegoId,
+        contractId: negoId,
         tokenId: tokenId,
       })
       .then((res) => console.log(res))
@@ -189,15 +171,11 @@ export const acceptNegoFormat = async ({
 
 // NFT 네고 제안 취소 -------------------------------------------------------------------------
 // Nego Contract Id를 Offer List에서 Item 클릭시 해당 Item의 NegoId를 사용할 수 있어야 함
-export const cancelNegoFormat = async ({
-  clickedNegoId,
-  publicAddress,
-  tokenId,
-}: {
-  clickedNegoId: number
-  publicAddress: string
+export const cancelNegoFormat = async (
+  clickedNegoId: number,
+  publicAddress: string,
   tokenId: number
-}) => {
+) => {
   try {
     // SMART CONTRACT
     await MFTSaleFactoryContract.methods
@@ -232,17 +210,12 @@ export const cancelNegoFormat = async ({
 }
 
 // NFT 네고 제안 -------------------------------------------------------------------------
-export const proposalFormat = async ({
-  balance,
-  proposal,
-  tokenId,
-  publicAddress,
-}: {
-  balance: number
-  proposal: number
-  tokenId: number
+export const proposalFormat = async (
+  balance: number,
+  proposal: number,
+  tokenId: number,
   publicAddress: string
-}) => {
+) => {
   if (balance < proposal) {
     // 금액이 부족할때
     alert("M이 부족합니다!")
@@ -308,4 +281,18 @@ export const proposalFormat = async ({
       alert("취소되었습니다.")
     }
   }
+}
+
+// NFT 네고 환불
+export const proposalRefundFormat = async (
+  publicAddress: string,
+  saleId: number,
+  negoId: number
+) => {
+  await MFTSaleFactoryContract.methods
+    .refundNego(saleId, negoId, publicAddress)
+    .send({ from: publicAddress })
+
+  const test = await http.put(`trade/refund/${negoId}`)
+  console.log(test)
 }
