@@ -27,6 +27,19 @@ interface SelectType {
 }
 
 function Information(story: StoryType) {
+  const adjust: { [index: string]: string } = {
+    "1": "left-[60%]",
+    "2": "left-[70%]",
+    "3": "left-[80%]",
+    "4": "left-[90%]",
+    "5": "left-[100%]",
+    "-1": "left-[40%]",
+    "-2": "left-[30%]",
+    "-3": "left-[20%]",
+    "-4": "left-[10%]",
+    "-5": "left-[0%]",
+  }
+
   return (
     <div className="h-full p-3 pb-5 px-10 bg-pink-100 rounded-2xl shadow-md border-2 border-pink-300 mapleStory">
       <div className="h-[15%] flex items-center font-bold text-lg">
@@ -46,7 +59,6 @@ function Information(story: StoryType) {
         </div>
         <div className="flex w-full items-center">
           <div className="w-1/5 flex justify-center mr-3">정의로움</div>
-          <div>{story.justice}</div>
           <div className="w-[75%] h-1 my-5 rounded-full bg-gradient-to-r from-brown-500 to-pink-500 relative">
             <span className="absolute bottom-2 text-sm right-0 text-pink-500">
               착해!
@@ -56,9 +68,9 @@ function Information(story: StoryType) {
             </span>
             <img
               src="images/paw.png"
-              className={`w-10 absolute top-1/2 left-[${
-                story.justice + 50
-              }%] transform -translate-x-1/2 -translate-y-1/2`}
+              className={`w-10 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
+                adjust[story.justice]
+              }`}
             ></img>
           </div>
         </div>
