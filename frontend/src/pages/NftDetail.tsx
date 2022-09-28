@@ -8,6 +8,7 @@ import SpinnerModal from "../components/modal/SpinnerModal"
 import TradeHistory from "../components/nftDetail/TradeHistory"
 import NFTImage from "../components/nftDetail/NFTImage"
 import {
+  sellFormat,
   buyNowFormat,
   sellAbortFormat,
   acceptNegoFormat,
@@ -19,12 +20,14 @@ import NftMainDetail from "../components/nftDetail/NftMainDetail"
 import NftTradeButton from "../components/nftDetail/NftTradeButton"
 import memberAtom from "../recoil/member/atom"
 import tradeAtom from "../recoil/trade/atom"
-import NftSellFormat from "../components/nftDetail/NftSellFormat"
 import OfferHistory from "../components/nftDetail/OfferHistory"
 import Spinner from "../components/spinner/Spinner"
+import "../components/button/NegativeBtn.css"
+import "../components/button/PositiveBtn.css"
+import "../components/button/NeutralBtn.css"
 
 export default function NftDetail() {
-  const [member] = useRecoilState(memberAtom)
+  const [member, setMember] = useRecoilState(memberAtom)
   const [trade, setTrade] = useRecoilState(tradeAtom)
   const navigate = useNavigate()
   const location = useLocation()
@@ -33,6 +36,7 @@ export default function NftDetail() {
 
   // NFT 정보
   const [nftInfo, setNftInfo] = useState<any>(undefined)
+  const [negoAble, setNegoAble] = useState(true) // 판매 등록 정보
 
   const [balance, setBalance] = useState(0) // 본인 지갑
   useEffect(() => {
@@ -70,7 +74,7 @@ export default function NftDetail() {
   useEffect(() => {
     checkIsOwner({ tokenId })
   }, [])
-
+  console.log(nftInfo)
   return (
     <div className="h-full w-full">
       {/* 스피너 모달 시작 */}
@@ -85,6 +89,9 @@ export default function NftDetail() {
         }}
       >
         <Spinner />
+        <div className="text-2xl font-semibold absolute mt-[70%]">
+          <p className="">NFT 거래중..</p>
+        </div>
       </SpinnerModal>
       {/* 스피너 모달 끝 */}
 
@@ -99,11 +106,13 @@ export default function NftDetail() {
           })
         }}
       >
-        <p className="text-xl font-semibold mb-4">판매를 중지하시겠습니까?</p>
+        <p className="text-3xl font-semibold mb-4 text-center">
+          판매를 중지하시겠습니까?
+        </p>
 
         <div className="flex justify-center">
           <button
-            className="mr-4 border border-black"
+            className="negative-btn mr-4"
             onClick={async () => {
               const receivedBalance = await getBalance()
               await setBalance(receivedBalance)
@@ -113,7 +122,7 @@ export default function NftDetail() {
                 variable.modalOpen6 = true
                 return { ...variable }
               })
-              await sellAbortFormat({ tokenId, publicAddress })
+              await sellAbortFormat(tokenId, publicAddress)
               await setTrade((prev) => {
                 const variable = { ...prev }
                 variable.modalOpen1 = false
@@ -129,7 +138,7 @@ export default function NftDetail() {
             확인
           </button>
           <button
-            className="border border-black"
+            className="positive-btn"
             onClick={() =>
               setTrade((prev) => {
                 const variable = { ...prev }
@@ -160,7 +169,7 @@ export default function NftDetail() {
         <p>나의 M: {balance} M</p>
         <div className="flex justify-center">
           <button
-            className="mr-4 border border-black"
+            className="mr-4 positive-btn"
             onClick={async () => {
               const receivedBalance = await getBalance()
               await setBalance(receivedBalance)
@@ -173,7 +182,7 @@ export default function NftDetail() {
                 return { ...variable }
               })
 
-              await buyNowFormat({ balance, cost, tokenId, publicAddress })
+              await buyNowFormat(balance, cost, tokenId, publicAddress)
 
               await setTrade((prev) => {
                 const variable = { ...prev }
@@ -185,7 +194,7 @@ export default function NftDetail() {
             구매
           </button>
           <button
-            className="border border-black"
+            className="negative-btn"
             onClick={() => {
               setTrade((prev) => {
                 const variable = { ...prev }
@@ -230,7 +239,7 @@ export default function NftDetail() {
         <label htmlFor="proposal">M</label>
         <div className="flex justify-center">
           <button
-            className="mr-4 border border-black"
+            className="mr-4 positive-btn"
             onClick={async () => {
               const proposal = trade.offerPrice
               if (proposal === 0) {
@@ -244,12 +253,7 @@ export default function NftDetail() {
                   variable.modalOpen6 = true
                   return { ...variable }
                 })
-                await proposalFormat({
-                  balance,
-                  proposal,
-                  tokenId,
-                  publicAddress,
-                })
+                await proposalFormat(balance, proposal, tokenId, publicAddress)
                 await setTrade((prev) => {
                   const variable = { ...prev }
                   variable.modalOpen6 = false
@@ -261,7 +265,7 @@ export default function NftDetail() {
             구매
           </button>
           <button
-            className="border border-black"
+            className="negative-btn"
             onClick={() => {
               setTrade((prev) => {
                 const variable = { ...prev }
@@ -290,7 +294,7 @@ export default function NftDetail() {
         <p className="text-xl font-semibold mb-4">제안을 취소하시겠습니까?</p>
         <div className="flex justify-center">
           <button
-            className="mr-4 border border-black"
+            className="mr-4 positive-btn"
             onClick={async () => {
               const clickedNegoId = trade.selectedOfferId
               await setTrade((prev) => {
@@ -299,7 +303,7 @@ export default function NftDetail() {
                 variable.modalOpen6 = true
                 return { ...variable }
               })
-              await cancelNegoFormat({ clickedNegoId, publicAddress, tokenId })
+              await cancelNegoFormat(clickedNegoId, publicAddress, tokenId)
               await setTrade((prev) => {
                 const variable = { ...prev }
                 variable.modalOpen6 = false
@@ -310,7 +314,7 @@ export default function NftDetail() {
             확인
           </button>
           <button
-            className="border border-black"
+            className="negative-btn"
             onClick={() => {
               setTrade((prev) => {
                 const variable = { ...prev }
@@ -339,7 +343,7 @@ export default function NftDetail() {
         <p className="text-xl font-semibold mb-4">제안을 수락하시겠습니까?</p>
         <div className="flex justify-center">
           <button
-            className="mr-4 border border-black"
+            className="mr-4 positive-btn"
             onClick={async () => {
               const negoId = trade.selectedOfferId
               await setTrade((prev) => {
@@ -348,7 +352,7 @@ export default function NftDetail() {
                 variable.modalOpen6 = true
                 return { ...variable }
               })
-              await acceptNegoFormat({ tokenId, negoId, publicAddress })
+              await acceptNegoFormat(tokenId, negoId, publicAddress)
               await setTrade((prev) => {
                 const variable = { ...prev }
                 variable.modalOpen6 = false
@@ -359,7 +363,7 @@ export default function NftDetail() {
             확인
           </button>
           <button
-            className="border border-black"
+            className="border negative-btn"
             onClick={() => {
               setTrade((prev) => {
                 const variable = { ...prev }
@@ -373,6 +377,112 @@ export default function NftDetail() {
         </div>
       </Modal>
       {/* 가격 제안수락 모달 끝 */}
+
+      {/* 판매 등록 모달 시작 */}
+      <Modal
+        isOpen={trade.modalOpen8}
+        modalClose={() => {
+          setTrade((prev) => {
+            const variable = { ...prev }
+            variable.modalOpen8 = false
+            return { ...variable }
+          })
+        }}
+      >
+        <p className="text-xl font-semibold mb-4">즉시 구매가 설정</p>
+        <div className="flex justify-center flex-col">
+          <div className="flex">
+            <input
+              id="price"
+              type="text"
+              className="border"
+              onChange={(e: any) => {
+                setTrade((prev) => {
+                  const variable = { ...prev }
+                  variable.buyNowPrice = e.target.value
+                  return { ...variable }
+                })
+              }}
+            />
+            <label htmlFor="price" className="ml-2">
+              M
+            </label>
+          </div>
+
+          <div>
+            <p className="text-xl font-semibold mt-10">오퍼 유무</p>
+            <div className="flex">
+              <div>
+                <input
+                  type="radio"
+                  id="yes"
+                  name="whatOffer"
+                  value="yes"
+                  defaultChecked
+                  onClick={() => setNegoAble(true)}
+                />
+                <label htmlFor="yes">Yes</label>
+              </div>
+
+              <div>
+                <input
+                  type="radio"
+                  id="no"
+                  name="whatOffer"
+                  value="no"
+                  onClick={() => setNegoAble(false)}
+                />
+                <label htmlFor="no">No</label>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex">
+            <button
+              type="submit"
+              className="positive-btn mr-5"
+              onClick={async () => {
+                const receivedBalance = await getBalance()
+                await setMember((prev) => {
+                  const variable = { ...prev }
+                  variable.walletBalance = receivedBalance
+                  return { ...variable }
+                })
+                const buyNowPrice = trade.buyNowPrice
+                await setTrade((prev) => {
+                  const variable = { ...prev }
+                  variable.modalOpen6 = true
+                  variable.modalOpen8 = false
+                  return { ...variable }
+                })
+                await sellFormat(publicAddress, negoAble, tokenId, buyNowPrice)
+                await setTrade((prev) => {
+                  const variable = { ...prev }
+                  variable.modalOpen6 = false
+                  return { ...variable }
+                })
+              }}
+            >
+              판매 등록
+            </button>
+
+            <button
+              className="border negative-btn"
+              onClick={() => {
+                setTrade((prev) => {
+                  const variable = { ...prev }
+                  variable.modalOpen8 = false
+                  variable.isSellingForm = false
+                  return { ...variable }
+                })
+              }}
+            >
+              닫기
+            </button>
+          </div>
+        </div>
+      </Modal>
+      {/* 판매 등록 모달 끝 */}
 
       {nftInfo !== undefined ? (
         <div className="h-[50%] w-full flex">
@@ -393,10 +503,8 @@ export default function NftDetail() {
         </div>
       ) : null}
 
-      {/* 판매 설정 */}
-      {nftInfo !== undefined && trade.isSellingForm === true ? (
-        <NftSellFormat publicAddress={publicAddress} tokenId={tokenId} />
-      ) : nftInfo !== undefined && trade.isSellingForm === false ? (
+      {/* 거래 이력 & 오퍼리스트 출력 */}
+      {nftInfo !== undefined ? (
         <div className="h-[50%] w-full flex">
           <TradeHistory info={nftInfo} />
           <div className="w-[5%]"></div>

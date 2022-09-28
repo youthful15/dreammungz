@@ -1,7 +1,11 @@
 export default function Spinner() {
   return (
     <div>
-      <img src="../../images/spinner.gif" alt="스피너" />
+      <img
+        className="border rounded-full"
+        src="../../images/spinner.gif"
+        alt="스피너"
+      />
     </div>
   )
 }

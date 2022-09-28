@@ -14,6 +14,7 @@ import GameEnding from "./pages/GameEnding"
 import Login from "./pages/Login"
 import LoginTutorial from "./pages/LoginTutorial"
 import NftListPage from "./pages/NftListPage"
+import MyAchievement from "./pages/MyAchievement"
 import PersonalPage from "./pages/PersonalPage"
 import NftListByUser from "./pages/NftListByUser"
 import DealHistoryByUser from "./pages/DealHistoryByUser"
@@ -54,6 +55,7 @@ function App() {
                 <Route path="list" element={<NftListByUser />} />
                 <Route path="history" element={<DealHistoryByUser />} />
                 <Route path="offer" element={<OfferHistoryByUser />} />
+                <Route path="achievement" element={<MyAchievement />} />
               </Route>
             </Routes>
           </div>

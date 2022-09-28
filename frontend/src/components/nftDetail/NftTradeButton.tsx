@@ -16,24 +16,6 @@ export default function NftTradeButton({
 
   return (
     <div>
-      {/* TEST CODE */}
-
-      {/* 환불 됨 */}
-      {/* <button
-    onClick={async () => {
-      const saleId = 1
-      const negoId = 1
-
-      await MFTSaleFactoryContract.methods
-        .refundNego(saleId, negoId, publicAddress)
-        .send({ from: publicAddress })
-        .then((res: any) => console.log(res))
-    }}
-  >
-    네고 환불종민이만 눌르자
-  </button> */}
-      {/* TEST CODE */}
-
       {nftOwnerAddress &&
       publicAddress?.toLowerCase() !== nftOwnerAddress?.toLowerCase() &&
       info.sell === true ? (
@@ -129,6 +111,7 @@ export default function NftTradeButton({
             setTrade((prev) => {
               const variable = { ...prev }
               variable.isSellingForm = true
+              variable.modalOpen8 = true
               return { ...variable }
             })
           }}

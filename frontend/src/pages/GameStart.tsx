@@ -5,6 +5,10 @@ import { http } from "../api/axios"
 import GenderTag from "../components/game/GenderTag"
 import StatList from "../components/nftInfo/StatList"
 import { pushGameStart } from "../utils/web3"
+import SpinnerModal from "../components/modal/SpinnerModal"
+import Spinner from "../components/spinner/Spinner"
+import { useRecoilState } from "recoil"
+import tradeAtom from "../recoil/trade/atom"
 const publicAddress = localStorage.getItem("publicAddress")
 
 let startSetting = {
@@ -17,13 +21,26 @@ let startSetting = {
 // 게임 시작 API
 function useMovePage(price: number) {
   const navigate = useNavigate()
+  const [trade, setTrade] = useRecoilState(tradeAtom)
 
   async function MovePage() {
     console.log(startSetting)
 
+    await setTrade((prev) => {
+      const variable = { ...prev }
+      variable.modalOpen6 = true
+      return { ...variable }
+    })
+
     // 결제 로직
     await pushGameStart(publicAddress, price)
+    console.log(20)
 
+    await setTrade((prev) => {
+      const variable = { ...prev }
+      variable.modalOpen6 = false
+      return { ...variable }
+    })
     // price 만큼 결제합니다. 결제 성공시 아래 navigate 실행~
     await http.post(`game/start`, startSetting).then((res) => {
       console.log("넘기자", startSetting)
@@ -260,9 +277,30 @@ function WeddingMode() {
 
 export default function GameStart() {
   const [showContent, setContent] = useState(<StartTutorial />)
-
+  const [trade, setTrade] = useRecoilState(tradeAtom)
+  console.log(trade.modalOpen6)
   return (
     <div className="w-full h-full">
+      {/* 스피너 모달 시작 */}
+      <SpinnerModal
+        isOpen={trade.modalOpen6}
+        modalClose={() => {
+          setTrade((prev) => {
+            const variable = { ...prev }
+            variable.modalOpen6 = false
+            return { ...variable }
+          })
+        }}
+      >
+        <div className="flex items-center flex-col">
+          <Spinner />
+          <p className="text-2xl font-semibold absolute mt-[75%]">
+            강아지 입양중
+          </p>
+        </div>
+      </SpinnerModal>
+      {/* 스피너 모달 끝 */}
+
       <div className="flex w-full h-1/5">
         <div className="w-1/2 h-full pr-4">
           <button

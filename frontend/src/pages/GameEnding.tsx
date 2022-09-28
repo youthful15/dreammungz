@@ -8,9 +8,12 @@ import parse from "html-react-parser"
 
 // Nickname을 전역변수로 넣기 위한 import문
 import memberAtom from "../recoil/member/atom"
+import tradeAtom from "../recoil/trade/atom"
 import { useRecoilState } from "recoil"
 import findKOR from "../utils/findKOR"
 import EndingList from "../components/game/EndingList"
+import SpinnerModal from "../components/modal/SpinnerModal"
+import Spinner from "../components/spinner/Spinner"
 
 export default function GameEnding() {
   const navigate = useNavigate()
@@ -98,8 +101,10 @@ export default function GameEnding() {
     GetStory()
   }, [])
 
+  const navigate = useNavigate()
   const publicAddress = localStorage.getItem("publicAddress")
   const [member] = useRecoilState(memberAtom)
+  const [trade, setTrade] = useRecoilState(tradeAtom)
   const canvasRef = useRef(null)
   const client = create({
     url: "https://j7a605.p.ssafy.io/ipfs/",
@@ -107,6 +112,12 @@ export default function GameEnding() {
 
   const copyDOM = async () => {
     window.scrollTo(0, 0)
+
+    setTrade((prev) => {
+      const variable = { ...prev }
+      variable.modalOpen6 = true
+      return { ...variable }
+    })
 
     let url = ""
     await html2canvas(canvasRef.current!).then(async (canvas) => {
@@ -172,6 +183,14 @@ export default function GameEnding() {
             navigate(`/personal/${publicAddress}/list`)
           })
           .catch((error) => console.error("안의 error", error))
+
+        await setTrade((prev) => {
+          const variable = { ...prev }
+          variable.modalOpen6 = false
+          return { ...variable }
+        })
+
+        navigate("nft/list")
       } catch (err) {
         console.error("NFT 민팅 에러", err)
       }

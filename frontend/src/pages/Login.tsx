@@ -20,9 +20,9 @@ const Login = () => {
           })
         }}
       >
-        <div className="flex items-center">
-          <Spinner />
-          <p className="text-3xl font-bold">로그인 중입니다.</p>
+        <Spinner />
+        <div className="text-2xl font-semibold absolute mt-[70%]">
+          <p className="">로그인 중</p>
         </div>
       </SpinnerModal>
       {/* 스피너 모달 끝 */}
@@ -32,7 +32,7 @@ const Login = () => {
         </button>
         <NavLink to="/login-tutorial">
           <p className="mt-1 hover:text-blue-300">
-            지갑이 없다면? 만드는법 보기
+            지갑이 없다면? 만드는법 보기!
           </p>
         </NavLink>
       </div>

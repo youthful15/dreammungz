@@ -8,7 +8,7 @@ import memberAtom from "../../recoil/member/atom"
 import tradeAtom from "../../recoil/trade/atom"
 import { useRecoilState } from "recoil"
 
-export default function Login() {
+export default function LoginTestNet() {
   const [, setMember] = useRecoilState(memberAtom)
   const [trade, setTrade] = useRecoilState(tradeAtom)
 
