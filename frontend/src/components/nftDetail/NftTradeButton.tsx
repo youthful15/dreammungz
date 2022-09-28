@@ -111,6 +111,7 @@ export default function NftTradeButton({
             setTrade((prev) => {
               const variable = { ...prev }
               variable.isSellingForm = true
+              variable.modalOpen8 = true
               return { ...variable }
             })
           }}

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import findKOR from "../../utils/findKOR"
 
 export default function NftMainDetail(info: any) {
+  console.log(info)
   const navigate = useNavigate()
   return (
     <div>
@@ -32,7 +33,9 @@ export default function NftMainDetail(info: any) {
       {info.info.sell === true ? (
         <div>
           <div className="flex">
-            <p className="text-xl font-semibold mr-1">분양자: </p>
+            <p className="text-xl font-semibold mr-1">
+              분양자: {info.info.sellerNickname}
+            </p>
             <p
               className="text-xl font-semibold cursor-pointer hover:text-lgBrown-500
               "
@@ -48,7 +51,7 @@ export default function NftMainDetail(info: any) {
       ) : (
         <div>
           <p className="text-xl font-semibold">
-            보유자: {findKOR(info.info.sellerNickname)}
+            보유자: {info.info.sellerNickname}
           </p>
         </div>
       )}

@@ -10,6 +10,7 @@ const tradeAtom = atom({
     modalOpen5: false, // 가격 제안수락 모달
     modalOpen6: false, // 스피너 모달
     modalOpen7: false, // 가격 제안 환불 모달
+    modalOpen8: false, // 판매 등록 모달
     isSellingForm: false, // 판매 등록 클릭 boolean
     selectedOfferId: 0, // 선택된 Nego Id
     buyNowPrice: 0, // 즉시 구매 가격
