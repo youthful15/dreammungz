@@ -1847,13 +1847,13 @@ export const MFTNegoAbi = [
 ]
 
 export const web3 = new Web3(window.ethereum)
-export const chainId = 3
+export const chainId = 31221
 
-export const OwnerAddress = "0x2AF0D46CC2F86D1B1697A8f86C9b245320564f5F" // 컨트랙트 배포한 지갑 주소
-export const MUNGContractAddress = "0xc3A04d38a9881C211f279B29626f1a0511a788Bb"
-export const MFTContractAddress = "0x336F66BF6e842Dba372abc7C34Bbd71b662A646d"
+export const OwnerAddress = "0x7DF856996D5d086cdcC4C65a23e1B48Ced20c328" // 컨트랙트 배포한 지갑 주소
+export const MUNGContractAddress = "0xcaF14F6D784231578BEE606e27f8A18312F1FdF3"
+export const MFTContractAddress = "0x20D2Bf7b214fd2d364f13750ceb12DdE8359a3a8"
 export const MFTSaleFactoryContractAddress =
-  "0xfcF66E994aabdF65000107bcE98f8baD1E213242"
+  "0xbF9867563E4562fCaba91A39Fa29728fbe2Cb502"
 
 export const MUNGContract = new web3.eth.Contract(MUNGAbi, MUNGContractAddress) // ERC-20
 export const MFTContract = new web3.eth.Contract(MFTAbi, MFTContractAddress) // ERC-721

@@ -1,11 +1,13 @@
 import React, { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import findKOR from "../../utils/findKOR"
-
+import Tier from "../nftInfo/Tier"
 export default function NftMainDetail(info: any) {
   console.log(info)
   const navigate = useNavigate()
   return (
+    // <Tier tier={tier} />
+    //             <Gender gender={gender} />
     <div>
       <p className="text-xl font-semibold">
         직업: {findKOR(info.info.nft.job)}
@@ -28,6 +30,7 @@ export default function NftMainDetail(info: any) {
         })}
       </div>
       <p className="text-xl font-semibold">
+        <Tier tier={info.info.nft.tier} />
         등급: {findKOR(info.info.nft.tier)}
       </p>
       {info.info.sell === true ? (
