@@ -33,11 +33,39 @@ function Information(story: StoryType) {
     "3": "left-[80%]",
     "4": "left-[90%]",
     "5": "left-[100%]",
+    "6": "left-[100%]",
+    "7": "left-[100%]",
+    "0": "left-[50%]",
     "-1": "left-[40%]",
     "-2": "left-[30%]",
     "-3": "left-[20%]",
     "-4": "left-[10%]",
     "-5": "left-[0%]",
+    "-6": "left-[0%]",
+    "-7": "left-[0%]",
+  }
+  const statAdjust: { [index: number]: string } = {
+    0: "w-[0%]",
+    1: "w-[10%]",
+    2: "w-[20%]",
+    3: "w-[30%]",
+    4: "w-[40%]",
+    5: "w-[50%]",
+    6: "w-[60%]",
+    7: "w-[70%]",
+    8: "w-[80%]",
+    9: "w-[90%]",
+    10: "w-[100%]",
+    11: "w-[100%]",
+    12: "w-[100%]",
+    13: "w-[100%]",
+    14: "w-[100%]",
+    15: "w-[100%]",
+    16: "w-[100%]",
+    17: "w-[100%]",
+    18: "w-[100%]",
+    19: "w-[100%]",
+    20: "w-[100%]",
   }
 
   return (
@@ -82,9 +110,7 @@ function Information(story: StoryType) {
             <div className="h-5 w-4/5 rounded-full relative bg-lgBrown-500">
               {value ? (
                 <div
-                  className={`h-5 w-[${
-                    value * 10
-                  }%] bg-gradient-to-r from-pink-100 to-pink-500 rounded-full border-lgBrown-500 border-4`}
+                  className={`h-5 bg-gradient-to-r from-pink-100 to-pink-500 rounded-full border-lgBrown-500 border-4 ${statAdjust[value]}`}
                 ></div>
               ) : null}
             </div>
@@ -189,16 +215,16 @@ export default function GamePlaying() {
     bgm: "이거 bgm 이름임",
     justice: 0,
     status: [
-      { name: "STOUTNESS", value: 10 },
-      { name: "CLEVER", value: 10 },
-      { name: "QUICK", value: 10 },
-      { name: "INTUITION", value: 10 },
-      { name: "CHARISMA", value: 10 },
-      { name: "POPULARITY", value: 10 },
-      { name: "SENSIBILITY", value: 10 },
-      { name: "FOOTWORK", value: 10 },
-      { name: "VOICE", value: 10 },
-      { name: "WEALTH", value: 10 },
+      { name: "STOUTNESS", value: 0 },
+      { name: "CLEVER", value: 0 },
+      { name: "QUICK", value: 0 },
+      { name: "INTUITION", value: 0 },
+      { name: "CHARISMA", value: 0 },
+      { name: "POPULARITY", value: 0 },
+      { name: "SENSIBILITY", value: 0 },
+      { name: "FOOTWORK", value: 0 },
+      { name: "VOICE", value: 0 },
+      { name: "WEALTH", value: 0 },
     ],
   })
   const [music, setMusic] = useRecoilState(playingMusic)
@@ -210,7 +236,6 @@ export default function GamePlaying() {
         .then((res) => {
           setStory(res.data)
           console.log(res)
-          console.log("이거 왜 안되는데???", story.justice * 10 + 50)
           if (music !== res.data.bgm) {
             setMusic(res.data.bgm)
           }
