@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react"
+import { useParams } from "react-router"
 import NftHistoryList from "../components/nftHistory/NftHistoryList"
 
-const MyNftHistory = () => {
-  const [address, setAddress] = useState<string | null>(null)
-
-  useEffect(() => {
-    const addr = localStorage.getItem("publicAddress")
-    setAddress(addr)
-  }, [])
+const DealHistoryByUser = () => {
+  const { address } = useParams()
 
   return (
     <div className="w-full h-[570px]">
@@ -22,4 +18,4 @@ const MyNftHistory = () => {
   )
 }
 
-export default MyNftHistory
+export default DealHistoryByUser

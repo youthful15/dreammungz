@@ -101,6 +101,9 @@ const NftHistoryList = ({ address }: { address: string }) => {
     <div className="relative flex flex-col items-center justify-center w-full h-full text-center ">
       <div className="w-4/5 space-y-4 h-[80%] ">
         <HistoryListHead item={thead} />
+        {data && data.items.length === 0 && (
+          <div className=" py-28">거래 내역이 존재하지 않습니다.</div>
+        )}
         {data &&
           data.items.map((item: dealItemType, idx: number) => {
             const deal = { ...item, date: item.date.split(" ")[0] }
@@ -112,7 +115,7 @@ const NftHistoryList = ({ address }: { address: string }) => {
           return <HistoryItem item={deal} key={idx} />
         })} */}
       </div>
-      {data && (
+      {data?.totalPage >= 0 && (
         <Pagination
           page={page}
           setPage={setPage}

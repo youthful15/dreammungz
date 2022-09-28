@@ -6,6 +6,7 @@ const memberAtom = atom({
     walletAddress: "WalletAddress",
     memberNickname: "Default",
     contractId: 0,
+    walletBalance: 0,
   },
 })
 

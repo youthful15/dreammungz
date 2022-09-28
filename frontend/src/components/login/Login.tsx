@@ -4,12 +4,13 @@ import { http } from "../../api/axios"
 import { chainId, MUNGContract } from "../../utils/Web3Config"
 import Web3 from "web3"
 
-// Nickname을 전역변수로 넣기 위한 import문
 import memberAtom from "../../recoil/member/atom"
+import tradeAtom from "../../recoil/trade/atom"
 import { useRecoilState } from "recoil"
 
 export default function Login() {
   const [, setMember] = useRecoilState(memberAtom)
+  const [trade, setTrade] = useRecoilState(tradeAtom)
 
   const navigate = useNavigate()
   let web3: any
@@ -78,6 +79,11 @@ export default function Login() {
   }
 
   const handleClick = async () => {
+    await setTrade((prev) => {
+      const variable = { ...prev }
+      variable.modalOpen6 = true
+      return { ...variable }
+    })
     // Check if MetaMask is installed
     if (!window.ethereum) {
       window.alert("Please install MetaMask first.")
@@ -151,15 +157,25 @@ export default function Login() {
       // isNew === true 로 바꿔야 함
       if (isNew !== true) {
         window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
-        await MUNGContract.methods
-          .mintToMember(publicAddress, 10000)
-          .send({ from: publicAddress })
+
+        try {
+          await MUNGContract.methods
+            .mintToMember(publicAddress, 1000)
+            .send({ from: publicAddress })
+        } catch {
+          window.alert("돈을 거부하다니..")
+          window.location.replace("/mainpage")
+        }
       }
 
       // 회원 닉네임 전역변수에 저장
       await saveNickname({ publicAddress })
 
-      // Spinner 넣기
+      await setTrade((prev) => {
+        const variable = { ...prev }
+        variable.modalOpen6 = false
+        return { ...variable }
+      })
 
       navigate("/mainpage")
     } catch (err) {

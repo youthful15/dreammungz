@@ -1,11 +1,15 @@
 import html2canvas from "html2canvas"
 import { useRef, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { create } from "ipfs-http-client"
 import { MFTContract } from "../utils/Web3Config"
 import { http } from "../api/axios"
 // Nickname을 전역변수로 넣기 위한 import문
 import memberAtom from "../recoil/member/atom"
+import tradeAtom from "../recoil/trade/atom"
 import { useRecoilState } from "recoil"
+import SpinnerModal from "../components/modal/SpinnerModal"
+import Spinner from "../components/spinner/Spinner"
 
 export default function GameEnding() {
   const [NFT, setNFT] = useState({
@@ -39,8 +43,10 @@ export default function GameEnding() {
     GetStory()
   }, [])
 
+  const navigate = useNavigate()
   const publicAddress = localStorage.getItem("publicAddress")
   const [member] = useRecoilState(memberAtom)
+  const [trade, setTrade] = useRecoilState(tradeAtom)
   const canvasRef = useRef(null)
   const client = create({
     url: "https://j7a605.p.ssafy.io/ipfs/",
@@ -48,6 +54,12 @@ export default function GameEnding() {
 
   const copyDOM = async () => {
     window.scrollTo(0, 0)
+
+    setTrade((prev) => {
+      const variable = { ...prev }
+      variable.modalOpen6 = true
+      return { ...variable }
+    })
 
     let url = ""
     await html2canvas(canvasRef.current!).then(async (canvas) => {
@@ -113,6 +125,14 @@ export default function GameEnding() {
             console.log("NFT DB에 저장되어 있는지 확인", response)
           )
           .catch((error) => console.error("안의 error", error))
+
+        await setTrade((prev) => {
+          const variable = { ...prev }
+          variable.modalOpen6 = false
+          return { ...variable }
+        })
+
+        navigate("nft/list")
       } catch (err) {
         console.error("NFT 민팅 에러", err)
       }
@@ -120,7 +140,24 @@ export default function GameEnding() {
   }
 
   return (
-    <div className="flex w-full">
+    <div className="flex w-full h-full ">
+      {/* 스피너 모달 시작 */}
+      <SpinnerModal
+        isOpen={trade.modalOpen6}
+        modalClose={() => {
+          setTrade((prev) => {
+            const variable = { ...prev }
+            variable.modalOpen6 = false
+            return { ...variable }
+          })
+        }}
+      >
+        <Spinner />
+        <div className="text-2xl font-semibold absolute mt-[70%]">
+          <p className="">민팅중...</p>
+        </div>
+      </SpinnerModal>
+      {/* 스피너 모달 끝 */}
       여기엔딩
       <div className="relative">
         <div ref={canvasRef} className="h-[400px] w-[400px] bg-blue-200">
@@ -146,7 +183,7 @@ export default function GameEnding() {
           />
         </div>
       </div>
-      <button className="p-10 bg-pink-400" onClick={copyDOM}>
+      <button className="p-10 bg-pink-400 h-[400px]" onClick={copyDOM}>
         민팅 버튼
       </button>
     </div>

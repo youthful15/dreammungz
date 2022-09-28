@@ -11,13 +11,14 @@ import GameStart from "./pages/GameStart"
 import GamePlaying from "./pages/GamePlaying"
 import GameEnding from "./pages/GameEnding"
 
-import MyPage from "./pages/MyPage"
-import MyNftList from "./pages/MyNftList"
-import MyNftHistory from "./pages/MyNftHistory"
 import Login from "./pages/Login"
 import LoginTutorial from "./pages/LoginTutorial"
 import NftListPage from "./pages/NftListPage"
 import MyAchievement from "./pages/MyAchievement"
+import PersonalPage from "./pages/PersonalPage"
+import NftListByUser from "./pages/NftListByUser"
+import DealHistoryByUser from "./pages/DealHistoryByUser"
+import OfferHistoryByUser from "./pages/OfferHistoryByUser"
 
 function App() {
   RouterChangeTracker()
@@ -50,9 +51,10 @@ function App() {
                 <Route path="list" element={<NftListPage />} />
                 <Route path="detail/:id" element={<NftDetail />} />
               </Route>
-              <Route path="/mypage" element={<MyPage />}>
-                <Route path="list" element={<MyNftList />} />
-                <Route path="history" element={<MyNftHistory />} />
+              <Route path="/personal/:address" element={<PersonalPage />}>
+                <Route path="list" element={<NftListByUser />} />
+                <Route path="history" element={<DealHistoryByUser />} />
+                <Route path="offer" element={<OfferHistoryByUser />} />
                 <Route path="achievement" element={<MyAchievement />} />
               </Route>
             </Routes>

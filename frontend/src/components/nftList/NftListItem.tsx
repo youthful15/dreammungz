@@ -6,10 +6,10 @@ import { StatType } from "../nftInfo/Stat"
 import StatList from "../nftInfo/StatList"
 import Tier from "../nftInfo/Tier"
 
-const SellStatus = () => {
+const SellStatus = ({ price }: { price: number }) => {
   return (
-    <div className="text-white text-sm bg-rose-700 top-3 right-2 p-0.5 rounded-md m-0.5">
-      <div>가격 : 900 M</div>
+    <div className="text-white text-md font-bold bg-blue-400 top-3 right-2 p-0.5 ">
+      <div> {price} M</div>
     </div>
   )
 }
@@ -26,12 +26,13 @@ export interface NftListItemType {
   face: string
   sell: boolean
   status: StatType[]
+  price: number
 }
 
 const NftListItem = ({ item }: { item: NftListItemType }) => {
   const navigate = useNavigate()
   const showInfo = useRecoilValue(listModeAtom)
-  const { id, url, tier, sell, status, gender } = item
+  const { id, url, tier, sell, status, gender, price } = item
 
   return (
     <div
@@ -67,7 +68,11 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
 
         {showInfo && (
           <div className="w-full pt-1 mt-2">
-            {sell ? <SellStatus /> : <div>판매중이 아닙니다.</div>}
+            {sell ? (
+              <SellStatus price={price} />
+            ) : (
+              <div>판매중이 아닙니다.</div>
+            )}
           </div>
         )}
       </div>
