@@ -28,8 +28,6 @@ public class AuthController {
     final AuthService authService;
     final JwtService jwtService;
 
-    static final String SUCCESS = "success";
-
     @ApiOperation(value = "nonce 조회", notes = "지갑 주소로 회원의 nonce를 조회한다.", response = AuthResponse.class)
     @GetMapping("/info/{address}")
     public ResponseEntity<AuthResponse> memberNonce(

@@ -54,5 +54,4 @@ public class NftController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
 }

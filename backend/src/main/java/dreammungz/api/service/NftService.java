@@ -209,7 +209,7 @@ public class NftService {
      */
     public void deleteGame(String address) {
         //게임 데이터 삭제 및 변경
-        Member member = getMember(address); //플레이 상태 N으로 변경
+        Member member = getMember(address);
         Game game = member.getGame();
         member.setPlaying(Check.N); //플레이 상태 N으로 변경
         member.setGame(null); //플레이중인 데이터 null 처리
