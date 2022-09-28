@@ -359,10 +359,12 @@ public class NftService {
                 if (statusIdx == 11) {
                     if (getGameStatus(gameData, getStatus(statusIdx)).getValue() * requirement.getSatisfiedAmount() <= 0) {
                         satisfied = false;
+                        break;
                     }
                 }else {
                     if (getGameStatus(gameData, getStatus(statusIdx)).getValue() < requirement.getSatisfiedAmount()) {
                         satisfied = false;
+                        break;
                     }
                 }
             }
