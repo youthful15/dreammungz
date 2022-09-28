@@ -73,6 +73,7 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
             ) : (
               <div>판매중이 아닙니다.</div>
             )}
+            <div className="pr-2 text-xs font-semibold text-right">no.{id}</div>
           </div>
         )}
       </div>
