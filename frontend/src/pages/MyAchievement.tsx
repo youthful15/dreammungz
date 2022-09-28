@@ -4,7 +4,7 @@ const MyAchievement = () => {
   return (
     <div>
       <div className="w-full h-[570px]">
-        <h1 className="text-2xl font-semibold text-center"> 업적 달성 현황</h1>
+        <h1 className="text-2xl font-semibold text-center"> 업적</h1>
         <Achievement />
       </div>
     </div>
