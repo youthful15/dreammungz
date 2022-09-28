@@ -85,6 +85,9 @@ export default function NftDetail() {
         }}
       >
         <Spinner />
+        <div className="text-2xl font-semibold absolute mt-[70%]">
+          <p className="">NFT 거래중..</p>
+        </div>
       </SpinnerModal>
       {/* 스피너 모달 끝 */}
 

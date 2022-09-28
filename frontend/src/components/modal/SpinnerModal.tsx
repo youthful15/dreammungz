@@ -16,7 +16,7 @@ export default function SpinnerModal({
 }: ModalProps) {
   const outModal = useRef<HTMLInputElement>(null)
 
-  const showHide = isOpen ? "visible relative z-50" : "hidden relative z-10"
+  const showHide = isOpen ? "visible z-50" : "hidden z-10"
 
   return (
     <div
@@ -38,11 +38,9 @@ export default function SpinnerModal({
           className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0"
           ref={outModal}
         >
-          <div className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-3xl sm:w-full">
-            <div className=" px-4 pb-4 sm:p-6 sm:pb-4">
-              <div className="mt-3 text-center sm:mt-0 sm:mx-4 sm:text-left">
-                {children}
-              </div>
+          <div className="relative  rounded-lg text-left overflow-hidden transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+            <div className="p-6 flex justify-center items-center">
+              {children}
             </div>
           </div>
         </div>

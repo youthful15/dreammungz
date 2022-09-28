@@ -171,7 +171,6 @@ export default function Login() {
       // 회원 닉네임 전역변수에 저장
       await saveNickname({ publicAddress })
 
-      // Spinner 넣기
       await setTrade((prev) => {
         const variable = { ...prev }
         variable.modalOpen6 = false
