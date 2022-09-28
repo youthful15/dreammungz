@@ -126,10 +126,6 @@ export default function NftDetail() {
               await setTrade((prev) => {
                 const variable = { ...prev }
                 variable.modalOpen1 = false
-                return { ...variable }
-              })
-              await setTrade((prev) => {
-                const variable = { ...prev }
                 variable.modalOpen6 = false
                 return { ...variable }
               })

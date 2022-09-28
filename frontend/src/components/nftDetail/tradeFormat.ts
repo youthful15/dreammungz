@@ -230,17 +230,23 @@ export const proposalFormat = async (
         .getSale(saleContractId)
         .call()
 
+      const aWeiValue = 10 ** 18
+
+      // 0.003 Mwei == 3000 wei
+      const bWeiValue = proposal
+
+      const totalWeiValue = web3.utils
+        .toBN(aWeiValue)
+        .mul(web3.utils.toBN(bWeiValue))
+
       await MUNGContract.methods
-        .approve(
-          saleContractAddress,
-          web3.utils.toBN(proposal * 10 ** 18).toString()
-        )
+        .approve(saleContractAddress, totalWeiValue)
         .send({ from: publicAddress })
 
       const sellerAddress = await MFTContract.methods.ownerOf(tokenId).call()
 
       await MUNGContract.methods
-        .approve(sellerAddress, web3.utils.toBN(proposal * 10 ** 18).toString())
+        .approve(sellerAddress, totalWeiValue)
         .send({ from: publicAddress })
 
       console.log("saleContractId", saleContractId)
@@ -285,9 +291,9 @@ export const proposalFormat = async (
 
 // NFT 네고 환불
 export const proposalRefundFormat = async (
-  publicAddress: string,
   saleId: number,
-  negoId: number
+  negoId: number,
+  publicAddress: string
 ) => {
   await MFTSaleFactoryContract.methods
     .refundNego(saleId, negoId, publicAddress)

@@ -55,53 +55,14 @@ const OfferHistoryItem = ({ ...props }) => {
     url,
   } = props.item
 
-  // refund, cancel, choice
-  const typeReturn = () => {
-    if (refund === true) {
-      return <span className="text-blue-500">환불 완료</span>
-    } else if (refund === false && choice === false && cancel === false) {
-      return (
-        <span
-          className="text-red-500 cursor-pointer"
-          onClick={() => {
-            setTrade((prev) => {
-              const variable = { ...prev }
-              variable.modalOpen4 = true
-              return { ...variable }
-            })
-          }}
-        >
-          취소 가능
-        </span>
-      )
-    } else if (refund === false && choice === false && cancel === true) {
-      return (
-        <span
-          className="text-red-500 cursor-pointer"
-          onClick={() => {
-            setTrade((prev) => {
-              const variable = { ...prev }
-              variable.modalOpen7 = true
-              return { ...variable }
-            })
-          }}
-        >
-          환불 가능
-        </span>
-      )
-    } else if (refund === false && choice === true) {
-      return <span className="text-gray-500">채택됨</span>
-    }
-  }
-
-  const movePage = () => {
-    navigate(`/nft/detail/${tokenId}`)
-  }
+  // const movePage = () => {
+  //   navigate(`/nft/detail/${tokenId}`)
+  // }
 
   return (
     <div
-      onClick={movePage}
-      className="bg-white  flex  w-full space-x-1 h-[50px]  items-cente justify-around leading-[50px]  rounded-2xl shadow-md hover:scale-110 cursor-pointer"
+      // onClick={movePage}
+      className="bg-white  flex  w-full space-x-1 h-[50px]  items-cente justify-around leading-[50px]  rounded-2xl shadow-md hover:scale-110"
     >
       {/* 가격 제안취소 모달 시작 */}
       <Modal
@@ -131,6 +92,8 @@ const OfferHistoryItem = ({ ...props }) => {
                 variable.modalOpen6 = false
                 return { ...variable }
               })
+
+              window.location.reload()
             }}
           >
             확인
@@ -162,7 +125,7 @@ const OfferHistoryItem = ({ ...props }) => {
           })
         }
       >
-        <p className="text-xl font-semibold mb-4">제안을 취소하시겠습니까?</p>
+        <p className="text-xl font-semibold mb-4">환불하시겠습니까 ?</p>
         <div className="flex justify-center">
           <button
             className="mr-4 negative-btn"
@@ -173,12 +136,14 @@ const OfferHistoryItem = ({ ...props }) => {
                 variable.modalOpen6 = true
                 return { ...variable }
               })
+              console.log(tradeId, offerId, publicAddress)
               await proposalRefundFormat(tradeId, offerId, publicAddress)
               await setTrade((prev) => {
                 const variable = { ...prev }
                 variable.modalOpen6 = false
                 return { ...variable }
               })
+              window.location.reload()
             }}
           >
             확인
@@ -188,7 +153,7 @@ const OfferHistoryItem = ({ ...props }) => {
             onClick={() => {
               setTrade((prev) => {
                 const variable = { ...prev }
-                variable.modalOpen4 = false
+                variable.modalOpen7 = false
                 return { ...variable }
               })
             }}
@@ -201,10 +166,42 @@ const OfferHistoryItem = ({ ...props }) => {
 
       <div className=" w-[40px]">{tokenId}</div>
       <img src={url} className="w-[45px] h-[45px] " />
-      <div className=" w-[100px]">{typeReturn()}</div>
+      <div className=" w-[100px]">
+        {refund ? (
+          <span className="text-blue-500">환불 완료</span>
+        ) : refund === false && choice === false && cancel === false ? (
+          <span
+            className="text-red-500 z-10 cursor-pointer hover:font-semibold"
+            onClick={() => {
+              setTrade((prev) => {
+                const variable = { ...prev }
+                variable.modalOpen4 = true
+                return { ...variable }
+              })
+            }}
+          >
+            취소 가능
+          </span>
+        ) : refund === false && choice === false && cancel === true ? (
+          <span
+            className="text-red-500 z-10 cursor-pointer hover:font-semibold"
+            onClick={() => {
+              setTrade((prev) => {
+                const variable = { ...prev }
+                variable.modalOpen7 = true
+                return { ...variable }
+              })
+            }}
+          >
+            환불 가능
+          </span>
+        ) : refund === false && choice === true ? (
+          <span className="text-gray-500">채택됨</span>
+        ) : null}
+      </div>
       <div className=" w-[100px]">{offerPrice} M </div>
       <div className=" w-[100px]">{offerNickname}</div>
-      <div className=" w-[120px]">{offerDate}</div>
+      <div className=" w-[120px]">{offerDate.slice(0, 10)}</div>
     </div>
   )
 }
