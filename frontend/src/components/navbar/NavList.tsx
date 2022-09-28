@@ -6,6 +6,7 @@ const navItemList = [
   { title: "강아지 구경", path: "/nft/list" },
   // { title: "커뮤니티", path: "/community" },
   { title: "디자인(개발용)", path: "/styles" },
+  { title: "박물관", path: "/museum" },
 ]
 
 const NavList = () => {
