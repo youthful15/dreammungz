@@ -32,7 +32,7 @@ const Login = () => {
         </button>
         <NavLink to="/login-tutorial">
           <p className="mt-1 hover:text-blue-300">
-            지갑이 없다면? 만드는법 보기
+            지갑이 없다면? 만드는법 보기!
           </p>
         </NavLink>
       </div>
