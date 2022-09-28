@@ -200,6 +200,24 @@ export default function GameEnding() {
       className="flex w-full h-full bg-cover rounded-3xl"
       style={{ backgroundImage: "url(/images/ending.jpg)" }}
     >
+      {/* 스피너 모달 시작 */}
+      <SpinnerModal
+        isOpen={trade.modalOpen6}
+        modalClose={() => {
+          setTrade((prev) => {
+            const variable = { ...prev }
+            variable.modalOpen6 = false
+            return { ...variable }
+          })
+        }}
+      >
+        <Spinner />
+        <div className="text-2xl font-semibold absolute mt-[70%]">
+          <p className="">NFT 민팅중..</p>
+        </div>
+      </SpinnerModal>
+      {/* 스피너 모달 끝 */}
+
       <div className="flex justify-center w-full bg-gradient-to-r from-[#ffffff00] via-[#ffffff00] to-white px-20 pl-24 rounded-3xl">
         <div className="flex items-center justify-center w-1/2 h-full">
           <div className="relative">
