@@ -36,7 +36,7 @@ export default function TradeHistory(info: any) {
                 return (
                   <div key={tradeId}>
                     <ul className="flex py-1">
-                      <li className="w-[20%]">{tradePrice}</li>
+                      <li className="w-[20%]">{tradePrice} M</li>
 
                       <li
                         className="w-[20%] text-lgBrown-600
@@ -56,7 +56,7 @@ export default function TradeHistory(info: any) {
                       >
                         {buyerNickname}
                       </li>
-                      <li>{tradeDate}</li>
+                      <li>{tradeDate.slice(0, 10)}</li>
                     </ul>
                   </div>
                 )

@@ -50,7 +50,7 @@ export default function OfferHistory(info: any, publicAddress: string) {
                 return (
                   <div className="" key={tradeId}>
                     <ul className="w-full flex py-1">
-                      <li className="w-[20%]">{offerPrice}</li>
+                      <li className="w-[20%]">{offerPrice} M</li>
 
                       <li
                         className="w-[40%] text-lgBrown-600
@@ -61,7 +61,7 @@ hover:text-lgBrown-700 cursor-pointer"
                       >
                         {offerNickname}
                       </li>
-                      <li>{offerDate}</li>
+                      <li>{offerDate.slice(0, 10)}</li>
 
                       {offerAddress === info.publicAddress ? (
                         <li
