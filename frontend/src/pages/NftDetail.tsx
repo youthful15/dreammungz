@@ -116,7 +116,7 @@ export default function NftDetail() {
                 variable.modalOpen6 = true
                 return { ...variable }
               })
-              await sellAbortFormat({ tokenId, publicAddress })
+              await sellAbortFormat(tokenId, publicAddress)
               await setTrade((prev) => {
                 const variable = { ...prev }
                 variable.modalOpen1 = false
@@ -176,7 +176,7 @@ export default function NftDetail() {
                 return { ...variable }
               })
 
-              await buyNowFormat({ balance, cost, tokenId, publicAddress })
+              await buyNowFormat(balance, cost, tokenId, publicAddress)
 
               await setTrade((prev) => {
                 const variable = { ...prev }
@@ -247,12 +247,7 @@ export default function NftDetail() {
                   variable.modalOpen6 = true
                   return { ...variable }
                 })
-                await proposalFormat({
-                  balance,
-                  proposal,
-                  tokenId,
-                  publicAddress,
-                })
+                await proposalFormat(balance, proposal, tokenId, publicAddress)
                 await setTrade((prev) => {
                   const variable = { ...prev }
                   variable.modalOpen6 = false
@@ -302,7 +297,7 @@ export default function NftDetail() {
                 variable.modalOpen6 = true
                 return { ...variable }
               })
-              await cancelNegoFormat({ clickedNegoId, publicAddress, tokenId })
+              await cancelNegoFormat(clickedNegoId, publicAddress, tokenId)
               await setTrade((prev) => {
                 const variable = { ...prev }
                 variable.modalOpen6 = false
@@ -351,7 +346,7 @@ export default function NftDetail() {
                 variable.modalOpen6 = true
                 return { ...variable }
               })
-              await acceptNegoFormat({ tokenId, negoId, publicAddress })
+              await acceptNegoFormat(tokenId, negoId, publicAddress)
               await setTrade((prev) => {
                 const variable = { ...prev }
                 variable.modalOpen6 = false
