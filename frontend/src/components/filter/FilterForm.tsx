@@ -17,8 +17,9 @@ const titleStyle = "p-1 font-bold   m-0.5 border-b-2 border-beige-100"
 type filterFormProp = {
   formHandler: (event: ChangeEvent<HTMLFormElement>) => void
   filter: Filter
+  selectedList: string[]
 }
-const FilterForm = ({ formHandler, filter }: filterFormProp) => {
+const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
   return (
     <div className="h-[700px] w-[230px] bg-brown-200  overflow-y-auto scrollbar-hide rounded-l-xl absolute left-[7px] z-10 top-[7px] p-1">
       <form onChange={formHandler} className="w-full text-center ">
@@ -33,7 +34,7 @@ const FilterForm = ({ formHandler, filter }: filterFormProp) => {
                   id={item.eng}
                   value={item.eng}
                   className="hidden peer"
-                  defaultChecked={filter?.job === item.eng}
+                  defaultChecked={selectedList.includes(item.eng)}
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
                   {item.kor}

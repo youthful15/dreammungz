@@ -2,12 +2,13 @@ import { useSetRecoilState } from "recoil"
 import listModeAtom from "../../recoil/list/atom"
 import Pagination from "../pagination/Pagination"
 import NftListItem, { NftListItemType } from "./NftListItem"
-import Filter, { SelectedFilters } from "../filter/Filter"
+import Filter from "../filter/Filter"
 import { NavigateOptions, useLocation, useParams } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
 import useQueryParam from "../filter/useQueryParam"
 import { useQuery } from "@tanstack/react-query"
 import { getNftList } from "../../api/nft"
+import SelectedFilters from "../filter/SelectedFilters"
 const buttonStyle = "p-1 m-0.5 border border-gray-700 rounded-md  h-8"
 const filterForm = {
   job: null,
@@ -40,6 +41,7 @@ const NftList = ({ useFilter }: NftListProp) => {
   const { status, data, error, isFetching } = useNftList(filter!, address!)
   const pageRef = useRef(0)
   const [showForm, setShowForm] = useState(false)
+  const [selectedList, setSelectedList] = useState<string[]>([])
 
   useEffect(() => {
     if (!filter) {
@@ -96,7 +98,13 @@ const NftList = ({ useFilter }: NftListProp) => {
               {showForm ? "필터 닫기" : "필터 열기 "}
             </button>
             {filter && (
-              <SelectedFilters filter={filter!} resetFilter={resetFilter} />
+              <SelectedFilters
+                filter={filter!}
+                resetFilter={resetFilter}
+                setFilter={setFilter}
+                setSelectedList={setSelectedList}
+                seletedList={selectedList}
+              />
             )}
           </div>
         )}
@@ -123,7 +131,12 @@ const NftList = ({ useFilter }: NftListProp) => {
       </div>
 
       {useFilter && filter && (
-        <Filter setFilter={setFilter} filter={filter} showForm={showForm} />
+        <Filter
+          setFilter={setFilter}
+          filter={filter}
+          showForm={showForm}
+          selectedList={selectedList}
+        />
       )}
 
       <div className=" relative h-[80%] flex  flex-col justify-between ">
