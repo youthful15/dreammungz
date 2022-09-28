@@ -16,8 +16,6 @@ import SpinnerModal from "../components/modal/SpinnerModal"
 import Spinner from "../components/spinner/Spinner"
 
 export default function GameEnding() {
-  const navigate = useNavigate()
-
   const [NFT, setNFT] = useState({
     color: "PINK",
     hair: "CURLY",
