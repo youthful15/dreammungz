@@ -91,6 +91,7 @@ hover:text-lgBrown-700 cursor-pointer"
                             setTrade((prev) => {
                               const variable = { ...prev }
                               variable.modalOpen5 = true
+                              variable.selectedOfferId = offerId
                               return { ...variable }
                             })
                           }}

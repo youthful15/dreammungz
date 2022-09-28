@@ -128,11 +128,11 @@ export const buyNowFormat = async (
         })
         .then((res) => console.log("즉시구매", res))
         .catch((err) => console.error(err))
+
+      window.location.reload()
     } catch (err) {
       console.error(err)
     }
-
-    window.location.reload()
   }
 }
 

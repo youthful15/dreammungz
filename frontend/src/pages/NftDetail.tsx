@@ -74,7 +74,7 @@ export default function NftDetail() {
   useEffect(() => {
     checkIsOwner({ tokenId })
   }, [])
-  console.log(nftInfo)
+
   return (
     <div className="h-full w-full">
       {/* 스피너 모달 시작 */}
@@ -165,7 +165,7 @@ export default function NftDetail() {
         }
       >
         <p className="text-xl font-semibold mb-4">즉시 구매하시겠습니까?</p>
-        <p className="mb-4">즉시 구매 가격: {trade.buyNowPrice}</p>
+        <p className="mb-4">즉시 구매 가격: {nftInfo?.price}</p>
         <p>나의 M: {balance} M</p>
         <div className="flex justify-center">
           <button
@@ -173,7 +173,7 @@ export default function NftDetail() {
             onClick={async () => {
               const receivedBalance = await getBalance()
               await setBalance(receivedBalance)
-              const cost = trade.buyNowPrice
+              const cost = nftInfo?.price
 
               await setTrade((prev) => {
                 const variable = { ...prev }
@@ -346,13 +346,18 @@ export default function NftDetail() {
             className="mr-4 positive-btn"
             onClick={async () => {
               const negoId = trade.selectedOfferId
+
+              // spinner 시작
               await setTrade((prev) => {
                 const variable = { ...prev }
                 variable.modalOpen5 = false
                 variable.modalOpen6 = true
                 return { ...variable }
               })
+
               await acceptNegoFormat(tokenId, negoId, publicAddress)
+
+              // spinner 종료
               await setTrade((prev) => {
                 const variable = { ...prev }
                 variable.modalOpen6 = false

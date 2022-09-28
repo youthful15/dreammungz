@@ -156,7 +156,7 @@ export default function Login() {
       // isNew === true 로 바꿔야 함
       // isNew === true 로 바꿔야 함
       if (isNew !== true) {
-        window.alert("최초가입하셨네요! 만원을 지급해드립니다!")
+        window.alert("최초가입하셨네요! 1000 M을 지급해드립니다!")
 
         try {
           await MUNGContract.methods
