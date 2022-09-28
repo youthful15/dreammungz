@@ -1,4 +1,5 @@
 import findKOR from "../../utils/findKOR"
+import Tier from "../nftInfo/Tier"
 
 export interface AchievementListItemType {
   name: string
@@ -16,6 +17,9 @@ const AchievementListItem = ({ item }: { item: AchievementListItemType }) => {
           <a href="#">
             <div className="tier-cover">
               <div className={`tier gradient-border ${highestTier}`}>
+                <div className="absolute top-2 left-2">
+                  <Tier tier={highestTier} />
+                </div>
                 <img src={`/assets/bg/${name}.png`} />
               </div>
             </div>
