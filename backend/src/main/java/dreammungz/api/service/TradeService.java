@@ -120,7 +120,7 @@ public class TradeService {
 
     public void refundOffer(Long id){
         Negotiation negotiation = negotiationRepository.findByContractId(id).get();
-        negotiation.setRefund(Check.Y);
+        negotiation.setRefund(Check.Y); //네고 컨트랙트 아이디를 기준으로
         negotiationRepository.save(negotiation);
     }
 
@@ -243,8 +243,7 @@ public class TradeService {
         //거래 이력 조회(완료된 건만) -> 거래중인 내역이 있다면 sell -> true 및 관련 정보 담기
         List<Trade> tradeList = tradeRepositorySupport.findByTokenId(id);
         List<NftInfoResponse.Trade> tradeItems = new ArrayList<>();
-        for(int i=0;i<tradeList.size();i++){
-            Trade trade = tradeList.get(i);
+        for(Trade trade:tradeList){
             NftInfoResponse.Trade tradeItem = NftInfoResponse.Trade.builder()
                     .tradeId(trade.getContractId())
                     .sellerNickname(trade.getSeller().getMember().getNickname())
@@ -269,13 +268,13 @@ public class TradeService {
             nftInfoResponse.setSellerNickname(isSell.get(0).getSeller().getMember().getNickname());
             nftInfoResponse.setSellerAddress(isSell.get(0).getSeller().getMember().getAddress());
             List<Negotiation> negos = negotiationRepositorySupport.findByTradeId(isSell.get(0).getId());
-            for(int i=0;i<negos.size();i++){
+            for(Negotiation negotiation:negos){
                 NftInfoResponse.Offer offer = NftInfoResponse.Offer.builder()
-                        .offerId(negos.get(i).getContractId())
-                        .offerPrice(negos.get(i).getPrice())
-                        .offerNickname(negos.get(i).getMember().getNickname())
-                        .offerAddress(negos.get(i).getMember().getAddress())
-                        .offerDate(negos.get(i).getNegoTime())
+                        .offerId(negotiation.getContractId())
+                        .offerPrice(negotiation.getPrice())
+                        .offerNickname(negotiation.getMember().getNickname())
+                        .offerAddress(negotiation.getMember().getAddress())
+                        .offerDate(negotiation.getNegoTime())
                         .build();
                 offers.add(offer);
             }
@@ -296,6 +295,7 @@ public class TradeService {
     public Trade getTrade(Long contractId){
         return tradeRepository.findByContractId(contractId).get();
     }
+
     private Nft getNft(Long tokenId) {
         Nft nft = nftRepository.findNftByTokenId(tokenId).orElseThrow(() -> new CustomException(CustomExceptionList.NFT_NOT_FOUND));
         return nft;
