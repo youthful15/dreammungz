@@ -117,7 +117,7 @@ const OfferHistoryItem = ({ ...props }) => {
         <p className="text-xl font-semibold mb-4">제안을 취소하시겠습니까?</p>
         <div className="flex justify-center">
           <button
-            className="mr-4 border border-black"
+            className="mr-4 negative-btn"
             onClick={async () => {
               await setTrade((prev) => {
                 const variable = { ...prev }
@@ -136,7 +136,7 @@ const OfferHistoryItem = ({ ...props }) => {
             확인
           </button>
           <button
-            className="border border-black"
+            className="positive-btn"
             onClick={() => {
               setTrade((prev) => {
                 const variable = { ...prev }
@@ -165,7 +165,7 @@ const OfferHistoryItem = ({ ...props }) => {
         <p className="text-xl font-semibold mb-4">제안을 취소하시겠습니까?</p>
         <div className="flex justify-center">
           <button
-            className="mr-4 border border-black"
+            className="mr-4 negative-btn"
             onClick={async () => {
               await setTrade((prev) => {
                 const variable = { ...prev }
@@ -184,7 +184,7 @@ const OfferHistoryItem = ({ ...props }) => {
             확인
           </button>
           <button
-            className="border border-black"
+            className="positive-btn"
             onClick={() => {
               setTrade((prev) => {
                 const variable = { ...prev }
