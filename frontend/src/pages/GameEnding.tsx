@@ -88,6 +88,11 @@ export default function GameEnding() {
   }
 
   const publicAddress = localStorage.getItem("publicAddress")
+  const navigate = useNavigate()
+  const [member] = useRecoilState(memberAtom)
+  const [trade, setTrade] = useRecoilState(tradeAtom)
+  const [game, setGame] = useRecoilState(playingGame)
+  const [music, setMusic] = useRecoilState(playingMusic)
 
   useEffect(() => {
     async function GetStory() {
@@ -101,20 +106,17 @@ export default function GameEnding() {
     GetStory()
 
     async function gameEnding() {
-      await http
-        .post("game/endingCredit", localStorage.getItem("publicAddress"))
-        .then((res) => {
-          console.log(res)
-        })
+      const { data } = await http.post("game/endingCredit", {
+        address: localStorage.getItem("publicAddress"),
+      })
+      setGame((prev) => {
+        const variable = { ...prev }
+        variable.endingCreditData = data
+        return { ...variable }
+      })
     }
     gameEnding()
   }, [])
-
-  const navigate = useNavigate()
-  const [member] = useRecoilState(memberAtom)
-  const [trade, setTrade] = useRecoilState(tradeAtom)
-  const [game, setGame] = useRecoilState(playingGame)
-  const [music, setMusic] = useRecoilState(playingMusic)
 
   const canvasRef = useRef(null)
   const client = create({

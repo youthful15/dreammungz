@@ -26,6 +26,7 @@ const playingGame = atom({
       { name: "WEALTH", value: 10 },
     ],
     endingCreditShow: false,
+    endingCreditData: [],
   },
 })
 
