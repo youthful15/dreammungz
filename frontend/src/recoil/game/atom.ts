@@ -25,6 +25,7 @@ const playingGame = atom({
       { name: "VOICE", value: 10 },
       { name: "WEALTH", value: 10 },
     ],
+    endingCreditShow: false,
   },
 })
 

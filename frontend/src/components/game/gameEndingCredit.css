@@ -20,29 +20,16 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0) 100%);
+  /* background: linear-gradient(bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0) 100%); */
   background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 1),
+    to top,
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.2),
     rgba(0, 0, 0, 0) 100%
   );
   pointer-events: none;
 }
 
-.starwars {
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  transform-origin: 50% 100%;
-  transform: perspective(300px) rotateX(20deg);
-}
-.full-game-epilogue {
-  overflow: hidden;
-  background: black;
-}
 @keyframes autoscroll {
   to {
     margin-top: -50000px;
