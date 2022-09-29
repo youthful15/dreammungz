@@ -40,8 +40,8 @@ const Display = ({ position, size }) => {
       <mesh ref={ref} receiveShadow castShadow>
         <boxGeometry attach="geometry" args={size} />
         <meshPhysicalMaterial attach="material" clearcoat={1} roughness={0.5}>
-          {/* <primitive attach="alphaMap" object={alphaMap} /> */}
-          {/* <primitive attach="map" object={diffuseMap} /> */}
+          <primitive attach="alphaMap" object={alphaMap} />
+          <primitive attach="map" object={diffuseMap} />
           <primitive attach="normalMap" object={normalMap} />
         </meshPhysicalMaterial>
       </mesh>
