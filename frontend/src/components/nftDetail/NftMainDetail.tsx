@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Navigate } from "react-router-dom"
 import findKOR from "../../utils/findKOR"
 import Tier from "../nftInfo/Tier"
 import Gender from "../nftInfo/Gender"
@@ -7,10 +7,11 @@ import StatList from "../nftInfo/StatList"
 
 export default function NftMainDetail(info: any) {
   const navigate = useNavigate()
+  const goPersonalList = async (address: string) => {
+    navigate(`/personal/${address}/list`)
+  }
 
   return (
-    // <Tier tier={tier} />
-    //             <Gender gender={gender} />
     <div>
       <p className="text-xl font-semibold">
         직업: {findKOR(info.info.nft.job)}
@@ -43,16 +44,11 @@ export default function NftMainDetail(info: any) {
       </div>
       {info.info.sell === true ? (
         <div>
-          <div className="flex">
-            <p className="text-xl font-semibold mr-1">
-              분양자: {info.info.sellerNickname}
-            </p>
+          <div className="flex text-xl font-semibold">
+            <p className="mr-1">분양자:</p>
             <p
-              className="text-xl font-semibold cursor-pointer hover:text-lgBrown-500
-              "
-              onClick={() => {
-                navigate(`/personal/${info.info.sellerAddress}/list`)
-              }}
+              className="cursor-pointer hover:text-lgBrown-500"
+              onClick={() => goPersonalList(info.info.sellerAddress)}
             >
               {info.info.sellerNickname}
             </p>
@@ -61,9 +57,15 @@ export default function NftMainDetail(info: any) {
         </div>
       ) : (
         <div>
-          <p className="text-xl font-semibold">
-            보유자: {info.info.sellerNickname}
-          </p>
+          <div className="flex text-xl font-semibold">
+            <p className="mr-1">보유자: </p>
+            <p
+              className="cursor-pointer hover:text-lgBrown-500"
+              onClick={() => goPersonalList(info.info.sellerAddress)}
+            >
+              {info.info.sellerNickname}
+            </p>
+          </div>
         </div>
       )}
     </div>

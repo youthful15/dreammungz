@@ -6,14 +6,13 @@ import { MFTContract } from "../utils/Web3Config"
 import { http } from "../api/axios"
 import parse from "html-react-parser"
 
-// Nickname을 전역변수로 넣기 위한 import문
 import memberAtom from "../recoil/member/atom"
 import tradeAtom from "../recoil/trade/atom"
+import playingGame from "../recoil/game/atom"
 import { useRecoilState } from "recoil"
 import findKOR from "../utils/findKOR"
 import EndingList from "../components/game/EndingList"
-import SpinnerModal from "../components/modal/SpinnerModal"
-import Spinner from "../components/spinner/Spinner"
+import GameEndingCredit from "../components/game/GameEndingCredit"
 
 export default function GameEnding() {
   const [NFT, setNFT] = useState({
@@ -103,6 +102,8 @@ export default function GameEnding() {
   const publicAddress = localStorage.getItem("publicAddress")
   const [member] = useRecoilState(memberAtom)
   const [trade, setTrade] = useRecoilState(tradeAtom)
+  const [game, setGame] = useRecoilState(playingGame)
+
   const canvasRef = useRef(null)
   const client = create({
     url: "https://j7a605.p.ssafy.io/ipfs/",
@@ -114,6 +115,11 @@ export default function GameEnding() {
     setTrade((prev) => {
       const variable = { ...prev }
       variable.modalOpen6 = true
+      return { ...variable }
+    })
+    setGame((prev) => {
+      const variable = { ...prev }
+      variable.endingCreditShow = true
       return { ...variable }
     })
 
@@ -187,8 +193,13 @@ export default function GameEnding() {
           variable.modalOpen6 = false
           return { ...variable }
         })
+        setGame((prev) => {
+          const variable = { ...prev }
+          variable.endingCreditShow = false
+          return { ...variable }
+        })
 
-        navigate("nft/list")
+        navigate("/nft/list")
       } catch (err) {
         console.error("NFT 민팅 에러", err)
       }
@@ -197,26 +208,12 @@ export default function GameEnding() {
 
   return (
     <div
-      className="flex w-full h-full bg-cover rounded-3xl"
+      className="flex w-full h-full bg-cover rounded-3xl relative"
       style={{ backgroundImage: "url(/images/ending.jpg)" }}
     >
-      {/* 스피너 모달 시작 */}
-      <SpinnerModal
-        isOpen={trade.modalOpen6}
-        modalClose={() => {
-          setTrade((prev) => {
-            const variable = { ...prev }
-            variable.modalOpen6 = false
-            return { ...variable }
-          })
-        }}
-      >
-        <Spinner />
-        <div className="text-2xl font-semibold absolute mt-[70%]">
-          <p className="">NFT 민팅중..</p>
-        </div>
-      </SpinnerModal>
-      {/* 스피너 모달 끝 */}
+      {game.endingCreditShow === true ? (
+        <GameEndingCredit></GameEndingCredit>
+      ) : null}
 
       <div className="flex justify-center w-full bg-gradient-to-r from-[#ffffff00] via-[#ffffff00] to-white px-20 pl-24 rounded-3xl">
         <div className="flex items-center justify-center w-1/2 h-full">

@@ -1,4 +1,5 @@
 import Carousel from "../components/carousel/Carousel"
+import GameEndingCredit from "../components/game/GameEndingCredit"
 
 export default function MainPage() {
   return (

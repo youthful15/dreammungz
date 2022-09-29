@@ -19,6 +19,7 @@ import PersonalPage from "./pages/PersonalPage"
 import NftListByUser from "./pages/NftListByUser"
 import DealHistoryByUser from "./pages/DealHistoryByUser"
 import OfferHistoryByUser from "./pages/OfferHistoryByUser"
+import Museum from "./pages/MuseumPage"
 
 function App() {
   RouterChangeTracker()
@@ -28,11 +29,11 @@ function App() {
       style={{
         backgroundImage: `url(/images/background4.png)`,
       }}
-      className="relative flex items-center justify-center w-screen h-screen bg-center bg-cover"
+      className="relative flex items-center justify-center w-screen h-screen bg-center bg-cover scroll-auto scrollbar-hide"
     >
       <MusicPlayer />
 
-      <div className="flex items-center justify-center bg-white shadow-2xl rounded-2xl w-[1295px] h-[715px] relative">
+      <div className="flex items-center justify-center bg-white shadow-2xl rounded-2xl w-[1290px] h-[710px] relative">
         <div className="flex rounded-xl w-[1280px] h-[700px]">
           <div className="w-[230px] bg-brown-200 rounded-l-xl">
             <Navbar />
@@ -47,6 +48,7 @@ function App() {
               <Route path="/start" element={<GameStart />} />
               <Route path="/game" element={<GamePlaying />} />
               <Route path="/ending" element={<GameEnding />} />
+              <Route path="/museum" element={<Museum />} />
               <Route path="/nft">
                 <Route path="list" element={<NftListPage />} />
                 <Route path="detail/:id" element={<NftDetail />} />
