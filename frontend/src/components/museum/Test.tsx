@@ -7,21 +7,24 @@ import Ground from "./Ground/Ground"
 import Building from "./Building/Building"
 import Art from "./Art/Art"
 import Player from "./Player/Player"
-import Camera from "./Camera/Camera"
+import { Stars } from "@react-three/drei"
 
 const Test = () => {
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full bg-black">
       <Canvas
+        shadows
+        camera={{ fov: 60 }}
         onCreated={({ gl }) => {
           gl.shadowMap.enabled = true
           gl.shadowMap.type = THREE.PCFSoftShadowMap
         }}
       >
-        <Camera fov={60} />
+        <Stars />
 
         <fog attach="fog" args={["#272730", 30, 250]} />
-        <Lights night={true} performance={performance} />
+
+        <Lights night={true} performance={true} />
 
         <Physics gravity={[0, -30, 0]}>
           <Suspense fallback={null}>

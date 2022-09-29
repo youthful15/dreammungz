@@ -29,6 +29,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-spring": "^9.5.5",
+    "react-three-fiber": "^6.0.13",
     "recoil": "^0.7.5",
     "tailwind-scrollbar-hide": "^1.1.7",
     "three": "^0.144.0",
