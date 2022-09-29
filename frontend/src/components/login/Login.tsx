@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { http } from "../../api/axios"
-import { chainId, MUNGContract } from "../../utils/Web3Config"
+import {
+  chainId,
+  MUNGContract,
+  MUNGContractAddress,
+} from "../../utils/Web3Config"
 import Web3 from "web3"
 
 import memberAtom from "../../recoil/member/atom"
@@ -103,6 +107,30 @@ export default function Login() {
       }
     }
 
+    // 멍(ERC-20) 토큰 추가 함수
+    const setERC20 = async () => {
+      await window.ethereum
+        .request({
+          method: "wallet_watchAsset",
+          params: {
+            type: "ERC20",
+            options: {
+              address: `${MUNGContractAddress}`,
+              symbol: "M",
+              decimals: 18,
+            },
+          },
+        })
+        .then((success: any) => {
+          if (success) {
+            console.log("지갑에 M(멍)이 추가되었습니다!")
+          } else {
+            throw new Error("화폐 추가 과정에서 문제가 발생했습니다.")
+          }
+        })
+        .catch(console.error)
+    }
+
     const coinbase = await web3.eth.getCoinbase()
     if (!coinbase) {
       window.alert("Please activate MetaMask first.")
@@ -144,7 +172,7 @@ export default function Login() {
     // SSAFY Network 연결
     try {
       await handleEthereumNetwork(chainId)
-
+      await setERC20()
       // 최초 가입 시 10000 M 지급
       // isNew === true 로 바꿔야 함
       // isNew === true 로 바꿔야 함
