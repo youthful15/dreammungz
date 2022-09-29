@@ -251,6 +251,26 @@ public class GameService{
         return gameResponse;
     }
 
+    public List<GameEndingCreditDto> getEndingCreditInformation(String address){
+        //멤버의 게임 스토리 데이터를 쭉 불러온다.
+        Member member = memberRepository.findByAddress(address).get();
+        Game game = member.getGame();
+
+        //결과 데이터 저장용
+        List<GameEndingCreditDto> gameEndingCreditDtos = new ArrayList<>();
+        List<GameStory> gameStories = gameStoryRepository.findAllByGameId(game.getId());
+        for(GameStory gameStory : gameStories){
+            //목록 중에 시작과 엔딩은 제외하고 추가한다.
+            if(gameStory.getSequence() !=0 && gameStory.getSequence() !=11) {
+                String image = null;
+                if(gameStory.getStory().getImage() != null){
+                    image = gameStory.getStory().getImage();
+                }
+                gameEndingCreditDtos.add(new GameEndingCreditDto(gameStory.getSequence(), image, gameStory.getStory().getTitle()));
+            }
+        }
+        return gameEndingCreditDtos;
+    }
     public void setNextGame(GameSelectRequest gameInfo) {
         //현재 유저의 게임, 스토리, 씬, 선택지 확인
         Game currentGame = memberRepository.findByAddress(gameInfo.getAddress()).get().getGame();

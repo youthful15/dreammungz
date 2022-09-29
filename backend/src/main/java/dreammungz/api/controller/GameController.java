@@ -5,9 +5,7 @@ package dreammungz.api.controller;
 @since 22. 09. 13.
  */
 
-import dreammungz.api.dto.game.GameResponse;
-import dreammungz.api.dto.game.GameSelectRequest;
-import dreammungz.api.dto.game.GameStartRequest;
+import dreammungz.api.dto.game.*;
 import dreammungz.api.service.AuthService;
 import dreammungz.api.service.GameService;
 import dreammungz.exception.CustomException;
@@ -19,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -108,4 +108,14 @@ public class GameController{
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation(value = "게임 엔딩 크레딧", notes = "엔딩 크레딧에 보여지는 스토리 제목과 사진들을 Response한다.")
+    @PostMapping("/endingCredit")
+    public ResponseEntity<List<GameEndingCreditDto>> gameEndingCredit(
+            @RequestBody @ApiParam(value = "사용자 주소", required = true) GameEndingCreditRequest gameEndingCreditRequest){
+        //해당 주소의 진행중인 스토리 정보들을 불러온다.
+        List<GameEndingCreditDto> gameEndingCreditDtos = gameService.getEndingCreditInformation(gameEndingCreditRequest.getAddress());
+
+        //게임 정보들을 리턴
+        return new ResponseEntity<>(gameEndingCreditDtos, HttpStatus.OK);
+    }
 }

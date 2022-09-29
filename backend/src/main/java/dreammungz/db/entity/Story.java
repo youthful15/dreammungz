@@ -30,6 +30,9 @@ public class Story {
     @Column(name = "name", nullable = false)
     private String title;
 
+    @Column(name = "image")
+    private String image;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private StoryType type;
@@ -49,5 +52,9 @@ public class Story {
         this.title = title;
         this.type = type;
         this.firstScene = firstScene;
+    }
+
+    public void setImage(String image){
+        this.image = image;
     }
 }
