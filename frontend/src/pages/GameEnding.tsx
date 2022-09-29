@@ -188,7 +188,7 @@ export default function GameEnding() {
           return { ...variable }
         })
 
-        navigate("nft/list")
+        navigate("/nft/list")
       } catch (err) {
         console.error("NFT 민팅 에러", err)
       }

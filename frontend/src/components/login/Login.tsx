@@ -121,6 +121,7 @@ export default function Login() {
     let nonce: any
     let isNew: any
     // Look if user with current publicAddress is already present on backend
+
     await http
       .get(`auth/info/${publicAddress}`)
       .then((res) => {
