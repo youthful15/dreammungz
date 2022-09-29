@@ -9,6 +9,7 @@ import parse from "html-react-parser"
 import memberAtom from "../recoil/member/atom"
 import tradeAtom from "../recoil/trade/atom"
 import playingGame from "../recoil/game/atom"
+import playingMusic from "../recoil/music/atom"
 import { useRecoilState } from "recoil"
 import findKOR from "../utils/findKOR"
 import EndingList from "../components/game/EndingList"
@@ -86,6 +87,8 @@ export default function GameEnding() {
       "이렇다 할 꿈을 아직 찾지 못했구나... <br/> 지금의 너는 아무 직업도 가질 수 없다.",
   }
 
+  const publicAddress = localStorage.getItem("publicAddress")
+
   useEffect(() => {
     async function GetStory() {
       await http
@@ -96,13 +99,22 @@ export default function GameEnding() {
         })
     }
     GetStory()
+
+    async function gameEnding() {
+      await http
+        .post("game/endingCredit", localStorage.getItem("publicAddress"))
+        .then((res) => {
+          console.log(res)
+        })
+    }
+    gameEnding()
   }, [])
 
   const navigate = useNavigate()
-  const publicAddress = localStorage.getItem("publicAddress")
   const [member] = useRecoilState(memberAtom)
   const [trade, setTrade] = useRecoilState(tradeAtom)
   const [game, setGame] = useRecoilState(playingGame)
+  const [music, setMusic] = useRecoilState(playingMusic)
 
   const canvasRef = useRef(null)
   const client = create({
@@ -112,16 +124,19 @@ export default function GameEnding() {
   const copyDOM = async () => {
     window.scrollTo(0, 0)
 
-    setTrade((prev) => {
+    await setTrade((prev) => {
       const variable = { ...prev }
       variable.modalOpen6 = true
       return { ...variable }
     })
-    setGame((prev) => {
+    await setGame((prev) => {
       const variable = { ...prev }
       variable.endingCreditShow = true
       return { ...variable }
     })
+
+    // 엔딩곡 변경
+    await setMusic("End")
 
     let url = ""
     await html2canvas(canvasRef.current!).then(async (canvas) => {
@@ -198,6 +213,9 @@ export default function GameEnding() {
           variable.endingCreditShow = false
           return { ...variable }
         })
+
+        // 다시 처음 곡으로 변경
+        await setMusic("Start")
 
         navigate("/nft/list")
       } catch (err) {
