@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react"
+import React, { ChangeEvent, useEffect, useRef, useState } from "react"
 import {
   job_list,
   hair_list,
@@ -22,7 +22,11 @@ type filterFormProp = {
 const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
   return (
     <div className="h-[700px] w-[230px] bg-brown-200  overflow-y-auto scrollbar-hide rounded-l-xl absolute left-[7px] z-10 top-[7px] p-1">
-      <form onChange={formHandler} className="w-full text-center ">
+      <form
+        onChange={formHandler}
+        className="w-full text-center "
+        id="filter-form"
+      >
         <p className={titleStyle}>직업</p>
         <ul className="flex flex-wrap w-full">
           {job_list.map((item) => {
@@ -34,7 +38,8 @@ const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
                   id={item.eng}
                   value={item.eng}
                   className="hidden peer"
-                  defaultChecked={selectedList.includes(item.eng)}
+                  checked={selectedList.includes(item.eng)}
+                  readOnly
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
                   {item.kor}
@@ -54,7 +59,8 @@ const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
                   id={item.eng}
                   value={item.eng}
                   className="hidden peer"
-                  defaultChecked={filter?.hair === item.eng}
+                  checked={selectedList.includes(item.eng)}
+                  readOnly
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
                   {item.kor}
@@ -74,7 +80,8 @@ const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
                   id={item.eng}
                   value={item.eng}
                   className="hidden peer"
-                  defaultChecked={filter?.tier === item.eng}
+                  checked={selectedList.includes(item.eng)}
+                  readOnly
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
                   {item.kor}
@@ -94,7 +101,8 @@ const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
                   id={item.eng}
                   value={item.eng}
                   className="hidden peer"
-                  defaultChecked={filter?.gender === item.eng}
+                  checked={selectedList.includes(item.eng)}
+                  readOnly
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
                   {item.kor}
@@ -114,7 +122,8 @@ const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
                   id={item.eng}
                   value={item.eng}
                   className="hidden peer"
-                  defaultChecked={filter?.color === item.eng}
+                  checked={selectedList.includes(item.eng)}
+                  readOnly
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
                   {item.kor}
@@ -134,7 +143,8 @@ const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
                   id={item.eng}
                   value={item.eng}
                   className="hidden peer"
-                  defaultChecked={filter?.face === item.eng}
+                  checked={selectedList.includes(item.eng)}
+                  readOnly
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
                   {item.kor}
@@ -154,7 +164,8 @@ const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
                   id={item.eng}
                   value={item.eng}
                   className="hidden peer"
-                  defaultChecked={filter?.status?.includes(item.eng)}
+                  checked={selectedList.includes(item.eng)}
+                  readOnly
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
                   {item.kor}

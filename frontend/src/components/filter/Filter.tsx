@@ -47,10 +47,6 @@ const Filter = ({
     // console.log(JSON.stringify(filter))
     setFilter(filter, { replace: false })
   }
-  useEffect(() => {
-    const ele = document.getElementById("filter-form")
-    ele?.dispatchEvent(new Event("change", { bubbles: true }))
-  }, [origin])
 
   return (
     <div className="">

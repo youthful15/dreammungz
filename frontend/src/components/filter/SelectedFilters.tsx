@@ -30,11 +30,8 @@ const SelectedFilters = ({
   }, [filter])
 
   const onClickHandler = (option: string) => {
-    const form = document.getElementById(option)
-
-    console.log(form?.classList)
     const key = getKey[option]
-    console.log(option, key)
+
     if (key === "status") {
       let status = filter.status
       let statusIndex = status.findIndex((stat) => stat === option)
@@ -46,20 +43,20 @@ const SelectedFilters = ({
     }
   }
 
-  // console.log(selected)
-
   return (
     <div className="flex flex-wrap overflow-x-auto">
       {seletedList.map((value) => {
         return (
-          <div
-            className={buttonStyle}
-            key={value}
-            onClick={() => {
-              onClickHandler(value)
-            }}
-          >
+          <div className={buttonStyle} key={value}>
             {findKOR(value)}
+            <span
+              className="text-base font-medium p-0.5  bg-beige-500  ml-1 rounded-lg"
+              onClick={() => {
+                onClickHandler(value)
+              }}
+            >
+              X
+            </span>
           </div>
         )
       })}
