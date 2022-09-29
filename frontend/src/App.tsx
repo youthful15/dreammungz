@@ -19,7 +19,7 @@ import PersonalPage from "./pages/PersonalPage"
 import NftListByUser from "./pages/NftListByUser"
 import DealHistoryByUser from "./pages/DealHistoryByUser"
 import OfferHistoryByUser from "./pages/OfferHistoryByUser"
-import Museum from "./pages/Museum"
+import Museum from "./pages/MuseumPage"
 
 function App() {
   RouterChangeTracker()

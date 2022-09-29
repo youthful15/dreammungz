@@ -9,7 +9,7 @@ import Art from "./Art/Art"
 import Player from "./Player/Player"
 import { Stars } from "@react-three/drei"
 
-const Test = () => {
+const Museum = () => {
   return (
     <div className="w-full h-full bg-black">
       <Canvas
@@ -39,4 +39,4 @@ const Test = () => {
   )
 }
 
-export default Test
+export default Museum
