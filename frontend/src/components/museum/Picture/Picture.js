@@ -18,6 +18,7 @@ const Picture = ({ url, scale, position, rotation, metalness, roughness }) => {
     }
   })
 
+  // console.log(url.split("/")[2], scene)
   return (
     <primitive
       scale={scale}

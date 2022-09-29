@@ -29,7 +29,7 @@ function App() {
       style={{
         backgroundImage: `url(/images/background.png)`,
       }}
-      className="relative flex items-center justify-center w-screen h-screen bg-center bg-cover"
+      className="relative flex items-center justify-center w-screen h-screen bg-center bg-cover scroll-auto scrollbar-hide"
     >
       <MusicPlayer />
 

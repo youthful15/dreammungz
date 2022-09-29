@@ -59,20 +59,20 @@ const Ground = () => {
   return (
     <>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.3, 22]}>
-        <planeBufferGeometry attach="geometry" args={[1000, 1000]} />
+        <planeGeometry attach="geometry" args={[1000, 1000]} />
         <meshLambertMaterial attach="material">
           <primitive attach="map" object={grassMap} />
         </meshLambertMaterial>
       </mesh>
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 22]}>
-        <Reflector>
-          <planeBufferGeometry attach="geometry" args={[70, 75]} />
-        </Reflector>
+        {/* <Reflector> */}
+        <planeGeometry attach="geometry" args={[70, 75]} />
+        {/* </Reflector> */}
       </mesh>
 
       <mesh ref={ref} receiveShadow>
-        <planeBufferGeometry attach="geometry" args={[70, 75]} />
+        <planeGeometry attach="geometry" args={[70, 75]} />
         <meshPhysicalMaterial
           attach="material"
           reflectivity={0}
