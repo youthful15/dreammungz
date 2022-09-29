@@ -85,7 +85,7 @@ public class Member {
         this.nonce = Double.valueOf(Math.floor(Math.random() * 10000000)).longValue();
     }
 
-    public void createNickname() { this.nickname = RandomStringUtils.random(15, true, true);}
+    public void createNickname() { this.nickname = RandomStringUtils.random(8, true, true);}
 
     public void setGame(Game game) {
         this.game = game;
