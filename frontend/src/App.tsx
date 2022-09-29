@@ -26,7 +26,7 @@ function App() {
   return (
     <div
       style={{
-        backgroundImage: `url(/images/background.png)`,
+        backgroundImage: `url(/images/background4.png)`,
       }}
       className="relative flex items-center justify-center w-screen h-screen bg-center bg-cover"
     >
