@@ -288,9 +288,11 @@ public class NftService {
             gameResultStatusRepository.deleteById(status.getId());
         }
 
-        System.out.println("삭제과정2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+        System.out.println("삭제과정2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         gameResultRepository.deleteById(gameResult.getId());
+
+        System.out.println("삭제과정3!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         //게임 Status 삭제
         List<GameStatus> statuses = gameStatusRepository.findAllByGameId(game.getId());
