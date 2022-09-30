@@ -281,10 +281,14 @@ public class NftService {
                 () -> new CustomException(CustomExceptionList.GAME_RESULT_NOT_FOUND)
         );
 
+        System.out.println("삭제과정1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
         List<GameResultStatus> gameResultStatus = gameResultStatusRepository.findAllByGameResultId(gameResult.getId());
         for(GameResultStatus status : gameResultStatus) {
             gameResultStatusRepository.deleteById(status.getId());
         }
+
+        System.out.println("삭제과정2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
 
         gameResultRepository.deleteById(gameResult.getId());
 
