@@ -280,12 +280,13 @@ public class NftService {
         GameResult gameResult = gameResultRepository.findById(game.getGameResult().getId()).orElseThrow(
                 () -> new CustomException(CustomExceptionList.GAME_RESULT_NOT_FOUND)
         );
-        gameResultRepository.deleteById(gameResult.getId());
 
         List<GameResultStatus> gameResultStatus = gameResultStatusRepository.findAllByGameResultId(gameResult.getId());
         for(GameResultStatus status : gameResultStatus) {
             gameResultStatusRepository.deleteById(status.getId());
         }
+
+        gameResultRepository.deleteById(gameResult.getId());
 
         //게임 Status 삭제
         List<GameStatus> statuses = gameStatusRepository.findAllByGameId(game.getId());
