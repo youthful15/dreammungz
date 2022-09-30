@@ -17,7 +17,7 @@ const PersonalPage = () => {
   }
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full overflow-hidden">
       <div className="w-full  h-[10%]  mb-3  flex items-center ">
         <UserInfo />
         <TabList list={personalMenu} />

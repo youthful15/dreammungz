@@ -21,7 +21,7 @@ type filterFormProp = {
 }
 const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
   return (
-    <div className="h-[700px] w-[230px] bg-brown-200  overflow-y-auto scrollbar-hide rounded-l-xl absolute left-[7px] z-10 top-[7px] p-1">
+    <div className="h-[700px] w-[230px] bg-brown-200  overflow-y-auto scrollbar-hide rounded-l-xl absolute left-[5px] z-10 top-[5px] p-1">
       <form
         onChange={formHandler}
         className="w-full text-center "

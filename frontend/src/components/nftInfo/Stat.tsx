@@ -22,7 +22,7 @@ export interface StatType {
 const Stat = ({ name, value }: StatType) => {
   return (
     <div
-      className={`text-black text-xs p-0.5 rounded-md m-0.5 w-20 text-center font-semibold ${color[name]}`}
+      className={`text-black text-xs p-0.5 rounded-md m-0.5 w-20 text-center font-semibold ${color[name]} shadow-sm border border-white`}
     >
       {KOR(name)} {value}
     </div>

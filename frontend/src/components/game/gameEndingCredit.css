@@ -11,7 +11,7 @@
 }
 #target > div {
   padding-top: 3500px;
-  animation: autoscroll 1000s linear;
+  animation: autoscroll 500s linear;
 }
 .full-game-epilogue:after {
   content: "";
@@ -35,3 +35,5 @@
     margin-top: -50000px;
   }
 }
+
+/* AUTO SCROLL  AUTO SCROLL  AUTO SCROLL  AUTO SCROLL  AUTO SCROLL  AUTO SCROLL  AUTO SCROLL */

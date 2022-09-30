@@ -7,14 +7,16 @@ export const getBalance = async () => {
 }
 
 export const pushGameStart = async (publicAddress, cost) => {
+  const aWeiValue = 10 ** 18
+  const bWeiValue = cost
+  const totalWeiValue = web3.utils
+    .toBN(aWeiValue)
+    .mul(web3.utils.toBN(bWeiValue))
+
   await MUNGContract.methods
-    .approve(publicAddress, web3.utils.toBN(cost * 10 ** 18).toString())
+    .approve(publicAddress, totalWeiValue)
     .send({ from: publicAddress })
   await MUNGContract.methods
-    .transferFrom(
-      publicAddress,
-      MUNGContractAddress,
-      web3.utils.toBN(cost * 10 ** 18).toString()
-    )
+    .transferFrom(publicAddress, MUNGContractAddress, totalWeiValue)
     .send({ from: publicAddress })
 }

@@ -34,7 +34,6 @@ function useMovePage(price: number) {
 
     // 결제 로직
     await pushGameStart(publicAddress, price)
-    console.log(20)
 
     await setTrade((prev) => {
       const variable = { ...prev }

@@ -83,7 +83,7 @@ const NftList = ({ useFilter }: NftListProp) => {
   }
 
   return (
-    <div className="flex flex-col w-full h-[640px] text-center ">
+    <div className="flex flex-col w-full h-[640px] text-center  ">
       <div className="flex justify-end w-full mb-4 space-x-2 ">
         {useFilter && (
           <div className="flex w-3/5 ">
@@ -140,7 +140,7 @@ const NftList = ({ useFilter }: NftListProp) => {
       )}
 
       <div className=" relative h-[80%] flex  flex-col justify-between ">
-        <div className="flex flex-wrap h-[98%] mb-0.5">
+        <div className="flex flex-wrap h-[90%] mb-0.5 ">
           {data?.items?.map((item: NftListItemType, idx: number) => {
             return <NftListItem item={item} key={item.id} />
           })}
