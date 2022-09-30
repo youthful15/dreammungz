@@ -275,12 +275,17 @@ public class NftService {
         /*
         2022.09.30 modified by 황승주
         저장되어있던 GameResult 삭제
-        cascade 옵션으로 Status 자동삭제
+        저장되어있던 GameResultStatus 삭제
         */
         GameResult gameResult = gameResultRepository.findById(game.getGameResult().getId()).orElseThrow(
                 () -> new CustomException(CustomExceptionList.GAME_RESULT_NOT_FOUND)
         );
         gameResultRepository.deleteById(gameResult.getId());
+
+        List<GameResultStatus> gameResultStatus = gameResultStatusRepository.findAllByGameResultId(gameResult.getId());
+        for(GameResultStatus status : gameResultStatus) {
+            gameResultStatusRepository.deleteById(status.getId());
+        }
 
         //게임 Status 삭제
         List<GameStatus> statuses = gameStatusRepository.findAllByGameId(game.getId());
@@ -531,7 +536,6 @@ public class NftService {
                     .build();
 
             gameResultStatusRepository.save(gameResultStatus);
-            gameResult.getGameResultStatuses().add(gameResultStatus);
         }
 
         return gameEndResponse;

@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /*
 @author 황승주
@@ -55,9 +53,6 @@ public class GameResult {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id", nullable = false)
     private Job job;
-
-    @OneToMany(mappedBy = "game_result", cascade = CascadeType.ALL)
-    private List<GameResultStatus> gameResultStatuses = new ArrayList<>();
 
     @Builder
     public GameResult(Long id, String hair, String face, String gender, String color, String tier, Job job, Game game) {
