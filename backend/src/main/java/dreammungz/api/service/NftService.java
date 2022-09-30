@@ -47,6 +47,8 @@ public class NftService {
     private final GameStoryRepository gameStoryRepository;
     private final GameRepository gameRepository;
     private final AchievementRepository achievementRepository;
+    private final GameResultRepository gameResultRepository;
+    private final GameResultStatusRepository gameResultStatusRepository;
 
 
     /*
@@ -270,6 +272,16 @@ public class NftService {
         member.setGame(null); //플레이중인 데이터 null 처리
         memberRepository.save(member); //변경 값 저장
 
+        /*
+        2022.09.30 modified by 황승주
+        저장되어있던 GameResult 삭제
+        cascade 옵션으로 Status 자동삭제
+        */
+        GameResult gameResult = gameResultRepository.findById(game.getGameResult().getId()).orElseThrow(
+                () -> new CustomException(CustomExceptionList.GAME_RESULT_NOT_FOUND)
+        );
+        gameResultRepository.deleteById(gameResult.getId());
+
         //게임 Status 삭제
         List<GameStatus> statuses = gameStatusRepository.findAllByGameId(game.getId());
         for (GameStatus gameStatus:statuses) {
@@ -289,6 +301,12 @@ public class NftService {
     /*
     게임 엔딩 결정
     0. 엔딩페이지인지 확인
+
+    2022.09.30 modified by 황승주
+    0.5. 기존 엔딩정보가 남아있는 지 확인
+    있다면 그대로 반환
+    없다면 아래 생성로직 수행
+
     1. 색 결정
     2. 모질 결정(랜덤)
     3. 얼굴 결정(랜덤)
@@ -296,14 +314,43 @@ public class NftService {
     5. 카드 스탯 결정
     6. 직업 결정
     7. 추가 스탯 설정
+
+    2022.09.30 modified by 황승주
+    8. 반환 전에 GameResult, GameResultStatus 테이블에 정보 저장
+    9. 결과 반환
     */
     public GameEndResponse makeEnd(String address) {
         GameEndResponse gameEndResponse = new GameEndResponse();
         //0. 현재 장면이 8번이 아니면 엔딩이 아니기 때문에 예외 처리
         Game gameData = getMember(address).getGame();
         if (gameData.getCurScene() != 8) {
-           throw new CustomException(CustomExceptionList.NOT_GAME_ENDING);
+            throw new CustomException(CustomExceptionList.NOT_GAME_ENDING);
         }
+
+        // 0.5 기존 게임 결과가 존재하는 지 검사
+        if(gameData.getGameResult() != null) {
+            // 있다면 기존 데이터 반환
+            GameResult existingResult = gameData.getGameResult();
+            gameEndResponse.setColor(existingResult.getColor());
+            gameEndResponse.setHair(existingResult.getHair());
+            gameEndResponse.setFace(existingResult.getFace());
+            gameEndResponse.setTier(existingResult.getTier());
+            gameEndResponse.setJob(existingResult.getJob().getName());
+            gameEndResponse.setGender(existingResult.getGender());
+
+            List<GameResultStatus> existingResultStatuses = gameResultStatusRepository.findAllByGameResultId(existingResult.getId());
+            List<GameEndResponse.StatusList> statusLists = new ArrayList<>();
+
+            for(GameResultStatus existingResultStatus :existingResultStatuses) {
+                GameEndResponse.StatusList statusList = new GameEndResponse.StatusList(existingResultStatus.getStatus().getName(), existingResultStatus.getValue());
+                statusLists.add(statusList);
+            }
+
+            gameEndResponse.setStatus(statusLists);
+
+            return gameEndResponse;
+        }
+
         //1. 색 결정
         Long mother = gameData.getMother(); //엄마 tokenId
         Long father = gameData.getFather(); //아빠 tokenId
@@ -455,6 +502,36 @@ public class NftService {
             addStatusList.add(new GameEndResponse.StatusList(statusList.get(selected[i]).getName(), Long.valueOf(tierIndex + 1)));
         }
         gameEndResponse.setStatus(addStatusList);
+
+        // 8. 반환 전에 GameResult, GameResultStatus 테이블에 정보 저장
+        GameResult gameResult = GameResult.builder()
+                .hair(gameEndResponse.getHair().toString())
+                .face(gameEndResponse.getFace().toString())
+                .gender(gameEndResponse.getGender().toString())
+                .color(gameEndResponse.getColor().toString())
+                .tier(gameEndResponse.getTier().toString())
+                .job(jobRepository.findByName(gameEndResponse.getJob()).orElseThrow(
+                        () -> new CustomException(CustomExceptionList.JOB_NOT_FOUND)
+                ))
+                .game(gameRepository.findById(gameData.getId()).orElseThrow(
+                        () -> new CustomException(CustomExceptionList.GAME_NOT_FOUND)
+                ))
+                .build();
+
+        gameResultRepository.save(gameResult);
+
+        List<GameEndResponse.StatusList> statusLists = gameEndResponse.getStatus();
+        for(GameEndResponse.StatusList status : statusLists) {
+            GameResultStatus gameResultStatus = GameResultStatus.builder()
+                    .gameResult(gameResult)
+                    .status(statusRepository.findByName(status.getName()).orElseThrow(
+                            () -> new CustomException(CustomExceptionList.STATUS_NOT_FOUND)
+                    ))
+                    .value(status.getValue())
+                    .build();
+
+            gameResultStatusRepository.save(gameResultStatus);
+        }
 
         return gameEndResponse;
     }

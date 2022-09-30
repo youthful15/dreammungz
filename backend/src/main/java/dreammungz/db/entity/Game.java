@@ -44,6 +44,10 @@ public class Game {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<GameStory> gameStories= new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "game_result_id")
+    private GameResult gameResult;
+
     @Builder
     public Game(Long father, Long mother) {
         this.father = father;
