@@ -15,12 +15,12 @@ export default function GameEndingCredit() {
   }, [])
   return (
     <div
-      // style={{
-      //   backgroundImage:
-      //     "url('https://c6.staticflickr.com/4/3165/2558160805_c15dd40154_n.jpg')",
-      //   backgroundSize: "100% 100%",
-      // }}
-      className="w-full h-full absolute z-[20] full-game-epilogue bg-lgBrown-600 overflow-hidden flex rounded-lg"
+      style={{
+        backgroundImage:
+          "url('https://cdn.pixabay.com/photo/2016/11/08/03/16/seamless-1807376__340.jpg')",
+        backgroundSize: "100% 100%",
+      }}
+      className="w-full h-full absolute z-[20] full-game-epilogue overflow-hidden flex rounded-lg"
     >
       {showBtn === true ? (
         <div className="flex items-end justify-end w-full">
