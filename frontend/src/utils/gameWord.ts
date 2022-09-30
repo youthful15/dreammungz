@@ -152,16 +152,16 @@ const gender_list: listItemType[] = [
 ]
 
 const stat_list: listItemType[] = [
-  { kor: "튼튼함", eng: "STOUTNESS" },
-  { kor: "영리함", eng: "CLEVER" },
-  { kor: "재빠름", eng: "QUICK" },
-  { kor: "직감", eng: "INTUITION" },
-  { kor: "카리스마", eng: "CHARISMA" },
-  { kor: "인기", eng: "POPULARITY" },
-  { kor: "감수성", eng: "SENSIBILITY" },
-  { kor: "발재주", eng: "FOOTWORK" },
-  { kor: "목청", eng: "VOICE" },
   { kor: "재력", eng: "WEALTH" },
+  { kor: "목청", eng: "VOICE" },
+  { kor: "튼튼함", eng: "STOUTNESS" },
+  { kor: "감수성", eng: "SENSIBILITY" },
+  { kor: "재빠름", eng: "QUICK" },
+  { kor: "인기", eng: "POPULARITY" },
+  { kor: "직감", eng: "INTUITION" },
+  { kor: "발재주", eng: "FOOTWORK" },
+  { kor: "영리함", eng: "CLEVER" },
+  { kor: "카리스마", eng: "CHARISMA" },
   { kor: "정의로움", eng: "JUSTICE" },
   { kor: "귀여움", eng: "CUTE" },
 ]
