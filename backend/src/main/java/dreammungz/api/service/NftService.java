@@ -1,5 +1,6 @@
 package dreammungz.api.service;
 
+import dreammungz.api.dto.nft.MyMuseumResponse;
 import dreammungz.api.dto.nft.MyNftResponse;
 import dreammungz.api.dto.nft.StatusNameValue;
 import dreammungz.api.dto.nft.end.GameEndRequest;
@@ -159,6 +160,60 @@ public class NftService {
         nftListResponse.setItems(nftInfos);
 
         return nftListResponse;
+    }
+
+    /*
+    직업별로 가장 높은 등급의 NFT 10개 조회(자르는 기준->직업 등급)
+    박물관에서 사용
+    @author 신슬기
+    @since 2022. 09. 30.
+    */
+    public MyMuseumResponse myMuseumList(String address) {
+        MyMuseumResponse museumResponse = new MyMuseumResponse();
+        Member member = getMember(address); //지갑 주소로 플레이어 정보 조회
+
+        // 티어를 기준으로 정렬하기 위한 ArrayList 생성
+        List<String> tierList = new ArrayList<>();
+        Tier[] tiers = Tier.values();
+        for(Tier tier:tiers){
+            System.out.println(tier.toString());
+            tierList.add(tier.toString());
+        }
+
+
+        List<Nft> nftList = nftRepositorySupport.findAllByMemberAndTier(member, tierList); //플레이어가 소유하고 있는 모든 NFT 조회
+        List<MyMuseumResponse.NftInfo> nftInfos = new ArrayList<>(); //NFT 정보에 대한 리스트
+        boolean[] jobList = new boolean[JobName.values().length+1]; //직업 선택했는지 확인
+        for (Nft nft:nftList) {
+            if(nftInfos.size()==10){ //데이터 10개 선택
+                break;
+            }
+            //해당 직업을 넣치 않았으면 추가
+            if(!jobList[nft.getJob().getId().intValue()]) {
+                jobList[nft.getJob().getId().intValue()]=true;
+                //해당 NFT의 추가 스탯 조회
+                List<MyMuseumResponse.NftInfo.StatusList> statusLists = new ArrayList<>();
+                for (int j = 0; j < nft.getNftStatuses().size(); j++) {
+                    statusLists.add(new MyMuseumResponse.NftInfo.StatusList(nft.getNftStatuses().get(j).getStatus().getName(), nft.getNftStatuses().get(j).getValue()));
+                }
+                MyMuseumResponse.NftInfo nftInfo = MyMuseumResponse.NftInfo.builder()
+                        .id(nft.getTokenId())
+                        .metadata(nft.getMetadata())
+                        .url(nft.getImageUrl())
+                        .hair(nft.getHair())
+                        .face(nft.getFace())
+                        .tier(nft.getTier())
+                        .color(nft.getColor())
+                        .gender(nft.getGender())
+                        .job(nft.getJob().getName())
+                        .status(statusLists)
+                        .build();
+                nftInfos.add(nftInfo);
+            }
+        }
+        museumResponse.setItems(nftInfos);
+
+        return museumResponse;
     }
 
     /*
