@@ -34,7 +34,8 @@ public enum CustomExceptionList {
     NEGOTIATION_NOT_PERMITTED(HttpStatus.NOT_FOUND, "E203", "해당 NFT는 네고가 허용되지 않습니다."),
     NEGOTIATION_NOT_FOUND(HttpStatus.NOT_FOUND, "E203", "해당 NFT는 네고가 허용되지 않습니다."),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "E301", "해당 토큰은 만료되었습니다."),
-    ADDRESS_NOT_MATCH(HttpStatus.UNAUTHORIZED, "E302", "해당 주소는 접근 권한이 없습니다.");
+    ADDRESS_NOT_MATCH(HttpStatus.UNAUTHORIZED, "E302", "해당 주소는 접근 권한이 없습니다."),
+    GAME_RESULT_NOT_FOUND(HttpStatus.NOT_FOUND, "E303", "삭제할 게임 기록이 유효하지 않습니다.");
 
     private final HttpStatus status;
     private final String code;
