@@ -20,7 +20,7 @@ const AchievementListItem = ({ item }: { item: AchievementListItemType }) => {
                 <div className="absolute top-2 left-2">
                   <Tier tier={highestTier} />
                 </div>
-                <img src={`/assets/bg/${name}.png`} />
+                <img src={`/assets/achievement/${name}.png`} />
               </div>
             </div>
           </a>
