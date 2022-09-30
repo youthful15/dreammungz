@@ -52,7 +52,21 @@ function useMovePage(price: number) {
 
 // 시작 화면 설명
 function StartTutorial() {
-  return <div> 이것은 시작할 때 띄워주는 설명입니다 </div>
+  return (
+    <div
+      className="w-full h-full rounded-3xl bg-cover border-pink-500 shadow-md relative"
+      style={{ backgroundImage: "url(/images/mode.png)" }}
+    >
+      <div className="h-full w-full ridiBatang ">
+        <div className="absolute left-[100px] top-[80px] flex flex-col items-center">
+          <img src="/dreammungz.svg" className="w-[300px] pb-3" alt="logo" />
+          <p className="pb-5">모드를 선택하고 당신만의 강아지를 키워보세요.</p>
+          <p className="pb-1">처음 시작하는 유저에게는 아기 강아지 모드를,</p>
+          <p>다회차 플레이 유저에게는 웨딩 모드를 권장합니다.</p>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 // 베이비 모드 설명
@@ -63,11 +77,31 @@ function BabyMode() {
   }
 
   return (
-    <div>
-      <div className="pb-10">이것은 베이비모드 설명입니다</div>
-      <button className="p-10 bg-red-100" onClick={StartGame}>
-        100 MUNG으로 시작하기
-      </button>
+    <div
+      className="w-full h-full rounded-3xl bg-cover hadow-md relative bg-white flex "
+      // style={{ backgroundImage: "url(/images/mode.png)" }}
+    >
+      <div className="w-full ridiBatang flex flex-col justify-center items-center">
+        <div className="flex pb-7">
+          <div className="flex items-end flex-col justify-center">
+            <span className="bg-lgBrown-200 mapleStory rounded-2xl h-[35px] flex items-center px-4 mb-2">
+              출발하자!
+            </span>
+            <span className="bg-lgBrown-200 mapleStory rounded-2xl h-[35px] flex items-center px-4">
+              나 빨리 가고 싶어!
+            </span>
+          </div>
+          <img src="/images/mung.png" alt="" className="h-[150px]" />
+        </div>
+        <p className="pb-1">강아지 육성을 새롭게 시작합니다.</p>
+        <p>모든 스탯이 0부터 시작합니다.</p>
+        <button
+          className="p-5 px-10 mt-5 bg-pink-500 rounded-3xl mapleStory text-xl"
+          onClick={StartGame}
+        >
+          100 MUNG으로 시작하기
+        </button>
+      </div>
     </div>
   )
 }
@@ -303,23 +337,29 @@ export default function GameStart() {
       <div className="flex w-full h-1/5">
         <div className="w-1/2 h-full pr-4">
           <button
-            className="w-full h-full bg-blue-200"
+            className="w-full h-full rounded-3xl border-4 border-brown-300 mapleStory font-bold text-4xl shadow-md click:mt-1 bg-cover bg-center bg-beige-100 flex justify-center items-center"
             onClick={() => setContent(<BabyMode />)}
+            style={{ backgroundImage: "url(/images/babymode.png)" }}
           >
-            아기 강아지 모드 버튼
+            <div className="text-brown-500 rounded-3xl bg-white p-5 w-[90%]">
+              아기 강아지 모드
+            </div>
           </button>
         </div>
         <div className="w-1/2 h-full pl-4">
           <button
-            className="w-full h-full bg-blue-200"
+            className="w-full h-full rounded-3xl border-4 border-pink-500 mapleStory font-bold text-4xl shadow-md click:mt-1 bg-cover bg-center bg-pink-100 flex justify-center items-center"
             onClick={() => setContent(<WeddingMode />)}
+            style={{ backgroundImage: "url(/images/weddingmode.png)" }}
           >
-            웨딩 모드 버튼
+            <div className="text-red-300 rounded-3xl bg-white p-5 w-[90%]">
+              웨딩 모드
+            </div>
           </button>
         </div>
       </div>
       <div className="pt-8 h-4/5">
-        <div className="h-full bg-blue-300">{showContent}</div>
+        <div className="h-full w-full">{showContent}</div>
       </div>
     </div>
   )
