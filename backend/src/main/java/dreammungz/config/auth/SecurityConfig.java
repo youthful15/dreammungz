@@ -33,7 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.addAllowedOriginPattern("http://j7a605.p.ssafy.io:3000");
         configuration.addAllowedOriginPattern("https://j7a605.p.ssafy.io:3000");
         configuration.addAllowedOriginPattern("https://j7a605.p.ssafy.io");
-        configuration.addAllowedOriginPattern("*");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
