@@ -275,32 +275,48 @@ function WeddingMode() {
             유전 정보
           </span>
         </div>
-        <div className="flex flex-col w-full h-[90%]">
-          <div className="flex h-[70%]">
-            <div className="flex flex-col justify-center w-1/2 p-2">
-              <div>엄마멍</div>
-              <div>{dogF.url ? <ShowDog dog={dogF} /> : null}</div>
-              <div className="flex flex-wrap">
-                <StatList statList={dogF.status} />
+        <div className="flex flex-col w-full h-[90%] items-center justify-center">
+          <div className="h-full">
+            <div className="flex h-[55%]">
+              <div className="flex flex-col justify-center w-1/2 p-2">
+                <div className="flex justify-center mb-2 text-sm rounded-full mapleStory">
+                  엄마멍
+                </div>
+                <div>
+                  {dogF.url ? (
+                    <ShowDog dog={dogF} />
+                  ) : (
+                    <div>
+                      <div className="w-[125.45px] h-[125.45px] bg-gray-200"></div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-col justify-center w-1/2 p-2">
+                <div className="flex justify-center mb-2 text-sm rounded-full mapleStory">
+                  압바멍
+                </div>
+                <div>
+                  {dogM.url ? (
+                    <ShowDog dog={dogM} />
+                  ) : (
+                    <div>
+                      <div className="w-[125.45px] h-[125.45px] bg-gray-200"></div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-            <div className="flex flex-col justify-center w-1/2 p-2">
-              <div>압바멍</div>
-              <div>{dogM.url ? <ShowDog dog={dogM} /> : null}</div>
-              <div className="flex flex-wrap">
-                <StatList statList={dogM.status} />
+            <div className="h-[45%] pt-5">
+              <div className="flex justify-center mapleStory">시작 정보</div>
+              <div className="flex flex-wrap items-center justify-center pt-2">
+                <StatList statList={babyStatus} />
               </div>
-            </div>
-          </div>
-          <div className="h-[30%]">
-            <div>애기멍</div>
-            <div className="flex flex-wrap">
-              <StatList statList={babyStatus} />
             </div>
           </div>
         </div>
         <button
-          className="h-[10%] bg-red-100"
+          className="p-5 px-2 mt-5 text-xl bg-pink-500 rounded-3xl mapleStory"
           onClick={() => {
             startSetting.father = dogM.id
             startSetting.mother = dogF.id
