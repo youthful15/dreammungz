@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query"
 import { getNftList } from "../../api/nft"
 import SelectedFilters from "../filter/SelectedFilters"
 
-const buttonStyle = "p-1 m-0.5 border border-gray-700 rounded-md  h-8"
+const buttonStyle = "p-1 border border-gray-700 rounded-md  h-8"
 
 const filterForm = {
   job: null,
@@ -91,12 +91,16 @@ const NftList = ({ useFilter }: NftListProp) => {
 
   return (
     <div className="flex flex-col w-full h-[640px] text-center   ">
-      <div className="flex justify-end w-full mb-4 space-x-2 ">
+      <div
+        className={`relative flex  w-full mb-4 space-x-2  h-[30px]   text-sm  ${
+          useFilter ? "justify-between" : "justify-end"
+        }`}
+      >
         {useFilter && (
-          <div className="flex w-3/5 ">
+          <div>
             <button
-              className={`${buttonStyle} ${
-                showForm ? "bg-blue-300" : "bg-white"
+              className={`w-[90px]  p-1  border border-beige-600 rounded-l-lg  h-full ml-3    ${
+                showForm && "bg-blue-300"
               } `}
               onClick={() => {
                 setShowForm((curState) => !curState)
@@ -104,6 +108,19 @@ const NftList = ({ useFilter }: NftListProp) => {
             >
               {showForm ? "필터 닫기" : "필터 열기 "}
             </button>
+
+            <button
+              className={`w-[90px]  p-1  border  rounded-r-lg border-l-0  h-full  border-beige-600 `}
+              onClick={() => {
+                resetFilter()
+              }}
+            >
+              필터 초기화
+            </button>
+          </div>
+        )}
+        {useFilter && (
+          <div className="absolute left-0 w-full -top-[36px]">
             {filter && (
               <SelectedFilters
                 filter={filter!}
@@ -115,10 +132,10 @@ const NftList = ({ useFilter }: NftListProp) => {
             )}
           </div>
         )}
-        <div className="flex justify-end w-3/5 pr-2 h-[35px]">
-          <div className="w-[240px] mr-1 border rounded-lg border-brown-600 h-full">
+        <div className="flex justify-end w-3/5 h-full pr-2 ">
+          <div className="w-[240px] mr-1 border rounded-lg border-beige-600 h-full ">
             <button
-              className={`w-1/2 h-full p-1 px-2 rounded-l-lg border border-t-0 border-l-0 border-b-0 border-r-brown-600  ${
+              className={`w-1/2 h-full p-1 px-2 rounded-l-lg border border-t-0 border-l-0 border-b-0 border-r-beige-600  ${
                 !showInfo && activeColor
               }`}
               onClick={() => setShowInfo(false)}
@@ -134,12 +151,12 @@ const NftList = ({ useFilter }: NftListProp) => {
               정보 보기
             </button>
           </div>
-          <div className="w-[200px] mr-1 border rounded-lg border-brown-600">
+          <div className="w-[200px] mr-1 border rounded-lg border-beige-600 h-full">
             <button
-              className={`w-1/2 h-full p-1 px-2 rounded-l-lg border border-t-0 border-l-0 border-b-0 border-r-brown-600  ${
+              className={`w-1/2 h-full p-1 px-2 rounded-l-lg border border-t-0 border-l-0 border-b-0 border-r-beige-600  ${
                 showSell && activeColor
               }`}
-              onClick={() => setShowSell((prev) => !prev)}
+              onClick={() => setShowSell(true)}
             >
               판매중
             </button>
@@ -147,7 +164,7 @@ const NftList = ({ useFilter }: NftListProp) => {
               className={`w-1/2 h-full p-1 px-2 rounded-r-lg ${
                 !showSell && activeColor
               }`}
-              onClick={() => setShowSell((prev) => !prev)}
+              onClick={() => setShowSell(false)}
             >
               전체
             </button>

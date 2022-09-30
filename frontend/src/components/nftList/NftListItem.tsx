@@ -34,7 +34,7 @@ export interface NftListItemType {
 const NftListItem = ({ item }: { item: NftListItemType }) => {
   const navigate = useNavigate()
   const showInfo = useRecoilValue(listModeAtom)
-  const { id, url, tier, sell, status, gender, price } = item
+  const { id, url, tier, sell, status, gender, price, job } = item
 
   if (!showInfo) {
     return (
@@ -76,11 +76,11 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
           <div
             className={`relative flex justify-center  bg-cover w-full h-full bg-center rounded-lg`}
             style={{
-              backgroundImage: `url(${url})`,
+              backgroundImage: `url(/assets/bg/${job}.png)`,
               backgroundSize: "300px 300px",
             }}
           >
-            <div className="relative flex items-center w-full h-full rounded-lg backdrop-blur-md">
+            <div className="relative flex items-center w-full h-full rounded-lg ">
               <div
                 className={` rounded-lg  w-[120px] h-[180px] bg-white  bg-center border-4  border-white ml-2
                 `}
@@ -99,7 +99,7 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
 
               {status && (
                 <div className="absolute space-y-1 top-4 right-1">
-                  <StatList statList={status} />
+                  <StatList statList={status} border={true} />
                 </div>
               )}
             </div>
