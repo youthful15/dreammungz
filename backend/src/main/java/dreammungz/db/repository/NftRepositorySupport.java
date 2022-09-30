@@ -1,6 +1,8 @@
 package dreammungz.db.repository;
 
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import dreammungz.api.dto.nft.list.NftListRequest;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static dreammungz.db.entity.QJob.job;
 import static dreammungz.db.entity.QNft.nft;
 import static dreammungz.db.entity.QNftStatus.nftStatus;
 import static dreammungz.db.entity.QTrade.trade;
@@ -74,6 +77,16 @@ public class NftRepositorySupport extends QuerydslRepositorySupport {
                 .select(nft)
                 .from(nft)
                 .where(nft.member.eq(member))
+                .fetch();
+    }
+
+    public List<Nft> findAllByMemberAndTier(Member member,List<String> tierList) {
+        return queryFactory
+                .select(nft).distinct()
+                .from(nft)
+                .where(nft.member.eq(member),nft.job.eq(job))
+                .orderBy(orderSpecifier(tierList),nft.job.id.asc())
+                .limit(10)
                 .fetch();
     }
 
@@ -147,6 +160,8 @@ public class NftRepositorySupport extends QuerydslRepositorySupport {
         return nftStatus.status.name.in(id);
     }
 
-
+    private OrderSpecifier<?> orderSpecifier(List<String> tierList){
+        return Expressions.stringTemplate("FIELD({0},{1})",nft.tier,tierList).desc();
+    }
 
 }

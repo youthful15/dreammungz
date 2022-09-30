@@ -1,5 +1,6 @@
 package dreammungz.api.controller;
 
+import dreammungz.api.dto.nft.MyMuseumResponse;
 import dreammungz.api.dto.nft.MyNftResponse;
 import dreammungz.api.dto.nft.end.GameEndRequest;
 import dreammungz.api.dto.nft.end.GameEndResponse;
@@ -36,6 +37,13 @@ public class NftController {
     @GetMapping("/address/{address}")
     public ResponseEntity<MyNftResponse> myNftList(@ApiParam(value = "지갑 주소", required = true) @PathVariable String address) {
         MyNftResponse response = nftService.myNftList(address);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "박물관에서 보여줄 NFT 조회", notes = "각 직업별 가장 높은 등급의 NFT 정보를 제공한다.", response = MyMuseumResponse.class)
+    @GetMapping("/museum/address/{address}")
+    public ResponseEntity<MyMuseumResponse> myMuseumList(@ApiParam(value = "지갑 주소", required = true) @PathVariable String address) {
+        MyMuseumResponse response = nftService.myMuseumList(address);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
