@@ -3,7 +3,6 @@ import playingGame from "../../recoil/game/atom"
 import { useRecoilState } from "recoil"
 import CreditImage from "./CreditImage"
 import "./gameEndingCredit.css"
-import FootPrint from "./FootPrint"
 
 export default function GameEndingCredit() {
   const [showBtn, setShowBtn] = useState(false)
@@ -15,11 +14,18 @@ export default function GameEndingCredit() {
     }, 5000)
   }, [])
   return (
-    <div className="w-full h-full absolute z-[100] full-game-epilogue bg-lgBrown-500 overflow-hidden flex">
+    <div
+      // style={{
+      //   backgroundImage:
+      //     "url('https://c6.staticflickr.com/4/3165/2558160805_c15dd40154_n.jpg')",
+      //   backgroundSize: "100% 100%",
+      // }}
+      className="w-full h-full absolute z-[20] full-game-epilogue bg-lgBrown-600 overflow-hidden flex rounded-lg"
+    >
       {showBtn === true ? (
         <div className="flex items-end justify-end w-full">
           <button
-            className="cursor-pointer z-[120] mb-2 mr-4 text-white text-xl font-semibold font-sans hover:text-brown-100"
+            className="cursor-pointer z-[120] mb-2 mr-4 text-white text-xl font-semibold mapleStory hover:text-brown-100"
             onClick={() => {
               setGame((prev) => {
                 const variable = { ...prev }
@@ -28,15 +34,14 @@ export default function GameEndingCredit() {
               })
             }}
           >
-            SKIP
+            CLOSE
           </button>
         </div>
       ) : null}
-      <FootPrint />
 
       <div id="target">
         <div>
-          <div className="h-[500px]"></div>
+          <div className="h-[700px]"></div>
           {game.endingCreditData.map(
             ({
               image,
@@ -50,7 +55,7 @@ export default function GameEndingCredit() {
               return (
                 <div key={sequence}>
                   {sequence % 2 === 0 ? (
-                    <div className="flex justify-end mx-[60px]">
+                    <div className="flex justify-end mx-[80px]">
                       <CreditImage
                         imgUrl={image}
                         title={title}
@@ -58,7 +63,7 @@ export default function GameEndingCredit() {
                       />
                     </div>
                   ) : (
-                    <div className="flex justify-start mx-[60px]">
+                    <div className="flex justify-start mx-[80px]">
                       <CreditImage
                         imgUrl={image}
                         title={title}
@@ -70,6 +75,11 @@ export default function GameEndingCredit() {
               )
             }
           )}
+          <div className="flex justify-center mt-[600px]">
+            <p className="text-7xl font-semibold mapleStory  text-white">
+              To Be Continued
+            </p>
+          </div>
         </div>
       </div>
     </div>
