@@ -47,7 +47,9 @@ public class GameResult {
     @Column(name = "tier", nullable = false)
     private Tier tier;
 
-    @OneToOne(mappedBy = "game_result", fetch = FetchType.LAZY)
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "game_id")
     private Game game;
 
     @ManyToOne(fetch = FetchType.LAZY)

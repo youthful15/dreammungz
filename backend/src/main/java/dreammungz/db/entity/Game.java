@@ -44,8 +44,7 @@ public class Game {
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<GameStory> gameStories= new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "game_result_id")
+    @OneToOne(mappedBy = "game", fetch = FetchType.LAZY)
     private GameResult gameResult;
 
     @Builder
