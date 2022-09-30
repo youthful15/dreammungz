@@ -1,3 +1,5 @@
+import { faCoins } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useNavigate } from "react-router"
 import { useRecoilValue } from "recoil"
 import listModeAtom from "../../recoil/list/atom"
@@ -34,6 +36,34 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
   const showInfo = useRecoilValue(listModeAtom)
   const { id, url, tier, sell, status, gender, price } = item
 
+  if (!showInfo) {
+    return (
+      <div
+        className={`relative  p-2 rounded-lg bg-4   w-[25%]  h-1/2  hover:scale-110`}
+        onClick={() => {
+          navigate(`/nft/detail/${id}`)
+        }}
+      >
+        <div
+          className={`w-full  flex items-center justify-center flex-col  h-full  rounded-lg bg-beige-100 shadow-md border-beige-400 border-4 `}
+        >
+          <div className="relative flex justify-center w-full h-full ">
+            <div
+              className={`relative flex justify-center w-full border h-full`}
+            >
+              <div
+                style={{
+                  backgroundImage: `url(${url})`,
+                }}
+                className="w-full h-full bg-center bg-cover rounded-lg"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div
       className={`relative  p-2 rounded-lg bg-4   w-[25%]  h-1/2  hover:scale-110`}
@@ -42,40 +72,54 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
       }}
     >
       <div
-        className={`w-full  flex items-center justify-center flex-col  h-full  rounded-lg  bg-beige-400`}
+        className={`w-full  flex items-center justify-center flex-col  h-full  rounded-lg bg-beige-100 shadow-md border-beige-400 border-4 `}
       >
-        <div className="flex ">
-          <div className="relative">
-            <img
-              className={`   rounded-lg   ${
-                showInfo ? "w-[140px] h-[140px]" : "w-[200px] h-[200px]"
-              }`}
-              src={url}
-            />
-            {showInfo && tier && (
-              <div className="absolute bottom-3 left-3 ">
-                <Tier tier={tier} />
-                <Gender gender={gender} />
+        <div className="relative flex justify-center w-full h-full ">
+          <div
+            className={`relative flex justify-center  bg-cover w-full h-full bg-center rounded-lg`}
+            style={{
+              backgroundImage: `url(${url})`,
+              backgroundSize: "300px 300px",
+            }}
+          >
+            <div className="relative flex items-center w-full h-full rounded-lg backdrop-blur-md">
+              <div
+                className={` rounded-lg  w-[120px] h-[180px] bg-white  bg-center border-4  border-white ml-2
+                `}
+                style={{
+                  backgroundImage: `url(${url})`,
+                  backgroundSize: "240px 240px",
+                }}
+              >
+                {tier && (
+                  <div className="absolute flex top-4 left-3">
+                    <Tier tier={tier} />
+                    <Gender gender={gender} />
+                  </div>
+                )}
               </div>
-            )}
+
+              {status && (
+                <div className="absolute space-y-1 top-4 right-1">
+                  <StatList statList={status} />
+                </div>
+              )}
+            </div>
           </div>
-          {showInfo && status && (
-            <div className="bottom-0 right-2">
-              <StatList statList={status} />
+          {sell && (
+            <div className="absolute bottom-0 flex justify-center w-full ">
+              <div className="w-full h-[35px] flex items-center  justify-center py-0.5  bg-brown-400   rounded-b-md">
+                <div className="text-lg font-bold text-white">
+                  {price}
+                  <FontAwesomeIcon
+                    icon={faCoins}
+                    className="text-lg text-yellow-300 w-[30px]"
+                  />
+                </div>
+              </div>
             </div>
           )}
         </div>
-
-        {showInfo && (
-          <div className="w-full pt-1 mt-2">
-            {sell ? (
-              <SellStatus price={price} />
-            ) : (
-              <div>판매중이 아닙니다.</div>
-            )}
-            <div className="pr-2 text-xs font-semibold text-right">no.{id}</div>
-          </div>
-        )}
       </div>
     </div>
   )
