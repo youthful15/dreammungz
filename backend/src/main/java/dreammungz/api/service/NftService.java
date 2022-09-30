@@ -277,7 +277,7 @@ public class NftService {
         저장되어있던 GameResult 삭제
         저장되어있던 GameResultStatus 삭제
         */
-        GameResult gameResult = gameResultRepository.findById(game.getGameResult().getId()).orElseThrow(
+        GameResult gameResult = gameResultRepository.findByGameId(game.getId()).orElseThrow(
                 () -> new CustomException(CustomExceptionList.GAME_RESULT_NOT_FOUND)
         );
 
