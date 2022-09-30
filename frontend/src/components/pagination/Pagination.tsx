@@ -7,14 +7,13 @@ import {
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons"
 
-const totalPage = 182
-const limit = 10
+const limit = 3
 
 const buttonColor = "bg-beige-500"
-const activeColor = "bg-pink-500"
+const activeColor = "bg-pink-500 font-semibold"
 
 const buttonStyle =
-  "w-8 h-8 m-1  rounded-full  text-center pt-0.5 text-brown cursor-pointer "
+  "w-6 h-6 m-1  rounded-lg  text-center pt-0.5 text-sm text-brown cursor-pointer "
 
 interface PaginationProp {
   totalPage: number
@@ -44,7 +43,7 @@ const Pagination = ({
     <>
       {/* <div>페이지 인덱스:{currentPage}</div>
       <div>페이지 오프셋:{offset}</div> */}
-      <div className="bottom-0 flex justify-center w-full ">
+      <div className="flex justify-center w-full ">
         <div
           className={`${buttonStyle} ${buttonColor}`}
           onClick={() => clickPage(0)}
