@@ -531,6 +531,7 @@ public class NftService {
                     .build();
 
             gameResultStatusRepository.save(gameResultStatus);
+            gameResult.getGameResultStatuses().add(gameResultStatus);
         }
 
         return gameEndResponse;
