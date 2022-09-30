@@ -27,11 +27,11 @@ const Museum = () => {
         <Lights night={true} performance={true} />
 
         <Physics gravity={[0, -30, 0]}>
-          <Suspense fallback={null}>
-            <Ground />
-            <Building />
-            <Art />
-          </Suspense>
+          {/* <Suspense fallback={null}> */}
+          <Ground />
+          <Building />
+          <Art />
+          {/* </Suspense> */}
           <Player />
         </Physics>
       </Canvas>
