@@ -17,12 +17,15 @@ const color: { [index: string]: string } = {
 export interface StatType {
   name: string
   value: number
+  border?: boolean
 }
 
-const Stat = ({ name, value }: StatType) => {
+const Stat = ({ name, value, border = false }: StatType) => {
   return (
     <div
-      className={`text-black text-xs p-0.5 rounded-md m-0.5 w-20 text-center font-semibold ${color[name]} shadow-sm`}
+      className={`text-black text-xs p-0.5 rounded-md m-0.5 w-20 text-center font-semibold ${
+        color[name]
+      } shadow-sm ${border && "border border-white"}`}
     >
       {KOR(name)} {value}
     </div>
