@@ -35,10 +35,10 @@ function App() {
 
       <div className="flex items-center justify-center bg-white shadow-2xl rounded-2xl w-[1290px] h-[710px] relative">
         <div className="flex rounded-xl w-[1280px] h-[700px]">
-          <div className="w-[230px] bg-brown-200 rounded-l-xl">
+          <div className="w-[230px]  rounded-l-xl bg-gradient-to-t from-lgBrown-500 to-lgBrown-300">
             <Navbar />
           </div>
-          <div className="w-[1050px] p-8  bg-beige-200 rounded-r-xl">
+          <div className="w-[1050px] p-8 bg-gradient-to-t from-beige-300 to-beige-100 rounded-r-xl">
             <Routes>
               <Route path="/" element={<Navigate replace to="/mainPage" />} />
               <Route path="/mainpage" element={<MainPage />} />

@@ -107,12 +107,17 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
           {sell && (
             <div className="absolute bottom-0 flex justify-center w-full ">
               <div className="w-full h-[35px] flex items-center  justify-center py-0.5  bg-brown-400   rounded-b-md">
-                <div className="text-lg font-bold text-white">
+                <div className="flex text-lg font-bold text-white">
                   {price}
-                  <FontAwesomeIcon
+                  <img
+                    src="/images/token.png"
+                    alt="token"
+                    className="w-[25px] h-[25px] ml-1"
+                  />
+                  {/* <FontAwesomeIcon
                     icon={faCoins}
                     className="text-lg text-yellow-300 w-[30px]"
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
