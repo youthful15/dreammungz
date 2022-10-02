@@ -9,8 +9,8 @@ import {
 
 const limit = 3
 
-const buttonColor = "bg-beige-500"
-const activeColor = "bg-pink-500 font-semibold"
+const buttonColor = "bg-beige-400 border border-lgBrown-400"
+const activeColor = "bg-pink-500 font-semibold  border border-lgBrown-400"
 
 const buttonStyle =
   "w-6 h-6 m-1  rounded-lg  text-center pt-0.5 text-sm text-brown cursor-pointer "

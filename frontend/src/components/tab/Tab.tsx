@@ -4,15 +4,14 @@ export interface TabProp {
   title: string
   path: string
 }
-const tabStyle = "h-full p-2  rounded-t-lg "
 const Tab = ({ title, path }: TabProp) => {
   return (
     <NavLink to={path} className="">
       {({ isActive }) => (
         <div
-          className={
-            isActive ? tabStyle + "bg-beige" : tabStyle + "bg-gray-100"
-          }
+          className={`h-[90%] p-2  rounded-t-lg w-[100px]  text-center mapleStory border-r-2 border-beige-600/40  text-brown  ${
+            isActive ? "bg-pink" : "bg-beige-500"
+          }`}
         >
           {title}
         </div>

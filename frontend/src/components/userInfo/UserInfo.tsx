@@ -1,3 +1,5 @@
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useQuery } from "@tanstack/react-query"
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router"
@@ -33,6 +35,9 @@ const UserInfo = () => {
   }
 
   const onNicknameSubmit = async () => {
+    if (newNickname === "") {
+      alert("닉네임은 최소 1자 이상이어야 합니다.")
+    }
     if (!address) return
     try {
       const data = await http.put(`auth/info/nickname`, {
@@ -57,37 +62,44 @@ const UserInfo = () => {
     <>
       {!editing ? (
         <div className="flex">
-          <h1 className="text-2xl font-bold ">
-            {data?.nickname}의 NFT 페이지{" "}
+          <h1 className="pb-2 text-3xl font-bold mapleStory text-lgBrown-700">
+            {data?.nickname}의 페이지{" "}
           </h1>
           {isOwner !== null && isOwner && (
             <button
-              className="p-1 ml-4 bg-white rounded-lg"
+              className="p-1 mx-2 rounded-lg"
               onClick={() => {
                 setEditing(true)
               }}
             >
-              ✏️
+              <FontAwesomeIcon
+                icon={faPenToSquare}
+                className="text-lgBrown-700"
+              />
             </button>
           )}
         </div>
       ) : (
-        <div className="space-x-2">
+        <div className="pb-2 ml-1 mr-2 space-x-2 mapleStory">
           <input
             type="text"
             defaultValue={data?.nickname}
             onChange={onNicknameChange}
+            className="p-1 border-2 rounded-lg border-lgBrown-400 "
           />
-          <button className="border" onClick={onNicknameSubmit}>
+          <button
+            className="p-1 border-2 rounded-lg bg-sky-200 border-lgBrown-400"
+            onClick={onNicknameSubmit}
+          >
             수정 하기{" "}
           </button>
           <button
-            className="border"
+            className="p-1 mr-2 border-2 rounded-lg bg-rose-200 border-lgBrown-400"
             onClick={() => {
               setEditing(false)
             }}
           >
-            취소{" "}
+            수정 취소{" "}
           </button>
         </div>
       )}

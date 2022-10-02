@@ -36,7 +36,7 @@ const useNftList = (data: Filter, address: string) => {
 }
 
 const activeColor = "bg-pink"
-const inactivateColor = "bg-beige-200"
+const inactivateColor = "bg-beige-300"
 
 const NftList = ({ useFilter }: NftListProp) => {
   const { address } = useParams()
@@ -92,14 +92,14 @@ const NftList = ({ useFilter }: NftListProp) => {
   return (
     <div className="flex flex-col w-full h-[640px] text-center   ">
       <div
-        className={`relative flex  w-full mb-4 space-x-2  h-[30px]   text-sm  ${
+        className={`relative flex  w-full mb-4 space-x-2  h-[30px]   text-sm  text-brown  ${
           useFilter ? "justify-between" : "justify-end"
         }`}
       >
         {useFilter && (
           <div>
             <button
-              className={`w-[90px]  p-1  border border-beige-600 rounded-l-lg  h-full ml-3    ${
+              className={`w-[90px]  p-1  border-2  border-lgBrown-400 rounded-l-lg  h-full ml-3   bg-beige-300  mapleStory ${
                 showForm && "bg-blue-300"
               } `}
               onClick={() => {
@@ -110,7 +110,7 @@ const NftList = ({ useFilter }: NftListProp) => {
             </button>
 
             <button
-              className={`w-[90px]  p-1  border  rounded-r-lg border-l-0  h-full  border-beige-600 `}
+              className={`w-[90px]  p-1  border-2   rounded-r-lg border-l-0  h-full  border-lgBrown-400  bg-beige-300 mapleStory `}
               onClick={() => {
                 resetFilter()
               }}
@@ -133,36 +133,36 @@ const NftList = ({ useFilter }: NftListProp) => {
           </div>
         )}
         <div className="flex justify-end w-3/5 h-full pr-2 ">
-          <div className="w-[240px] mr-1 border rounded-lg border-beige-600 h-full ">
+          <div className="w-[240px] mr-1  rounded-lg h-full ">
             <button
-              className={`w-1/2 h-full p-1 px-2 rounded-l-lg border border-t-0 border-l-0 border-b-0 border-r-beige-600  ${
-                !showInfo && activeColor
+              className={`w-1/2 h-full p-1 px-2 rounded-l-lg border-2 border-lgBrown-400 mapleStory   ${
+                !showInfo ? activeColor : inactivateColor
               }`}
               onClick={() => setShowInfo(false)}
             >
               이미지만 보기
             </button>
             <button
-              className={`w-1/2 h-full p-1 px-2 rounded-r-lg ${
-                showInfo && activeColor
+              className={`w-1/2 h-full p-1 px-2 rounded-r-lg  border-2 border-lgBrown-400 mapleStory border-l-0 ${
+                showInfo ? activeColor : inactivateColor
               }`}
               onClick={() => setShowInfo(true)}
             >
               정보 보기
             </button>
           </div>
-          <div className="w-[200px] mr-1 border rounded-lg border-beige-600 h-full">
+          <div className="w-[200px] mr-1  rounded-lg  h-full">
             <button
-              className={`w-1/2 h-full p-1 px-2 rounded-l-lg border border-t-0 border-l-0 border-b-0 border-r-beige-600  ${
-                showSell && activeColor
+              className={`w-1/2 h-full p-1 px-2 rounded-l-lg border-2 border-lgBrown-400 mapleStory  ${
+                showSell ? activeColor : inactivateColor
               }`}
               onClick={() => setShowSell(true)}
             >
               판매중
             </button>
             <button
-              className={`w-1/2 h-full p-1 px-2 rounded-r-lg ${
-                !showSell && activeColor
+              className={`w-1/2 h-full p-1 px-2 rounded-r-lg  border-2 border-lgBrown-400 mapleStory border-l-0 ${
+                !showSell ? activeColor : inactivateColor
               }`}
               onClick={() => setShowSell(false)}
             >
