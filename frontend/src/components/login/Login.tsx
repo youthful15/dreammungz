@@ -83,11 +83,6 @@ export default function Login() {
   }
 
   const handleClick = async () => {
-    await setTrade((prev) => {
-      const variable = { ...prev }
-      variable.modalOpen6 = true
-      return { ...variable }
-    })
     // Check if MetaMask is installed
     if (!window.ethereum) {
       window.alert("메타마스크를 먼저 설치해주세요")
@@ -106,6 +101,12 @@ export default function Login() {
         return
       }
     }
+
+    await setTrade((prev) => {
+      const variable = { ...prev }
+      variable.modalOpen6 = true
+      return { ...variable }
+    })
 
     // 멍(ERC-20) 토큰 추가 함수
     const setERC20 = async () => {
@@ -133,6 +134,11 @@ export default function Login() {
 
     const coinbase = await web3.eth.getCoinbase()
     if (!coinbase) {
+      await setTrade((prev) => {
+        const variable = { ...prev }
+        variable.modalOpen6 = false
+        return { ...variable }
+      })
       window.alert("먼저 메타마스크를 실행해주세요.")
       return
     }
@@ -201,6 +207,11 @@ export default function Login() {
 
       navigate("/mainpage")
     } catch (err) {
+      await setTrade((prev) => {
+        const variable = { ...prev }
+        variable.modalOpen6 = false
+        return { ...variable }
+      })
       alert("싸피네트워크가 등록되어 있지 않습니다!")
     }
   }
