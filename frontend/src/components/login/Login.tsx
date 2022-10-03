@@ -183,7 +183,7 @@ export default function Login() {
 
       // 최초 가입 시 100000 M 지급
       // isNew === true 로 바꿔야 함
-      if (isNew === true) {
+      if (isNew !== true) {
         window.alert("최초가입하셨네요! 100000 M을 지급해드립니다!")
 
         try {
