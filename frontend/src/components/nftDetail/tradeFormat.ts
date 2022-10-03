@@ -45,6 +45,7 @@ export const sellFormat = async (
     window.location.reload()
   } catch (err) {
     console.error("판매 등록 에러", err)
+    window.location.reload()
   }
 }
 
@@ -74,6 +75,7 @@ export const sellAbortFormat = async (
     window.location.reload()
   } catch (err) {
     console.log(err)
+    window.location.reload()
   }
 }
 
@@ -132,6 +134,7 @@ export const buyNowFormat = async (
       window.location.reload()
     } catch (err) {
       console.error(err)
+      window.location.reload()
     }
   }
 }
@@ -166,6 +169,7 @@ export const acceptNegoFormat = async (
     window.location.reload()
   } catch (err) {
     console.error(err)
+    window.location.reload()
   }
 }
 
@@ -191,21 +195,9 @@ export const cancelNegoFormat = async (
 
     alert("제안이 취소되었습니다.")
     window.location.reload()
-
-    // OFFERLIST 초기화 필요
-    // OFFERLIST 초기화 필요
-
-    // OFFERLIST 초기화 필요
-    // OFFERLIST 초기화 필요
-    // OFFERLIST 초기화 필요 여기에
-    // OFFERLIST 초기화 필요
-    // OFFERLIST 초기화 필요
-    // OFFERLIST 초기화 필요
-    // OFFERLIST 초기화 필요
-    // OFFERLIST 초기화 필요
-    // OFFERLIST 초기화 필요
   } catch (err) {
     console.error(err)
+    window.location.reload()
   }
 }
 
@@ -285,6 +277,7 @@ export const proposalFormat = async (
     } catch (err) {
       console.error(err)
       alert("취소되었습니다.")
+      window.location.reload()
     }
   }
 }
