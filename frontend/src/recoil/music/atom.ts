@@ -7,7 +7,7 @@ const playingMusic = atom({
 
 export const playingNow = atom({
   key: "playingNow",
-  default: false,
+  default: true,
 })
 
 export default playingMusic

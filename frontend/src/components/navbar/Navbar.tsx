@@ -6,7 +6,7 @@ import { useRecoilState } from "recoil"
 import { http } from "../../api/axios"
 import { getBalance } from "../../utils/web3"
 const navItemStyle: string =
-  "bg-brown-300  border rounded-lg shadow-sm cursor-pointer"
+  "bg-beige-200 rounded-lg shadow-sm cursor-pointer p-1 mb-1 border-2 border-lgBrown-500"
 
 const Navbar = () => {
   const navigate = useNavigate()
@@ -48,63 +48,72 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="flex flex-col justify-between w-full h-full p-4 space-y-4 text-center">
-      <ul>
-        <li>
-          <NavLink to="/">
-            <img src="/dreammungz.svg" alt="logo" />
-          </NavLink>
-        </li>
-        <li>
-          <button onClick={gameStart} className="flex justify-center w-full">
-            <img src="/paw.png" alt="" className="" />
-          </button>
-        </li>
+    <div className="h-full pb-2">
+      <div className="h-[15%]">
+        <NavLink to="/">
+          <img className="p-1 pt-2" src="/dreammungz.svg" alt="logo" />
+        </NavLink>
+      </div>
+      <nav className="flex flex-col justify-between w-full h-[85%] p-4 space-y-4 text-center mapleStory">
+        <ul className="rounded-xl mt-2 pb-2 pt-1">
+          <li>
+            <button
+              onClick={gameStart}
+              className="flex justify-center w-full px-3 pb-3 pt-2 hover:scale-[110%]"
+            >
+              <img src="/images/start.png" alt="" className="" />
+            </button>
+          </li>
 
-        <NavList />
-      </ul>
-      {isLogin ? (
-        <div>
-          <Link to={`/personal/${localStorage.getItem("publicAddress")}/list`}>
-            <div className={navItemStyle}>마이페이지 </div>
-          </Link>
-          <div
-            className={navItemStyle}
-            onClick={async () => {
-              const receivedBalance = await getBalance()
-              setShowBalance(true)
-              setBalance(receivedBalance)
-            }}
-          >
-            {showBalance ? (
-              <p className="text-xl font-semibold text-white">{balance} M</p>
-            ) : (
-              "지갑 보기"
-            )}
+          <NavList />
+        </ul>
+        {isLogin ? (
+          <div className="px-3">
+            <Link
+              to={`/personal/${localStorage.getItem("publicAddress")}/list`}
+            >
+              <div className={navItemStyle}>마이페이지 </div>
+            </Link>
+            <div
+              className={navItemStyle}
+              onClick={async () => {
+                const receivedBalance = await getBalance()
+                setShowBalance(true)
+                setBalance(receivedBalance)
+              }}
+            >
+              {showBalance ? (
+                <p className="text-xl font-semibold text-white">{balance} M</p>
+              ) : (
+                "지갑 보기"
+              )}
+            </div>
+            <div
+              className={navItemStyle}
+              onClick={() => {
+                localStorage.clear()
+                setLogin(false)
+                navigate("/mainpage")
+              }}
+            >
+              로그아웃
+            </div>
           </div>
-          <div
-            className={navItemStyle}
-            onClick={() => {
-              localStorage.clear()
-              setLogin(false)
-              navigate("/mainpage")
-            }}
-          >
-            로그아웃
+        ) : (
+          <div className="px-3">
+            <div
+              className={navItemStyle}
+              onClick={() => {
+                setLogin(true)
+                navigate("/login")
+              }}
+            >
+              로그인
+            </div>
           </div>
-        </div>
-      ) : (
-        <div
-          className={navItemStyle}
-          onClick={() => {
-            setLogin(true)
-            navigate("/login")
-          }}
-        >
-          로그인
-        </div>
-      )}
-    </nav>
+        )}
+      </nav>
+    </div>
   )
 }
 

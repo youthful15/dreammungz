@@ -1,4 +1,4 @@
-import { useSetRecoilState } from "recoil"
+import { useRecoilValue, useSetRecoilState } from "recoil"
 import listModeAtom from "../../recoil/list/atom"
 import Pagination from "../pagination/Pagination"
 import NftListItem, { NftListItemType } from "./NftListItem"
@@ -9,7 +9,9 @@ import useQueryParam from "../filter/useQueryParam"
 import { useQuery } from "@tanstack/react-query"
 import { getNftList } from "../../api/nft"
 import SelectedFilters from "../filter/SelectedFilters"
-const buttonStyle = "p-1 m-0.5 border border-gray-700 rounded-md  h-8"
+
+const buttonStyle = "p-1 border border-gray-700 rounded-md  h-8"
+
 const filterForm = {
   job: null,
   hair: null,
@@ -32,10 +34,15 @@ const useNftList = (data: Filter, address: string) => {
     cacheTime: 0,
   })
 }
+
+const activeColor = "bg-pink"
+const inactivateColor = "bg-beige-300"
+
 const NftList = ({ useFilter }: NftListProp) => {
   const { address } = useParams()
   let [filter, setFilter] = useQueryParam<Filter>("search")
   const setShowInfo = useSetRecoilState(listModeAtom)
+  const showInfo = useRecoilValue(listModeAtom)
   const [showSell, setShowSell] = useState(false)
   const [page, setPage] = useState(0)
   const { status, data, error, isFetching } = useNftList(filter!, address!)
@@ -83,13 +90,17 @@ const NftList = ({ useFilter }: NftListProp) => {
   }
 
   return (
-    <div className="flex flex-col w-full h-[640px] text-center  ">
-      <div className="flex justify-end w-full mb-4 space-x-2 ">
+    <div className="flex flex-col w-full h-[640px] text-center   ">
+      <div
+        className={`relative flex  w-full mb-4 space-x-2  h-[30px]   text-sm  text-brown  ${
+          useFilter ? "justify-between" : "justify-end"
+        }`}
+      >
         {useFilter && (
-          <div className="flex w-3/5 ">
+          <div>
             <button
-              className={`${buttonStyle} ${
-                showForm ? "bg-blue-300" : "bg-white"
+              className={`w-[90px]  p-1  border-2  border-lgBrown-400 rounded-l-lg  h-full ml-3   bg-beige-300  mapleStory ${
+                showForm && "bg-blue-300"
               } `}
               onClick={() => {
                 setShowForm((curState) => !curState)
@@ -97,6 +108,19 @@ const NftList = ({ useFilter }: NftListProp) => {
             >
               {showForm ? "필터 닫기" : "필터 열기 "}
             </button>
+
+            <button
+              className={`w-[90px]  p-1  border-2   rounded-r-lg border-l-0  h-full  border-lgBrown-400  bg-beige-300 mapleStory `}
+              onClick={() => {
+                resetFilter()
+              }}
+            >
+              필터 초기화
+            </button>
+          </div>
+        )}
+        {useFilter && (
+          <div className="absolute left-0 w-full -top-[36px]">
             {filter && (
               <SelectedFilters
                 filter={filter!}
@@ -108,25 +132,43 @@ const NftList = ({ useFilter }: NftListProp) => {
             )}
           </div>
         )}
-        <div className="w-2/5">
-          <button
-            className="p-1 px-2 rounded-lg bg-brown-200"
-            onClick={() => setShowInfo(false)}
-          >
-            이미지만{" "}
-          </button>
-          <button
-            className="p-1 px-2 rounded-lg bg-brown-200"
-            onClick={() => setShowInfo(true)}
-          >
-            정보 보기{" "}
-          </button>
-          <button
-            className="p-1 px-2 rounded-lg bg-brown-200"
-            onClick={() => setShowSell((prev) => !prev)}
-          >
-            {showSell ? "전체 목록" : "판매중"}
-          </button>
+        <div className="flex justify-end w-3/5 h-full pr-2 ">
+          <div className="w-[240px] mr-1  rounded-lg h-full ">
+            <button
+              className={`w-1/2 h-full p-1 px-2 rounded-l-lg border-2 border-lgBrown-400 mapleStory   ${
+                !showInfo ? activeColor : inactivateColor
+              }`}
+              onClick={() => setShowInfo(false)}
+            >
+              이미지만 보기
+            </button>
+            <button
+              className={`w-1/2 h-full p-1 px-2 rounded-r-lg  border-2 border-lgBrown-400 mapleStory border-l-0 ${
+                showInfo ? activeColor : inactivateColor
+              }`}
+              onClick={() => setShowInfo(true)}
+            >
+              정보 보기
+            </button>
+          </div>
+          <div className="w-[200px] mr-1  rounded-lg  h-full">
+            <button
+              className={`w-1/2 h-full p-1 px-2 rounded-l-lg border-2 border-lgBrown-400 mapleStory  ${
+                showSell ? activeColor : inactivateColor
+              }`}
+              onClick={() => setShowSell(true)}
+            >
+              판매중
+            </button>
+            <button
+              className={`w-1/2 h-full p-1 px-2 rounded-r-lg  border-2 border-lgBrown-400 mapleStory border-l-0 ${
+                !showSell ? activeColor : inactivateColor
+              }`}
+              onClick={() => setShowSell(false)}
+            >
+              전체
+            </button>
+          </div>
         </div>
       </div>
 

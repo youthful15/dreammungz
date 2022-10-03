@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { start } from "repl"
 import { http } from "../api/axios"
 import GenderTag from "../components/game/GenderTag"
 import StatList from "../components/nftInfo/StatList"
@@ -9,6 +8,7 @@ import SpinnerModal from "../components/modal/SpinnerModal"
 import Spinner from "../components/spinner/Spinner"
 import { useRecoilState } from "recoil"
 import tradeAtom from "../recoil/trade/atom"
+import Gender from "../components/nftInfo/Gender"
 const publicAddress = localStorage.getItem("publicAddress")
 
 let startSetting = {
@@ -54,10 +54,10 @@ function useMovePage(price: number) {
 function StartTutorial() {
   return (
     <div
-      className="w-full h-full rounded-3xl bg-cover border-pink-500 shadow-md relative"
+      className="relative w-full h-full bg-cover border-pink-500 shadow-md rounded-3xl"
       style={{ backgroundImage: "url(/images/mode.png)" }}
     >
-      <div className="h-full w-full ridiBatang ">
+      <div className="w-full h-full ridiBatang ">
         <div className="absolute left-[100px] top-[80px] flex flex-col items-center">
           <img src="/dreammungz.svg" className="w-[300px] pb-3" alt="logo" />
           <p className="pb-5">모드를 선택하고 당신만의 강아지를 키워보세요.</p>
@@ -78,12 +78,12 @@ function BabyMode() {
 
   return (
     <div
-      className="w-full h-full rounded-3xl bg-cover hadow-md relative bg-white flex "
-      // style={{ backgroundImage: "url(/images/mode.png)" }}
+      className="relative flex items-center justify-center w-full h-full bg-white bg-center shadow-md bg-cove rounded-3xl"
+      // style={{ backgroundImage: "url(/images/background3.png)" }}
     >
-      <div className="w-full ridiBatang flex flex-col justify-center items-center">
+      <div className="flex flex-col items-center justify-center w-full ridiBatang">
         <div className="flex pb-7">
-          <div className="flex items-end flex-col justify-center">
+          <div className="flex flex-col items-end justify-center">
             <span className="bg-lgBrown-200 mapleStory rounded-2xl h-[35px] flex items-center px-4 mb-2">
               출발하자!
             </span>
@@ -96,7 +96,7 @@ function BabyMode() {
         <p className="pb-1">강아지 육성을 새롭게 시작합니다.</p>
         <p>모든 스탯이 0부터 시작합니다.</p>
         <button
-          className="p-5 px-10 mt-5 bg-pink-500 rounded-3xl mapleStory text-xl"
+          className="p-5 px-10 mt-5 text-xl bg-pink-500 rounded-3xl mapleStory"
           onClick={StartGame}
         >
           100 MUNG으로 시작하기
@@ -204,7 +204,7 @@ function WeddingMode() {
 
     const newStatus: StatType[] = []
 
-    babyStatus.map((stat, index) => {
+    babyStatus.map((stat) => {
       if (stat.value) {
         newStatus.push(stat)
       }
@@ -234,29 +234,34 @@ function WeddingMode() {
   }, [dogF, dogM])
 
   return (
-    <div className="flex h-full">
-      <div className="w-[60%] h-full">
-        <div className="h-[10%] flex justify-center"> 소지 NFT 목록</div>
-        <div className="h-[90%] overflow-y-scroll scrollbar-hide">
-          <div className="flex flex-wrap w-full">
+    <div className="relative flex justify-between w-full h-full p-6 bg-white bg-cover shadow-md rounded-3xl">
+      <div className="w-[85%] h-full rounded-2xl">
+        <div className="h-[10%] flex justify-center mapleStory text-xl">
+          <span className="px-4 bg-pink-300 rounded-2xl h-[30px] border-2 border-pink-400">
+            보유한 NFT 목록
+          </span>
+        </div>
+        <div className="h-[90%] overflow-scroll bg-gradient-to-b from-pink-100 to-pink-300 scrollbar-hide rounded-2xl flex p-3 shadow-md border-pink-500">
+          <div className="flex flex-wrap justify-between w-full h-full">
             {nft.map((selectNft, index) => (
-              <div className="w-[14%] bg-pink-500 mr-4 mb-4" key={index}>
-                <div
-                  className="relative mb-1 cursor-pointer"
-                  onClick={() => {
-                    if (selectNft.gender == "M") {
-                      setDogM(selectNft)
-                    } else {
-                      setDogF(selectNft)
-                    }
-                  }}
-                >
-                  <img src={selectNft.url} alt="dog" />
-                  <div className="absolute bottom-2 right-2">
-                    <GenderTag name={selectNft.gender} />
+              <div
+                className="w-[32%] h-[35%] flex p-1 bg-white mb-3 border-pink-400 cursor-pointer rounded-xl shadow-sm hover:shadow-md"
+                key={index}
+                onClick={() => {
+                  if (selectNft.gender == "M") {
+                    setDogM(selectNft)
+                  } else {
+                    setDogF(selectNft)
+                  }
+                }}
+              >
+                <div className="relative w-[65%]">
+                  <img src={selectNft.url} alt="dog" className="rounded-lg" />
+                  <div className="absolute bottom-3 right-3">
+                    <Gender gender={selectNft.gender} />
                   </div>
                 </div>
-                <div className="flex flex-wrap justify-center">
+                <div className="flex flex-col items-center w-[35%]">
                   <StatList statList={selectNft.status} />
                 </div>
               </div>
@@ -264,36 +269,54 @@ function WeddingMode() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center w-[40%] h-full">
-        <div className="flex justify-center h-[10%]">
-          두 마리의 강아지를 결혼시킬 수 있습니다.
+      <div className="flex flex-col justify-center w-[40%] h-full pl-5">
+        <div className="h-[10%] flex justify-center mapleStory text-xl">
+          <span className="px-4 bg-beige-300 rounded-2xl h-[30px] border-2 border-beige-400">
+            유전 정보
+          </span>
         </div>
-        <div className="flex flex-col w-full h-[90%]">
-          <div className="flex h-[70%]">
-            <div className="flex flex-col justify-center w-1/2 p-2">
-              <div>엄마멍</div>
-              <div>{dogF.url ? <ShowDog dog={dogF} /> : null}</div>
-              <div className="flex flex-wrap">
-                <StatList statList={dogF.status} />
+        <div className="flex flex-col w-full h-[90%] items-center justify-center">
+          <div className="h-full">
+            <div className="flex h-[55%]">
+              <div className="flex flex-col justify-center w-1/2 p-2">
+                <div className="flex justify-center mb-2 text-sm rounded-full mapleStory">
+                  엄마멍
+                </div>
+                <div>
+                  {dogF.url ? (
+                    <ShowDog dog={dogF} />
+                  ) : (
+                    <div>
+                      <div className="w-[125.45px] h-[125.45px] bg-gray-200"></div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-col justify-center w-1/2 p-2">
+                <div className="flex justify-center mb-2 text-sm rounded-full mapleStory">
+                  압바멍
+                </div>
+                <div>
+                  {dogM.url ? (
+                    <ShowDog dog={dogM} />
+                  ) : (
+                    <div>
+                      <div className="w-[125.45px] h-[125.45px] bg-gray-200"></div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-            <div className="flex flex-col justify-center w-1/2 p-2">
-              <div>압바멍</div>
-              <div>{dogM.url ? <ShowDog dog={dogM} /> : null}</div>
-              <div className="flex flex-wrap">
-                <StatList statList={dogM.status} />
+            <div className="h-[45%] pt-5">
+              <div className="flex justify-center mapleStory">시작 정보</div>
+              <div className="flex flex-wrap items-center justify-center pt-2">
+                <StatList statList={babyStatus} />
               </div>
-            </div>
-          </div>
-          <div className="h-[30%]">
-            <div>애기멍</div>
-            <div className="flex flex-wrap">
-              <StatList statList={babyStatus} />
             </div>
           </div>
         </div>
         <button
-          className="h-[10%] bg-red-100"
+          className="p-5 px-2 mt-5 text-xl bg-pink-500 rounded-3xl mapleStory"
           onClick={() => {
             startSetting.father = dogM.id
             startSetting.mother = dogF.id
@@ -325,7 +348,7 @@ export default function GameStart() {
           })
         }}
       >
-        <div className="flex items-center flex-col">
+        <div className="flex flex-col items-center">
           <Spinner />
           <p className="text-2xl font-semibold absolute mt-[75%]">
             강아지 입양중
@@ -337,29 +360,29 @@ export default function GameStart() {
       <div className="flex w-full h-1/5">
         <div className="w-1/2 h-full pr-4">
           <button
-            className="w-full h-full rounded-3xl border-4 border-brown-300 mapleStory font-bold text-4xl shadow-md click:mt-1 bg-cover bg-center bg-beige-100 flex justify-center items-center"
+            className="flex items-center justify-center w-full h-full text-3xl font-bold bg-center bg-cover border-4 shadow-md rounded-3xl border-brown-300 mapleStory click:mt-1 bg-beige-100"
             onClick={() => setContent(<BabyMode />)}
             style={{ backgroundImage: "url(/images/babymode.png)" }}
           >
-            <div className="text-brown-500 rounded-3xl bg-white p-5 w-[90%]">
+            <div className="text-brown-500 rounded-2xl bg-white py-6 w-[92%]">
               아기 강아지 모드
             </div>
           </button>
         </div>
         <div className="w-1/2 h-full pl-4">
           <button
-            className="w-full h-full rounded-3xl border-4 border-pink-500 mapleStory font-bold text-4xl shadow-md click:mt-1 bg-cover bg-center bg-pink-100 flex justify-center items-center"
+            className="flex items-center justify-center w-full h-full text-3xl font-bold bg-pink-100 bg-center bg-cover border-4 border-pink-500 shadow-md rounded-3xl mapleStory click:mt-1"
             onClick={() => setContent(<WeddingMode />)}
             style={{ backgroundImage: "url(/images/weddingmode.png)" }}
           >
-            <div className="text-red-300 rounded-3xl bg-white p-5 w-[90%]">
+            <div className="text-red-300 rounded-2xl py-6 w-[92%] bg-white">
               웨딩 모드
             </div>
           </button>
         </div>
       </div>
       <div className="pt-8 h-4/5">
-        <div className="h-full w-full">{showContent}</div>
+        <div className="w-full h-full">{showContent}</div>
       </div>
     </div>
   )

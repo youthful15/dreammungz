@@ -5,13 +5,13 @@ const navItemList = [
   { title: "튜토리얼", path: "/tutorial" },
   { title: "강아지 구경", path: "/nft/list" },
   // { title: "커뮤니티", path: "/community" },
-  { title: "디자인(개발용)", path: "/styles" },
+  // { title: "디자인(개발용)", path: "/styles" },
   { title: "박물관", path: "/museum" },
 ]
 
 const NavList = () => {
   return (
-    <ul>
+    <ul className="px-3 py-1 rounded-2xl">
       {navItemList.map((item, key) => (
         <NavItem title={item.title} path={item.path} key={key} />
       ))}

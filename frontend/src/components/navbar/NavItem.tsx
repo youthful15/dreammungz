@@ -13,8 +13,8 @@ const NavItem = ({ title, path }: NavItemProp) => {
           <div
             className={
               isActive
-                ? `bg-pink-500  border rounded-lg shadow-sm p-1`
-                : "bg-beige-500  border rounded-lg shadow-sm p-1"
+                ? `bg-pink-300 rounded-3xl p-1 mb-2 border-2 border-pink-500`
+                : "bg-beige-500 rounded-full shadow-sm p-1 mb-2 border-2 border-lgBrown-400"
             }
           >
             {title}

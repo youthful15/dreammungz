@@ -4,7 +4,7 @@ import findKOR from "../../utils/findKOR"
 import { getKey } from "../../utils/gameWord"
 import { useEffect } from "react"
 
-const buttonStyle = "p-1 m-0.5 border border-gray-700 rounded-md  h-8"
+const buttonStyle = "p-1 m-0.5  bg-beige-500  rounded-md  "
 const SelectedFilters = ({
   filter,
   resetFilter,
@@ -44,13 +44,13 @@ const SelectedFilters = ({
   }
 
   return (
-    <div className="flex flex-wrap overflow-x-auto">
+    <div className="flex flex-wrap w-full pr-0.5 overflow-x-scroll scrollbar-hide">
       {seletedList.map((value) => {
         return (
-          <div className={buttonStyle} key={value}>
+          <div className={`${buttonStyle}   text-sm`} key={value}>
             {findKOR(value)}
             <span
-              className="text-base font-medium p-0.5  bg-beige-500  ml-1 rounded-lg"
+              className="text-sm font-medium p-0.5  bg-beige-300  ml-1 rounded-lg   text-brown-400"
               onClick={() => {
                 onClickHandler(value)
               }}
@@ -60,17 +60,6 @@ const SelectedFilters = ({
           </div>
         )
       })}
-
-      {seletedList.length !== 0 && (
-        <button
-          className={`${buttonStyle} bg-white`}
-          onClick={() => {
-            resetFilter()
-          }}
-        >
-          필터 초기화
-        </button>
-      )}
     </div>
   )
 }

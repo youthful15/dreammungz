@@ -3,9 +3,10 @@ import Stat, { StatType } from "./Stat"
 
 type StatListProp = {
   statList: StatType[]
+  border?: boolean
 }
 
-const StatList = ({ statList }: StatListProp) => {
+const StatList = ({ statList, border = false }: StatListProp) => {
   const [list, setList] = useState<StatType[] | null>(null)
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const StatList = ({ statList }: StatListProp) => {
     <>
       {list &&
         list.map(({ name, value }, index) => (
-          <Stat name={name} value={value} key={index} />
+          <Stat name={name} value={value} key={index} border={border} />
         ))}
     </>
   )
