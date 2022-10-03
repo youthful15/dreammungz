@@ -11,46 +11,52 @@ export default function OfferHistory(info: any, publicAddress: string) {
   const [, setMember] = useRecoilState(memberAtom)
 
   return (
-    <div className="w-[47.5%] border rounded-lg border-black">
-      <p className="text-xl font-semibold ml-2">오퍼 리스트</p>
-      <div className="w-full bg-transparent h-[90%] p-2">
+    <div className="w-[47.5%]">
+      <p className="text-xl font-semibold mb-2">오퍼 리스트</p>
+      <div className="w-full bg-transparent h-[90%] shadow-sm">
         {info && info.info.offer.length > 0 ? (
-          <div>
-            <div>
-              <div className="flex w-full border border-b-black border-t-transparent border-l-transparent border-r-transparent">
-                <p className="w-[20%]">가격</p>
-                <p className="w-[40%]">From</p>
-                <p>Date</p>
+          <div className="h-[280px] overflow-y-auto scrollbar-hide">
+            <div className="bg-lgBrown-400 rounded-t-lg">
+              <div className="flex w-full p-2">
+                <p className="w-[30%]">가격</p>
+                <p className="w-[40%]">제안자</p>
+                <p>오퍼 날짜</p>
               </div>
             </div>
             {info.info.offer.map(
-              ({
-                cancel,
-                choice,
-                offerAddress,
-                offerDate,
-                offerId,
-                offerNickname,
-                offerPrice,
-                refund,
-                tokenId,
-                tradeId,
-              }: {
-                cancel: boolean
-                choice: boolean
-                offerAddress: string
-                offerDate: string
-                offerId: number
-                offerNickname: string
-                offerPrice: number
-                refund: boolean
-                tokenId: number
-                tradeId: number
-              }) => {
+              (
+                {
+                  cancel,
+                  choice,
+                  offerAddress,
+                  offerDate,
+                  offerId,
+                  offerNickname,
+                  offerPrice,
+                  refund,
+                  tokenId,
+                  tradeId,
+                }: {
+                  cancel: boolean
+                  choice: boolean
+                  offerAddress: string
+                  offerDate: string
+                  offerId: number
+                  offerNickname: string
+                  offerPrice: number
+                  refund: boolean
+                  tokenId: number
+                  tradeId: number
+                },
+                index: number
+              ) => {
                 return (
-                  <div className="" key={tradeId}>
-                    <ul className="w-full flex py-1">
-                      <li className="w-[20%]">{offerPrice} M</li>
+                  <div
+                    key={index}
+                    className="bg-white rounded-sm my-1 shadow-xl"
+                  >
+                    <ul className="w-full flex p-1">
+                      <li className="w-[30%]">{offerPrice} M</li>
 
                       <li
                         className="w-[40%] text-lgBrown-600
@@ -65,7 +71,7 @@ hover:text-lgBrown-700 cursor-pointer"
 
                       {offerAddress === info.publicAddress ? (
                         <li
-                          className="w-[10%] cursor-pointer"
+                          className="ml-3 cursor-pointer hover:scale-110"
                           onClick={async () => {
                             const receivedBalance = await getBalance()
                             setMember((prev) => {
@@ -86,7 +92,7 @@ hover:text-lgBrown-700 cursor-pointer"
                       ) : null}
                       {info.info.sellerAddress === info.publicAddress ? (
                         <li
-                          className="cursor-pointer"
+                          className="ml-3 cursor-pointer hover:scale-110"
                           onClick={() => {
                             setTrade((prev) => {
                               const variable = { ...prev }
@@ -106,7 +112,7 @@ hover:text-lgBrown-700 cursor-pointer"
             )}
           </div>
         ) : (
-          <div>There is no offer</div>
+          <div>오퍼 내역이 없습니다.</div>
         )}
       </div>
     </div>

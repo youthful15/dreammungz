@@ -28,14 +28,7 @@ export default function SpinnerModal({
       aria-modal="true"
     >
       <div className="fixed inset-0 bg-gray-500 bg-opacity-75 z-10 transition-opacity"></div>
-      <div
-        className="fixed z-10 inset-0 overflow-y-auto"
-        onClick={(event) => {
-          if (event.target === outModal.current) {
-            modalClose()
-          }
-        }}
-      >
+      <div className="fixed z-10 inset-0 overflow-y-auto">
         <div
           className="flex items-end sm:items-center justify-center min-h-full text-center "
           ref={outModal}

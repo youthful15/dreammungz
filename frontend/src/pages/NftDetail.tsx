@@ -76,7 +76,7 @@ export default function NftDetail() {
   }, [])
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full mapleStory">
       {/* 스피너 모달 시작 */}
       <SpinnerModal
         isOpen={trade.modalOpen6}
@@ -490,9 +490,13 @@ export default function NftDetail() {
           {/* NFT 이미지 */}
           <NFTImage imageUrl={nftInfo.nft.url} />
 
-          <div className="w-[50%]">
+          <div className="w-[70%]">
             {/* NFT 주요 정보 */}
-            <NftMainDetail info={nftInfo} />
+            <NftMainDetail
+              info={nftInfo}
+              publicAddress={publicAddress}
+              nftOwnerAddress={nftOwnerAddress}
+            />
 
             {/* NFT 판매 버튼 - 판매 시작, 판매 중단, 즉시 구매, 오퍼 신청 */}
             <NftTradeButton

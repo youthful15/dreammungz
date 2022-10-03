@@ -4,16 +4,18 @@ import { useNavigate } from "react-router-dom"
 export default function TradeHistory(info: any) {
   const navigate = useNavigate()
   return (
-    <div className="w-[47.5%] border rounded-lg border-black">
-      <p className="text-xl font-semibold ml-2">거래 이력</p>
-      <div className="w-full h-[90%] bg-transparent p-2">
+    <div className="w-[47.5%]">
+      <p className="text-xl font-semibold mb-2">거래 이력</p>
+      <div className="w-full h-[90%] bg-transparent shadow-sm">
         {info && info.info.trade.length > 0 ? (
-          <div>
-            <div className="flex w-full border border-b-black border-t-transparent border-l-transparent border-r-transparent">
-              <p className="w-[20%]">가격</p>
-              <p className="w-[20%]">From</p>
-              <p className="w-[30%]">To</p>
-              <p>Date</p>
+          <div className="h-[280px] overflow-y-auto scrollbar-hide">
+            <div className="flex w-full bg-lgBrown-400 rounded-t-lg">
+              <div className="flex w-full p-2">
+                <p className="w-[20%]">가격</p>
+                <p className="w-[30%]">판매자</p>
+                <p className="w-[25%]">구매자</p>
+                <p>거래 날짜</p>
+              </div>
             </div>
             {info.info.trade.map(
               ({
@@ -34,12 +36,15 @@ export default function TradeHistory(info: any) {
                 tradePrice: number
               }) => {
                 return (
-                  <div key={tradeId}>
-                    <ul className="flex py-1">
+                  <div
+                    key={tradeId}
+                    className="bg-white rounded-sm my-1 shadow-xl"
+                  >
+                    <ul className="w-full flex p-1">
                       <li className="w-[20%]">{tradePrice} M</li>
 
                       <li
-                        className="w-[20%] text-lgBrown-600
+                        className="w-[30%] text-lgBrown-600
  hover:text-lgBrown-700 cursor-pointer"
                         onClick={() => {
                           navigate(`/personal/${sellerAddress}/list`)
@@ -48,7 +53,7 @@ export default function TradeHistory(info: any) {
                         {sellerNickname}
                       </li>
                       <li
-                        className="w-[30%] text-lgBrown-600
+                        className="w-[25%] text-lgBrown-600
  hover:text-lgBrown-700 cursor-pointer"
                         onClick={() => {
                           navigate(`/personal/${buyerAddress}/list`)
