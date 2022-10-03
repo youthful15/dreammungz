@@ -90,7 +90,7 @@ export default function Login() {
     })
     // Check if MetaMask is installed
     if (!window.ethereum) {
-      window.alert("Please install MetaMask first.")
+      window.alert("메타마스크를 먼저 설치해주세요")
       return
     }
     if (!web3) {
@@ -102,7 +102,7 @@ export default function Login() {
         // with the injected provider given by MetaMask
         web3 = new Web3(window.ethereum)
       } catch (error) {
-        window.alert("You need to allow MetaMask.")
+        window.alert("먼저 메타마스크를 허용해주세요")
         return
       }
     }
@@ -133,7 +133,7 @@ export default function Login() {
 
     const coinbase = await web3.eth.getCoinbase()
     if (!coinbase) {
-      window.alert("Please activate MetaMask first.")
+      window.alert("먼저 메타마스크를 실행해주세요.")
       return
     }
 
@@ -174,17 +174,10 @@ export default function Login() {
     try {
       await handleEthereumNetwork(chainId)
       await setERC20()
+
       // 최초 가입 시 10000 M 지급
       // isNew === true 로 바꿔야 함
-      // isNew === true 로 바꿔야 함
-      // isNew === true 로 바꿔야 함
-      // isNew === true 로 바꿔야 함
-      // isNew === true 로 바꿔야 함
-      // isNew === true 로 바꿔야 함
-      // isNew === true 로 바꿔야 함
-      // isNew === true 로 바꿔야 함
-      // isNew === true 로 바꿔야 함
-      if (isNew !== true) {
+      if (isNew === true) {
         window.alert("최초가입하셨네요! 1000 M을 지급해드립니다!")
 
         try {
