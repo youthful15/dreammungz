@@ -75,6 +75,7 @@ export default function NftDetail() {
     checkIsOwner({ tokenId })
   }, [])
 
+  console.log("NFT 정보", nftInfo)
   return (
     <div className="h-full w-full">
       {/* 스피너 모달 시작 */}
@@ -490,7 +491,7 @@ export default function NftDetail() {
           {/* NFT 이미지 */}
           <NFTImage imageUrl={nftInfo.nft.url} />
 
-          <div className="w-[50%]">
+          <div className="w-[70%]">
             {/* NFT 주요 정보 */}
             <NftMainDetail info={nftInfo} />
 

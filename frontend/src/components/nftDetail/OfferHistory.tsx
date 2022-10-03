@@ -48,7 +48,7 @@ export default function OfferHistory(info: any, publicAddress: string) {
                 tradeId: number
               }) => {
                 return (
-                  <div className="" key={tradeId}>
+                  <div className="" key={tokenId}>
                     <ul className="w-full flex py-1">
                       <li className="w-[20%]">{offerPrice} M</li>
 
