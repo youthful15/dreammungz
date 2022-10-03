@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil"
 
 const Login = () => {
   const [trade, setTrade] = useRecoilState(tradeAtom)
+
   return (
     <div className="h-full w-full flex justify-center items-center">
       {/* 스피너 모달 시작 */}

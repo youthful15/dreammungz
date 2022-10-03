@@ -475,20 +475,20 @@ export default function NftDetail() {
             className="positive-btn mr-5"
             onClick={async () => {
               const receivedBalance = await getBalance()
-              await setMember((prev) => {
+              await setMember((prev: any) => {
                 const variable = { ...prev }
                 variable.walletBalance = receivedBalance
                 return { ...variable }
               })
               const buyNowPrice = trade.buyNowPrice
-              await setTrade((prev) => {
+              await setTrade((prev: any) => {
                 const variable = { ...prev }
                 variable.modalOpen6 = true
                 variable.modalOpen8 = false
                 return { ...variable }
               })
               await sellFormat(publicAddress, negoAble, tokenId, buyNowPrice)
-              await setTrade((prev) => {
+              await setTrade((prev: any) => {
                 const variable = { ...prev }
                 variable.modalOpen6 = false
                 return { ...variable }

@@ -36,7 +36,7 @@ export default function NftTradeButton({
                 }
 
                 const receivedBalance = await getBalance()
-                await setMember((prev) => {
+                await setMember((prev: any) => {
                   const variable = { ...prev }
                   variable.walletBalance = receivedBalance
                   return { ...variable }
@@ -61,13 +61,13 @@ export default function NftTradeButton({
                 }
 
                 const receivedBalance = await getBalance()
-                await setMember((prev) => {
+                await setMember((prev: any) => {
                   const variable = { ...prev }
                   variable.walletBalance = receivedBalance
                   return { ...variable }
                 })
 
-                setTrade((prev) => {
+                setTrade((prev: any) => {
                   const variable = { ...prev }
                   variable.modalOpen3 = true
                   return { ...variable }
@@ -85,13 +85,13 @@ export default function NftTradeButton({
             className="w-[50%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
             onClick={async () => {
               const receivedBalance = await getBalance()
-              await setMember((prev) => {
+              await setMember((prev: any) => {
                 const variable = { ...prev }
                 variable.walletBalance = receivedBalance
                 return { ...variable }
               })
 
-              setTrade((prev) => {
+              setTrade((prev: any) => {
                 const variable = { ...prev }
                 variable.modalOpen2 = true
                 return { ...variable }

@@ -72,7 +72,7 @@ export default function Login() {
       .get(`auth/info/nickname/${publicAddress}`)
       .then((res) => {
         // walletAddress, memberNickname recoil 전역변수에 저장
-        setMember((prev) => {
+        setMember((prev: any) => {
           const value = { ...prev }
           value.memberNickname = res.data.nickname
           value.walletAddress = publicAddress
@@ -147,7 +147,7 @@ export default function Login() {
     localStorage.setItem("publicAddress", publicAddress)
 
     // 지갑주소 Recoil 변수 저장
-    await setMember((prev) => {
+    await setMember((prev: any) => {
       const value = { ...prev }
       value.walletAddress = publicAddress
       return value
@@ -181,14 +181,14 @@ export default function Login() {
       await handleEthereumNetwork(chainId)
       await setERC20()
 
-      // 최초 가입 시 100000 M 지급
+      // 최초 가입 시 10000 M 지급
       // isNew === true 로 바꿔야 함
       if (isNew !== true) {
-        window.alert("최초가입하셨네요! 100000 M을 지급해드립니다!")
+        window.alert("최초가입하셨네요! 10000 M을 지급해드립니다!")
 
         try {
           await MUNGContract.methods
-            .mintToMember(publicAddress, 100000)
+            .mintToMember(publicAddress, 10000)
             .send({ from: publicAddress })
         } catch {
           window.alert("돈을 거부하다니..")

@@ -74,12 +74,12 @@ hover:text-lgBrown-700 cursor-pointer"
                           className="ml-3 cursor-pointer hover:scale-110"
                           onClick={async () => {
                             const receivedBalance = await getBalance()
-                            setMember((prev) => {
+                            setMember((prev: any) => {
                               const variable = { ...prev }
                               variable.walletBalance = receivedBalance
                               return { ...variable }
                             })
-                            setTrade((prev) => {
+                            setTrade((prev: any) => {
                               const variable = { ...prev }
                               variable.modalOpen4 = true
                               variable.selectedOfferId = offerId
