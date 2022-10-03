@@ -12,11 +12,18 @@ export const pushGameStart = async (publicAddress, cost) => {
   const totalWeiValue = web3.utils
     .toBN(aWeiValue)
     .mul(web3.utils.toBN(bWeiValue))
-
-  await MUNGContract.methods
-    .approve(publicAddress, totalWeiValue)
-    .send({ from: publicAddress })
-  await MUNGContract.methods
-    .transferFrom(publicAddress, MUNGContractAddress, totalWeiValue)
-    .send({ from: publicAddress })
+  try {
+    await MUNGContract.methods
+      .approve(publicAddress, totalWeiValue)
+      .send({ from: publicAddress })
+    await MUNGContract.methods
+      .transferFrom(publicAddress, MUNGContractAddress, totalWeiValue)
+      .send({ from: publicAddress })
+  } catch {
+    await setTrade((prev) => {
+      const variable = { ...prev }
+      variable.modalOpen6 = false
+      return { ...variable }
+    })
+  }
 }
