@@ -17,7 +17,7 @@ export default function NftTradeButton({
   const navigate = useNavigate()
 
   return (
-    <div>
+    <>
       {nftOwnerAddress &&
       publicAddress?.toLowerCase() !== nftOwnerAddress?.toLowerCase() &&
       info.sell === true ? (
@@ -26,8 +26,10 @@ export default function NftTradeButton({
         info.sell === true &&
         info.nego ? (
           <div className="flex">
+            {/* text-sm font-medium  */}
+            {/* class="w-1/2 h-full p-1 px-2 rounded-l-lg border-2  mapleStory   bg-beige-300" */}
             <button
-              className="border border-black mr-3"
+              className="text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
               onClick={async () => {
                 // 비로그인 접근
                 if (!localStorage.getItem("publicAddress")) {
@@ -52,7 +54,7 @@ export default function NftTradeButton({
               즉시 구매
             </button>
             <button
-              className="border border-black"
+              className="text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 hover:scale-110"
               onClick={async () => {
                 // 비로그인 접근
                 if (!localStorage.getItem("publicAddress")) {
@@ -82,7 +84,7 @@ export default function NftTradeButton({
           info.sell === true &&
           info.nego === false ? (
           <button
-            className="border border-black mr-3"
+            className="text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
             onClick={async () => {
               const receivedBalance = await getBalance()
               await setMember((prev) => {
@@ -105,7 +107,7 @@ export default function NftTradeButton({
         publicAddress?.toLowerCase() === nftOwnerAddress?.toLowerCase() &&
         info.sell === true ? (
         <button
-          className="w-full border border-black"
+          className="w-full text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 hover:scale-110"
           onClick={() => {
             setTrade((prev) => {
               const variable = { ...prev }
@@ -120,7 +122,7 @@ export default function NftTradeButton({
         publicAddress?.toLowerCase() === nftOwnerAddress?.toLowerCase() &&
         info.sell === false ? (
         <button
-          className="w-full border border-black"
+          className="w-full text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 hover:scale-110"
           onClick={() => {
             setTrade((prev) => {
               const variable = { ...prev }
@@ -133,6 +135,6 @@ export default function NftTradeButton({
           판매 시작
         </button>
       ) : null}
-    </div>
+    </>
   )
 }

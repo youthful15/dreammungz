@@ -1,21 +1,21 @@
-import { useRecoilState } from "recoil"
-import tooltipAtom from "../../recoil/tooltip/atom"
 import StatList from "../nftInfo/StatList"
 
 export default function NftAbilityExplain() {
-  const [tool, setTool] = useRecoilState(tooltipAtom)
-
-  const tooltipOff = async () => {
-    await setTool((prev) => {
-      const variable = { ...prev }
-      variable.abilityExplainShow = false
-      return { ...variable }
-    })
-  }
-
   const statusList: any = [
     {
+      name: "WEALTH",
+      value: "",
+    },
+    {
+      name: "VOICE",
+      value: "",
+    },
+    {
       name: "STOUTNESS",
+      value: "",
+    },
+    {
+      name: "SENSIBILITY",
       value: "",
     },
     {
@@ -39,18 +39,6 @@ export default function NftAbilityExplain() {
       value: "",
     },
     {
-      name: "SENSIBILITY",
-      value: "",
-    },
-    {
-      name: "VOICE",
-      value: "",
-    },
-    {
-      name: "WEALTH",
-      value: "",
-    },
-    {
       name: "JUSTICE",
       value: "",
     },
@@ -58,19 +46,65 @@ export default function NftAbilityExplain() {
       name: "CUTE",
       value: "",
     },
+    {
+      name: "FOOTWORK",
+      value: "",
+    },
   ]
   return (
-    <div
-      className="bg-white absolute rounded-md z-[2] w-[200px] h-[100px]"
-      onMouseLeave={tooltipOff}
-    >
+    <div className="bg-white absolute rounded-md z-[2] w-[600px] h-[150px] shadow-md">
       <div className="flex items-center flex-col justify-center w-full h-full border-black text-base">
-        <p>STAT LIST</p>
-
-        <div className="flex">
-          <StatList statList={statusList} />
+        <p className="text-center text-lg font-semibold my-4">스탯 목록</p>
+        <div className="text-black text-xs font-semibold">
+          <div className="flex">
+            <p className="mr-1 bg-rose-300 rounded-md p-0.5 m-0.5 w-20 text-center">
+              재력
+            </p>
+            <p className="mr-1 bg-orange-300  rounded-md p-0.5 m-0.5 w-20 text-center">
+              목청
+            </p>
+            <p className="mr-1 bg-amber-300  rounded-md p-0.5 m-0.5 w-20 text-center">
+              튼튼함
+            </p>
+            <p className="mr-1 bg-yellow-300  rounded-md p-0.5 m-0.5 w-20 text-center">
+              감수성
+            </p>
+            <p className="mr-1 bg-lime-300  rounded-md p-0.5 m-0.5 w-20 text-center">
+              재빠름
+            </p>
+            <p className="mr-1 bg-emerald-300  rounded-md p-0.5 m-0.5 w-20 text-center">
+              인기
+            </p>
+          </div>
+          <div className="flex">
+            <p className="mr-1 bg-cyan-400  rounded-md p-0.5 m-0.5 w-20 text-center">
+              직감
+            </p>
+            <p className="mr-1 bg-sky-300  rounded-md p-0.5 m-0.5 w-20 text-center">
+              발재주
+            </p>
+            <p className="mr-1 bg-indigo-300  rounded-md p-0.5 m-0.5 w-20 text-center">
+              영리함
+            </p>
+            <p className="mr-1 bg-fuchsia-300  rounded-md p-0.5 m-0.5 w-20 text-center">
+              용기
+            </p>
+            <p className="mr-1 bg-stone-300  rounded-md p-0.5 m-0.5 w-20 text-center">
+              정의로움
+            </p>
+            <p className="mr-1 bg-teal-300  rounded-md p-0.5 m-0.5 w-20 text-center">
+              귀여움
+            </p>
+          </div>
         </div>
       </div>
     </div>
   )
 }
+
+// INTUITION: "bg-cyan-400",
+// FOOTWORK: "bg-sky-300",
+// CLEVER: "bg-indigo-300",
+// CHARISMA: "bg-fuchsia-300",
+// JUSTICE: "bg-stone-300",
+// CUTE: "bg-teal-300",

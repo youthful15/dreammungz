@@ -24,31 +24,34 @@ export default function OfferHistory(info: any, publicAddress: string) {
               </div>
             </div>
             {info.info.offer.map(
-              ({
-                cancel,
-                choice,
-                offerAddress,
-                offerDate,
-                offerId,
-                offerNickname,
-                offerPrice,
-                refund,
-                tokenId,
-                tradeId,
-              }: {
-                cancel: boolean
-                choice: boolean
-                offerAddress: string
-                offerDate: string
-                offerId: number
-                offerNickname: string
-                offerPrice: number
-                refund: boolean
-                tokenId: number
-                tradeId: number
-              }) => {
+              (
+                {
+                  cancel,
+                  choice,
+                  offerAddress,
+                  offerDate,
+                  offerId,
+                  offerNickname,
+                  offerPrice,
+                  refund,
+                  tokenId,
+                  tradeId,
+                }: {
+                  cancel: boolean
+                  choice: boolean
+                  offerAddress: string
+                  offerDate: string
+                  offerId: number
+                  offerNickname: string
+                  offerPrice: number
+                  refund: boolean
+                  tokenId: number
+                  tradeId: number
+                },
+                index: number
+              ) => {
                 return (
-                  <div className="" key={tokenId}>
+                  <div key={index}>
                     <ul className="w-full flex py-1">
                       <li className="w-[20%]">{offerPrice} M</li>
 
