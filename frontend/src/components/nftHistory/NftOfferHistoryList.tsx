@@ -7,8 +7,8 @@ import OfferHistoryItem, { OfferHistoryListHead } from "./OfferHistoryListItem"
 const thead = {
   id: "ID",
   price: "가격",
-  type: " 거래 상태 ",
-  date: "거래 날짜 ",
+  type: " 오퍼 상태 ",
+  date: "오퍼 날짜 ",
 }
 
 type dealItemType = {
