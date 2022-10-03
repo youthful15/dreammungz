@@ -26,10 +26,8 @@ export default function NftTradeButton({
         info.sell === true &&
         info.nego ? (
           <div className="flex">
-            {/* text-sm font-medium  */}
-            {/* class="w-1/2 h-full p-1 px-2 rounded-l-lg border-2  mapleStory   bg-beige-300" */}
             <button
-              className="text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
+              className="w-[50%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
               onClick={async () => {
                 // 비로그인 접근
                 if (!localStorage.getItem("publicAddress")) {
@@ -54,7 +52,7 @@ export default function NftTradeButton({
               즉시 구매
             </button>
             <button
-              className="text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 hover:scale-110"
+              className="w-[50%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 hover:scale-110"
               onClick={async () => {
                 // 비로그인 접근
                 if (!localStorage.getItem("publicAddress")) {
@@ -84,7 +82,7 @@ export default function NftTradeButton({
           info.sell === true &&
           info.nego === false ? (
           <button
-            className="text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
+            className="w-[50%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
             onClick={async () => {
               const receivedBalance = await getBalance()
               await setMember((prev) => {

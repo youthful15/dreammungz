@@ -62,7 +62,7 @@ const OfferHistoryItem = ({ ...props }) => {
   return (
     <div
       // onClick={movePage}
-      className="bg-white  flex  w-full space-x-1 h-[50px]  items-cente justify-around leading-[50px]  rounded-2xl shadow-md hover:scale-110"
+      className="bg-white  flex  w-full space-x-1 h-[50px]  items-cente justify-around leading-[50px]  rounded-2xl shadow-md"
     >
       {/* 가격 제안취소 모달 시작 */}
       <Modal
@@ -75,8 +75,10 @@ const OfferHistoryItem = ({ ...props }) => {
           })
         }
       >
-        <p className="text-xl font-semibold mb-4">제안을 취소하시겠습니까?</p>
-        <div className="flex justify-center">
+        <p className="text-center text-4xl font-semibold mb-4">
+          제안을 취소하시겠습니까?
+        </p>
+        <div className="flex justify-center mt-10">
           <button
             className="mr-4 negative-btn"
             onClick={async () => {
@@ -96,7 +98,7 @@ const OfferHistoryItem = ({ ...props }) => {
               window.location.reload()
             }}
           >
-            확인
+            취소
           </button>
           <button
             className="positive-btn"
@@ -125,8 +127,10 @@ const OfferHistoryItem = ({ ...props }) => {
           })
         }
       >
-        <p className="text-xl font-semibold mb-4">환불하시겠습니까 ?</p>
-        <div className="flex justify-center">
+        <p className="text-center text-4xl font-semibold mb-4">
+          환불하시겠습니까 ?
+        </p>
+        <div className="flex justify-center mt-10">
           <button
             className="mr-4 negative-btn"
             onClick={async () => {
@@ -146,7 +150,7 @@ const OfferHistoryItem = ({ ...props }) => {
               window.location.reload()
             }}
           >
-            확인
+            환불
           </button>
           <button
             className="positive-btn"
