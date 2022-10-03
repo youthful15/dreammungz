@@ -1,36 +1,73 @@
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { http } from "../api/axios"
 import Carousel from "../components/carousel/Carousel"
-import GameEndingCredit from "../components/game/GameEndingCredit"
 
 export default function MainPage() {
+  const navigate = useNavigate()
+
+  const info = {
+    address: null,
+    color: null,
+    face: null,
+    gender: null,
+    hair: null,
+    job: null,
+    page: 0,
+    sell: false,
+    status: [],
+    tier: null,
+  }
+
+  const [items, setItems] = useState([{ url: "", id: "" }])
+
+  useEffect(() => {
+    async function NFTlist() {
+      await http.post("nft/list", info).then((res) => {
+        console.log(res.data.items)
+        setItems(res.data.items)
+      })
+    }
+    NFTlist()
+  }, [])
+
   return (
     <div className="w-full h-full">
-      <div className="h-[50%] py-1">
-        <div className="h-[50%]">
-          <div className="bg-slate-300 h-full">
-            <p>드림멍즈가 처음이신가요? 튜토리얼 바로가기</p>
-          </div>
+      <div className="h-[64%] py-1">
+        <div className="h-[90px]">
+          <div
+            style={{
+              backgroundImage: `url(/images/tutorial.png)`,
+            }}
+            className="h-full bg-center border-4 border-white rounded-3xl"
+          ></div>
         </div>
-        <div className="h-[50%] py-1">
+        <div className="h-[280px] pt-6">
           <div className="h-full">
             <Carousel />
           </div>
         </div>
       </div>
 
-      <div className="flex h-[50%]">
-        <aside className="w-[50%] h-full">
-          <p className="font-semibold text-lg h-[10%]">취뽀 강아지</p>
-          <div className="grid grid-cols-2 gap-1 h-[90%] p-2">
-            <div className="bg-slate-300 hover:scale-[110%]">1</div>
-            <div className="bg-slate-400 hover:scale-[110%]">2</div>
-            <div className="bg-slate-500 hover:scale-[110%]">3</div>
-            <div className="bg-slate-600 hover:scale-[110%]">4</div>
-          </div>
-        </aside>
-        <aside className="w-[50%] h-full p-2">
-          <p className="font-semibold text-lg h-[10%]">공략 게시판</p>
-          <div className="bg-slate-600 h-[90%]">공략입니다.</div>
-        </aside>
+      <div className="h-[35%]">
+        <span className="font-semibold text-2xl h-[15%] mapleStory text-brown-500">
+          취뽀 강아지를 소개합니다 🎉
+        </span>
+        <div className="h-[85%] flex w-full justify-between mt-4">
+          {items.map((item, index) => {
+            if (index <= 4)
+              return (
+                <img
+                  className="w-[180px] h-[180px] hover:scale-110 cursor-pointer"
+                  key={index}
+                  src={`${item.url}`}
+                  onClick={() => {
+                    navigate(`/nft/detail/${item.id}`)
+                  }}
+                ></img>
+              )
+          })}
+        </div>
       </div>
     </div>
   )

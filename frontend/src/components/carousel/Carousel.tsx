@@ -2,10 +2,10 @@ export default function Carousel() {
   return (
     <div
       id="carouselExampleIndicators"
-      className="carousel slide relative h-full"
+      className="relative h-full carousel slide"
       data-bs-ride="carousel"
     >
-      <div className="carousel-indicators absolute right-0 bottom-0 left-0 flex justify-center p-0 mb-4">
+      <div className="absolute bottom-0 left-0 right-0 flex justify-center p-0 mb-4 carousel-indicators">
         <button
           type="button"
           data-bs-target="#carouselExampleIndicators"
@@ -27,49 +27,49 @@ export default function Carousel() {
           aria-label="Slide 3"
         ></button>
       </div>
-      <div className="carousel-inner relative w-full overflow-hidden h-full">
-        <div className="carousel-item active float-left w-full">
+      <div className="relative w-full h-full overflow-hidden carousel-inner">
+        <div className="float-left w-full carousel-item active">
           <img
-            src="https://w.namu.la/s/59bbf73b123d0f9f693be3c3de9506b24a1f2a3067b4ffd0207a3a08eee32d750ebf1ca3e33084aa3bbcd6916bd0a8a187cc4556b87fa269c25f1a7ff3ea279f1e372d23aa0a6eee8d5932c70d5dac0ebd01ce1f79707dd4e205f2dad4730a0264170f9ae02bf0e7d82aafa7ce8e4cc7"
-            className="block object-cover"
+            src="/images/theme1.png"
+            className="block object-cover rounded-3xl"
             alt="Wild Landscape"
           />
         </div>
-        <div className="carousel-item float-left w-full">
+        <div className="float-left w-full carousel-item">
           <img
-            src="https://img.sbs.co.kr/newsnet/etv/upload/2022/09/19/30000790950_1280.jpg"
-            className="block object-scale-down"
+            src="/images/theme2.png"
+            className="block object-scale-down rounded-3xl"
             alt="Camera"
           />
         </div>
-        <div className="carousel-item float-left w-full">
+        <div className="float-left w-full carousel-item">
           <img
-            src="http://digitalchosun.dizzo.com/site/data/img_dir/2022/06/10/2022061080123_0.jpg"
-            className="block object-cover"
+            src="/images/theme3.png"
+            className="block object-cover rounded-3xl"
             alt="Exotic Fruits"
           />
         </div>
       </div>
       <button
-        className="carousel-control-prev absolute top-0 bottom-0 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline left-0"
+        className="absolute top-0 bottom-0 left-[-40px] flex items-center justify-center p-0 text-center border-0 carousel-control-prev hover:outline-none hover:no-underline focus:outline-none focus:no-underline"
         type="button"
         data-bs-target="#carouselExampleIndicators"
         data-bs-slide="prev"
       >
         <span
-          className="carousel-control-prev-icon inline-block bg-no-repeat"
+          className="inline-block bg-no-repeat carousel-control-prev-icon"
           aria-hidden="true"
         ></span>
         <span className="visually-hidden">Previous</span>
       </button>
       <button
-        className="carousel-control-next absolute top-0 bottom-0 flex items-center justify-center p-0 text-center border-0 hover:outline-none hover:no-underline focus:outline-none focus:no-underline right-0"
+        className="absolute top-0 bottom-0 right-[-40px] flex items-center justify-center p-0 text-center border-0 carousel-control-next hover:outline-none hover:no-underline focus:outline-none focus:no-underline"
         type="button"
         data-bs-target="#carouselExampleIndicators"
         data-bs-slide="next"
       >
         <span
-          className="carousel-control-next-icon inline-block bg-no-repeat"
+          className="inline-block bg-no-repeat carousel-control-next-icon"
           aria-hidden="true"
         ></span>
         <span className="visually-hidden">Next</span>
