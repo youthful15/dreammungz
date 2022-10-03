@@ -8,6 +8,7 @@ import findKOR from "../utils/findKOR"
 import playingMusic from "../recoil/music/atom"
 import parse from "html-react-parser"
 import "./GamePlaying.css"
+import memberAtom from "../recoil/member/atom"
 
 interface StoryType {
   title: string
@@ -28,6 +29,8 @@ interface SelectType {
 }
 
 function Information(story: StoryType) {
+  const [member] = useRecoilState(memberAtom)
+
   const adjust: { [index: string]: string } = {
     "1": "left-[60%]",
     "2": "left-[70%]",
@@ -73,7 +76,7 @@ function Information(story: StoryType) {
     <div className="h-full p-3 px-10 pb-5 bg-pink-100 border-2 border-pink-300 shadow-md rounded-2xl mapleStory">
       <div className="h-[15%] flex items-center font-bold text-lg">
         <div className="flex justify-center w-full p-2 text-xl bg-pink-500 rounded-2xl">
-          <div>여행의 발자취</div>
+          <div>{member.memberNickname} 님의 여행 일지</div>
         </div>
       </div>
       <div className="h-[85%] flex flex-col justify-between pb-3">

@@ -5,20 +5,16 @@ import memberAtom from "../../recoil/member/atom"
 import { useRecoilState } from "recoil"
 import { http } from "../../api/axios"
 import { getBalance } from "../../utils/web3"
+import "./Navbar.css"
+
 const navItemStyle: string =
-  "bg-beige-200 rounded-lg shadow-sm cursor-pointer p-1 mb-1 border-2 border-lgBrown-500"
+  "bg-beige-200 rounded-lg shadow-sm cursor-pointer p-1 mb-1 border-2 border-lgBrown-500 w-[174px] h-[36px] flex items-center justify-center"
 
 const Navbar = () => {
   const navigate = useNavigate()
-  const [member] = useRecoilState(memberAtom)
-  const [isLogin, setLogin] = useState(false) // 추후 Recoil을 사용하여  상태관리 할 것
+  const [member, setMember] = useRecoilState(memberAtom)
   const [balance, setBalance] = useState(0)
   const [showBalance, setShowBalance] = useState(false)
-
-  // 로그인했는지 확인
-  useEffect(() => {
-    if (localStorage.getItem("publicAddress")) setLogin(true)
-  }, [])
 
   // 지갑 정보 변경
   useEffect(() => {
@@ -26,13 +22,6 @@ const Navbar = () => {
       setShowBalance(false)
     }, 5000)
   }, [showBalance])
-
-  const publicAddress = localStorage.getItem("publicAddress")
-
-  const startData = {
-    address: publicAddress,
-    selection: "-1",
-  }
 
   // 게임 시작 페이지로 이동 로직
   async function gameStart() {
@@ -55,7 +44,7 @@ const Navbar = () => {
         </NavLink>
       </div>
       <nav className="flex flex-col justify-between w-full h-[85%] p-4 space-y-4 text-center mapleStory">
-        <ul className="rounded-xl mt-2 pb-2 pt-1">
+        <ul className="pt-1 pb-2 mt-2 rounded-xl">
           <li>
             <button
               onClick={gameStart}
@@ -67,15 +56,25 @@ const Navbar = () => {
 
           <NavList />
         </ul>
-        {isLogin ? (
-          <div className="px-3">
-            <Link
-              to={`/personal/${localStorage.getItem("publicAddress")}/list`}
-            >
-              <div className={navItemStyle}>마이페이지 </div>
-            </Link>
+        {member.memberNickname !== "Default" ? (
+          <div className="px-3 dropdown">
             <div
-              className={navItemStyle}
+              className={`${navItemStyle} dropdown-nav2`}
+              onClick={() => {
+                localStorage.clear()
+                setMember({
+                  walletAddress: "WalletAddress",
+                  memberNickname: "Default",
+                  contractId: 0,
+                  walletBalance: 0,
+                })
+                navigate("/mainpage")
+              }}
+            >
+              로그아웃{" "}
+            </div>
+            <div
+              className={`${navItemStyle} dropdown-nav`}
               onClick={async () => {
                 const receivedBalance = await getBalance()
                 setShowBalance(true)
@@ -83,28 +82,31 @@ const Navbar = () => {
               }}
             >
               {showBalance ? (
-                <p className="text-xl font-semibold text-white">{balance} M</p>
+                <p className="flex items-center justify-center ml-1">
+                  {balance}
+                  <img
+                    src="/images/token.png"
+                    alt="token"
+                    className="w-[23px] h-[23px] ml-1"
+                  />
+                </p>
               ) : (
-                "지갑 보기"
+                <p className="flex items-center justify-center">
+                  지갑 열어보기
+                </p>
               )}
             </div>
-            <div
-              className={navItemStyle}
-              onClick={() => {
-                localStorage.clear()
-                setLogin(false)
-                navigate("/mainpage")
-              }}
+            <Link
+              to={`/personal/${localStorage.getItem("publicAddress")}/list`}
             >
-              로그아웃
-            </div>
+              <div className={navItemStyle}>{member.memberNickname} 님</div>
+            </Link>
           </div>
         ) : (
           <div className="px-3">
             <div
               className={navItemStyle}
               onClick={() => {
-                setLogin(true)
                 navigate("/login")
               }}
             >

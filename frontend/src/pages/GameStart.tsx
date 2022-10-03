@@ -241,28 +241,30 @@ function WeddingMode() {
             보유한 NFT 목록
           </span>
         </div>
-        <div className="h-[90%] overflow-scroll bg-gradient-to-b from-pink-100 to-pink-300 scrollbar-hide rounded-2xl flex p-3 shadow-md border-pink-500">
-          <div className="flex flex-wrap justify-between w-full h-full">
+        <div className="h-[90%] overflow-scroll bg-gradient-to-b from-pink-100 to-pink-300 scrollbar-hide rounded-2xl flex p-3 shadow-md border-pink-500 mapleStory">
+          <div className="flex flex-wrap w-full h-full">
             {nft.map((selectNft, index) => (
-              <div
-                className="w-[32%] h-[35%] flex p-1 bg-white mb-3 border-pink-400 cursor-pointer rounded-xl shadow-sm hover:shadow-md"
-                key={index}
-                onClick={() => {
-                  if (selectNft.gender == "M") {
-                    setDogM(selectNft)
-                  } else {
-                    setDogF(selectNft)
-                  }
-                }}
-              >
-                <div className="relative w-[65%]">
-                  <img src={selectNft.url} alt="dog" className="rounded-lg" />
-                  <div className="absolute bottom-3 right-3">
-                    <Gender gender={selectNft.gender} />
+              <div className="w-[33.3%] h-[38%] p-1">
+                <div
+                  className="flex w-full h-full p-1 mb-3 bg-white border-pink-400 shadow-sm cursor-pointer rounded-xl hover:shadow-md"
+                  key={index}
+                  onClick={() => {
+                    if (selectNft.gender == "M") {
+                      setDogM(selectNft)
+                    } else {
+                      setDogF(selectNft)
+                    }
+                  }}
+                >
+                  <div className="relative w-[65%]">
+                    <img src={selectNft.url} alt="dog" className="rounded-lg" />
+                    <div className="absolute bottom-3 right-3">
+                      <Gender gender={selectNft.gender} />
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col items-center w-[35%]">
-                  <StatList statList={selectNft.status} />
+                  <div className="flex flex-col items-center w-[35%]">
+                    <StatList statList={selectNft.status} />
+                  </div>
                 </div>
               </div>
             ))}
@@ -309,7 +311,7 @@ function WeddingMode() {
             </div>
             <div className="h-[45%] pt-5">
               <div className="flex justify-center mapleStory">시작 정보</div>
-              <div className="flex flex-wrap items-center justify-center pt-2">
+              <div className="flex flex-wrap items-center justify-center pt-2 mapleStory">
                 <StatList statList={babyStatus} />
               </div>
             </div>
