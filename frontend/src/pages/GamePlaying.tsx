@@ -185,7 +185,11 @@ function Game({
       <div className="h-[85%] flex flex-col justify-between overflow-scroll scrollbar-hide">
         <div onClick={() => setShowText("nothing")}>
           {story.image ? (
-            <img className="pb-5" src={`assets/illust/${story.image}`} alt="" />
+            <img
+              className="mb-5 rounded-3xl"
+              src={`assets/illust/${story.image}.jpg`}
+              alt=""
+            />
           ) : null}
           <div className="text-sm leading-7">
             <div className={`${showText}`}>{parse(story.content)}</div>
