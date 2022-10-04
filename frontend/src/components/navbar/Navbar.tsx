@@ -18,7 +18,7 @@ const Navbar = () => {
 
   // 지갑 정보 변경
   useEffect(() => {
-    setTimeout(() => {
+    const a = setTimeout(() => {
       setShowBalance(false)
     }, 5000)
   }, [showBalance])
