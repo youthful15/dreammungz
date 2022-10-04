@@ -33,7 +33,7 @@ export default function MainPage() {
 
   return (
     <div className="w-full h-full">
-      <WarningToast title="sdf" content="sdf" />
+      {/* <WarningToast title="sdf" content="sdf" /> */}
       <div className="h-[64%] py-1">
         <div className="h-[90px]">
           <div
