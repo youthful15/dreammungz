@@ -5,114 +5,221 @@ import tradeAtom from "../../recoil/trade/atom"
 import memberAtom from "../../recoil/member/atom"
 import { getBalance } from "../../utils/web3"
 
+const tmp = [
+  {
+    cancel: false,
+    choice: false,
+    offerAddress: "dffffff",
+    offerDate: "2022-10-2",
+    offerId: 13,
+    offerNickname: "천재지영",
+    offerPrice: 3000,
+    refund: false,
+    tokenId: 12,
+    tradeId: 3,
+  },
+  {
+    cancel: false,
+    choice: false,
+    offerAddress: "dffffff",
+    offerDate: "2022-10-2",
+    offerId: 13,
+    offerNickname: "천재지영",
+    offerPrice: 3000,
+    refund: false,
+    tokenId: 12,
+    tradeId: 3,
+  },
+  {
+    cancel: false,
+    choice: false,
+    offerAddress: "dffffff",
+    offerDate: "2022-10-2",
+    offerId: 13,
+    offerNickname: "천재지영",
+    offerPrice: 3000,
+    refund: false,
+    tokenId: 12,
+    tradeId: 3,
+  },
+  {
+    cancel: false,
+    choice: false,
+    offerAddress: "dffffff",
+    offerDate: "2022-10-2",
+    offerId: 13,
+    offerNickname: "천재지영",
+    offerPrice: 3000,
+    refund: false,
+    tokenId: 12,
+    tradeId: 3,
+  },
+  {
+    cancel: false,
+    choice: false,
+    offerAddress: "dffffff",
+    offerDate: "2022-10-2",
+    offerId: 13,
+    offerNickname: "천재지영",
+    offerPrice: 3000,
+    refund: false,
+    tokenId: 12,
+    tradeId: 3,
+  },
+  {
+    cancel: false,
+    choice: false,
+    offerAddress: "dffffff",
+    offerDate: "2022-10-2",
+    offerId: 13,
+    offerNickname: "천재지영",
+    offerPrice: 3000,
+    refund: false,
+    tokenId: 12,
+    tradeId: 3,
+  },
+  {
+    cancel: false,
+    choice: false,
+    offerAddress: "dffffff",
+    offerDate: "2022-10-2",
+    offerId: 13,
+    offerNickname: "천재지영",
+    offerPrice: 3000,
+    refund: false,
+    tokenId: 12,
+    tradeId: 3,
+  },
+  {
+    cancel: false,
+    choice: false,
+    offerAddress: "dffffff",
+    offerDate: "2022-10-2",
+    offerId: 13,
+    offerNickname: "천재지영",
+    offerPrice: 3000,
+    refund: false,
+    tokenId: 12,
+    tradeId: 3,
+  },
+]
+
 export default function OfferHistory(info: any, publicAddress: string) {
   const navigate = useNavigate()
   const [, setTrade] = useRecoilState(tradeAtom)
   const [, setMember] = useRecoilState(memberAtom)
 
   return (
-    <div className="w-[47.5%]">
-      <p className="text-xl font-semibold mb-2">오퍼 리스트</p>
-      <div className="w-full bg-transparent h-[90%] shadow-sm">
+    <div className="w-full ">
+      <p className="mb-2 text-2xl font-semibold text-center text-brown-400">
+        오퍼 리스트
+      </p>
+      <div className="w-full bg-transparent h-[90%] shadow-sm ">
+        {/* {info ? ( */}
         {info && info.info.offer.length > 0 ? (
-          <div className="h-[280px] overflow-y-auto scrollbar-hide">
-            <div className="bg-lgBrown-400 rounded-t-lg">
+          <div className="h-[150px] ">
+            <div className="rounded-t-lg bg-lgBrown-400">
               <div className="flex w-full p-2">
                 <p className="w-[30%]">가격</p>
                 <p className="w-[40%]">제안자</p>
                 <p>오퍼 날짜</p>
               </div>
             </div>
-            {info.info.offer.map(
-              (
-                {
-                  cancel,
-                  choice,
-                  offerAddress,
-                  offerDate,
-                  offerId,
-                  offerNickname,
-                  offerPrice,
-                  refund,
-                  tokenId,
-                  tradeId,
-                }: {
-                  cancel: boolean
-                  choice: boolean
-                  offerAddress: string
-                  offerDate: string
-                  offerId: number
-                  offerNickname: string
-                  offerPrice: number
-                  refund: boolean
-                  tokenId: number
-                  tradeId: number
-                },
-                index: number
-              ) => {
-                return (
-                  <div
-                    key={index}
-                    className="bg-white rounded-sm my-1 shadow-xl"
-                  >
-                    <ul className="w-full flex p-1">
-                      <li className="w-[30%]">{offerPrice} M</li>
+            <ul className="h-full overflow-y-auto scrollbar-hide">
+              {/* {tmp.map( */}
+              {info.info.offer.map(
+                (
+                  {
+                    cancel,
+                    choice,
+                    offerAddress,
+                    offerDate,
+                    offerId,
+                    offerNickname,
+                    offerPrice,
+                    refund,
+                    tokenId,
+                    tradeId,
+                  }: {
+                    cancel: boolean
+                    choice: boolean
+                    offerAddress: string
+                    offerDate: string
+                    offerId: number
+                    offerNickname: string
+                    offerPrice: number
+                    refund: boolean
+                    tokenId: number
+                    tradeId: number
+                  },
+                  index: number
+                ) => {
+                  return (
+                    <li
+                      key={index}
+                      className="my-1 bg-white rounded-sm shadow-xl last:rounded-b-lg"
+                    >
+                      <div className="flex w-full p-1">
+                        <div className="w-[30%]">{offerPrice} M</div>
 
-                      <li
-                        className="w-[40%] text-lgBrown-600
+                        <div
+                          className="w-[40%] text-lgBrown-600
 hover:text-lgBrown-700 cursor-pointer"
-                        onClick={() => {
-                          navigate(`/personal/${offerAddress}/list`)
-                        }}
-                      >
-                        {offerNickname}
-                      </li>
-                      <li>{offerDate.slice(0, 10)}</li>
-
-                      {offerAddress === info.publicAddress ? (
-                        <li
-                          className="ml-3 cursor-pointer hover:scale-110"
-                          onClick={async () => {
-                            const receivedBalance = await getBalance()
-                            setMember((prev: any) => {
-                              const variable = { ...prev }
-                              variable.walletBalance = receivedBalance
-                              return { ...variable }
-                            })
-                            setTrade((prev: any) => {
-                              const variable = { ...prev }
-                              variable.modalOpen4 = true
-                              variable.selectedOfferId = offerId
-                              return { ...variable }
-                            })
-                          }}
-                        >
-                          ❌
-                        </li>
-                      ) : null}
-                      {info.info.sellerAddress === info.publicAddress ? (
-                        <li
-                          className="ml-3 cursor-pointer hover:scale-110"
                           onClick={() => {
-                            setTrade((prev) => {
-                              const variable = { ...prev }
-                              variable.modalOpen5 = true
-                              variable.selectedOfferId = offerId
-                              return { ...variable }
-                            })
+                            navigate(`/personal/${offerAddress}/list`)
                           }}
                         >
-                          ✅
-                        </li>
-                      ) : null}
-                    </ul>
-                  </div>
-                )
-              }
-            )}
+                          {offerNickname}
+                        </div>
+                        <div>{offerDate.slice(0, 10)}</div>
+
+                        {offerAddress === info.publicAddress ? (
+                          <div
+                            className="ml-3 cursor-pointer hover:scale-110"
+                            onClick={async () => {
+                              const receivedBalance = await getBalance()
+                              setMember((prev: any) => {
+                                const variable = { ...prev }
+                                variable.walletBalance = receivedBalance
+                                return { ...variable }
+                              })
+                              setTrade((prev: any) => {
+                                const variable = { ...prev }
+                                variable.modalOpen4 = true
+                                variable.selectedOfferId = offerId
+                                return { ...variable }
+                              })
+                            }}
+                          >
+                            ❌
+                          </div>
+                        ) : null}
+                        {info.info.sellerAddress === info.publicAddress ? (
+                          <div
+                            className="ml-3 cursor-pointer hover:scale-110"
+                            onClick={() => {
+                              setTrade((prev) => {
+                                const variable = { ...prev }
+                                variable.modalOpen5 = true
+                                variable.selectedOfferId = offerId
+                                return { ...variable }
+                              })
+                            }}
+                          >
+                            ✅
+                          </div>
+                        ) : null}
+                      </div>
+                    </li>
+                  )
+                }
+              )}
+            </ul>
           </div>
         ) : (
-          <div>오퍼 내역이 없습니다.</div>
+          <div className="h-[200px] text-center  leading-[200px] border-2 border-brown-200 rounded-lg text-brown-300">
+            오퍼 내역이 없습니다.
+          </div>
         )}
       </div>
     </div>

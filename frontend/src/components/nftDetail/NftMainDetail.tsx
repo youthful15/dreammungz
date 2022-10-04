@@ -10,6 +10,9 @@ import { useRecoilState } from "recoil"
 import NftAbilityExplain from "./NftAbilityExplain"
 import NftJobExpain from "./NftJobExplain"
 import NftGradeExpain from "./NftGradeExplain"
+import Stat from "../nftInfo/Stat"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons"
 
 export default function NftMainDetail(info: any) {
   const { id } = useParams()
@@ -20,13 +23,13 @@ export default function NftMainDetail(info: any) {
   const [tool, setTool] = useRecoilState(tooltipAtom)
 
   return (
-    <div className="text-xl">
-      <p className="text-4xl mb-6">멍개 #{id}</p>
+    <div className="p-4 mt-4 text-xl ">
+      {/* <p className="mb-6 text-4xl">멍개 #{id}</p> */}
 
-      <div className="flex mb-2">
-        <div className="flex mr-[100px]">
+      <div className="mb-2 border-b-2 border-brown-200 ">
+        <div className="flex mr-[100px]  relative">
           <p
-            className="mr-[30px] cursor-default text-md"
+            className=" text-md w-[100px] text-beige-100 mr-2 text-center bg-brown-300 rounded-t-lg border-brown min-h-[35px] pt-1"
             onMouseEnter={() => {
               setTool((prev) => {
                 const variable = { ...prev }
@@ -42,14 +45,25 @@ export default function NftMainDetail(info: any) {
               })
             }}
           >
-            직업
+            직업{" "}
+            <FontAwesomeIcon
+              icon={faCircleInfo}
+              className="w-[15px] text-lgBrown-300 h-[15px]"
+            />
           </p>
-          <p className="font-semibold">{findKOR(info.info.nft.job)}</p>
-        </div>
+          {/* 직업 설명창 */}
+          {tool.jobExplainShow ? <NftJobExpain /> : null}
 
-        <div className="flex">
+          <p className="font-semibold text-brown">
+            {findKOR(info.info.nft.job)}
+          </p>
+        </div>
+      </div>
+
+      <div className="mb-2 border-b-2 border-brown-200">
+        <div className="relative flex">
           <p
-            className="cursor-default mr-[30px]"
+            className=" w-[100px] text-beige-100 mr-2 text-center bg-brown-300 rounded-t-lg border-brown  min-h-[35px] pt-1"
             onMouseEnter={() =>
               setTool((prev) => {
                 const variable = { ...prev }
@@ -65,21 +79,21 @@ export default function NftMainDetail(info: any) {
               })
             }}
           >
-            성별
+            성별{" "}
+            <FontAwesomeIcon
+              icon={faCircleInfo}
+              className="w-[15px] text-lgBrown-300 h-[15px]"
+            />
           </p>
+          {/* 성별 설명창 */}
+          {tool.genderExplainShow ? <NftGenderExplain /> : null}
           <Gender gender={info.info.nft.gender} />
         </div>
       </div>
 
-      {/* 직업 설명창 */}
-      {tool.jobExplainShow ? <NftJobExpain /> : null}
-
-      {/* 성별 설명창 */}
-      {tool.genderExplainShow ? <NftGenderExplain /> : null}
-
-      <div className="flex mb-2">
+      <div className="flex w-full mb-2 border-b-2 border-brown-200">
         <p
-          className="mr-[10px] cursor-default"
+          className=" w-[100px] text-beige-100 mr-2 text-center bg-brown-300 rounded-t-lg border-brown min-h-[35px] pt-1"
           onMouseEnter={() =>
             setTool((prev) => {
               const variable = { ...prev }
@@ -95,32 +109,25 @@ export default function NftMainDetail(info: any) {
             })
           }}
         >
-          능력치
+          능력치{" "}
+          <FontAwesomeIcon
+            icon={faCircleInfo}
+            className="w-[15px] text-lgBrown-300 h-[15px]"
+          />
         </p>
+        {/* 능력치 설명창 */}
+        {tool.abilityExplainShow ? <NftAbilityExplain /> : null}
 
-        <div className="flex flex-wrap w-[510px] h-[40px] mb-2">
+        <div className="flex flex-wrap   mb-2 w-[300px]  ">
           {info.info.nft.status.map((res: any, index: number) => {
-            let status: any = [
-              {
-                name: res.name,
-                value: res.value,
-              },
-            ]
-            return (
-              <div key={index}>
-                <StatList statList={status} />
-              </div>
-            )
+            return <Stat name={res.name} value={res.value} border={true} />
           })}
         </div>
       </div>
 
-      {/* 능력치 설명창 */}
-      {tool.abilityExplainShow ? <NftAbilityExplain /> : null}
-
-      <div className="flex mb-2">
+      <div className="flex mb-2 border-b-2 border-brown-200 ">
         <p
-          className="cursor-default mr-[30px]"
+          className=" w-[100px] text-beige-100 mr-2 text-center bg-brown-300 rounded-t-lg border-brown min-h-[35px] pt-1"
           onMouseEnter={() => {
             setTool((prev) => {
               const variable = { ...prev }
@@ -136,20 +143,23 @@ export default function NftMainDetail(info: any) {
             })
           }}
         >
-          등급
+          등급{" "}
+          <FontAwesomeIcon
+            icon={faCircleInfo}
+            className="w-[15px] text-lgBrown-300 h-[15px]"
+          />
         </p>
+        {/* 등급 설명창 */}
+        {tool.gradeExplainShow ? <NftGradeExpain /> : null}
         <Tier tier={info.info.nft.tier} />
       </div>
 
-      {/* 등급 설명창 */}
-      {tool.gradeExplainShow ? <NftGradeExpain /> : null}
-
-      {info.info.sell === true ? (
+      {/* {info.info.sell === true ? (
         <div>
           <div className="flex mb-2">
             <p className="mr-3 cursor-default">분양자</p>
             <p
-              className="cursor-pointer hover:text-lgBrown-500 font-semibold"
+              className="font-semibold cursor-pointer hover:text-lgBrown-500"
               onClick={() => goPersonalList(info.info.sellerAddress)}
             >
               {info.info.sellerNickname}
@@ -167,14 +177,14 @@ export default function NftMainDetail(info: any) {
           <div className="flex mb-2">
             <p className="mr-3 cursor-default">보유자</p>
             <p
-              className="cursor-pointer hover:text-lgBrown-500 font-semibold"
+              className="font-semibold cursor-pointer hover:text-lgBrown-500"
               onClick={() => goPersonalList(info.info.sellerAddress)}
             >
               {info.info.sellerNickname}
             </p>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   )
 }

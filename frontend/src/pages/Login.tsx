@@ -9,7 +9,10 @@ const Login = () => {
   const [trade, setTrade] = useRecoilState(tradeAtom)
 
   return (
-    <div className="h-full w-full flex justify-center items-center">
+    <div
+      className="flex items-center justify-center w-full h-full bg-center bg-cover rounded-3xl"
+      style={{ backgroundImage: "url(/images/login.jpg)" }}
+    >
       {/* 스피너 모달 시작 */}
       <SpinnerModal
         isOpen={trade.modalOpen6}
@@ -28,13 +31,18 @@ const Login = () => {
       </SpinnerModal>
       {/* 스피너 모달 끝 */}
 
-      <div>
-        <button>
+      <div className="mt-3">
+        <button className="relative">
           <LoginButton />
+          <img
+            src="/images/mung.png"
+            className="w-[100px] absolute bottom-[74px] right-20"
+          ></img>
         </button>
         <NavLink to="/login-tutorial">
-          <p className="mt-1 hover:text-blue-300">
-            지갑이 없다면? 만드는법 보기!
+          <p className="flex justify-center py-1 mt-2 text-sm bg-pink-100 border-2 border-white shadow-sm mapleStory rounded-xl hover:bg-pink-300">
+            지갑이 없으신가요?{" "}
+            <p className="pl-1 cursor-pointer"> 만드는 법 확인하기 </p>
           </p>
         </NavLink>
       </div>

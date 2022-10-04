@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import { useRecoilState } from "recoil"
 import { MFTContract } from "../utils/Web3Config"
 import { getBalance } from "../utils/web3"
@@ -26,6 +27,9 @@ import "../components/button/NegativeBtn.css"
 import "../components/button/PositiveBtn.css"
 import "../components/button/NeutralBtn.css"
 import "../components/button/switch.css"
+import { http } from "../api/axios"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons"
 
 export default function NftDetail() {
   const [member, setMember] = useRecoilState(memberAtom)
@@ -77,7 +81,13 @@ export default function NftDetail() {
   }, [])
 
   return (
-    <div className="h-full w-full mapleStory">
+    <div className="w-full h-full p-4 overflow-hidden mapleStory">
+      <div
+        className="absolute z-10 cursor-pointer top-5 text-brown-400"
+        onClick={() => navigate(-1)}
+      >
+        <FontAwesomeIcon icon={faArrowLeft} /> 뒤로가기
+      </div>
       {/* 스피너 모달 시작 */}
       <SpinnerModal
         isOpen={trade.modalOpen6}
@@ -107,13 +117,13 @@ export default function NftDetail() {
           })
         }}
       >
-        <p className="text-3xl font-semibold mb-4 text-center">
+        <p className="mb-4 text-3xl font-semibold text-center">
           판매를 중지하시겠습니까?
         </p>
 
         <div className="flex justify-center">
           <button
-            className="negative-btn mr-4"
+            className="mr-4 negative-btn"
             onClick={async () => {
               const receivedBalance = await getBalance()
               await setBalance(receivedBalance)
@@ -161,7 +171,7 @@ export default function NftDetail() {
           })
         }
       >
-        <p className="text-center text-4xl font-semibold mb-4">
+        <p className="mb-4 text-4xl font-semibold text-center">
           즉시 구매하시겠습니까?
         </p>
         <div className="flex text-xl mb-2 ml-[60px]">
@@ -225,7 +235,7 @@ export default function NftDetail() {
           })
         }
       >
-        <p className="text-center text-4xl font-semibold mb-4">
+        <p className="mb-4 text-4xl font-semibold text-center">
           제안하실 금액을 입력해주세요
         </p>
 
@@ -308,7 +318,7 @@ export default function NftDetail() {
           })
         }
       >
-        <p className="text-center text-4xl font-semibold mb-4">
+        <p className="mb-4 text-4xl font-semibold text-center">
           제안을 취소하시겠습니까?
         </p>
         <div className="flex justify-center mt-10">
@@ -359,7 +369,7 @@ export default function NftDetail() {
           })
         }}
       >
-        <p className="text-center text-4xl font-semibold mb-4">
+        <p className="mb-4 text-4xl font-semibold text-center">
           제안을 수락하시겠습니까?
         </p>
         <div className="flex justify-center mt-10">
@@ -415,11 +425,11 @@ export default function NftDetail() {
           })
         }}
       >
-        <p className="text-center text-4xl font-semibold mb-4">
+        <p className="mb-4 text-4xl font-semibold text-center">
           판매 정보를 입력해주세요
         </p>
 
-        <div className="flex text-xl font-semibold mb-4">
+        <div className="flex mb-4 text-xl font-semibold">
           <p className="mr-[50px]">즉시 구매 가격</p>
           <input
             id="price"
@@ -441,7 +451,7 @@ export default function NftDetail() {
             M
           </label>
         </div>
-        <div className="flex justify-center flex-col">
+        <div className="flex flex-col justify-center">
           <div className="flex text-xl font-semibold">
             <p className="mr-[90px]">오퍼 유무</p>
 
@@ -467,10 +477,10 @@ export default function NftDetail() {
             </div>
           </div>
         </div>
-        <div className="flex mt-10 justify-center">
+        <div className="flex justify-center mt-10">
           <button
             type="submit"
-            className="positive-btn mr-5"
+            className="mr-5 positive-btn"
             onClick={async () => {
               const receivedBalance = await getBalance()
               await setMember((prev: any) => {
@@ -514,35 +524,57 @@ export default function NftDetail() {
       {/* 판매 등록 모달 끝 */}
 
       {nftInfo !== undefined ? (
-        <div className="h-[50%] w-full flex">
-          {/* NFT 이미지 */}
-          <NFTImage imageUrl={nftInfo.nft.url} />
-
-          <div className="w-[70%]">
-            {/* NFT 주요 정보 */}
-            <NftMainDetail
-              info={nftInfo}
-              publicAddress={publicAddress}
-              nftOwnerAddress={nftOwnerAddress}
-            />
-
-            {/* NFT 판매 버튼 - 판매 시작, 판매 중단, 즉시 구매, 오퍼 신청 */}
-            <NftTradeButton
-              nftOwnerAddress={nftOwnerAddress}
-              publicAddress={publicAddress}
-              info={nftInfo}
-            />
+        <div className="w-full h-full rounded-lg ">
+          <div className="w-full rounded-lg bg-beige-500 h-[40px] p-2 px-3 text-lg flex justify-between mb-2">
+            <div className="">
+              <span
+                className="cursor-pointer text-lgBrown-600 hover:border-b-2 border-b-lgBrown-500"
+                onClick={() =>
+                  navigate(`/personal/${nftInfo.sellerAddress}/list`)
+                }
+              >
+                {nftInfo.sellerNickname}{" "}
+              </span>
+              님의 강아지
+            </div>
+            <div> 멍개 no.{nftInfo.nft.id}</div>
           </div>
-        </div>
-      ) : null}
+          <div className="flex items-center w-full h-[550px]">
+            <div className="w-1/2 h-full py-3 mr-4 rounded-lg shadow-sm bg-beige-400 ">
+              <div className="flex justify-center w-full p-4 pb-0">
+                <img
+                  className="w-[250px] h-[250px] bg-white rounded-lg border-4 border-white  shadow-sm"
+                  src={nftInfo.nft.url}
+                  alt="NFT 이미지"
+                />
+              </div>
 
-      {/* 거래 이력 & 오퍼리스트 출력 */}
-      {nftInfo !== undefined ? (
-        <div className="h-[50%] w-full flex">
-          <TradeHistory info={nftInfo} />
-          <div className="w-[5%]"></div>
+              <div className="w-full mt-3 ">
+                {/* NFT 판매 버튼 - 판매 시작, 판매 중단, 즉시 구매, 오퍼 신청 */}
+                <NftTradeButton
+                  nftOwnerAddress={nftOwnerAddress}
+                  publicAddress={publicAddress}
+                  info={nftInfo}
+                />
+                {/* NFT 주요 정보 */}
+                <NftMainDetail
+                  info={nftInfo}
+                  publicAddress={publicAddress}
+                  nftOwnerAddress={nftOwnerAddress}
+                />
+              </div>
+            </div>
+            <div className="w-1/2 h-full py-3 rounded-lg shadow-sm bg-beige-400">
+              {/* 거래 이력 & 오퍼리스트 출력 */}
+              <div className="w-full h-full p-4 space-y-4">
+                <TradeHistory info={nftInfo} />
 
-          <OfferHistory info={nftInfo} publicAddress={publicAddress} />
+                <OfferHistory info={nftInfo} publicAddress={publicAddress} />
+              </div>
+            </div>
+
+            {/* NFT 이미지 */}
+          </div>
         </div>
       ) : null}
     </div>
