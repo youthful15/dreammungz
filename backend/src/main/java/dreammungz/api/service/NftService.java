@@ -423,7 +423,7 @@ public class NftService {
 
         //4. 성별 결정
         Gender[] gender = Gender.values();
-        gameEndResponse.setGender(gender[getNumber(gender.length)]);
+        gameEndResponse.setGender(gender[getNumber(gender.length*8)%2]);
 
         //5. 카드 스탯 결정(배열값보다 작거나 같은값, -1은 0%를 의미)
         Tier[] tier = Tier.values();
