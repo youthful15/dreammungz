@@ -9,6 +9,7 @@ import Spinner from "../components/spinner/Spinner"
 import { useRecoilState } from "recoil"
 import tradeAtom from "../recoil/trade/atom"
 import Gender from "../components/nftInfo/Gender"
+import { getBalance } from "../utils/web3"
 const publicAddress = localStorage.getItem("publicAddress")
 
 let startSetting = {
@@ -24,28 +25,34 @@ function useMovePage(price: number) {
   const [trade, setTrade] = useRecoilState(tradeAtom)
 
   async function MovePage() {
+    const showBalance = await getBalance()
     console.log(startSetting)
 
-    await setTrade((prev) => {
-      const variable = { ...prev }
-      variable.modalOpen6 = true
-      return { ...variable }
-    })
+    // 돈이 부족할 경우
+    if (showBalance < price) {
+      alert("지갑에 MUNG이 부족합니다!")
+    } else {
+      await setTrade((prev) => {
+        const variable = { ...prev }
+        variable.modalOpen6 = true
+        return { ...variable }
+      })
 
-    // 결제 로직
-    await pushGameStart(publicAddress, price)
+      // 결제 로직
+      await pushGameStart(publicAddress, price)
 
-    await setTrade((prev) => {
-      const variable = { ...prev }
-      variable.modalOpen6 = false
-      return { ...variable }
-    })
-    // price 만큼 결제합니다. 결제 성공시 아래 navigate 실행~
-    await http.post(`game/start`, startSetting).then((res) => {
-      console.log("넘기자", startSetting)
-      navigate("/game")
-    })
-    startSetting.mating = true
+      await setTrade((prev) => {
+        const variable = { ...prev }
+        variable.modalOpen6 = false
+        return { ...variable }
+      })
+      // price 만큼 결제합니다. 결제 성공시 아래 navigate 실행~
+      await http.post(`game/start`, startSetting).then((res) => {
+        console.log("넘기자", startSetting)
+        navigate("/game")
+      })
+      startSetting.mating = true
+    }
   }
   return MovePage
 }
@@ -336,7 +343,7 @@ function WeddingMode() {
 export default function GameStart() {
   const [showContent, setContent] = useState(<StartTutorial />)
   const [trade, setTrade] = useRecoilState(tradeAtom)
-  console.log(trade.modalOpen6)
+
   return (
     <div className="w-full h-full">
       {/* 스피너 모달 시작 */}
