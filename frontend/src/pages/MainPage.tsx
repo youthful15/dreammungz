@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { http } from "../api/axios"
 import Carousel from "../components/carousel/Carousel"
-
+import WarningToast from "../components/toast/WarningToast"
 export default function MainPage() {
   const navigate = useNavigate()
 
@@ -33,6 +33,7 @@ export default function MainPage() {
 
   return (
     <div className="w-full h-full">
+      <WarningToast title="sdf" content="sdf" />
       <div className="h-[64%] py-1">
         <div className="h-[90px]">
           <div

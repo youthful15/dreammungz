@@ -197,7 +197,13 @@ export default function NftDetail() {
                 return { ...variable }
               })
 
-              await buyNowFormat(balance, cost, tokenId, publicAddress)
+              const buyNowFormatResult = await buyNowFormat(
+                balance,
+                cost,
+                tokenId,
+                publicAddress
+              )
+              // if (buyNowFormatResult)
 
               await setTrade((prev) => {
                 const variable = { ...prev }
