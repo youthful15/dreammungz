@@ -20,10 +20,7 @@ import PersonalPage from "./pages/PersonalPage"
 import NftListByUser from "./pages/NftListByUser"
 import DealHistoryByUser from "./pages/DealHistoryByUser"
 import OfferHistoryByUser from "./pages/OfferHistoryByUser"
-import { lazy, Suspense } from "react"
-// import Museum from "./pages/MuseumPage"
-
-const Museum = lazy(() => import("./pages/MuseumPage"))
+import Museum from "./pages/MuseumPage"
 
 function App() {
   RouterChangeTracker()
@@ -62,14 +59,7 @@ function App() {
                 <Route path="history" element={<DealHistoryByUser />} />
                 <Route path="offer" element={<OfferHistoryByUser />} />
                 <Route path="achievement" element={<MyAchievement />} />
-                <Route
-                  path="museum"
-                  element={
-                    <Suspense fallback={null}>
-                      <Museum />
-                    </Suspense>
-                  }
-                />
+                <Route path="museum" element={<Museum />} />
               </Route>
             </Routes>
           </div>
