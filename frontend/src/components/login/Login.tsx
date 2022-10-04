@@ -221,12 +221,12 @@ export default function Login() {
 
   return (
     <div
-      className="Login-button Login-mm flex items-center border bg-[#273850] p-2"
+      className="Login-button Login-mm flex items-center border-2 border-white shadow-md bg-[#273850] p-5 mapleStory text-xl rounded-2xl px-7 hover:bg-[#102747]"
       onClick={handleClick}
     >
       <img
         src="images/metamask.png"
-        className="mr-1"
+        className="mr-3"
         alt="Metamask 로그인 이미지"
       />
       <p className="font-semibold text-white">MetaMask 로그인</p>
