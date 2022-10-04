@@ -86,56 +86,47 @@ export const buyNowFormat = async (
   tokenId: number,
   publicAddress: string
 ) => {
-  // 금액이 부족할때
-  if (balance < cost) {
-    await alert("M이 부족합니다!")
-  }
+  try {
+    // contractId 받기
+    const saleContractId = await MFTSaleFactoryContract.methods
+      .getCurrentSaleOfMFT(tokenId)
+      .call()
 
-  // 금액이 충분할때
-  else {
-    try {
-      // contractId 받기
-      const saleContractId = await MFTSaleFactoryContract.methods
-        .getCurrentSaleOfMFT(tokenId)
-        .call()
+    // 주소
+    const saleContractAddress = await MFTSaleFactoryContract.methods
+      .getSale(saleContractId)
+      .call()
 
-      // 주소
-      const saleContractAddress = await MFTSaleFactoryContract.methods
-        .getSale(saleContractId)
-        .call()
+    const aWeiValue = 10 ** 18
 
-      const aWeiValue = 10 ** 18
+    // 0.003 Mwei == 3000 wei
+    const bWeiValue = cost
 
-      // 0.003 Mwei == 3000 wei
-      const bWeiValue = cost
+    const totalWeiValue = web3.utils
+      .toBN(aWeiValue)
+      .mul(web3.utils.toBN(bWeiValue))
 
-      const totalWeiValue = web3.utils
-        .toBN(aWeiValue)
-        .mul(web3.utils.toBN(bWeiValue))
+    await MUNGContract.methods
+      .approve(saleContractAddress, totalWeiValue)
+      .send({ from: publicAddress })
 
-      await MUNGContract.methods
-        .approve(saleContractAddress, totalWeiValue)
-        .send({ from: publicAddress })
+    // 즉시 구매 SMART CONTRACT
+    await MFTSaleFactoryContract.methods
+      .buyNow(saleContractId, publicAddress)
+      .send({ from: publicAddress })
 
-      // 즉시 구매 SMART CONTRACT
-      await MFTSaleFactoryContract.methods
-        .buyNow(saleContractId, publicAddress)
-        .send({ from: publicAddress })
+    await http
+      .post("trade/nftPurchase", {
+        address: publicAddress,
+        contractId: parseInt(saleContractId),
+        tokenId: tokenId,
+      })
+      .then((res) => console.log("즉시구매", res))
+      .catch((err) => console.error(err))
 
-      await http
-        .post("trade/nftPurchase", {
-          address: publicAddress,
-          contractId: parseInt(saleContractId),
-          tokenId: tokenId,
-        })
-        .then((res) => console.log("즉시구매", res))
-        .catch((err) => console.error(err))
-
-      window.location.reload()
-    } catch (err) {
-      console.error(err)
-      window.location.reload()
-    }
+    window.location.reload()
+  } catch (err) {
+    window.location.reload()
   }
 }
 
@@ -151,7 +142,6 @@ export const acceptNegoFormat = async (
       .getCurrentSaleOfMFT(tokenId)
       .call()
 
-    // 판매자 입장 -> negoId 받을 예정
     // NFT 네고 제안 수락 SMARTCONTRACT
     await MFTSaleFactoryContract.methods
       .acceptNego(saleContractId, negoId)
@@ -194,9 +184,11 @@ export const cancelNegoFormat = async (
     })
 
     await http.put(`trade/refund/${clickedNegoId}`)
-
     alert("제안이 취소되었습니다.")
-    window.location.reload()
+
+    setTimeout(() => {
+      window.location.reload()
+    }, 2000)
   } catch (err) {
     console.error(err)
     window.location.reload()

@@ -114,7 +114,14 @@ export default function NftMainDetail(info: any) {
 
         <div className="flex flex-wrap   mb-2 w-[340px]  ">
           {info.info.nft.status.map((res: any, index: number) => {
-            return <Stat name={res.name} value={res.value} border={true} />
+            return (
+              <Stat
+                key={index}
+                name={res.name}
+                value={res.value}
+                border={true}
+              />
+            )
           })}
         </div>
       </div>
