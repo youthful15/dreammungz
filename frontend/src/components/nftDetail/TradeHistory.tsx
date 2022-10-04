@@ -115,7 +115,7 @@ export default function TradeHistory(info: any) {
                           className="w-[30%] text-lgBrown-600
  hover:text-lgBrown-700 cursor-pointer"
                           onClick={() => {
-                            navigate(`/personal/${sellerAddress}/list`)
+                            navigate(`/personal/${sellerAddress}`)
                           }}
                         >
                           {sellerNickname}
@@ -124,7 +124,7 @@ export default function TradeHistory(info: any) {
                           className="w-[25%] text-lgBrown-600
  hover:text-lgBrown-700 cursor-pointer"
                           onClick={() => {
-                            navigate(`/personal/${buyerAddress}/list`)
+                            navigate(`/personal/${buyerAddress}`)
                           }}
                         >
                           {buyerNickname}

@@ -1,3 +1,5 @@
+import { faLink } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link, NavLink, useMatch } from "react-router-dom"
 
 export interface TabProp {
@@ -14,6 +16,7 @@ const Tab = ({ title, path }: TabProp) => {
           }`}
         >
           {title}
+          {path === "museum" && <FontAwesomeIcon icon={faLink} />}
         </div>
       )}
     </NavLink>

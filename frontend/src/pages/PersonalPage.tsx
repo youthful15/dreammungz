@@ -1,14 +1,15 @@
 import { Link, Outlet, useMatch, useParams } from "react-router-dom"
 import TabList from "../components/tab/TabList"
 import UserInfo from "../components/userInfo/UserInfo"
+import PersonalHome from "./PersonalHome"
 
 const personalMenu = [
   { title: "홈", path: "" },
   { title: "보유 NFT", path: "list" },
-  { title: "거래 내역 ", path: "history" },
-  { title: "오퍼 내역 ", path: "offer" },
   { title: "업적", path: "achievement" },
   { title: "박물관 ", path: "museum" },
+  { title: "거래 내역 ", path: "history" },
+  { title: "오퍼 내역 ", path: "offer" },
 ]
 
 const PersonalPage = () => {
@@ -25,8 +26,8 @@ const PersonalPage = () => {
         <TabList list={personalMenu} />
         <UserInfo />
       </div>
-      <div className="w-full  h-[90%]">
-        {homePath && <div>여긴 홈입니다 </div>}
+      <div className="w-full  h-[90%] ">
+        {homePath && <PersonalHome />}
         <Outlet />
       </div>
     </div>
