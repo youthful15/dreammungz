@@ -103,7 +103,13 @@ export default function TradeHistory(info: any) {
                       className="my-1 bg-white rounded-sm shadow-xl last:rounded-b-lg"
                     >
                       <div className="flex w-full p-1">
-                        <div className="w-[20%]">{tradePrice} M</div>
+                        <div className="w-[20%]">
+                          {String(tradePrice).replace(
+                            /\B(?=(\d{3})+(?!\d))/g,
+                            ","
+                          )}{" "}
+                          M
+                        </div>
 
                         <div
                           className="w-[30%] text-lgBrown-600

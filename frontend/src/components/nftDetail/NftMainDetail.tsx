@@ -28,27 +28,25 @@ export default function NftMainDetail(info: any) {
 
       <div className="mb-2 border-b-2 border-brown-200 ">
         <div className="flex mr-[100px]  relative">
-          <p
-            className=" text-md w-[100px] text-beige-100 mr-2 text-center bg-brown-300 rounded-t-lg border-brown min-h-[35px] pt-1"
-            onMouseEnter={() => {
-              setTool((prev) => {
-                const variable = { ...prev }
-                variable.jobExplainShow = true
-                return { ...variable }
-              })
-            }}
-            onMouseLeave={() => {
-              setTool((prev) => {
-                const variable = { ...prev }
-                variable.jobExplainShow = false
-                return { ...variable }
-              })
-            }}
-          >
+          <p className=" text-md w-[100px] text-beige-100 mr-2 text-center bg-brown-300 rounded-t-lg border-brown min-h-[35px] pt-1">
             직업{" "}
             <FontAwesomeIcon
               icon={faCircleInfo}
               className="w-[15px] text-lgBrown-300 h-[15px]"
+              onMouseEnter={() => {
+                setTool((prev) => {
+                  const variable = { ...prev }
+                  variable.jobExplainShow = true
+                  return { ...variable }
+                })
+              }}
+              onMouseLeave={() => {
+                setTool((prev) => {
+                  const variable = { ...prev }
+                  variable.jobExplainShow = false
+                  return { ...variable }
+                })
+              }}
             />
           </p>
           {/* 직업 설명창 */}
@@ -62,27 +60,25 @@ export default function NftMainDetail(info: any) {
 
       <div className="mb-2 border-b-2 border-brown-200">
         <div className="relative flex">
-          <p
-            className=" w-[100px] text-beige-100 mr-2 text-center bg-brown-300 rounded-t-lg border-brown  min-h-[35px] pt-1"
-            onMouseEnter={() =>
-              setTool((prev) => {
-                const variable = { ...prev }
-                variable.genderExplainShow = true
-                return { ...variable }
-              })
-            }
-            onMouseLeave={() => {
-              setTool((prev) => {
-                const variable = { ...prev }
-                variable.genderExplainShow = false
-                return { ...variable }
-              })
-            }}
-          >
+          <p className=" w-[100px] text-beige-100 mr-2 text-center bg-brown-300 rounded-t-lg border-brown  min-h-[35px] pt-1">
             성별{" "}
             <FontAwesomeIcon
               icon={faCircleInfo}
               className="w-[15px] text-lgBrown-300 h-[15px]"
+              onMouseEnter={() =>
+                setTool((prev) => {
+                  const variable = { ...prev }
+                  variable.genderExplainShow = true
+                  return { ...variable }
+                })
+              }
+              onMouseLeave={() => {
+                setTool((prev) => {
+                  const variable = { ...prev }
+                  variable.genderExplainShow = false
+                  return { ...variable }
+                })
+              }}
             />
           </p>
           {/* 성별 설명창 */}
@@ -92,33 +88,31 @@ export default function NftMainDetail(info: any) {
       </div>
 
       <div className="flex w-full mb-2 border-b-2 border-brown-200">
-        <p
-          className=" w-[100px] text-beige-100 mr-2 text-center bg-brown-300 rounded-t-lg border-brown min-h-[35px] pt-1"
-          onMouseEnter={() =>
-            setTool((prev) => {
-              const variable = { ...prev }
-              variable.abilityExplainShow = true
-              return { ...variable }
-            })
-          }
-          onMouseLeave={() => {
-            setTool((prev) => {
-              const variable = { ...prev }
-              variable.abilityExplainShow = false
-              return { ...variable }
-            })
-          }}
-        >
+        <p className=" w-[100px] text-beige-100 mr-2 text-center bg-brown-300 rounded-t-lg border-brown min-h-[35px] pt-1">
           능력치{" "}
           <FontAwesomeIcon
             icon={faCircleInfo}
             className="w-[15px] text-lgBrown-300 h-[15px]"
+            onMouseEnter={() =>
+              setTool((prev) => {
+                const variable = { ...prev }
+                variable.abilityExplainShow = true
+                return { ...variable }
+              })
+            }
+            onMouseLeave={() => {
+              setTool((prev) => {
+                const variable = { ...prev }
+                variable.abilityExplainShow = false
+                return { ...variable }
+              })
+            }}
           />
         </p>
         {/* 능력치 설명창 */}
         {tool.abilityExplainShow ? <NftAbilityExplain /> : null}
 
-        <div className="flex flex-wrap   mb-2 w-[300px]  ">
+        <div className="flex flex-wrap   mb-2 w-[340px]  ">
           {info.info.nft.status.map((res: any, index: number) => {
             return <Stat name={res.name} value={res.value} border={true} />
           })}
@@ -126,27 +120,25 @@ export default function NftMainDetail(info: any) {
       </div>
 
       <div className="flex mb-2 border-b-2 border-brown-200 ">
-        <p
-          className=" w-[100px] text-beige-100 mr-2 text-center bg-brown-300 rounded-t-lg border-brown min-h-[35px] pt-1"
-          onMouseEnter={() => {
-            setTool((prev) => {
-              const variable = { ...prev }
-              variable.gradeExplainShow = true
-              return { ...variable }
-            })
-          }}
-          onMouseLeave={() => {
-            setTool((prev) => {
-              const variable = { ...prev }
-              variable.gradeExplainShow = false
-              return { ...variable }
-            })
-          }}
-        >
+        <p className=" w-[100px] text-beige-100 mr-2 text-center bg-brown-300 rounded-t-lg border-brown min-h-[35px] pt-1">
           등급{" "}
           <FontAwesomeIcon
             icon={faCircleInfo}
             className="w-[15px] text-lgBrown-300 h-[15px]"
+            onMouseEnter={() => {
+              setTool((prev) => {
+                const variable = { ...prev }
+                variable.gradeExplainShow = true
+                return { ...variable }
+              })
+            }}
+            onMouseLeave={() => {
+              setTool((prev) => {
+                const variable = { ...prev }
+                variable.gradeExplainShow = false
+                return { ...variable }
+              })
+            }}
           />
         </p>
         {/* 등급 설명창 */}

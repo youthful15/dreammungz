@@ -176,11 +176,13 @@ export default function NftDetail() {
         </p>
         <div className="flex text-xl mb-2 ml-[60px]">
           <p className="mr-[50px]">즉시 구매 가격</p>
-          <p>{nftInfo?.price} M</p>
+          <p>
+            {String(nftInfo?.price).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} M
+          </p>
         </div>
         <div className="flex text-xl ml-[60px]">
           <p className="mr-[105px]">나의 M</p>
-          <p>{balance} M</p>
+          <p>{String(balance).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} M</p>
         </div>
         <div className="flex justify-center mt-10 ">
           <button
@@ -247,7 +249,7 @@ export default function NftDetail() {
 
         <div className="flex text-xl ml-[60px] mb-2">
           <p className="mr-[50px]">현재 보유 금액</p>
-          <p>{balance} M</p>
+          <p>{String(balance).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} M</p>
         </div>
 
         <div className="flex text-xl mb-2 ml-[60px]">
@@ -260,6 +262,7 @@ export default function NftDetail() {
               e.target.value = e.target.value
                 .replace(/[^0-9.]/g, "")
                 .replace(/(\..*)\./g, "$1")
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
               setTrade((prev) => {
                 const variable = { ...prev }
                 variable.offerPrice = parseInt(e.target.value)
@@ -445,6 +448,7 @@ export default function NftDetail() {
               e.target.value = e.target.value
                 .replace(/[^0-9.]/g, "")
                 .replace(/(\..*)\./g, "$1")
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
               setTrade((prev) => {
                 const variable = { ...prev }

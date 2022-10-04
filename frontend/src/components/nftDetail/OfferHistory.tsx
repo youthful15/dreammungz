@@ -160,7 +160,13 @@ export default function OfferHistory(info: any, publicAddress: string) {
                       className="my-1 bg-white rounded-sm shadow-xl last:rounded-b-lg"
                     >
                       <div className="flex w-full p-1">
-                        <div className="w-[30%]">{offerPrice} M</div>
+                        <div className="w-[30%]">
+                          {String(offerPrice).replace(
+                            /\B(?=(\d{3})+(?!\d))/g,
+                            ","
+                          )}{" "}
+                          M
+                        </div>
 
                         <div
                           className="w-[40%] text-lgBrown-600

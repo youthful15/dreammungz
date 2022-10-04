@@ -83,7 +83,7 @@ const Navbar = () => {
             >
               {showBalance ? (
                 <p className="flex items-center justify-center ml-1">
-                  {balance}
+                  {String(balance).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   <img
                     src="/images/token.png"
                     alt="token"

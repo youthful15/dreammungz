@@ -29,7 +29,7 @@ export default function NftTradeButton({
             <div className="flex justify-center w-1/3 ">
               <img src="/images/token.png" className="w-[30px] h-[30px]" />
               <span className="align-baseline  h-[30px] pt-1 ml-1 text-lg">
-                {info.price}
+                {String(info.price).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
               </span>
             </div>
             <div className="flex w-2/3">
@@ -89,25 +89,33 @@ export default function NftTradeButton({
           publicAddress?.toLowerCase() !== nftOwnerAddress?.toLowerCase() &&
           info.sell === true &&
           info.nego === false ? (
-          <button
-            className="w-[50%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
-            onClick={async () => {
-              const receivedBalance = await getBalance()
-              await setMember((prev: any) => {
-                const variable = { ...prev }
-                variable.walletBalance = receivedBalance
-                return { ...variable }
-              })
+          <div className="flex w-full p-2 rounded-lg bg-beige-100">
+            <div className="flex justify-center w-1/3 ">
+              <img src="/images/token.png" className="w-[30px] h-[30px]" />
+              <span className="align-baseline  h-[30px] pt-1 ml-1 text-lg">
+                {String(info.price).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+              </span>
+            </div>
+            <button
+              className="w-[100%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
+              onClick={async () => {
+                const receivedBalance = await getBalance()
+                await setMember((prev: any) => {
+                  const variable = { ...prev }
+                  variable.walletBalance = receivedBalance
+                  return { ...variable }
+                })
 
-              setTrade((prev: any) => {
-                const variable = { ...prev }
-                variable.modalOpen2 = true
-                return { ...variable }
-              })
-            }}
-          >
-            즉시 구매
-          </button>
+                setTrade((prev: any) => {
+                  const variable = { ...prev }
+                  variable.modalOpen2 = true
+                  return { ...variable }
+                })
+              }}
+            >
+              즉시 구매
+            </button>
+          </div>
         ) : null
       ) : nftOwnerAddress &&
         publicAddress?.toLowerCase() === nftOwnerAddress?.toLowerCase() &&
