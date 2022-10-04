@@ -124,7 +124,7 @@ export default function Login() {
         })
         .then((success: any) => {
           if (success) {
-            console.log("지갑에 M(멍)이 추가되었습니다!")
+            console.log("지갑에 M(MUNG)이 추가되었습니다!")
           } else {
             throw new Error("화폐 추가 과정에서 문제가 발생했습니다.")
           }
