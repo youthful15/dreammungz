@@ -12,6 +12,7 @@ import GamePlaying from "./pages/GamePlaying"
 import GameEnding from "./pages/GameEnding"
 
 import Login from "./pages/Login"
+import Tutorial from "./pages/Tutorial"
 import LoginTutorial from "./pages/LoginTutorial"
 import NftListPage from "./pages/NftListPage"
 import MyAchievement from "./pages/MyAchievement"
@@ -44,6 +45,7 @@ function App() {
               <Route path="/mainpage" element={<MainPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/login-tutorial" element={<LoginTutorial />} />
+              <Route path="/tutorial" element={<Tutorial />} />
               <Route path="/styles" element={<Sample />} />
               <Route path="/start" element={<GameStart />} />
               <Route path="/game" element={<GamePlaying />} />

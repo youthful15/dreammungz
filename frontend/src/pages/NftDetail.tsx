@@ -465,8 +465,6 @@ export default function NftDetail() {
                 ></div>
               </label>
             </div>
-            {/* TESTEST */}
-            {/* TESTEST */}
           </div>
         </div>
         <div className="flex mt-10 justify-center">

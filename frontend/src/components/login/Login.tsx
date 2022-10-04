@@ -191,7 +191,6 @@ export default function Login() {
             .send({ from: publicAddress })
         } catch {
           window.alert("돈을 거부하다니..")
-          window.location.replace("/mainpage")
         }
       }
 
