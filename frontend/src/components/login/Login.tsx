@@ -144,7 +144,6 @@ export default function Login() {
     }
 
     const publicAddress = await coinbase.toLowerCase()
-    localStorage.setItem("publicAddress", publicAddress)
 
     // 지갑주소 Recoil 변수 저장
     await setMember((prev: any) => {
@@ -195,6 +194,9 @@ export default function Login() {
           window.location.replace("/mainpage")
         }
       }
+
+      // 지갑주소 localStorage에 추가
+      localStorage.setItem("publicAddress", publicAddress)
 
       // 회원 닉네임 전역변수에 저장
       await saveNickname({ publicAddress })
