@@ -1,96 +1,31 @@
+import { useNavigate } from "react-router-dom"
 const Tutorial = () => {
+  const navigate = useNavigate()
   return (
-    <div className="accordion" id="accordionExample">
-      <div className="accordion-item bg-white border border-gray-200">
-        <h2 className="accordion-header mb-0" id="headingOne">
-          <button
-            className="
-            mapleStory
-        accordion-button
-        relative
-        flex
-        items-center
-        w-full
-        py-4
-        px-5
-        text-base text-gray-800 text-left
-        bg-white
-        border-0
-        rounded-none
-        transition
-        focus:outline-none
-      "
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseOne"
-            aria-expanded="true"
-            aria-controls="collapseOne"
+    <div className="w-full h-full  rounded-lg shadow-md bg-beige-400 mapleStory text-brown-500">
+      <div className="flex w-full h-full items-center flex-col justify-center">
+        <p className="text-4xl mt-10">튜토리얼</p>
+        <div className="flex w-full h-full justify-center items-center">
+          <div
+            className="w-1/2 h-[450px] p-4"
+            onClick={() => {
+              navigate("/game-tutorial")
+            }}
           >
-            로그인 튜토리얼
-          </button>
-        </h2>
-        <div
-          id="collapseOne"
-          className="accordion-collapse collapse show"
-          aria-labelledby="headingOne"
-          data-bs-parent="#accordionExample"
-        >
-          <div className="accordion-body py-4 px-5">
-            <strong>This is the first item's accordion body.</strong> It is
-            shown by default, until the collapse plugin adds the appropriate
-            classNamees that we use to style each element. These classNamees
-            control the overall appearance, as well as the showing and hiding
-            via CSS transitions. You can modify any of this with custom CSS or
-            overriding our default variables. It's also worth noting that just
-            about any HTML can go within the <code>.accordion-body</code>,
-            though the transition does limit overflow.
+            <div className="flex flex-col items-center w-full h-full p-4 pt-8 transition ease-in-out delay-150 rounded-lg cursor-pointer  bg-beige-100 hover:scale-105">
+              <p>게임 튜토리얼</p>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="accordion-item bg-white border border-gray-200">
-        <h2 className="accordion-header mb-0" id="headingTwo">
-          <button
-            className="
-            mapleStory
-        accordion-button
-        collapsed
-        relative
-        flex
-        items-center
-        w-full
-        py-4
-        px-5
-        text-base text-gray-800 text-left
-        bg-white
-        border-0
-        rounded-none
-        transition
-        focus:outline-none
-      "
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseTwo"
-            aria-expanded="false"
-            aria-controls="collapseTwo"
+
+          <div
+            className="w-1/2 h-[450px] p-4"
+            onClick={() => {
+              navigate("/login-tutorial")
+            }}
           >
-            게임 튜토리얼
-          </button>
-        </h2>
-        <div
-          id="collapseTwo"
-          className="accordion-collapse collapse"
-          aria-labelledby="headingTwo"
-          data-bs-parent="#accordionExample"
-        >
-          <div className="accordion-body py-4 px-5">
-            <strong>This is the second item's accordion body.</strong> It is
-            hidden by default, until the collapse plugin adds the appropriate
-            classNamees that we use to style each element. These classNamees
-            control the overall appearance, as well as the showing and hiding
-            via CSS transitions. You can modify any of this with custom CSS or
-            overriding our default variables. It's also worth noting that just
-            about any HTML can go within the <code>.accordion-body</code>,
-            though the transition does limit overflow.
+            <div className="flex flex-col items-center w-full h-full p-4 pt-8 transition ease-in-out delay-150 rounded-lg cursor-pointer  bg-beige-100 hover:scale-105">
+              <p>로그인 튜토리얼</p>
+            </div>
           </div>
         </div>
       </div>

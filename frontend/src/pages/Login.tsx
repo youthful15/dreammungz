@@ -39,7 +39,7 @@ const Login = () => {
             className="w-[100px] absolute bottom-[74px] right-20"
           ></img>
         </button>
-        <NavLink to="/login-tutorial">
+        <NavLink to="/tutorial">
           <p className="flex justify-center py-1 mt-2 text-sm bg-pink-100 border-2 border-white shadow-sm mapleStory rounded-xl hover:bg-pink-300">
             지갑이 없으신가요?{" "}
             <p className="pl-1 cursor-pointer"> 만드는 법 확인하기 </p>

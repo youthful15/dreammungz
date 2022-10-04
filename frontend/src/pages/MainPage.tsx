@@ -33,7 +33,10 @@ export default function MainPage() {
   return (
     <div className="w-full h-full">
       <div className="h-[64%] py-1">
-        <div className="h-[90px]">
+        <div
+          className="h-[90px] hover:scale-[1.01] cursor-pointer"
+          onClick={() => navigate("/tutorial")}
+        >
           <div
             style={{
               backgroundImage: `url(/images/tutorial.png)`,
