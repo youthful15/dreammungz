@@ -1,8 +1,6 @@
-import { TokenExpireCheck } from "../utils/tokenExpireCheck"
+// import { TokenExpireCheck } from "../utils/tokenExpireCheck"
 import axios from "axios"
 function Instance() {
-  TokenExpireCheck() // false 일시 token의 만료 날짜를 지난 것을 의미
-
   const instance = axios.create({
     // 배포 주소: "https://j7a605.p.ssafy.io/api/"
     // local: "http://localhost:8081/"
@@ -17,7 +15,8 @@ function Instance() {
   instance.interceptors.request.use(
     (config: any) => {
       // token 만료 시 login Page 로
-      if (TokenExpireCheck()) {
+      // TokenExpireCheck()
+      if (false) {
         // 로그아웃
         localStorage.clear()
         window.location.replace("/login")
