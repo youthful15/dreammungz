@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { http } from "../../api/axios"
+import axios from "axios"
 import {
   chainId,
   MUNGContract,
@@ -27,8 +27,8 @@ export default function Login() {
     publicAddress: string
     signature: string
   }) => {
-    await http
-      .post(`auth/signature`, {
+    await axios
+      .post(`https://j7a605.p.ssafy.io/api/auth/signature`, {
         address: publicAddress,
         signature: signature,
       })
@@ -54,8 +54,10 @@ export default function Login() {
   }
   // 회원가입
   const handleSignin = (publicAddress: string) => {
-    return http
-      .post(`auth/signin`, { address: publicAddress })
+    return axios
+      .post(`https://j7a605.p.ssafy.io/api/auth/signin`, {
+        address: publicAddress,
+      })
       .then((res) => res.data.nonce)
       .catch((err) => console.error("에러", err))
   }
@@ -68,8 +70,8 @@ export default function Login() {
   }
   // 회원 닉네임 저장 함수
   const saveNickname = async ({ publicAddress }: { publicAddress: string }) => {
-    await http
-      .get(`auth/info/nickname/${publicAddress}`)
+    await axios
+      .get(`https://j7a605.p.ssafy.io/api/auth/info/nickname/${publicAddress}`)
       .then((res) => {
         // walletAddress, memberNickname recoil 전역변수에 저장
         setMember((prev: any) => {
@@ -124,7 +126,7 @@ export default function Login() {
         })
         .then((success: any) => {
           if (success) {
-            console.log("지갑에 M(MUNG)이 추가되었습니다!")
+            console.log("지갑에 MUNG 토큰이 추가되었습니다!")
           } else {
             throw new Error("화폐 추가 과정에서 문제가 발생했습니다.")
           }
@@ -155,8 +157,8 @@ export default function Login() {
     let isNew: any
     // Look if user with current publicAddress is already present on backend
 
-    await http
-      .get(`auth/info/${publicAddress}`)
+    await axios
+      .get(`https://j7a605.p.ssafy.io/api/auth/info/${publicAddress}`)
       .then((res) => {
         nonce = res.data.nonce
         isNew = false
