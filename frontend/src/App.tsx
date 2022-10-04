@@ -50,7 +50,6 @@ function App() {
               <Route path="/start" element={<GameStart />} />
               <Route path="/game" element={<GamePlaying />} />
               <Route path="/ending" element={<GameEnding />} />
-              <Route path="/museum" element={<Museum />} />
               <Route path="/nft">
                 <Route path="list" element={<NftListPage />} />
                 <Route path="detail/:id" element={<NftDetail />} />
@@ -60,6 +59,7 @@ function App() {
                 <Route path="history" element={<DealHistoryByUser />} />
                 <Route path="offer" element={<OfferHistoryByUser />} />
                 <Route path="achievement" element={<MyAchievement />} />
+                <Route path="museum" element={<Museum />} />
               </Route>
             </Routes>
           </div>

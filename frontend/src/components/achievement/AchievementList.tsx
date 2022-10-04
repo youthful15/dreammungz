@@ -8,7 +8,7 @@ export interface AchievementListType {
 
 const AchievementList = ({ item }: { item: any }) => {
   return (
-    <div className="accordian">
+    <div className="accordian mapleStory">
       <ul>
         {item.map((item: AchievementListItemType, idx: number) => {
           return <AchievementListItem item={item} key={idx} />

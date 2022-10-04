@@ -9,7 +9,11 @@ import Art from "./Art/Art"
 import Player from "./Player/Player"
 import { Stars } from "@react-three/drei"
 
-const Museum = () => {
+type MuseumProp = {
+  list: any
+}
+
+const Museum = ({ list }: MuseumProp) => {
   return (
     <div className="w-full h-full bg-black">
       <Canvas
@@ -30,7 +34,7 @@ const Museum = () => {
           {/* <Suspense fallback={null}> */}
           <Ground />
           <Building />
-          <Art />
+          <Art list={list} />
           {/* </Suspense> */}
           <Player />
         </Physics>

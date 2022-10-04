@@ -172,7 +172,7 @@ export default function OfferHistory(info: any, publicAddress: string) {
                           className="w-[40%] text-lgBrown-600
 hover:text-lgBrown-700 cursor-pointer"
                           onClick={() => {
-                            navigate(`/personal/${offerAddress}/list`)
+                            navigate(`/personal/${offerAddress}`)
                           }}
                         >
                           {offerNickname}

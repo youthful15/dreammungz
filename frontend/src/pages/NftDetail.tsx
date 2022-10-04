@@ -574,9 +574,7 @@ export default function NftDetail() {
             <div className="">
               <span
                 className="cursor-pointer text-lgBrown-600 hover:border-b-2 border-b-lgBrown-500"
-                onClick={() =>
-                  navigate(`/personal/${nftInfo.sellerAddress}/list`)
-                }
+                onClick={() => navigate(`/personal/${nftInfo.sellerAddress}`)}
               >
                 {nftInfo.sellerNickname}{" "}
               </span>
