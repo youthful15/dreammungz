@@ -52,10 +52,10 @@ export default function NftAbilityExplain() {
     },
   ]
   return (
-    <div className="bg-white absolute rounded-md z-[2] w-[600px] h-[150px] shadow-md">
-      <div className="flex items-center flex-col justify-center w-full h-full border-black text-base">
-        <p className="text-center text-lg font-semibold my-4">스탯 목록</p>
-        <div className="text-black text-xs font-semibold">
+    <div className="bg-white absolute rounded-md z-[10] w-[600px] h-[150px] shadow-md bottom-[10px]">
+      <div className="flex flex-col items-center justify-center w-full h-full text-base border-black">
+        <p className="my-4 text-lg font-semibold text-center">스탯 목록</p>
+        <div className="text-xs font-semibold text-black">
           <div className="flex">
             <p className="mr-1 bg-rose-300 rounded-md p-0.5 m-0.5 w-20 text-center">
               재력

@@ -2,9 +2,9 @@ import Gender from "../nftInfo/Gender"
 
 export default function NftGenderExpain() {
   return (
-    <div className="bg-white absolute rounded-md z-[2] w-[200px] h-[150px] right-[210px] shadow-md">
-      <div className="flex items-center flex-col justify-center w-full h-full border-black text-base">
-        <p className="font-semibold text-lg mb-2">성별</p>
+    <div className="bg-white absolute rounded-md z-[2] w-[200px] h-[150px] top-[40px] shadow-md">
+      <div className="flex flex-col items-center justify-center w-full h-full text-base border-black">
+        <p className="mb-2 text-lg font-semibold">성별</p>
 
         <div className="flex">
           <div className="flex items-center mr-2">
