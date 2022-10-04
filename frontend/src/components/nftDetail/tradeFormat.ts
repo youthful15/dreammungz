@@ -193,6 +193,8 @@ export const cancelNegoFormat = async (
       tokenId: tokenId,
     })
 
+    await http.put(`trade/refund/${clickedNegoId}`)
+
     alert("제안이 취소되었습니다.")
     window.location.reload()
   } catch (err) {

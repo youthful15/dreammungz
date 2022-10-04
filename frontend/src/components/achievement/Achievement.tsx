@@ -2,18 +2,18 @@ import { http } from "../../api/axios"
 import AchievementList, { AchievementListType } from "./AchievementList"
 import { useState, useEffect } from "react"
 import "./Achievement.css"
+import { useParams } from "react-router"
 
 const chunkNumber = 14
 
 const Achievement = () => {
   const [achievement, setAchievement] = useState([])
   const [chunkArray, setChunkArray] = useState([[]])
-
+  const { address } = useParams()
+  // console.log(address)
   useEffect(() => {
     const getAchievement = async () => {
-      const { data } = await http.get(
-        `achievement/${localStorage.getItem("publicAddress")}`
-      )
+      const { data } = await http.get(`achievement/${address}`)
       //   chunk(data.items, chunkNumber)
       setAchievement(data.items)
     }

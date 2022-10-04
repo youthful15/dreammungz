@@ -15,6 +15,9 @@ const tradeAtom = atom({
     selectedOfferId: 0, // 선택된 Nego Id
     buyNowPrice: 0, // 즉시 구매 가격
     offerPrice: 0, // 네고 제안 가격
+    clickedOfferId: 0,
+    clickedTradeId: 0,
+    clickedTokenId: 0,
   },
 })
 

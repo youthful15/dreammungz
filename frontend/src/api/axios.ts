@@ -1,7 +1,7 @@
+// import { TokenExpireCheck } from "../utils/tokenExpireCheck"
 import axios from "axios"
 function Instance() {
   const instance = axios.create({
-    // process.env.REACT_APP_BASE_URL 추가 예정
     // 배포 주소: "https://j7a605.p.ssafy.io/api/"
     // local: "http://localhost:8081/"
 
@@ -10,6 +10,26 @@ function Instance() {
       "Content-type": "application/json",
     },
   })
+
+  // 헤더에 토큰 등록
+  // instance.interceptors.request.use(
+  //   (config: any) => {
+  //     // token 만료 시 login Page 로
+  //     // TokenExpireCheck()
+  //     if (false) {
+  //       // 로그아웃
+  //       localStorage.clear()
+  //       window.location.replace("/login")
+  //     } else {
+  //       config.headers["token"] = localStorage.getItem("token")
+  //       return config
+  //     }
+  //   },
+  //   (err) => {
+  //     return Promise.reject(err)
+  //   }
+  // )
+
   return instance
 }
 export const http = Instance()

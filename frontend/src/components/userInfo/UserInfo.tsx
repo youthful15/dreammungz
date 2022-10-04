@@ -63,7 +63,7 @@ const UserInfo = () => {
       {!editing ? (
         <div className="flex">
           <h1 className="pb-2 text-3xl font-bold mapleStory text-lgBrown-700">
-            {data?.nickname}의 페이지{" "}
+            {data?.nickname}
           </h1>
           {isOwner !== null && isOwner && (
             <button

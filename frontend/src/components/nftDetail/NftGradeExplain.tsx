@@ -2,7 +2,7 @@ import Tier from "../nftInfo/Tier"
 
 export default function NftGenderExpain() {
   return (
-    <div className="bg-white absolute rounded-md z-[2] w-[600px] h-[150px] shadow-md">
+    <div className="bg-white absolute rounded-md z-[2] w-[600px] h-[100px] shadow-md bottom-[0px]">
       <div className="flex flex-col justify-center items-center w-full h-full">
         <p className="mb-2 text-lg font-semibold">등급표</p>
         <div className="flex text-sm font-normal">

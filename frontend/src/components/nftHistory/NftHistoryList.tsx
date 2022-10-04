@@ -97,8 +97,9 @@ const NftHistoryList = ({ address }: { address: string }) => {
   const { data } = useQuery(["DealList", page], () =>
     getDealHistory(address, page)
   )
+
   return (
-    <div className="relative flex flex-col items-center justify-center w-full h-full text-center ">
+    <div className="relative flex flex-col items-center justify-center w-full h-full pb-1 text-center ">
       <div className="w-4/5 space-y-4 h-[80%] ">
         <HistoryListHead item={thead} />
         {data && data.items.length === 0 && (
