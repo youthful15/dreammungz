@@ -1,16 +1,19 @@
-import { Link, Outlet, useParams } from "react-router-dom"
+import { Link, Outlet, useMatch, useParams } from "react-router-dom"
 import TabList from "../components/tab/TabList"
 import UserInfo from "../components/userInfo/UserInfo"
 
 const personalMenu = [
+  { title: "홈", path: "" },
   { title: "보유 NFT", path: "list" },
   { title: "거래 내역 ", path: "history" },
   { title: "오퍼 내역 ", path: "offer" },
   { title: "업적", path: "achievement" },
+  { title: "박물관 ", path: "museum" },
 ]
 
 const PersonalPage = () => {
   const { address } = useParams()
+  const homePath = useMatch("/personal/:address")
   if (address === "null") {
     console.log(address)
     return <div> 해당 유저가 존재하지 않습니다. </div>
@@ -23,6 +26,7 @@ const PersonalPage = () => {
         <UserInfo />
       </div>
       <div className="w-full  h-[90%]">
+        {homePath && <div>여긴 홈입니다 </div>}
         <Outlet />
       </div>
     </div>

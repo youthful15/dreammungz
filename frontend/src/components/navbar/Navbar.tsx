@@ -96,9 +96,7 @@ const Navbar = () => {
                 </p>
               )}
             </div>
-            <Link
-              to={`/personal/${localStorage.getItem("publicAddress")}/list`}
-            >
+            <Link to={`/personal/${localStorage.getItem("publicAddress")}`}>
               <div className={navItemStyle}>{member.memberNickname} 님</div>
             </Link>
           </div>
