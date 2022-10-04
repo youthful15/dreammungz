@@ -14,7 +14,7 @@ const Display = ({ position, size }) => {
   alphaMap = useMemo(
     () =>
       new THREE.TextureLoader().load(
-        "assets/Textures/BiancoMarble/BIANCO-ao.jpg"
+        "/assets/Textures/BiancoMarble/BIANCO-ao.jpg"
       ),
     []
   )
@@ -22,7 +22,7 @@ const Display = ({ position, size }) => {
   diffuseMap = useMemo(
     () =>
       new THREE.TextureLoader().load(
-        "assets/Textures/BiancoMarble/BIANCO-diffuse.jpg"
+        "/assets/Textures/BiancoMarble/BIANCO-diffuse.jpg"
       ),
     []
   )
@@ -30,7 +30,7 @@ const Display = ({ position, size }) => {
   normalMap = useMemo(
     () =>
       new THREE.TextureLoader().load(
-        "assets/Textures/BiancoMarble/BIANCO-normal.jpg"
+        "/assets/Textures/BiancoMarble/BIANCO-normal.jpg"
       ),
     []
   )

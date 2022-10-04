@@ -15,7 +15,7 @@ const Ground = () => {
   marbleMap = useMemo(
     () =>
       new THREE.TextureLoader().load(
-        "assets/Textures/BazaltMarble/BAZALT-diffuse.jpg"
+        "/assets/Textures/BazaltMarble/BAZALT-diffuse.jpg"
       ),
     []
   )
@@ -26,7 +26,7 @@ const Ground = () => {
   marbleAlphaMap = useMemo(
     () =>
       new THREE.TextureLoader().load(
-        "assets/Textures/BazaltMarble/BAZALT-ao.jpg"
+        "/assets/Textures/BazaltMarble/BAZALT-ao.jpg"
       ),
     []
   )
@@ -37,7 +37,7 @@ const Ground = () => {
   marbleNormalMap = useMemo(
     () =>
       new THREE.TextureLoader().load(
-        "assets/Textures/BazaltMarble/BAZALT-normal.jpg"
+        "/assets/Textures/BazaltMarble/BAZALT-normal.jpg"
       ),
     []
   )
@@ -48,7 +48,7 @@ const Ground = () => {
   grassMap = useMemo(
     () =>
       new THREE.TextureLoader().load(
-        "assets/Textures/Grass/GrassGreenTexture0002.jpg"
+        "/assets/Textures/Grass/GrassGreenTexture0002.jpg"
       ),
     []
   )
