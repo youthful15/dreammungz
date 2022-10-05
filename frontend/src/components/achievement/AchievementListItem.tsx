@@ -11,7 +11,7 @@ const AchievementListItem = ({ item }: { item: AchievementListItemType }) => {
   const { name, isUnlock, highestTier } = item
 
   return (
-    <li>
+    <li className="mapleStory">
       {isUnlock ? (
         <div className="word-toggle">
           <a href="#">
