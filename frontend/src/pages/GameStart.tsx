@@ -27,10 +27,13 @@ function useMovePage(price: number) {
   async function MovePage() {
     const showBalance = await getBalance()
     console.log(startSetting)
+    console.log("찌거보기", !startSetting.father || !startSetting.mother)
 
     // 돈이 부족할 경우
     if (showBalance < price) {
       alert("지갑에 MUNG이 부족합니다!")
+    } else if (!startSetting.father || !startSetting.mother) {
+      alert("두 마리의 강아지를 선택해주세요!")
     } else {
       await setTrade((prev) => {
         const variable = { ...prev }
