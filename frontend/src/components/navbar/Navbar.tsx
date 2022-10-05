@@ -25,15 +25,19 @@ const Navbar = () => {
 
   // 게임 시작 페이지로 이동 로직
   async function gameStart() {
-    await http
-      .get(`game/info/${localStorage.getItem("publicAddress")}`)
-      .then((res) => {
-        if (res.data.title) {
-          navigate("/game")
-        } else {
-          navigate("/start")
-        }
-      })
+    try {
+      await http
+        .get(`game/info/${localStorage.getItem("publicAddress")}`)
+        .then((res) => {
+          if (res.data.title) {
+            navigate("/game")
+          } else {
+            navigate("/start")
+          }
+        })
+    } catch (e) {
+      navigate("/login")
+    }
   }
 
   return (
@@ -63,7 +67,7 @@ const Navbar = () => {
               onClick={() => {
                 localStorage.clear()
                 setMember({
-                  walletAddress: "WalletAddress",
+                  walletAddress: "",
                   memberNickname: "Default",
                   contractId: 0,
                   walletBalance: 0,

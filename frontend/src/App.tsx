@@ -47,6 +47,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/login-tutorial" element={<LoginTutorial />} />
               <Route path="/game-tutorial" element={<GameTutorial />} />
+              <Route path="/personal" element={<Login />} />
               <Route path="/tutorial" element={<Tutorial />} />
               <Route path="/styles" element={<Sample />} />
               <Route path="/start" element={<GameStart />} />
