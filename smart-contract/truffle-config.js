@@ -44,7 +44,9 @@
 // require('dotenv').config();
 // const { MNEMONIC, PROJECT_ID } = process.env;
 
-const HDWalletProvider = require("@truffle/hdwallet-provider");
+const HDWalletProvider = require("@truffle/hdwallet-provider")
+const fs = require("fs")
+const mnemonic = fs.readFileSync(".secret").toString().trim()
 
 module.exports = {
   /**
@@ -66,7 +68,7 @@ module.exports = {
     //
     development: {
       host: "127.0.0.1", // Localhost (default: none)
-      port: 7545, // Standard Ethereum port (default: none)
+      port: 8545, // Standard Ethereum port (default: none)
       network_id: "*", // Any network (default: none)
     },
     //
@@ -90,7 +92,20 @@ module.exports = {
     //   skipDryRun: true     // Skip dry run before migrations? (default: false for public nets )
     // },
     //
-    // Useful for ssafy networks
+    ropsten: {
+      provider: () =>
+        new HDWalletProvider(
+          mnemonic,
+          `https://ropsten.infura.io/v3/282265602f8648d6b9d6b2ffd0c3b794`
+        ),
+      network_id: 3, // Ropsten's id
+      gas: 5500000, // Ropsten has a lower block limit than mainnet
+      confirmations: 2, // # of confs to wait between deployments. (default: 0)
+      timeoutBlocks: 200, // # of blocks before a deployment times out  (minimum/default: 50)
+      skipDryRun: true, // Skip dry run before migrations? (default: false for public nets )
+    },
+
+    /*
     ssafy: {
       provider: () =>
         new HDWalletProvider({
@@ -104,6 +119,7 @@ module.exports = {
       network_id: "*",
       from: "0x2AF0D46CC2F86D1B1697A8f86C9b245320564f5F",
     },
+    */
   },
 
   // Set default mocha options here, use special reporters, etc.
@@ -145,4 +161,4 @@ module.exports = {
   //     }
   //   }
   // }
-};
+}
