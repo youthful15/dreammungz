@@ -36,7 +36,7 @@ const Login = () => {
           <LoginButton />
           <img
             src="/images/mung.png"
-            className="w-[100px] absolute bottom-[74x] right-20"
+            className="w-[100px] absolute bottom-[74px] right-20"
           ></img>
         </button>
         <NavLink to="/tutorial-detail/2">
