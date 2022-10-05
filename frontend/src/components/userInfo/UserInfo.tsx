@@ -3,12 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useQuery } from "@tanstack/react-query"
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router"
+import { useRecoilState } from "recoil"
 import { getUserNickname } from "../../api/auth"
 import { http } from "../../api/axios"
+import memberAtom from "../../recoil/member/atom"
+import { useNavigate } from "react-router-dom"
 
 const UserInfo = () => {
+  const navigate = useNavigate()
   const { address } = useParams()
   const [newNickname, setNewNickname] = useState<string | null>(null)
+  const [member, setMember] = useRecoilState(memberAtom)
   const [editing, setEditing] = useState(false)
   const [changedNick, setChangedNick] = useState<string | null>(null)
   const [isOwner, setIsOwner] = useState<boolean | null>(null)
@@ -45,7 +50,10 @@ const UserInfo = () => {
         nickname: newNickname,
       })
       if (data.status === 200) {
-        setChangedNick(newNickname)
+        console.log("닉네임 변경 성공", newNickname)
+        setMember((prev: any) => ({ ...prev, memberNickname: newNickname }))
+        // setChangedNick(newNickname)
+        navigate(0)
       }
     } catch (e: any) {
       const { data } = e.response
