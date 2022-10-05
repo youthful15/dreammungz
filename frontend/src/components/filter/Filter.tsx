@@ -58,6 +58,7 @@ const Filter = ({
           formHandler={handleFormChange}
           filter={origin}
           selectedList={selectedList}
+          setFilter={setFilter}
         />
       )}
     </div>

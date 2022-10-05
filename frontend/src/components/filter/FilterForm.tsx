@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react"
+import { NavigateOptions } from "react-router-dom"
 import {
   job_list,
   hair_list,
@@ -7,6 +8,7 @@ import {
   face_list,
   gender_list,
   stat_list,
+  getKey,
 } from "../../utils/gameWord"
 import Filter from "./Filter"
 
@@ -18,10 +20,29 @@ type filterFormProp = {
   formHandler: (event: ChangeEvent<HTMLFormElement>) => void
   filter: Filter
   selectedList: string[]
+  setFilter: (newQuery: Filter, options?: NavigateOptions | undefined) => void
 }
-const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
+const FilterForm = ({
+  formHandler,
+  filter,
+  selectedList,
+  setFilter,
+}: filterFormProp) => {
+  const onOptionClick = (value: string) => {
+    const key = getKey[value]
+    if (key === "status") {
+      let status = filter.status
+      let statusIndex = status.findIndex((stat) => stat === value)
+      status.splice(statusIndex, 1)
+      console.log(statusIndex, status)
+      setFilter({ ...filter, status: status })
+    } else {
+      setFilter({ ...filter, [key]: null })
+    }
+  }
+
   return (
-    <div className="h-[700px] w-[230px] bg-brown-200  overflow-y-auto scrollbar-hide rounded-l-xl absolute left-[5px] z-10 top-[5px] p-1">
+    <div className="h-[700px] w-[230px] bg-gradient-to-t from-lgBrown-500 to-lgBrown-300  overflow-y-auto scrollbar-hide rounded-l-xl absolute left-[5px] z-10 top-[5px] p-1">
       <form
         onChange={formHandler}
         className="w-full text-center "
@@ -39,6 +60,9 @@ const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
                   value={item.eng}
                   className="hidden peer"
                   checked={selectedList.includes(item.eng)}
+                  onClick={() => {
+                    onOptionClick(item.eng)
+                  }}
                   readOnly
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
@@ -60,6 +84,9 @@ const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
                   value={item.eng}
                   className="hidden peer"
                   checked={selectedList.includes(item.eng)}
+                  onClick={() => {
+                    onOptionClick(item.eng)
+                  }}
                   readOnly
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
@@ -81,6 +108,9 @@ const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
                   value={item.eng}
                   className="hidden peer"
                   checked={selectedList.includes(item.eng)}
+                  onClick={() => {
+                    onOptionClick(item.eng)
+                  }}
                   readOnly
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
@@ -102,6 +132,9 @@ const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
                   value={item.eng}
                   className="hidden peer"
                   checked={selectedList.includes(item.eng)}
+                  onClick={() => {
+                    onOptionClick(item.eng)
+                  }}
                   readOnly
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
@@ -123,6 +156,9 @@ const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
                   value={item.eng}
                   className="hidden peer"
                   checked={selectedList.includes(item.eng)}
+                  onClick={() => {
+                    onOptionClick(item.eng)
+                  }}
                   readOnly
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
@@ -144,6 +180,9 @@ const FilterForm = ({ formHandler, filter, selectedList }: filterFormProp) => {
                   value={item.eng}
                   className="hidden peer"
                   checked={selectedList.includes(item.eng)}
+                  onClick={() => {
+                    onOptionClick(item.eng)
+                  }}
                   readOnly
                 />
                 <label htmlFor={item.eng} className={labelStyle}>
