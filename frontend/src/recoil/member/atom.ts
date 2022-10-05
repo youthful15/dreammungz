@@ -6,7 +6,7 @@ const { persistAtom } = recoilPersist()
 const memberAtom = atom({
   key: "memberAtom",
   default: {
-    walletAddress: "WalletAddress",
+    walletAddress: "",
     memberNickname: "Default",
     contractId: 0,
     walletBalance: 0,
