@@ -86,7 +86,7 @@ const NftList = ({ useFilter }: NftListProp) => {
 
   const resetFilter = () => {
     setFilter({ ...filterForm })
-    setShowForm(false)
+    // setShowForm(false)
   }
 
   return (
@@ -99,7 +99,7 @@ const NftList = ({ useFilter }: NftListProp) => {
         {useFilter && (
           <div>
             <button
-              className={`w-[90px]  p-1  border-2  border-lgBrown-400 rounded-l-lg  h-full ml-3   bg-beige-300  mapleStory ${
+              className={`w-[90px]  p-1 px-0  border-2  border-lgBrown-400 rounded-lg  h-full ml-2   bg-beige-300  mapleStory ${
                 showForm && "bg-blue-300"
               } `}
               onClick={() => {
@@ -109,18 +109,18 @@ const NftList = ({ useFilter }: NftListProp) => {
               {showForm ? "필터 닫기" : "필터 열기 "}
             </button>
 
-            <button
+            {/* <button
               className={`w-[90px]  p-1  border-2   rounded-r-lg border-l-0  h-full  border-lgBrown-400  bg-beige-300 mapleStory `}
               onClick={() => {
                 resetFilter()
               }}
             >
               필터 초기화
-            </button>
+            </button> */}
           </div>
         )}
         {useFilter && (
-          <div className="absolute left-0 w-full -top-[36px]">
+          <div className="absolute -left-1 w-full -top-[36px]">
             {filter && (
               <SelectedFilters
                 filter={filter!}
