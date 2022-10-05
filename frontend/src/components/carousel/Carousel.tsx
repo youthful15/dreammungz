@@ -1,4 +1,5 @@
-export default function Carousel() {
+export default function Carousel(carouselInfo: any) {
+  console.log(carouselInfo)
   return (
     <div
       id="carouselExampleIndicators"
@@ -28,27 +29,25 @@ export default function Carousel() {
         ></button>
       </div>
       <div className="relative w-full h-full overflow-hidden carousel-inner">
-        <div className="float-left w-full carousel-item active">
-          <img
-            src="/images/theme1.png"
-            className="block object-cover rounded-3xl"
-            alt="Wild Landscape"
-          />
-        </div>
-        <div className="float-left w-full carousel-item">
+        {carouselInfo.carouselInfo.map((image: string, index: number) => {
+          return (
+            <div className="float-left w-full carousel-item active">
+              <img src={image} className="block object-cover rounded-3xl" />
+            </div>
+          )
+        })}
+        {/* <div className="float-left w-full carousel-item">
           <img
             src="/images/theme2.png"
             className="block object-scale-down rounded-3xl"
-            alt="Camera"
           />
         </div>
         <div className="float-left w-full carousel-item">
           <img
             src="/images/theme3.png"
             className="block object-cover rounded-3xl"
-            alt="Exotic Fruits"
           />
-        </div>
+        </div> */}
       </div>
       <button
         className="absolute top-0 bottom-0 left-[-40px] flex items-center justify-center p-0 text-center border-0 carousel-control-prev hover:outline-none hover:no-underline focus:outline-none focus:no-underline"

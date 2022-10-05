@@ -18,6 +18,12 @@ export default function MainPage() {
     tier: null,
   }
 
+  const carouselInfo = [
+    { image: "/images/theme1.png" },
+    { image: "/images/theme2.png" },
+    { image: "/images/theme3.png" },
+  ]
+
   const [items, setItems] = useState([{ url: "", id: "" }])
 
   useEffect(() => {
@@ -48,7 +54,7 @@ export default function MainPage() {
         </div>
         <div className="h-[280px] pt-6">
           <div className="h-full">
-            <Carousel />
+            <Carousel carouselInfo={carouselInfo} />
           </div>
         </div>
       </div>

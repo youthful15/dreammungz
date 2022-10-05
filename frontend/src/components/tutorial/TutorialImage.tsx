@@ -6,7 +6,7 @@ export default function TutorialImage({
   text: string
 }) {
   return (
-    <div className="w-[470px] h-[470px]">
+    <div className="w-[470px] h-[300px] mb-[20px]">
       <div className="h-[90%] bg-slate-200">
         <img
           className="h-full w-full"
@@ -14,7 +14,7 @@ export default function TutorialImage({
           alt="튜토리얼 이미지"
         />
       </div>
-      <p className="h-[10%] flex justify-start">{text}</p>
+      <p className="h-[10%] mt-2 flex justify-start">{text}</p>
     </div>
   )
 }
