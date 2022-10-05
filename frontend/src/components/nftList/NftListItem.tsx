@@ -91,8 +91,8 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
               >
                 {tier && (
                   <div className="absolute flex top-4 left-3">
-                    <Tier tier={tier} />
-                    <Gender gender={gender} />
+                    <Tier tier={tier} large={true} />
+                    <Gender gender={gender} large={true} />
                   </div>
                 )}
               </div>

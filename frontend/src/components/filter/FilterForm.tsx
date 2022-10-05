@@ -42,7 +42,7 @@ const FilterForm = ({
   }
 
   return (
-    <div className="h-[700px] w-[230px] bg-brown-200  overflow-y-auto scrollbar-hide rounded-l-xl absolute left-[5px] z-10 top-[5px] p-1">
+    <div className="h-[700px] w-[230px] bg-gradient-to-t from-lgBrown-500 to-lgBrown-300  overflow-y-auto scrollbar-hide rounded-l-xl absolute left-[5px] z-10 top-[5px] p-1">
       <form
         onChange={formHandler}
         className="w-full text-center "
