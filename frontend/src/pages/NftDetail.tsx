@@ -203,7 +203,7 @@ export default function NftDetail() {
               const receivedBalance = await getBalance()
               await setBalance(receivedBalance)
               const cost = nftInfo?.price
-              if (receivedBalance < cost * 1000) {
+              if (receivedBalance < cost) {
                 setShowMessage1(true)
                 setTimeout(() => {
                   setShowMessage1(false)

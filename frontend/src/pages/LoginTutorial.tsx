@@ -10,7 +10,10 @@ const LoginTutorial = () => {
         <TutorialImage image="image" text="2. 메타마스크에 가입하세요" />
         <TutorialImage image="image" text="3. 어떤 설명을 할까요" />
         <TutorialImage image="image" text="4. Ropsten 네트워크를 연결하세요" />
-        <TutorialImage image="image" text="5. 어떤 설명을 할까요" />
+        <TutorialImage
+          image="image"
+          text="5. Ropsten testnet에서 이더를 받으세요 -> https://faucet.egorfine.com/"
+        />
         <TutorialImage
           image="image"
           text="6. 최초 회원가입하여 10000 MUNG을 받으세요!"
