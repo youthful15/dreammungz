@@ -65,7 +65,7 @@ export default function TradeHistory(info: any) {
       <p className="mb-2 text-2xl font-semibold text-center text-brown-400">
         거래 이력
       </p>
-      <div className="w-full h-[90%] bg-transparent ">
+      <div className="w-full h-[90%] bg-transparent text-sm">
         {info && info.info.trade.length > 0 ? (
           // {info ? (
           <div className="h-[160px]   ">
@@ -112,8 +112,7 @@ export default function TradeHistory(info: any) {
                         </div>
 
                         <div
-                          className="w-[30%] text-lgBrown-600
- hover:text-lgBrown-700 cursor-pointer"
+                          className="w-[30%] text-lgBrown-600 hover:text-lgBrown-700 cursor-pointer"
                           onClick={() => {
                             navigate(`/personal/${sellerAddress}`)
                           }}
@@ -121,8 +120,7 @@ export default function TradeHistory(info: any) {
                           {sellerNickname}
                         </div>
                         <div
-                          className="w-[25%] text-lgBrown-600
- hover:text-lgBrown-700 cursor-pointer"
+                          className="w-[25%] text-lgBrown-600 hover:text-lgBrown-700 cursor-pointer"
                           onClick={() => {
                             navigate(`/personal/${buyerAddress}`)
                           }}

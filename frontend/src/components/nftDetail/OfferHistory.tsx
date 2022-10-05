@@ -114,14 +114,14 @@ export default function OfferHistory(info: any, publicAddress: string) {
       <p className="mb-2 text-2xl font-semibold text-center text-brown-400">
         오퍼 리스트
       </p>
-      <div className="w-full bg-transparent h-[90%] shadow-sm ">
+      <div className="w-full bg-transparent h-[90%] shadow-sm text-sm ">
         {/* {info ? ( */}
         {info && info.info.offer.length > 0 ? (
           <div className="h-[150px] ">
             <div className="rounded-t-lg bg-lgBrown-400">
               <div className="flex w-full p-2">
-                <p className="w-[30%]">가격</p>
-                <p className="w-[40%]">제안자</p>
+                <p className="w-[30%] pl-2">가격</p>
+                <p className="w-[30%]">제안자</p>
                 <p>오퍼 날짜</p>
               </div>
             </div>
@@ -157,10 +157,10 @@ export default function OfferHistory(info: any, publicAddress: string) {
                   return (
                     <li
                       key={index}
-                      className="my-1 bg-white rounded-sm shadow-xl last:rounded-b-lg"
+                      className="relative my-1 bg-white rounded-sm shadow-xl last:rounded-b-lg"
                     >
                       <div className="flex w-full p-1">
-                        <div className="w-[30%]">
+                        <div className="w-[30%] pl-2">
                           {String(offerPrice).replace(
                             /\B(?=(\d{3})+(?!\d))/g,
                             ","
@@ -169,8 +169,7 @@ export default function OfferHistory(info: any, publicAddress: string) {
                         </div>
 
                         <div
-                          className="w-[40%] text-lgBrown-600
-hover:text-lgBrown-700 cursor-pointer"
+                          className="w-[30%] text-lgBrown-600 hover:text-lgBrown-700 cursor-pointer"
                           onClick={() => {
                             navigate(`/personal/${offerAddress}`)
                           }}
@@ -181,7 +180,7 @@ hover:text-lgBrown-700 cursor-pointer"
 
                         {offerAddress === info.publicAddress ? (
                           <div
-                            className="ml-3 cursor-pointer hover:scale-110"
+                            className="absolute ml-3 cursor-pointer hover:scale-110 right-5"
                             onClick={async () => {
                               const receivedBalance = await getBalance()
                               setMember((prev: any) => {
