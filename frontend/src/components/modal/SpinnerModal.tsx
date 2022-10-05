@@ -27,9 +27,9 @@ export default function SpinnerModal({
       role="dialog"
       aria-modal="true"
     >
-      <div className="fixed inset-0 bg-gray-500 bg-opacity-75 z-10 transition-opacity"></div>
+      <div className="fixed inset-0 z-10 transition-opacity bg-gray-500 bg-opacity-75"></div>
       <div
-        className="fixed z-10 inset-0 overflow-y-auto"
+        className="fixed inset-0 z-10 overflow-y-auto"
         onClick={(event) => {
           if (event.target === outModal.current) {
             modalClose()
@@ -37,11 +37,13 @@ export default function SpinnerModal({
         }}
       >
         <div
-          className="flex items-end sm:items-center justify-center min-h-full text-center "
+          className="flex items-end justify-center min-h-full text-center sm:items-center "
           ref={outModal}
         >
-          <div className="relative overflow-hidden transform transition-all sm:max-w-lg sm:w-full">
-            <div className="flex justify-center items-center">{children}</div>
+          <div className="relative overflow-hidden transition-all transform sm:max-w-lg sm:w-full">
+            <div className="flex items-center justify-center mapleStory">
+              {children}
+            </div>
           </div>
         </div>
       </div>

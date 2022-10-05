@@ -50,8 +50,15 @@ const OfferHistoryItem = ({ ...props }) => {
   const navigate = useNavigate()
   const [trade, setTrade] = useRecoilState(tradeAtom)
 
+  const movePage = () => {
+    navigate(`/nft/detail/${tokenId}`)
+  }
+
   return (
-    <div className="bg-white  flex  w-full space-x-1 h-[50px]  items-center justify-around leading-[50px]  rounded-2xl shadow-md">
+    <div
+      onClick={movePage}
+      className="bg-white  flex  w-full space-x-1 h-[50px]  items-center justify-around leading-[50px]  rounded-2xl shadow-md cursor-pointer"
+    >
       <div className=" w-[40px]">{tokenId}</div>
       <img src={url} className="w-[45px] h-[45px] " />
       <div className=" w-[100px]">
@@ -59,7 +66,7 @@ const OfferHistoryItem = ({ ...props }) => {
           <span className="text-blue-500">환불 완료</span>
         ) : refund === false && choice === false && cancel === false ? (
           <span
-            className="text-red-500 z-10 cursor-pointer hover:font-semibold"
+            className="z-10 text-red-500 cursor-pointer hover:font-semibold"
             onClick={async () => {
               await setTrade((prev) => {
                 const variable = { ...prev }
@@ -75,7 +82,7 @@ const OfferHistoryItem = ({ ...props }) => {
           </span>
         ) : refund === false && choice === false && cancel === true ? (
           <span
-            className="text-red-500 z-10 cursor-pointer hover:font-semibold"
+            className="z-10 text-red-500 cursor-pointer hover:font-semibold"
             onClick={() => {
               setTrade((prev) => {
                 const variable = { ...prev }

@@ -26,15 +26,13 @@ const Navbar = () => {
   // 게임 시작 페이지로 이동 로직
   async function gameStart() {
     try {
-      await http
-        .get(`game/info/${localStorage.getItem("publicAddress")}`)
-        .then((res) => {
-          if (res.data.title) {
-            navigate("/game")
-          } else {
-            navigate("/start")
-          }
-        })
+      await http.get(`game/info/${member.walletAddress}`).then((res) => {
+        if (res.data.title) {
+          navigate("/game")
+        } else {
+          navigate("/start")
+        }
+      })
     } catch (e) {
       navigate("/login")
     }

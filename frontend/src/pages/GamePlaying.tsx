@@ -187,7 +187,7 @@ function Game({
           {story.image ? (
             <img
               className="mb-5 rounded-3xl"
-              src={`assets/illust/${story.image}.jpg`}
+              src={`assets/illust/${story.image}`}
               alt=""
             />
           ) : null}

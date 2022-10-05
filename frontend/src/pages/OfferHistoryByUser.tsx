@@ -6,7 +6,7 @@ const OfferHistoryByUser = () => {
   const { address } = useParams()
 
   return (
-    <div className="w-full h-[570px] pb-1 ">
+    <div className="w-full h-[570px] pb-1 mapleStory">
       <h1 className="text-2xl font-semibold text-center"> NFT 오퍼 내역</h1>
       {address && <NftOfferHistoryList address={address} />}
       {!address && (

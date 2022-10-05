@@ -73,7 +73,7 @@ const NftOfferHistoryList = ({ address }: { address: string }) => {
           })
         }
       >
-        <p className="text-center text-4xl font-semibold mb-4">
+        <p className="mb-4 text-4xl font-semibold text-center">
           제안을 취소하시겠습니까?
         </p>
 
@@ -128,7 +128,7 @@ const NftOfferHistoryList = ({ address }: { address: string }) => {
           })
         }
       >
-        <p className="text-center text-4xl font-semibold mb-4">
+        <p className="mb-4 text-4xl font-semibold text-center">
           환불하시겠습니까 ?
         </p>
         <div className="flex justify-center mt-10">
