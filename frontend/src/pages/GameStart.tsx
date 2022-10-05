@@ -27,7 +27,6 @@ function useMovePage(price: number) {
   async function MovePage() {
     const showBalance = await getBalance()
     console.log(startSetting)
-    console.log("찌거보기", !startSetting.father || !startSetting.mother)
 
     // 돈이 부족할 경우
     if (showBalance < price) {
