@@ -31,9 +31,6 @@ export default function MainPage() {
     }
     NFTlist()
   }, [])
-  const today = new Date()
-  const tokenExpiration: any = localStorage.getItem("expiration")
-  console.log(window.atob(tokenExpiration.split("-")[1]))
 
   return (
     <div className="w-full h-full">
