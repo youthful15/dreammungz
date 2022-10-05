@@ -161,7 +161,7 @@ const stat_list: listItemType[] = [
   { kor: "직감", eng: "INTUITION" },
   { kor: "발재주", eng: "FOOTWORK" },
   { kor: "영리함", eng: "CLEVER" },
-  { kor: "카리스마", eng: "CHARISMA" },
+  { kor: "용기", eng: "CHARISMA" },
 ]
 
 export type { listItemType }

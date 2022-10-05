@@ -9,6 +9,10 @@ import useQueryParam from "../filter/useQueryParam"
 import { useQuery } from "@tanstack/react-query"
 import { getNftList } from "../../api/nft"
 import SelectedFilters from "../filter/SelectedFilters"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSquareCheck } from "@fortawesome/free-solid-svg-icons"
+import UnCheck from "./UnCheck"
+import Check from "./Check"
 
 const buttonStyle = "p-1 border border-gray-700 rounded-md  h-8"
 
@@ -86,7 +90,7 @@ const NftList = ({ useFilter }: NftListProp) => {
 
   const resetFilter = () => {
     setFilter({ ...filterForm })
-    setShowForm(false)
+    // setShowForm(false)
   }
 
   return (
@@ -99,7 +103,7 @@ const NftList = ({ useFilter }: NftListProp) => {
         {useFilter && (
           <div>
             <button
-              className={`w-[90px]  p-1  border-2  border-lgBrown-400 rounded-l-lg  h-full ml-3   bg-beige-300  mapleStory ${
+              className={`w-[90px]  p-1 px-0  border-2  border-lgBrown-400 rounded-lg  h-full ml-2   bg-beige-300  mapleStory ${
                 showForm && "bg-blue-300"
               } `}
               onClick={() => {
@@ -109,18 +113,18 @@ const NftList = ({ useFilter }: NftListProp) => {
               {showForm ? "필터 닫기" : "필터 열기 "}
             </button>
 
-            <button
+            {/* <button
               className={`w-[90px]  p-1  border-2   rounded-r-lg border-l-0  h-full  border-lgBrown-400  bg-beige-300 mapleStory `}
               onClick={() => {
                 resetFilter()
               }}
             >
               필터 초기화
-            </button>
+            </button> */}
           </div>
         )}
         {useFilter && (
-          <div className="absolute left-0 w-full -top-[36px]">
+          <div className="absolute -left-1 w-full -top-[36px]">
             {filter && (
               <SelectedFilters
                 filter={filter!}
@@ -133,41 +137,26 @@ const NftList = ({ useFilter }: NftListProp) => {
           </div>
         )}
         <div className="flex justify-end w-3/5 h-full pr-2 ">
-          <div className="w-[240px] mr-1  rounded-lg h-full ">
-            <button
-              className={`w-1/2 h-full p-1 px-2 rounded-l-lg border-2 border-lgBrown-400 mapleStory   ${
-                !showInfo ? activeColor : inactivateColor
-              }`}
-              onClick={() => setShowInfo(false)}
-            >
-              이미지만 보기
-            </button>
-            <button
-              className={`w-1/2 h-full p-1 px-2 rounded-r-lg  border-2 border-lgBrown-400 mapleStory border-l-0 ${
-                showInfo ? activeColor : inactivateColor
-              }`}
-              onClick={() => setShowInfo(true)}
-            >
-              정보 보기
-            </button>
-          </div>
-          <div className="w-[200px] mr-1  rounded-lg  h-full">
-            <button
-              className={`w-1/2 h-full p-1 px-2 rounded-l-lg border-2 border-lgBrown-400 mapleStory  ${
+          <div className="w-[200px] mr-1  rounded-lg  h-full flex space-x-1">
+            <div
+              className={`w-1/2 h-full p-1 px-2 rounded-lg border-2 border-lgBrown-400 mapleStory flex justify-center items-center cursor-pointer ${
                 showSell ? activeColor : inactivateColor
               }`}
-              onClick={() => setShowSell(true)}
+              onClick={() => setShowSell((prev) => !prev)}
             >
-              판매중
-            </button>
-            <button
-              className={`w-1/2 h-full p-1 px-2 rounded-r-lg  border-2 border-lgBrown-400 mapleStory border-l-0 ${
-                !showSell ? activeColor : inactivateColor
+              <span className="inline-block">판매중</span>
+              {showSell ? <Check /> : <UnCheck />}
+            </div>
+
+            <div
+              className={`w-1/2 h-full p-1 px-2 rounded-lg border-2 border-lgBrown-400 mapleStory flex justify-center items-center cursor-pointer ${
+                showInfo ? activeColor : inactivateColor
               }`}
-              onClick={() => setShowSell(false)}
+              onClick={() => setShowInfo((prev) => !prev)}
             >
-              전체
-            </button>
+              <span className="inline-block">정보 보기</span>
+              {showInfo ? <Check /> : <UnCheck />}
+            </div>
           </div>
         </div>
       </div>

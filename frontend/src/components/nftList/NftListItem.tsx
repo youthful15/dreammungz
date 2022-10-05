@@ -16,6 +16,14 @@ const SellStatus = ({ price }: { price: number }) => {
   )
 }
 
+const formatPrice = (price: number) => {
+  return price
+    .toString()
+    .replace(/[^0-9.]/g, "")
+    .replace(/(\..*)\./g, "$1")
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+
 export interface NftListItemType {
   id: number
   url: string
@@ -91,8 +99,8 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
               >
                 {tier && (
                   <div className="absolute flex top-4 left-3">
-                    <Tier tier={tier} />
-                    <Gender gender={gender} />
+                    <Tier tier={tier} large={true} />
+                    <Gender gender={gender} large={true} />
                   </div>
                 )}
               </div>
@@ -108,7 +116,7 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
             <div className="absolute bottom-0 flex justify-center w-full ">
               <div className="w-full h-[35px] flex items-center  justify-center py-0.5  bg-brown-400   rounded-b-md">
                 <div className="flex text-lg font-bold text-white">
-                  {price}
+                  {formatPrice(price)}
                   <img
                     src="/images/token.png"
                     alt="token"

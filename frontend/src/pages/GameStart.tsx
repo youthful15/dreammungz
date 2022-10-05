@@ -31,6 +31,11 @@ function useMovePage(price: number) {
     // 돈이 부족할 경우
     if (showBalance < price) {
       alert("지갑에 MUNG이 부족합니다!")
+    } else if (
+      startSetting.mating &&
+      (!startSetting.father || !startSetting.mother)
+    ) {
+      alert("두 마리의 강아지를 선택해주세요!")
     } else {
       await setTrade((prev) => {
         const variable = { ...prev }
