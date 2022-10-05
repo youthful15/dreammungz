@@ -47,7 +47,7 @@ const SelectedFilters = ({
     <div className="flex flex-wrap w-full pr-0.5 overflow-x-scroll scrollbar-hide">
       {seletedList.map((value) => {
         return (
-          <div className={`${buttonStyle}   text-xs m-0.5`} key={value}>
+          <div className={`${buttonStyle}   text-[13px] m-0.5`} key={value}>
             {findKOR(value)}
             <span
               className="text-sm font-medium p-0.5  bg-beige-300  ml-0.5 rounded-lg   text-brown-400"
@@ -62,7 +62,7 @@ const SelectedFilters = ({
       })}
       {seletedList.length !== 0 && (
         <button
-          className={`${buttonStyle}   text-xs m-0.5   bg-beige-500  rounded-md  text-red-500 `}
+          className={`${buttonStyle}   text-[13px] m-0.5     rounded-md  text-red-500  `}
           onClick={() => {
             resetFilter()
           }}
