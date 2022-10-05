@@ -101,6 +101,12 @@ export default function NftTradeButton({
               onClick={async () => {
                 const receivedBalance = await getBalance()
                 await setMember((prev: any) => {
+                  // 비로그인 접근
+                  if (!localStorage.getItem("publicAddress")) {
+                    alert("먼저 메타마스크 로그인 해주시기 바랍니다.")
+                    navigate("/login")
+                  }
+
                   const variable = { ...prev }
                   variable.walletBalance = receivedBalance
                   return { ...variable }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { http } from "../api/axios"
+import axios from "axios"
 import Carousel from "../components/carousel/Carousel"
 export default function MainPage() {
   const navigate = useNavigate()
@@ -22,10 +22,12 @@ export default function MainPage() {
 
   useEffect(() => {
     async function NFTlist() {
-      await http.post("nft/list", info).then((res) => {
-        console.log(res.data.items)
-        setItems(res.data.items)
-      })
+      await axios
+        .post("https://j7a605.p.ssafy.io/api/nft/list", info)
+        .then((res) => {
+          console.log(res.data.items)
+          setItems(res.data.items)
+        })
     }
     NFTlist()
   }, [])
