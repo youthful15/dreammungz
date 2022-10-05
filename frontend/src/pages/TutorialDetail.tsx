@@ -3,28 +3,20 @@ import { useLocation } from "react-router-dom"
 
 const loginTutorialContents = [
   {
-    image: "/images/tutorial/login/login1.png",
+    image: "login/login1.png",
     text: "1. 크롬 웹스토어에서 메타마스크를 다운받으세요",
   },
   {
-    image: "/images/tutorial/login/login2.png",
-    text: "2. 메타마스크에 가입하세요",
+    image: "login/login2.png",
+    text: "2. 메타마스크 확장프로그램에 접속하여 지갑 가져오기 또는 지갑 생성을 진행해주세요.",
   },
   {
-    image: "/images/tutorial/login/login3.png",
-    text: "3. 어떤 설명을 할까요",
+    image: "login/login3.png",
+    text: "3. 네트워크 추가를 통해 SSAFY 네트워크를 추가해주세요. 차례대로 기입해주세요. 차례대로 기입해주세요. 네트워크 이름: SSAFY NETWORK, 새 RPC URL: http://20.196.209.2:8545, 체인 ID: 31221, 통화 기호: M",
   },
   {
-    image: "/images/tutorial/login/login4.png",
-    text: "4. Ropsten 네트워크를 연결하세요",
-  },
-  {
-    image: "/images/tutorial/login/login5.png",
-    text: "5. Ropsten testnet에서 이더를 받으세요 -> https://faucet.egorfine.com/",
-  },
-  {
-    image: "/images/tutorial/login/login6.png",
-    text: "6. 최초 회원가입하여 10000 MUNG을 받으세요!",
+    image: "login/login4.png",
+    text: "4. 다시 드림멍즈 로그인을 진행해주세요. 최초 회원가입시 10000 MUNG 을 지원하고 있습니다. 로그인이 완료되면 메인페이지로 이동합니다.",
   },
 ]
 
@@ -95,7 +87,7 @@ const TutorialDetail = () => {
                 <img
                   src={`/images/tutorial/${image}`}
                   alt="튜토리얼 이미지"
-                  className="rounded-lg"
+                  className="rounded-lg w-full h-full border-transparent border-2"
                 />
               </div>
             )
@@ -114,7 +106,7 @@ const TutorialDetail = () => {
                 <img
                   src={`/images/tutorial/${image}`}
                   alt="튜토리얼 이미지"
-                  className="rounded-lg border-transparent border-2"
+                  className="rounded-lg w-full h-full border-transparent border-2"
                 />
               </div>
             )
@@ -134,7 +126,7 @@ const TutorialDetail = () => {
                 <img
                   src={`/images/tutorial/${image}`}
                   alt="튜토리얼 이미지"
-                  className="rounded-lg border-transparent border-2"
+                  className="rounded-lg w-full h-full border-transparent border-2"
                 />
               </div>
             )
@@ -142,40 +134,44 @@ const TutorialDetail = () => {
       </div>
 
       {clickedText ? (
-        <div className="w-[738px] h-full p-4">
+        <div className="w-[738px] h-full p-4 rounded-lg">
           <div className="flex justify-center items-center w-full h-[70%] rounded-lg border-2 border-transparent">
-            <img src={`/images/tutorial/${clickedImage}`} alt="" />
+            <img
+              src={`/images/tutorial/${clickedImage}`}
+              alt=""
+              className="border-2 border-transparent rounded-lg w-[696px] h-[358px]"
+            />
           </div>
 
-          <div className="flex w-full h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
+          <div className="flex w-[696px] h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
             <p>{clickedText}</p>
           </div>
         </div>
       ) : pathname === "/tutorial-detail/1" ? (
-        <div className="w-[738px] h-full p-4">
+        <div className="w-[738px] h-full p-4 rounded-lg">
           <div className="flex justify-center items-center w-full h-[70%] rounded-lg border-2 border-transparent">
             <img
               src={`/images/tutorial/${loginTutorialContents[0].image}`}
               alt=""
-              className="border-2 border-transparent rounded-lg"
+              className="border-2 border-transparent rounded-lg w-[696px] h-[358px]"
             />
           </div>
 
-          <div className="flex w-full h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
+          <div className="flex w-[696px] h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
             <p>{loginTutorialContents[0].text}</p>
           </div>
         </div>
       ) : pathname === "/tutorial-detail/2" ? (
-        <div className="w-[738px] h-full p-4">
+        <div className="w-[738px] h-full p-4 rounded-lg">
           <div className="flex justify-center items-center w-full h-[70%] rounded-lg border-2 border-transparent">
             <img
               src={`/images/tutorial/${gameTutorialContents[0].image}`}
               alt=""
-              className="border-2 border-transparent rounded-lg"
+              className="border-2 border-transparent rounded-lg w-[696px] h-[358px]"
             />
           </div>
 
-          <div className="flex w-full h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
+          <div className="flex w-[696px] h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
             <p>{gameTutorialContents[0].text}</p>
           </div>
         </div>
@@ -185,10 +181,11 @@ const TutorialDetail = () => {
             <img
               src={`/images/tutorial/${tradeTutorialContents[0].image}`}
               alt=""
+              className="border-2 border-transparent rounded-lg  w-[696px] h-[358px]"
             />
           </div>
 
-          <div className="flex w-full h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
+          <div className="flex w-[696px] h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
             <p>{tradeTutorialContents[0].text}</p>
           </div>
         </div>
