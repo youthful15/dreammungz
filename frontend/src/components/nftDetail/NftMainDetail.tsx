@@ -152,38 +152,6 @@ export default function NftMainDetail(info: any) {
         {tool.gradeExplainShow ? <NftGradeExpain /> : null}
         <Tier tier={info.info.nft.tier} />
       </div>
-
-      {/* {info.info.sell === true ? (
-        <div>
-          <div className="flex mb-2">
-            <p className="mr-3 cursor-default">분양자</p>
-            <p
-              className="font-semibold cursor-pointer hover:text-lgBrown-500"
-              onClick={() => goPersonalList(info.info.sellerAddress)}
-            >
-              {info.info.sellerNickname}
-            </p>
-          </div>
-          <div className="flex justify-between">
-            <div className="flex">
-              <p className="mr-[26px]">가격</p>
-              <p className="font-semibold">{info.info.price} M</p>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div>
-          <div className="flex mb-2">
-            <p className="mr-3 cursor-default">보유자</p>
-            <p
-              className="font-semibold cursor-pointer hover:text-lgBrown-500"
-              onClick={() => goPersonalList(info.info.sellerAddress)}
-            >
-              {info.info.sellerNickname}
-            </p>
-          </div>
-        </div>
-      )} */}
     </div>
   )
 }
