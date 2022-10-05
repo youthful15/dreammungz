@@ -84,6 +84,7 @@ export default function NftDetail() {
     checkIsOwner({ tokenId })
   }, [])
 
+  console.log(localStorage.getItem("publicAddress"))
   return (
     <div className="w-full h-full p-4 overflow-hidden mapleStory">
       <div
@@ -270,15 +271,14 @@ export default function NftDetail() {
             id="proposal"
             type="text"
             onChange={async (e) => {
+              e.target.value = e.target.value
+                .replace(/[^0-9.]/g, "")
+                .replace(/(\..*)\./g, "$1")
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
               await setTrade((prev) => {
                 const variable = { ...prev }
-                variable.offerPrice = parseInt(e.target.value)
-
-                e.target.value = e.target.value
-                  .replace(/[^0-9.]/g, "")
-                  .replace(/(\..*)\./g, "$1")
-                // 여기를 , 를 넣으면 에러가 발생
-
+                variable.offerPrice = Number(e.target.value.split(",").join(""))
                 return { ...variable }
               })
             }}
@@ -487,7 +487,9 @@ export default function NftDetail() {
 
               setTrade((prev) => {
                 const variable = { ...prev }
-                variable.buyNowPrice = e.target.value
+                variable.buyNowPrice = Number(
+                  e.target.value.split(",").join("")
+                )
                 return { ...variable }
               })
             }}
