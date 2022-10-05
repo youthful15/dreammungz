@@ -39,7 +39,7 @@ const HistoryItem = ({ ...props }) => {
   return (
     <div
       onClick={movePage}
-      className="bg-white  flex  w-full space-x-1 h-[50px]  items-cente justify-around leading-[50px]  rounded-2xl shadow-md hover:scale-110 cursor-pointer"
+      className="bg-white  flex  w-full space-x-1 h-[50px]  items-cente justify-around leading-[50px]  rounded-2xl shadow-md cursor-pointer"
     >
       <div className=" w-[40px]">{id}</div>
       <img src={url} className="w-[45px] h-[45px] " />
