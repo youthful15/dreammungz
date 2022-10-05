@@ -156,7 +156,6 @@ export default function Login() {
     let nonce: any
     let isNew: any
     // Look if user with current publicAddress is already present on backend
-
     await axios
       .get(`https://j7a605.p.ssafy.io/api/auth/info/${publicAddress}`)
       .then((res) => {
@@ -176,15 +175,16 @@ export default function Login() {
 
     // Send signature to backend on the /auth route
     await handleAuthenticate(auth)
-
+    console.log(3.4)
     // SSAFY Network 연결
     try {
       await handleEthereumNetwork(chainId)
+      console.log(3.5)
       await setERC20()
-
+      console.log(3.6)
       // 최초 가입 시 10000 M 지급
       // isNew === true 로 바꿔야 함
-      if (isNew !== true) {
+      if (isNew === true) {
         window.alert("최초가입하셨네요! 10000 M을 지급해드립니다!")
 
         try {
@@ -196,11 +196,13 @@ export default function Login() {
         }
       }
 
+      console.log(4)
       // 지갑주소 localStorage에 추가
       localStorage.setItem("publicAddress", publicAddress)
 
       // 회원 닉네임 전역변수에 저장
       await saveNickname({ publicAddress })
+      console.log(5)
 
       await setTrade((prev) => {
         const variable = { ...prev }

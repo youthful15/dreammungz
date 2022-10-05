@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { useLocation } from "react-router-dom"
-import TutorialImage from "../components/tutorial/TutorialImage"
 
 const loginTutorialContents = [
   {
@@ -31,79 +30,43 @@ const loginTutorialContents = [
 
 const gameTutorialContents = [
   {
-    image: "login/login1.png",
-    text: "1. 본인 지갑 내의 코인(MUNG)은 지갑 열어보기를 통해 확인해보세요",
+    image: "game/game1.png",
+    text: `1. 게임 시작하기를 누르면 아기 강아지 모드와 웨딩 모드를 선택하실 수 있습니다. 아기 강아지 모드는 모든 스탯이 0부터 시작하며 게임 플레이를 위해 100 MUNG을 지불해야 합니다. 웨딩 모드는 현재 플레이어가 보유중인 NFT들 중 남성과 여성을 조합하여 향상된 스탯을 가지고 시작하며 NFT 등급에 따라 가격이 달라집니다.`,
   },
   {
     image: "game/game2.png",
-    text: "2. 메타마스크에 가입하세요",
+    text: "2. 게임을 시작하기 전 게임머니를 입력하려면 메타마스크 승인을 진행해주세요.",
   },
   {
     image: "game/game3.png",
-    text: "3. 교배할 강아지가 없으면 아기 강아지 모드를 선택하세요",
+    text: "3. 선택지를 선택하며 강아지의 능력치를 올릴 수 있습니다.",
   },
   {
     image: "game/game4.png",
-    text: "4. 교배할 강아지가 있으면 부모를 조합하여 플레이해보세요",
-  },
-  {
-    image: "game/game5.png",
-    text: "5. 게임을 진행하려면 메타마스크 승인을 진행하세요",
-  },
-  {
-    image: "game/game6.png",
-    text: "6. 선택지를 선택하며 강아지의 능력치를 올려봐요",
-  },
-  {
-    image: "game/game7.png",
-    text: "7. 게임이 끝나면 NFT 민팅하기를 눌러 강아지를 획득하세요",
-  },
-  {
-    image: "game/game8.png",
-    text: "8. 게임이 끝나면 NFT 민팅하기를 눌러 강아지를 획득하세요",
-  },
-  {
-    image: "game/game9.png",
-    text: "9. 게임이 끝나면 NFT 민팅하기를 눌러 강아지를 획득하세요",
+    text: "4. 게임이 끝난 후 NFT 민팅하기를 진행하여 플레이어만의 NFT를 만들 수 있습니다. 엔딩 크레딧을 보며 메타마스크 승인을 진행해주세요.",
   },
 ]
 
 const tradeTutorialContents = [
   {
-    image: "login/login1.png",
-    text: "1. 본인 지갑 내의 코인(MUNG)은 지갑 열어보기를 통해 확인해보세요",
+    image: "trade/trade1.png",
+    text: "1. 마이페이지 및 강아지 구경의 NFT 목록에서 본인의 NFT 사진을 클릭하면 판매를 등록할 수 있습니다. 판매 등록을 진행하려면 즉시 구매 가격과 제안 여부를 설정해주세요. 다음 메타마스크 승인을 진행해주세요.",
   },
   {
-    image: "game/game2.png",
-    text: "2. 메타마스크에 가입하세요",
+    image: "trade/trade2.png",
+    text: "2. 판매를 중지하려면 판매 중인 NFT 의 판매중지 버튼을 눌러 메타마스크 승인을 진행해주세요.",
   },
   {
-    image: "game/game3.png",
-    text: "3. 교배할 강아지가 없으면 아기 강아지 모드를 선택하세요",
+    image: "trade/trade3.png",
+    text: "3. NFT 구매 방법은 즉시구매와 제안 2가지가 있습니다. 즉시구매는 판매자가 설정한 가격을 지불하여 즉시 구매를 하는 방법입니다. 제안은 판매자에게 가격을 제안하여 판매자가 요청을 승인하게 되면 NFT를 얻는 방법입니다. 제안 또한 즉시구매와 마찬가지로 MUNG을 지불하여 제안합니다.",
   },
   {
-    image: "game/game4.png",
-    text: "4. 교배할 강아지가 있으면 부모를 조합하여 플레이해보세요",
+    image: "trade/trade4.png",
+    text: "4. 본인이 했던 제안을 취소하려면 NFT의 제안 이력의 ❌ 버튼을 클릭 후 메타마스크 승인을 진행해주세요.",
   },
   {
-    image: "game/game5.png",
-    text: "5. 게임을 진행하려면 메타마스크 승인을 진행하세요",
-  },
-  {
-    image: "game/game6.png",
-    text: "6. 선택지를 선택하며 강아지의 능력치를 올려봐요",
-  },
-  {
-    image: "game/game7.png",
-    text: "7. 게임이 끝나면 NFT 민팅하기를 눌러 강아지를 획득하세요",
-  },
-  {
-    image: "game/game8.png",
-    text: "8. 게임이 끝나면 NFT 민팅하기를 눌러 강아지를 획득하세요",
-  },
-  {
-    image: "game/game9.png",
-    text: "9. 게임이 끝나면 NFT 민팅하기를 눌러 강아지를 획득하세요",
+    image: "trade/trade5.png",
+    text: "3. 만약 제안했던 NFT를 다른 이용자가 구매를 하면 제안할때 본인이 지불했던 가격을 환불 받을 수 있습니다. 환불을 받으려면 마이페이지의 제안 내역 탭을 클릭 후 오퍼 상태가 환불 가능인 것을 찾아 클릭후 메타마스크 승인을 진행해주세요.",
   },
 ]
 
@@ -122,20 +85,7 @@ const TutorialDetail = () => {
           loginTutorialContents.map(({ image, text }, index) => {
             return (
               <div
-                className="w-[240px] h-[135px] mb-[20px] cursor-pointer m-2 bg-white"
-                key={index}
-              >
-                <img src={`/images/tutorial/${image}`} alt="튜토리얼 이미지" />
-              </div>
-            )
-            // return <TutorialImage image={image} text={text} key={index} />
-          })}
-
-        {pathname === "/tutorial-detail/2" &&
-          gameTutorialContents.map(({ image, text }, index) => {
-            return (
-              <div
-                className="w-[240px] h-[135px] mb-[20px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150"
+                className="w-[240px] h-[135px] mb-[20px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150 shadow-lg"
                 key={index}
                 onClick={async () => {
                   await setClickedImage(image)
@@ -150,24 +100,96 @@ const TutorialDetail = () => {
               </div>
             )
           })}
-
-        {/* {pathname === "/tutorial-detail/2" &&
+        {pathname === "/tutorial-detail/2" &&
           gameTutorialContents.map(({ image, text }, index) => {
-            return <TutorialImage image={image} text={text} key={index} />
+            return (
+              <div
+                className="w-[240px] h-[135px] mb-[20px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150 shadow-lg"
+                key={index}
+                onClick={async () => {
+                  await setClickedImage(image)
+                  await setClickedText(text)
+                }}
+              >
+                <img
+                  src={`/images/tutorial/${image}`}
+                  alt="튜토리얼 이미지"
+                  className="rounded-lg border-transparent border-2"
+                />
+              </div>
+            )
           })}
+
         {pathname === "/tutorial-detail/3" &&
           tradeTutorialContents.map(({ image, text }, index) => {
-            return <TutorialImage image={image} text={text} key={index} />
-          })} */}
+            return (
+              <div
+                className="w-[240px] h-[135px] mb-[20px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150 border-2 border-transparent"
+                key={index}
+                onClick={async () => {
+                  await setClickedImage(image)
+                  await setClickedText(text)
+                }}
+              >
+                <img
+                  src={`/images/tutorial/${image}`}
+                  alt="튜토리얼 이미지"
+                  className="rounded-lg border-transparent border-2"
+                />
+              </div>
+            )
+          })}
       </div>
+
       {clickedText ? (
         <div className="w-[738px] h-full p-4">
-          <div className="flex justify-center items-center w-full h-[70%] rounded-lg border-2 border-white">
+          <div className="flex justify-center items-center w-full h-[70%] rounded-lg border-2 border-transparent">
             <img src={`/images/tutorial/${clickedImage}`} alt="" />
           </div>
 
           <div className="flex w-full h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
             <p>{clickedText}</p>
+          </div>
+        </div>
+      ) : pathname === "/tutorial-detail/1" ? (
+        <div className="w-[738px] h-full p-4">
+          <div className="flex justify-center items-center w-full h-[70%] rounded-lg border-2 border-transparent">
+            <img
+              src={`/images/tutorial/${loginTutorialContents[0].image}`}
+              alt=""
+              className="border-2 border-transparent rounded-lg"
+            />
+          </div>
+
+          <div className="flex w-full h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
+            <p>{loginTutorialContents[0].text}</p>
+          </div>
+        </div>
+      ) : pathname === "/tutorial-detail/2" ? (
+        <div className="w-[738px] h-full p-4">
+          <div className="flex justify-center items-center w-full h-[70%] rounded-lg border-2 border-transparent">
+            <img
+              src={`/images/tutorial/${gameTutorialContents[0].image}`}
+              alt=""
+              className="border-2 border-transparent rounded-lg"
+            />
+          </div>
+
+          <div className="flex w-full h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
+            <p>{gameTutorialContents[0].text}</p>
+          </div>
+        </div>
+      ) : pathname === "/tutorial-detail/3" ? (
+        <div className="w-[738px] h-full p-4">
+          <div className="flex justify-center items-center w-full h-[70%] rounded-lg ">
+            <img
+              src={`/images/tutorial/${tradeTutorialContents[0].image}`}
+              alt=""
+            />
+          </div>
+
+          <div className="flex w-full h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
+            <p>{tradeTutorialContents[0].text}</p>
           </div>
         </div>
       ) : null}
