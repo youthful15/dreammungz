@@ -37,6 +37,10 @@ export default function NftTradeButton({
                 className="w-[50%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
                 onClick={async () => {
                   // 비로그인 접근
+                  const a = localStorage.getItem("publicAddress")
+                  console.log("A", a)
+
+                  // 비로그인 접근
                   if (!localStorage.getItem("publicAddress")) {
                     alert("먼저 메타마스크 로그인 해주시기 바랍니다.")
                     navigate("/login")
@@ -100,13 +104,11 @@ export default function NftTradeButton({
               className="w-[100%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
               onClick={async () => {
                 const receivedBalance = await getBalance()
-                await setMember((prev: any) => {
-                  // 비로그인 접근
-                  if (!localStorage.getItem("publicAddress")) {
-                    alert("먼저 메타마스크 로그인 해주시기 바랍니다.")
-                    navigate("/login")
-                  }
+                // 비로그인 접근
+                const a = localStorage.getItem("publicAddress")
+                console.log("A", a)
 
+                await setMember((prev: any) => {
                   const variable = { ...prev }
                   variable.walletBalance = receivedBalance
                   return { ...variable }

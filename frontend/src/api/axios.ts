@@ -16,7 +16,7 @@ function Instance() {
   // instance.interceptors.request.use(
   //   (config: any) => {
   //     // token 만료 시 login Page 로
-  //     if (TokenExpireCheck()) {
+  //     if (localStorage.getItem("token") && TokenExpireCheck()) {
   //       // 로그아웃
   //       localStorage.clear()
   //       window.location.replace("/login")

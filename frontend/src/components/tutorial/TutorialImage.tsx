@@ -6,7 +6,7 @@ export default function TutorialImage({
   text: string
 }) {
   return (
-    <div className="w-[470px] h-[300px] mb-[20px]">
+    <div className="w-[240px] h-[135px] mb-[20px]">
       <div className="h-[90%] bg-slate-200">
         <img
           className="h-full w-full"
