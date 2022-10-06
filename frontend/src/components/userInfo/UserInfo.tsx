@@ -64,7 +64,12 @@ const UserInfo = () => {
         }
       } catch (e: any) {
         const { data } = e.response
-        alert(`닉네임 수정 오류. ${data?.code} ${data?.message}`)
+        Swal.fire({
+          // title: "오류!",
+          text: "토큰 인증시간이 만료되었습니다. 다시 로그인해주세요.",
+          icon: "error",
+          confirmButtonText: "확인",
+        })
       }
     }
   }
