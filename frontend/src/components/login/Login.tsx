@@ -12,6 +12,7 @@ import memberAtom from "../../recoil/member/atom"
 import tradeAtom from "../../recoil/trade/atom"
 import { useRecoilState } from "recoil"
 import Swal from "sweetalert2"
+import mungImage from "../../assets/token.png"
 
 export default function Login() {
   const [, setMember] = useRecoilState(memberAtom)
@@ -86,31 +87,29 @@ export default function Login() {
   }
 
   const handleClick = async () => {
-    // Check if MetaMask is installed
+    // 메타마스크가 설치되어있는지 확인
     if (!window.ethereum) {
       Swal.fire({
         text: "메타마스크를 먼저 설치해주세요.",
         icon: "warning",
         confirmButtonText: "확인",
       })
-      // window.alert("메타마스크를 먼저 설치해주세요")
       return
     }
+
     if (!web3) {
       try {
-        // Request account access if needed
+        console.log(2)
         await window.ethereum.enable()
-
-        // We don't know window.web3 version, so we use our own instance of Web3
-        // with the injected provider given by MetaMask
+        console.log(3)
         web3 = new Web3(window.ethereum)
+        console.log(4)
       } catch (error) {
         Swal.fire({
           text: "메타마스크를 먼저 설치해주세요.",
           icon: "warning",
           confirmButtonText: "확인",
         })
-        // window.alert("먼저 메타마스크를 허용해주세요")
         return
       }
     }
@@ -121,6 +120,7 @@ export default function Login() {
       return { ...variable }
     })
 
+    console.log(1)
     // 멍(ERC-20) 토큰 추가 함수
     const setERC20 = async () => {
       await window.ethereum
@@ -132,6 +132,7 @@ export default function Login() {
               address: `${MUNGContractAddress}`,
               symbol: "M",
               decimals: 18,
+              image: mungImage,
             },
           },
         })
@@ -144,7 +145,7 @@ export default function Login() {
         })
         .catch(console.error)
     }
-
+    console.log(2)
     const coinbase = await web3.eth.getCoinbase()
     if (!coinbase) {
       await setTrade((prev) => {
@@ -194,31 +195,7 @@ export default function Login() {
     // SSAFY Network 연결
     try {
       await handleEthereumNetwork(chainId)
-      // await setERC20()
-      // 최초 가입 시 10000 M 지급
-      // isNew === true 로 바꿔야 함
-      console.log(isNew)
-      if (isNew !== true) {
-        Swal.fire({
-          text: "최초가입하셨네요! 10000 M을 지급해드립니다!",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 1500,
-        })
-        // window.alert("최초가입하셨네요! 10000 M을 지급해드립니다!")
-
-        try {
-          await MUNGContract.methods
-            .mintToMember(publicAddress, 10000)
-            .send({ from: publicAddress })
-        } catch {
-          Swal.fire({
-            text: "돈을 거부하다니..",
-            timer: 1500,
-          })
-          // window.alert("돈을 거부하다니..")
-        }
-      }
+      await setERC20()
 
       // 지갑주소 localStorage에 추가
       localStorage.setItem("publicAddress", publicAddress)
@@ -226,6 +203,35 @@ export default function Login() {
       // 회원 닉네임 전역변수에 저장
       await saveNickname({ publicAddress })
 
+      await setTrade((prev) => {
+        const variable = { ...prev }
+        variable.modalOpen6 = false
+        return { ...variable }
+      })
+
+      // 최초 가입 시 10000 M 지급
+      // isNew === true 로 바꿔야 함
+      console.log(isNew)
+      if (isNew !== true) {
+        await Swal.fire({
+          text: "최초가입하셨네요! 10000 M을 지급해드립니다!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 3000,
+        })
+
+        try {
+          await MUNGContract.methods
+            .mintToMember(publicAddress, 10000)
+            .send({ from: publicAddress })
+        } catch {
+          await Swal.fire({
+            text: "돈을 거부하다니..",
+            showConfirmButton: false,
+            timer: 3000,
+          })
+        }
+      }
       await setTrade((prev) => {
         const variable = { ...prev }
         variable.modalOpen6 = false
@@ -244,7 +250,6 @@ export default function Login() {
         icon: "warning",
         confirmButtonText: "확인",
       })
-      // alert("싸피네트워크가 등록되어 있지 않습니다!")
     }
   }
 
