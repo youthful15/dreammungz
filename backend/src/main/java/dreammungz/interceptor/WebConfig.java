@@ -2,7 +2,6 @@ package dreammungz.interceptor;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -22,9 +21,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
 
-//        적용 시 주석 해제 예정
-//        interceptorRegistry.addInterceptor(walletInterceptor)
-//                .addPathPatterns("/info/{address}", "/result/address/{address}");
+        interceptorRegistry.addInterceptor(walletInterceptor)
+                .addPathPatterns("/auth/info/nickname/{address}", "/nft/result/address/{address}");
 
     }
 }
