@@ -126,11 +126,11 @@ export default function GameEnding() {
   const copyDOM = async () => {
     window.scrollTo(0, 0)
 
-    await setTrade((prev) => {
-      const variable = { ...prev }
-      variable.modalOpen6 = true
-      return { ...variable }
-    })
+    // await setTrade((prev) => {
+    //   const variable = { ...prev }
+    //   variable.modalOpen6 = true
+    //   return { ...variable }
+    // })
     await setGame((prev) => {
       const variable = { ...prev }
       variable.endingCreditShow = true
@@ -205,11 +205,11 @@ export default function GameEnding() {
           })
           .catch((error) => console.error("안의 error", error))
 
-        await setTrade((prev) => {
-          const variable = { ...prev }
-          variable.modalOpen6 = false
-          return { ...variable }
-        })
+        // await setTrade((prev) => {
+        //   const variable = { ...prev }
+        //   variable.modalOpen6 = false
+        //   return { ...variable }
+        // })
         setGame((prev) => {
           const variable = { ...prev }
           variable.endingCreditShow = false
