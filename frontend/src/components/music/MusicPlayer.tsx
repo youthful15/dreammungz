@@ -36,7 +36,7 @@ export default function MusicPlayer() {
       }}
     >
       <audio
-        src={`audios/${musicName}.mp3`}
+        src={`./audios/${musicName}.mp3`}
         autoPlay
         id="audio"
         ref={audioRef}
