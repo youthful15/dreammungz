@@ -19,7 +19,7 @@ export default function NftTradeButton({
   const navigate = useNavigate()
 
   return (
-    <div className="px-3">
+    <div className="px-3 flex justify-center">
       {nftOwnerAddress &&
       publicAddress?.toLowerCase() !== nftOwnerAddress?.toLowerCase() &&
       info.sell === true ? (
@@ -36,12 +36,8 @@ export default function NftTradeButton({
             </div>
             <div className="flex w-2/3">
               <button
-                className="w-[50%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
+                className="w-[33%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
                 onClick={async () => {
-                  // 비로그인 접근
-                  const a = localStorage.getItem("publicAddress")
-                  console.log("A", a)
-
                   // 비로그인 접근
                   if (!localStorage.getItem("publicAddress")) {
                     await Swal.fire({
@@ -70,7 +66,7 @@ export default function NftTradeButton({
                 즉시 구매
               </button>
               <button
-                className="w-[50%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 hover:scale-110"
+                className="w-[33%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 hover:scale-110"
                 onClick={async () => {
                   // 비로그인 접근
                   if (!localStorage.getItem("publicAddress")) {
@@ -79,7 +75,7 @@ export default function NftTradeButton({
                       icon: "warning",
                       confirmButtonText: "확인",
                     })
-                    // alert("먼저 메타마스크 로그인 해주시기 바랍니다.")
+
                     navigate("/login")
                   }
 
@@ -113,12 +109,19 @@ export default function NftTradeButton({
               </span>
             </div>
             <button
-              className="w-[100%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
+              className="w-[30%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 mr-3 hover:scale-110"
               onClick={async () => {
                 const receivedBalance = await getBalance()
                 // 비로그인 접근
-                const a = localStorage.getItem("publicAddress")
-                console.log("A", a)
+                if (!localStorage.getItem("publicAddress")) {
+                  await Swal.fire({
+                    text: "먼저 메타마스크 로그인 해주시기 바랍니다.",
+                    icon: "warning",
+                    confirmButtonText: "확인",
+                  })
+                  // alert("먼저 메타마스크 로그인 해주시기 바랍니다.")
+                  navigate("/login")
+                }
 
                 await setMember((prev: any) => {
                   const variable = { ...prev }
@@ -141,7 +144,7 @@ export default function NftTradeButton({
         publicAddress?.toLowerCase() === nftOwnerAddress?.toLowerCase() &&
         info.sell === true ? (
         <button
-          className="w-full text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 hover:scale-110"
+          className="w-[33%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 hover:scale-110"
           onClick={() => {
             setTrade((prev) => {
               const variable = { ...prev }
@@ -156,7 +159,7 @@ export default function NftTradeButton({
         publicAddress?.toLowerCase() === nftOwnerAddress?.toLowerCase() &&
         info.sell === false ? (
         <button
-          className="w-full text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 hover:scale-110"
+          className="w-[30%] text-sm font-medium p-0.5 bg-beige-300 border-2 border-lgBrown-400 rounded-lg text-brown-400 hover:scale-110"
           onClick={() => {
             setTrade((prev) => {
               const variable = { ...prev }
