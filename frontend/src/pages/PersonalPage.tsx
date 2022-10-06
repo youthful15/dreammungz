@@ -9,7 +9,7 @@ const personalMenu = [
   { title: "업적", path: "achievement" },
   { title: "박물관 ", path: "museum" },
   { title: "거래 내역 ", path: "history" },
-  { title: "오퍼 내역 ", path: "offer" },
+  { title: "제안 내역 ", path: "offer" },
 ]
 
 const PersonalPage = () => {

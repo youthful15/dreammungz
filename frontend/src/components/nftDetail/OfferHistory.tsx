@@ -112,7 +112,7 @@ export default function OfferHistory(info: any, publicAddress: string) {
   return (
     <div className="w-full ">
       <p className="mb-2 text-2xl font-semibold text-center text-brown-400">
-        오퍼 리스트
+        가격 제안 이력
       </p>
       <div className="w-full bg-transparent h-[90%] shadow-sm text-sm ">
         {/* {info ? ( */}
@@ -122,7 +122,7 @@ export default function OfferHistory(info: any, publicAddress: string) {
               <div className="flex w-full p-2">
                 <p className="w-[30%] pl-2">가격</p>
                 <p className="w-[30%]">제안자</p>
-                <p>오퍼 날짜</p>
+                <p>가격 제안 날짜</p>
               </div>
             </div>
             <ul className="h-full overflow-y-auto scrollbar-hide">
@@ -223,7 +223,7 @@ export default function OfferHistory(info: any, publicAddress: string) {
           </div>
         ) : (
           <div className="h-[200px] text-center  leading-[200px] border-2 border-brown-200 rounded-lg text-brown-300">
-            오퍼 내역이 없습니다.
+            가격 제안 내역이 없습니다.
           </div>
         )}
       </div>
