@@ -41,26 +41,32 @@ const gameTutorialContents = [
   {
     image: "game/game1.png",
     title: "게임 모드",
-    text: `1. 게임 시작하기를 누르면 아기 강아지 모드와 웨딩 모드를 선택하실 수 있습니다. 아기 강아지 모드는 모든 스탯이 0부터 시작하며 게임 플레이를 위해 100 MUNG을 지불해야 합니다. 웨딩 모드는 현재 플레이어가 보유중인 NFT들 중 남성과 여성을 조합하여 향상된 스탯을 가지고 시작하며 NFT 등급에 따라 가격이 달라집니다.`,
+    text: `1. 드림멍즈는 게임 시작을 위한 두 가지의 모드를 제공합니다. 위쪽의 버튼을 눌러 모드를 결정할 수 있습니다. `,
     index: 0,
   },
   {
     image: "game/game2.png",
     title: "게임 시작",
-    text: "2. 게임을 시작하기 전 게임머니를 입력하려면 메타마스크 승인을 진행해주세요.",
+    text: "2. 아기 강아지 모드는 100 멍을 지불하고 시작합니다. 메타마스크 거래 요청을 승인해주세요.",
     index: 1,
   },
   {
     image: "game/game3.png",
-    title: "게임 진행",
-    text: "3. 선택지를 선택하며 강아지의 능력치를 올릴 수 있습니다.",
+    title: "게임 시작",
+    text: "3. 웨딩 모드는 현재 플레이어가 보유중인 NFT 중 남자멍과 여자멍을 결혼시켜 물려받은 능력치를 가지고 시작합니다. 지불 금액은 조합한 NFT의 등급에 따라 달라집니다. 메타마스크 거래 요청을 승인해주세요.",
     index: 2,
   },
   {
     image: "game/game4.png",
-    title: "게임 엔딩",
-    text: "4. 게임이 끝난 후 NFT 민팅하기를 진행하여 플레이어만의 NFT를 만들 수 있습니다. 엔딩 크레딧을 보며 메타마스크 승인을 진행해주세요.",
+    title: "게임 진행",
+    text: "4. 스토리를 진행하며 선택지를 고를 수 있습니다. 선택지에 따라 강아지의 능력치가 변화합니다.",
     index: 3,
+  },
+  {
+    image: "game/game5.png",
+    title: "게임 엔딩",
+    text: "5. 게임이 끝난 후 능력치에 따라 강아지의 직업이 결정됩니다. NFT 민팅하기를 눌러 플레이어만의 NFT를 만들 수 있습니다. 엔딩 크레딧을 보며 메타마스크 거래 요청을 승인해주세요.",
+    index: 4,
   },
 ]
 
@@ -184,8 +190,11 @@ const TutorialDetail = () => {
 
   return (
     <div
-      className="flex w-full h-full rounded-2xl shadow-md bg-beige-400 mapleStory text-brown-500 p-5"
-      style={{ scrollBehavior: "smooth" }}
+      className="flex w-full h-full rounded-2xl shadow-md bg-beige-400 mapleStory text-brown-500 p-5 bg-center bg-cover"
+      style={{
+        scrollBehavior: "smooth",
+        backgroundImage: "url(/images/mode2.png)",
+      }}
     >
       <div className="w-[15%] py-3">
         <div
@@ -224,7 +233,7 @@ const TutorialDetail = () => {
             gameTutorialContents.map(({ image, text, title }, index) => {
               return (
                 <div
-                  className="w-[240px] h-[135px] mb-[20px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150 shadow-lg"
+                  className="w-full h-[80px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150 shadow-lg hover:border-brown-400"
                   key={index}
                   onClick={async () => {
                     await setClickedImage(image)
@@ -247,7 +256,7 @@ const TutorialDetail = () => {
             tradeTutorialContents.map(({ image, text, title }, index) => {
               return (
                 <div
-                  className="w-[240px] h-[135px] mb-[20px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150 border-2 border-transparent"
+                  className="w-full h-[80px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150 shadow-lg hover:border-brown-400"
                   key={index}
                   onClick={async () => {
                     await setClickedImage(image)
@@ -276,13 +285,13 @@ const TutorialDetail = () => {
           </p>
           <div className="flex justify-center items-center w-full h-[60%] rounded-lg relative">
             <button
-              className="absolute z-10 left-3 h-[30px] w-[30px] rounded-full bg-beige-100 hover:scale-110"
+              className="absolute z-10 left-3 h-[30px] w-[30px] rounded-full bg-beige-300 hover:scale-110"
               onClick={moveLeft}
             >
               {"<"}
             </button>
             <button
-              className="absolute z-10 right-3 h-[30px] w-[30px] rounded-full bg-beige-100 hover:scale-110"
+              className="absolute z-10 right-3 h-[30px] w-[30px] rounded-full bg-beige-300 hover:scale-110"
               onClick={moveRight}
             >
               {">"}
@@ -291,11 +300,11 @@ const TutorialDetail = () => {
             <img
               src={`/images/tutorial/${clickedImage}`}
               alt=""
-              className="border-2 border-transparent rounded-lg w-[680px] "
+              className="border-2 border-transparent rounded-lg w-[680px] shadow-lg"
             />
           </div>
 
-          <div className="flex w-[680px] h-[30%] border-2 mt-10 border-brown-200 mapleStory rounded-lg p-4 px-5 leading-7">
+          <div className="flex w-[680px] h-[30%] border-2 mt-10 border-brown-200 mapleStory rounded-lg p-4 px-5 leading-7 bg-lgBrown-100">
             <p>{parse(clickedText)}</p>
           </div>
         </div>
@@ -303,6 +312,35 @@ const TutorialDetail = () => {
         <div className="w-[85%] h-full py-4 pl-4 rounded-lg flex flex-col items-center">
           <p className="text-2xl flex justify-center font-bold mb-8">
             {loginTutorialContents[0].title}
+          </p>
+          <div className="flex justify-center items-center w-full h-[60%] rounded-lg relative">
+            <button
+              className="absolute z-10 left-3 h-[30px] w-[30px] rounded-full bg-beige-300 hover:scale-110"
+              onClick={moveLeft}
+            >
+              {"<"}
+            </button>
+            <button
+              className="absolute z-10 right-3 h-[30px] w-[30px] rounded-full bg-beige-300 hover:scale-110"
+              onClick={moveRight}
+            >
+              {">"}
+            </button>
+            <img
+              src={`/images/tutorial/${loginTutorialContents[0].image}`}
+              alt=""
+              className="border-2 border-transparent rounded-lg w-[680px] shadow-lg"
+            />
+          </div>
+
+          <div className="flex w-[680px] h-[30%] border-2 mt-10 border-brown-200 mapleStory rounded-lg p-4 px-5 leading-7 bg-lgBrown-100">
+            <p>{parse(loginTutorialContents[0].text)}</p>
+          </div>
+        </div>
+      ) : pathname === "/tutorial-detail/2" ? (
+        <div className="w-[85%] h-full py-4 pl-4 rounded-lg flex flex-col items-center">
+          <p className="text-2xl flex justify-center font-bold mb-8">
+            {gameTutorialContents[0].title}
           </p>
           <div className="flex justify-center items-center w-full h-[60%] rounded-lg relative">
             <button
@@ -318,56 +356,30 @@ const TutorialDetail = () => {
               {">"}
             </button>
             <img
-              src={`/images/tutorial/${loginTutorialContents[0].image}`}
-              alt=""
-              className="border-2 border-transparent rounded-lg w-[680px] "
-            />
-          </div>
-
-          <div className="flex w-[780px] h-[30%] border-2 mt-8 border-brown-200 mapleStory rounded-lg p-5 leading-7">
-            <p>{parse(loginTutorialContents[0].text)}</p>
-          </div>
-        </div>
-      ) : pathname === "/tutorial-detail/2" ? (
-        <div className="w-[680px] h-full p-4 rounded-lg">
-          <p className="text-2xl ml-1">{gameTutorialContents[0].title}</p>
-          <div className="flex justify-center items-center w-full h-[60%] rounded-lg border-2 border-transparent">
-            <button
-              className="absolute z-10 left-[550px] h-[25px] w-[25px] rounded-full bg-beige-100 hover:scale-110"
-              onClick={moveLeft}
-            >
-              {"<"}
-            </button>
-            <button
-              className="absolute z-10 right-[60px] h-[25px] w-[25px] rounded-full bg-beige-100 hover:scale-110"
-              onClick={moveRight}
-            >
-              {">"}
-            </button>
-
-            <img
               src={`/images/tutorial/${gameTutorialContents[0].image}`}
               alt=""
-              className="border-2 border-transparent rounded-lg w-[696px] h-[358px]"
+              className="border-2 border-transparent rounded-lg w-[680px] shadow-lg"
             />
           </div>
 
-          <div className="flex w-[696px] h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
-            <p>{gameTutorialContents[0].text}</p>
+          <div className="flex w-[680px] h-[30%] border-2 mt-10 border-brown-200 mapleStory rounded-lg p-4 px-5 leading-7 bg-lgBrown-100">
+            <p>{parse(gameTutorialContents[0].text)}</p>
           </div>
         </div>
       ) : pathname === "/tutorial-detail/3" ? (
-        <div className="w-[738px] h-full p-4 rounded-lg">
-          <p className="text-2xl ml-1">{tradeTutorialContents[0].title}</p>
-          <div className="flex justify-center items-center w-full h-[60%] rounded-lg ">
+        <div className="w-[85%] h-full py-4 pl-4 rounded-lg flex flex-col items-center">
+          <p className="text-2xl flex justify-center font-bold mb-8">
+            {tradeTutorialContents[0].title}
+          </p>
+          <div className="flex justify-center items-center w-full h-[60%] rounded-lg relative">
             <button
-              className="absolute z-10 left-[550px] h-[25px] w-[25px] rounded-full bg-beige-100 hover:scale-110"
+              className="absolute z-10 left-3 h-[30px] w-[30px] rounded-full bg-beige-100 hover:scale-110"
               onClick={moveLeft}
             >
               {"<"}
             </button>
             <button
-              className="absolute z-10 right-[60px] h-[25px] w-[25px] rounded-full bg-beige-100 hover:scale-110"
+              className="absolute z-10 right-3 h-[30px] w-[30px] rounded-full bg-beige-100 hover:scale-110"
               onClick={moveRight}
             >
               {">"}
@@ -375,12 +387,12 @@ const TutorialDetail = () => {
             <img
               src={`/images/tutorial/${tradeTutorialContents[0].image}`}
               alt=""
-              className="border-2 border-transparent rounded-lg  w-[696px] h-[358px]"
+              className="border-2 border-transparent rounded-lg w-[680px] shadow-lg"
             />
           </div>
 
-          <div className="flex w-[696px] h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
-            <p>{tradeTutorialContents[0].text}</p>
+          <div className="flex w-[680px] h-[30%] border-2 mt-10 border-brown-200 mapleStory rounded-lg p-4 px-5 leading-7 bg-lgBrown-100">
+            <p>{parse(tradeTutorialContents[0].text)}</p>
           </div>
         </div>
       ) : null}

@@ -11,13 +11,13 @@ export default function TutorialChapter({ title, imageName, path }: TutoProp) {
 
   return (
     <div
-      className="w-full h-full px-3"
+      className="w-full h-full px-5 py-4"
       onClick={() => {
         navigate(path)
       }}
     >
       <div
-        className="flex flex-col items-center justify-center w-full h-full rounded-xl bg-beige-100 hover:scale-105 shadow-lg bg-cover bg-center relative border-pink-400 border-8"
+        className="flex flex-col items-center justify-center w-full h-full rounded-xl bg-beige-100 hover:scale-105 shadow-lg bg-cover bg-center relative border-pink-400 border-4"
         style={{
           backgroundImage: `url(/images/${imageName}.png)`,
         }}

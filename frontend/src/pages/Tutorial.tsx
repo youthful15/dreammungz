@@ -15,7 +15,7 @@ const Tutorial = () => {
       path: "/tutorial-detail/2",
     },
     {
-      title: "오퍼 튜토리얼",
+      title: "거래 튜토리얼",
       imageName: "tutooffer",
       path: "/tutorial-detail/3",
     },
@@ -32,7 +32,7 @@ const Tutorial = () => {
         <p className="pt-2 pb-6 text-brown-300">
           쉽고 재밌게 드림멍즈를 즐겨보세요!
         </p>
-        <div className="flex justify-center items-center w-full h-[75%] cursor-pointer">
+        <div className="flex justify-center items-center w-[90%] h-[75%] cursor-pointer">
           {tutoList.map(({ title, imageName, path }, index) => {
             return (
               <TutorialChapter
