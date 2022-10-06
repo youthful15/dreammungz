@@ -1485,6 +1485,24 @@ export const MFTSaleAbi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "negoId",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "refunder",
+        type: "address",
+      },
+    ],
+    name: "refundNego",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "getMFTId",
     outputs: [
@@ -1609,19 +1627,6 @@ export const MFTSaleAbi = [
         internalType: "bool",
         name: "",
         type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getNegoAddrs",
-    outputs: [
-      {
-        internalType: "address[]",
-        name: "",
-        type: "address[]",
       },
     ],
     stateMutability: "view",
@@ -1768,6 +1773,13 @@ export const MFTNegoAbi = [
   },
   {
     inputs: [],
+    name: "refund",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "getSaleAddr",
     outputs: [
       {
@@ -1844,20 +1856,33 @@ export const MFTNegoAbi = [
     stateMutability: "view",
     type: "function",
   },
+  {
+    inputs: [],
+    name: "getIsRefunded",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
 ]
 
 export const web3 = new Web3(window.ethereum)
-export const chainId = 3
+export const chainId = 31221
 
-export const OwnerAddress = "0x2AF0D46CC2F86D1B1697A8f86C9b245320564f5F" // 컨트랙트 배포한 지갑 주소
-export const MUNGContractAddress = "0x821b376bB8d5c5f653Ce49BfBc69605507904777"
-export const MFTContractAddress = "0xf6b79DEcC7EbB31e9c0a65187A3e6A4d1D98706E"
+export const OwnerAddress = "0x2AF0D46CC2F86D1B1697A8f86C9b245320564f5F"
+export const MUNGContractAddress = "0x261b08AA9a1EA160D99B9d2DbBe2Ac6C480f5E7F"
+export const MFTContractAddress = "0xf5C03D13631999F4Ca39259D068CD68bffcC99C1"
 export const MFTSaleFactoryContractAddress =
-  "0x0DdA9843d0bBBaf3F3dd18391a928c70E5B1387C"
+  "0x0Ca778223aC2fD9951cB310C6E22aAe01294754d"
 
-export const MUNGContract = new web3.eth.Contract(MUNGAbi, MUNGContractAddress) // ERC-20
-export const MFTContract = new web3.eth.Contract(MFTAbi, MFTContractAddress) // ERC-721
+export const MUNGContract = new web3.eth.Contract(MUNGAbi, MUNGContractAddress)
+export const MFTContract = new web3.eth.Contract(MFTAbi, MFTContractAddress)
 export const MFTSaleFactoryContract = new web3.eth.Contract(
   MFTSaleFactoryAbi,
   MFTSaleFactoryContractAddress
-) // ERC-721, 20 거래
+)
