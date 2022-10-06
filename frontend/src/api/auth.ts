@@ -6,7 +6,10 @@ const getUserNickname = async (address: string) => {
 }
 
 const setNewNickname = async (address: string, nickname: string) => {
-  const data = await http.put(`auth/info/nickname`, { address, nickname })
+  const data = await http.put(`auth/info/nickname/${address}`, {
+    address,
+    nickname,
+  })
   return data
 }
 
