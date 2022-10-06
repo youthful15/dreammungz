@@ -43,7 +43,15 @@ export const sellFormat = async (
       .then((res) => console.log(res))
       .catch((err) => console.error(err))
 
-    window.location.reload()
+    await Swal.fire({
+      text: "판매 등록이 완료 되었습니다.",
+      icon: "success",
+      showConfirmButton: false,
+    })
+
+    setTimeout(() => {
+      window.location.reload()
+    }, 2000)
   } catch (err) {
     console.error("판매 등록 에러", err)
     window.location.reload()
@@ -73,7 +81,15 @@ export const sellAbortFormat = async (
       .then((res) => console.log(res))
       .catch((err) => console.error(err))
 
-    window.location.reload()
+    await Swal.fire({
+      text: "판매 중단 완료하였습니다.",
+      icon: "success",
+      showConfirmButton: false,
+    })
+
+    setTimeout(() => {
+      window.location.reload()
+    }, 2000)
   } catch (err) {
     console.log(err)
     window.location.reload()
@@ -125,7 +141,15 @@ export const buyNowFormat = async (
       .then((res) => console.log("즉시구매", res))
       .catch((err) => console.error(err))
 
-    window.location.reload()
+    await Swal.fire({
+      text: "구매를 완료하였습니다.",
+      icon: "success",
+      showConfirmButton: false,
+    })
+
+    setTimeout(() => {
+      window.location.reload()
+    }, 2000)
   } catch (err) {
     window.location.reload()
   }
@@ -157,7 +181,15 @@ export const acceptNegoFormat = async (
       .then((res) => console.log(res))
       .catch((err) => console.error(err))
 
-    window.location.reload()
+    await Swal.fire({
+      text: "제안을 완료하였습니다.",
+      icon: "success",
+      showConfirmButton: false,
+    })
+
+    setTimeout(() => {
+      window.location.reload()
+    }, 2000)
   } catch (err) {
     console.error(err)
     window.location.reload()
@@ -276,12 +308,11 @@ export const proposalFormat = async (
     } catch (err) {
       console.error(err)
       Swal.fire({
-        title: "실패",
         text: "제안이 취소되었습니다.",
         icon: "error",
         showConfirmButton: false,
       })
-      // alert("취소되었습니다.")
+
       setTimeout(() => {
         window.location.reload()
       }, 2000)
