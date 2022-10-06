@@ -26,6 +26,11 @@ function useMovePage(price: number) {
   const navigate = useNavigate()
   const [trade, setTrade] = useRecoilState(tradeAtom)
 
+  console.log(
+    "왜 이럼?",
+    startSetting.mating,
+    !startSetting.father || !startSetting.mother
+  )
   async function MovePage() {
     const showBalance = await getBalance()
     console.log(startSetting)
@@ -68,7 +73,6 @@ function useMovePage(price: number) {
         console.log("넘기자", startSetting)
         navigate("/game")
       })
-      startSetting.mating = true
     }
   }
   return MovePage
@@ -121,7 +125,10 @@ function BabyMode() {
         <p>모든 스탯이 0부터 시작합니다.</p>
         <button
           className="p-5 px-10 mt-5 text-xl bg-pink-500 rounded-3xl mapleStory"
-          onClick={StartGame}
+          onClick={() => {
+            startSetting.mating = false
+            StartGame()
+          }}
         >
           100 MUNG으로 시작하기
         </button>
@@ -268,7 +275,7 @@ function WeddingMode() {
         <div className="h-[90%] overflow-scroll bg-gradient-to-b from-pink-100 to-pink-300 scrollbar-hide rounded-2xl flex p-3 shadow-md border-pink-500 mapleStory">
           <div className="flex flex-wrap w-full h-full">
             {nft.map((selectNft, index) => (
-              <div className="w-[33.3%] h-[38%] p-1">
+              <div className="w-[33.3%] h-[38%] p-1" key={index}>
                 <div
                   className="flex w-full h-full p-1 mb-3 bg-white border-pink-400 shadow-sm cursor-pointer rounded-xl hover:shadow-md"
                   key={index}
