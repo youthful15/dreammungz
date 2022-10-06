@@ -128,7 +128,8 @@ export default function GameEnding() {
     window.scrollTo(0, 0)
 
     Swal.fire({
-      title: "페이지를 이동하지 말아주세요! 민팅이 진행중입니다.",
+      title: "페이지를 이동하지 말아주세요!",
+      text: "지금 NFT 민팅이 진행중입니다.",
       showConfirmButton: false,
       icon: "warning",
       timer: 3000,
