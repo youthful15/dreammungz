@@ -47,9 +47,9 @@ const MuseumPage = () => {
           >
             <FontAwesomeIcon
               icon={faArrowLeft}
-              className=" w-[40px] h-[40px] text-white m-2"
+              className=" w-[40px] h-[40px] text-white m-2 cursor-pointer"
             />
-            <div> 돌아가기</div>
+            <div className="cursor-pointer"> 돌아가기</div>
           </div>
           <div className=" w-[40px] h-[40px] text-white m-2 fixed  z-30 top-[45px] left-[0px] space-y-1">
             <div className="text-center rounded-lg w-[280px]  fixed top-0 right-0">

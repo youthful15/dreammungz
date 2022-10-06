@@ -17,8 +17,8 @@ import Swal from "sweetalert2"
 const thead = {
   id: "ID",
   price: "가격",
-  type: " 오퍼 상태 ",
-  date: "오퍼 날짜 ",
+  type: " 가격 제안 상태 ",
+  date: "가격 제안 날짜 ",
 }
 
 type dealItemType = {
@@ -185,7 +185,7 @@ const NftOfferHistoryList = ({ address }: { address: string }) => {
       <div className="w-4/5 space-y-4 h-[80%] ">
         <OfferHistoryListHead item={thead} />
         {data && data.offer.length === 0 && (
-          <div className=" py-28">오퍼 내역이 존재하지 않습니다.</div>
+          <div className=" py-28">가격 제안 내역이 존재하지 않습니다.</div>
         )}
         {data &&
           data.offer.map((item: dealItemType, idx: number) => {

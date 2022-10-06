@@ -7,7 +7,6 @@ const DealHistoryByUser = () => {
 
   return (
     <div className="w-full h-full mapleStory">
-      <h1 className="text-2xl font-semibold text-center"> NFT 거래 내역</h1>
       {address && <NftHistoryList address={address} />}
       {!address && (
         <div className="w-full h-full text-center leading-[500px]">

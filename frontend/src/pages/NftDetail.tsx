@@ -500,7 +500,7 @@ export default function NftDetail() {
         </div>
         <div className="flex flex-col justify-center">
           <div className="flex text-xl font-semibold">
-            <p className="mr-[90px]">오퍼 유무</p>
+            <p className="mr-[90px]">가격 제안 유무</p>
 
             <div className="can-toggle ml-[2px]">
               <input
