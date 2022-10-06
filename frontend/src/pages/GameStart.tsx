@@ -10,6 +10,8 @@ import { useRecoilState } from "recoil"
 import tradeAtom from "../recoil/trade/atom"
 import Gender from "../components/nftInfo/Gender"
 import { getBalance } from "../utils/web3"
+import Swal from "sweetalert2"
+
 const publicAddress = localStorage.getItem("publicAddress")
 
 let startSetting = {
@@ -30,12 +32,22 @@ function useMovePage(price: number) {
 
     // 돈이 부족할 경우
     if (showBalance < price) {
-      alert("지갑에 MUNG이 부족합니다!")
+      Swal.fire({
+        text: "지갑에 MUNG이 부족합니다!",
+        icon: "warning",
+        confirmButtonText: "확인",
+      })
+      // alert("지갑에 MUNG이 부족합니다!")
     } else if (
       startSetting.mating &&
       (!startSetting.father || !startSetting.mother)
     ) {
-      alert("두 마리의 강아지를 선택해주세요!")
+      Swal.fire({
+        text: "두 마리의 강아지를 선택해주세요!",
+        icon: "warning",
+        confirmButtonText: "확인",
+      })
+      // alert("두 마리의 강아지를 선택해주세요!")
     } else {
       await setTrade((prev) => {
         const variable = { ...prev }

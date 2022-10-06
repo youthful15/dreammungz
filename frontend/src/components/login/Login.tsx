@@ -194,10 +194,11 @@ export default function Login() {
     // SSAFY Network 연결
     try {
       await handleEthereumNetwork(chainId)
-      await setERC20()
+      // await setERC20()
       // 최초 가입 시 10000 M 지급
       // isNew === true 로 바꿔야 함
-      if (isNew === true) {
+      console.log(isNew)
+      if (isNew !== true) {
         Swal.fire({
           text: "최초가입하셨네요! 10000 M을 지급해드립니다!",
           icon: "success",
