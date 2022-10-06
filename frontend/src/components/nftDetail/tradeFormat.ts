@@ -304,18 +304,18 @@ export const proposalFormat = async (
         .then((res) => console.log(res))
         .catch((err) => console.error(err))
 
-      window.location.reload()
-    } catch (err) {
-      console.error(err)
       Swal.fire({
-        text: "제안이 취소되었습니다.",
-        icon: "error",
+        text: "제안하셨습니다.",
+        icon: "success",
         showConfirmButton: false,
       })
 
       setTimeout(() => {
         window.location.reload()
       }, 2000)
+    } catch (err) {
+      console.error(err)
+      window.location.reload()
     }
   }
 }
