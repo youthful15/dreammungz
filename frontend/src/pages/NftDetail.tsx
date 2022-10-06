@@ -111,7 +111,7 @@ export default function NftDetail() {
       </SpinnerModal>
       {/* 스피너 모달 끝 */}
 
-      {/* 판매 중지 모달 시작 */}
+      {/* 판매 중지 모달 시작 (확인 필요) */}
       <Modal
         isOpen={trade.modalOpen1}
         modalClose={() => {
@@ -122,13 +122,13 @@ export default function NftDetail() {
           })
         }}
       >
-        <p className="mb-4 text-3xl font-semibold text-center">
+        <p className="mb-6 text-3xl font-semibold text-center">
           판매를 중지하시겠습니까?
         </p>
 
         <div className="flex justify-center">
           <button
-            className="mr-4 negative-btn"
+            className="mr-5 bg-red-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-red-500"
             onClick={async () => {
               const receivedBalance = await getBalance()
               await setBalance(receivedBalance)
@@ -150,7 +150,7 @@ export default function NftDetail() {
             중지
           </button>
           <button
-            className="positive-btn"
+            className="bg-blue-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-blue-500"
             onClick={() =>
               setTrade((prev) => {
                 const variable = { ...prev }
@@ -165,7 +165,7 @@ export default function NftDetail() {
       </Modal>
       {/* 판매 중지 모달 끝 */}
 
-      {/* 즉시 구매 모달 시작 */}
+      {/* 즉시 구매 모달 시작 (수정 완료) */}
       <Modal
         isOpen={trade.modalOpen2}
         modalClose={() =>
@@ -176,73 +176,77 @@ export default function NftDetail() {
           })
         }
       >
-        <p className="mb-4 text-4xl font-semibold text-center">
-          즉시 구매하시겠습니까?
-        </p>
-        <div className="flex text-xl mb-2 ml-[60px]">
-          <p className="mr-[50px]">즉시 구매 가격</p>
-          <p>
-            {String(nftInfo?.price).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} M
+        <div className="flex flex-col items-center">
+          <p className="mb-6 text-3xl font-semibold text-center">
+            즉시 구매하시겠습니까?
           </p>
-        </div>
-        <div className="flex text-xl ml-[60px]">
-          <p className="mr-[105px]">나의 M</p>
-          <p>{String(balance).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} M</p>
-        </div>
+          <div className="flex text-lg mb-2 w-[280px] justify-center">
+            <p className="w-[50%]">즉시 구매 가격</p>
+            <p className=" w-[50%] text-end">
+              {String(nftInfo?.price).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} M
+            </p>
+          </div>
+          <div className="flex text-lg mb-2 w-[280px] justify-center">
+            <p className="w-[50%]">나의 소지 금액</p>
+            <p className="w-[50%] text-end">
+              {String(balance).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} M
+            </p>
+          </div>
 
-        {/* 에러 메시지 1 */}
-        {showMessage1 ? (
-          <p className="text-medium ml-[60px] text-red-600">
-            지갑에 MUNG이 부족합니다!
-          </p>
-        ) : null}
+          {/* 에러 메시지 1 */}
+          {showMessage1 ? (
+            <p className="text-medium ml-[60px] text-red-600">
+              지갑에 MUNG이 부족합니다!
+            </p>
+          ) : null}
 
-        <div className="flex justify-center mt-10 ">
-          <button
-            className="mr-4 positive-btn"
-            onClick={async () => {
-              const receivedBalance = await getBalance()
-              await setBalance(receivedBalance)
-              const cost = nftInfo?.price
-              if (receivedBalance < cost) {
-                setShowMessage1(true)
-                setTimeout(() => {
-                  setShowMessage1(false)
-                }, 4000)
-              } else {
-                await setTrade((prev) => {
+          <div className="flex justify-center mt-10 ">
+            <button
+              className="mr-5 bg-blue-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-blue-500"
+              onClick={async () => {
+                const receivedBalance = await getBalance()
+                await setBalance(receivedBalance)
+                const cost = nftInfo?.price
+                if (receivedBalance < cost) {
+                  setShowMessage1(true)
+                  setTimeout(() => {
+                    setShowMessage1(false)
+                  }, 4000)
+                } else {
+                  await setTrade((prev) => {
+                    const variable = { ...prev }
+                    variable.modalOpen2 = false
+                    variable.modalOpen6 = true
+                    return { ...variable }
+                  })
+
+                  await buyNowFormat(balance, cost, tokenId, publicAddress)
+                  await setTrade((prev) => {
+                    const variable = { ...prev }
+                    variable.modalOpen6 = false
+                    return { ...variable }
+                  })
+                }
+              }}
+            >
+              구매
+            </button>
+            <button
+              className="bg-red-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-red-500"
+              onClick={() => {
+                setTrade((prev) => {
                   const variable = { ...prev }
                   variable.modalOpen2 = false
-                  variable.modalOpen6 = true
                   return { ...variable }
                 })
-
-                await buyNowFormat(balance, cost, tokenId, publicAddress)
-                await setTrade((prev) => {
-                  const variable = { ...prev }
-                  variable.modalOpen6 = false
-                  return { ...variable }
-                })
-              }
-            }}
-          >
-            구매
-          </button>
-          <button
-            className="negative-btn"
-            onClick={() => {
-              setTrade((prev) => {
-                const variable = { ...prev }
-                variable.modalOpen2 = false
-                return { ...variable }
-              })
-            }}
-          >
-            닫기
-          </button>
+              }}
+            >
+              닫기
+            </button>
+          </div>
         </div>
       </Modal>
-      {/* 즉시 구매 모달 끝 */}
+      {/* 즉시 구매 모달 끝 (수정 완료) */}
 
       {/* 가격 제안하기 모달 시작 */}
       <Modal
@@ -255,98 +259,109 @@ export default function NftDetail() {
           })
         }
       >
-        <p className="mb-4 text-4xl font-semibold text-center">
-          제안하실 금액을 입력해주세요
-        </p>
-
-        <div className="flex text-xl ml-[60px] mb-2">
-          <p className="mr-[50px]">현재 보유 금액</p>
-          <p>{String(balance).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} M</p>
-        </div>
-
-        <div className="flex text-xl mb-2 ml-[60px]">
-          <p className="mr-[87px]">제안 금액</p>
-          <input
-            className="border border-black mr-1 w-[150px]"
-            id="proposal"
-            type="text"
-            onChange={async (e) => {
-              e.target.value = e.target.value
-                .replace(/[^0-9.]/g, "")
-                .replace(/(\..*)\./g, "$1")
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-
-              await setTrade((prev) => {
-                const variable = { ...prev }
-                variable.offerPrice = Number(e.target.value.split(",").join(""))
-                return { ...variable }
-              })
-            }}
-          />
-          <label htmlFor="proposal">M</label>
-        </div>
-
-        {/* 에러 메시지 2 */}
-        {showMessage2 ? (
-          <p className="text-medium ml-[60px] text-red-600">
-            1 MUNG 이상 제안하셔야 합니다. 다시 입력해주세요!
+        <div className="flex flex-col items-center">
+          <p className="mb-6 text-3xl font-semibold text-center">
+            제안할 가격을 입력해주세요.
           </p>
-        ) : null}
 
-        {/* 에러 메시지 2 */}
-        {showMessage3 ? (
-          <p className="text-medium ml-[60px] text-red-600">
-            지갑에 MUNG이 부족합니다!
-          </p>
-        ) : null}
+          <div className="flex text-lg mb-2 w-[280px] justify-center">
+            <p className="w-[50%]">현재 보유 금액</p>
+            <p className=" w-[50%] text-end">
+              {String(balance).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} M
+            </p>
+          </div>
 
-        <div className="flex justify-center mt-10">
-          <button
-            className="mr-4 positive-btn"
-            onClick={async () => {
-              const proposal = trade.offerPrice
-              const receivedBalance = await getBalance()
-              await setBalance(receivedBalance)
-              if (String(proposal) == "NaN" || proposal === 0) {
-                setShowMessage2(true)
-                setTimeout(() => {
-                  setShowMessage2(false)
-                }, 4000)
-              } else if (proposal > balance) {
-                setShowMessage3(true)
-                setTimeout(() => {
-                  setShowMessage3(false)
-                }, 4000)
-              } else {
+          <div className="flex text-lg mb-2 w-[280px] justify-center">
+            <p className="w-[50%]">제안 금액</p>
+            <input
+              className="border border-black mr-1 w-[50%]"
+              id="proposal"
+              type="text"
+              onChange={async (e) => {
+                e.target.value = e.target.value
+                  .replace(/[^0-9.]/g, "")
+                  .replace(/(\..*)\./g, "$1")
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
                 await setTrade((prev) => {
+                  const variable = { ...prev }
+                  variable.offerPrice = Number(
+                    e.target.value.split(",").join("")
+                  )
+                  return { ...variable }
+                })
+              }}
+            />
+            <label htmlFor="proposal">M</label>
+          </div>
+
+          {/* 에러 메시지 2 */}
+          {showMessage2 ? (
+            <p className="text-medium ml-[60px] text-red-600">
+              1 MUNG 이상 제안하셔야 합니다. 다시 입력해주세요!
+            </p>
+          ) : null}
+
+          {/* 에러 메시지 2 */}
+          {showMessage3 ? (
+            <p className="text-medium ml-[60px] text-red-600">
+              지갑에 MUNG이 부족합니다!
+            </p>
+          ) : null}
+
+          <div className="flex justify-center mt-10">
+            <button
+              className="mr-5 bg-blue-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-blue-500"
+              onClick={async () => {
+                const proposal = trade.offerPrice
+                const receivedBalance = await getBalance()
+                await setBalance(receivedBalance)
+                if (String(proposal) == "NaN" || proposal === 0) {
+                  setShowMessage2(true)
+                  setTimeout(() => {
+                    setShowMessage2(false)
+                  }, 4000)
+                } else if (proposal > balance) {
+                  setShowMessage3(true)
+                  setTimeout(() => {
+                    setShowMessage3(false)
+                  }, 4000)
+                } else {
+                  await setTrade((prev) => {
+                    const variable = { ...prev }
+                    variable.modalOpen3 = false
+                    variable.modalOpen6 = true
+                    return { ...variable }
+                  })
+                  await proposalFormat(
+                    balance,
+                    proposal,
+                    tokenId,
+                    publicAddress
+                  )
+                  await setTrade((prev) => {
+                    const variable = { ...prev }
+                    variable.modalOpen6 = false
+                    return { ...variable }
+                  })
+                }
+              }}
+            >
+              제안
+            </button>
+            <button
+              className="bg-red-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-red-500"
+              onClick={() => {
+                setTrade((prev) => {
                   const variable = { ...prev }
                   variable.modalOpen3 = false
-                  variable.modalOpen6 = true
                   return { ...variable }
                 })
-                await proposalFormat(balance, proposal, tokenId, publicAddress)
-                await setTrade((prev) => {
-                  const variable = { ...prev }
-                  variable.modalOpen6 = false
-                  return { ...variable }
-                })
-              }
-            }}
-          >
-            제안
-          </button>
-          <button
-            className="negative-btn"
-            onClick={() => {
-              setTrade((prev) => {
-                const variable = { ...prev }
-                variable.modalOpen3 = false
-                return { ...variable }
-              })
-            }}
-          >
-            닫기
-          </button>
+              }}
+            >
+              닫기
+            </button>
+          </div>
         </div>
       </Modal>
       {/* 가격 제안하기 모달 끝 */}
@@ -362,12 +377,12 @@ export default function NftDetail() {
           })
         }
       >
-        <p className="mb-4 text-4xl font-semibold text-center">
+        <p className="mb-4 text-3xl font-semibold text-center">
           제안을 취소하시겠습니까?
         </p>
         <div className="flex justify-center mt-10">
           <button
-            className="mr-4 positive-btn"
+            className="mr-5 bg-blue-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-blue-500"
             onClick={async () => {
               const clickedNegoId = trade.selectedOfferId
               await setTrade((prev) => {
@@ -387,7 +402,7 @@ export default function NftDetail() {
             취소
           </button>
           <button
-            className="negative-btn"
+            className="bg-red-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-red-500"
             onClick={() => {
               setTrade((prev) => {
                 const variable = { ...prev }
@@ -413,12 +428,12 @@ export default function NftDetail() {
           })
         }}
       >
-        <p className="mb-4 text-4xl font-semibold text-center">
+        <p className="mb-4 text-3xl font-semibold text-center">
           제안을 수락하시겠습니까?
         </p>
         <div className="flex justify-center mt-10">
           <button
-            className="mr-4 positive-btn"
+            className="mr-5 bg-blue-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-blue-500"
             onClick={async () => {
               const negoId = trade.selectedOfferId
 
@@ -443,7 +458,7 @@ export default function NftDetail() {
             수락
           </button>
           <button
-            className="border negative-btn"
+            className="bg-red-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-red-500"
             onClick={() => {
               setTrade((prev) => {
                 const variable = { ...prev }
@@ -458,7 +473,7 @@ export default function NftDetail() {
       </Modal>
       {/* 가격 제안수락 모달 끝 */}
 
-      {/* 판매 등록 모달 시작 */}
+      {/* 판매 등록 모달 시작 (수정 완료) */}
       <Modal
         isOpen={trade.modalOpen8}
         modalClose={() => {
@@ -469,106 +484,108 @@ export default function NftDetail() {
           })
         }}
       >
-        <p className="mb-4 text-4xl font-semibold text-center">
-          판매 정보를 입력해주세요
-        </p>
+        <div className="flex flex-col items-center">
+          <p className="text-3xl font-semibold text-center mb-6">
+            판매 정보를 입력해주세요
+          </p>
 
-        <div className="flex mb-4 text-xl font-semibold">
-          <p className="mr-[50px]">즉시 구매 가격</p>
-          <input
-            id="price"
-            type="text"
-            className="border w-[150px]"
-            onChange={(e: any) => {
-              e.target.value = e.target.value
-                .replace(/[^0-9.]/g, "")
-                .replace(/(\..*)\./g, "$1")
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          <div className="flex mb-4 text-lg">
+            <p className="mr-[20px]">즉시 구매 가격</p>
+            <input
+              id="price"
+              type="text"
+              className="border w-[150px]"
+              onChange={(e: any) => {
+                e.target.value = e.target.value
+                  .replace(/[^0-9.]/g, "")
+                  .replace(/(\..*)\./g, "$1")
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-              setTrade((prev) => {
-                const variable = { ...prev }
-                variable.buyNowPrice = Number(
-                  e.target.value.split(",").join("")
-                )
-                return { ...variable }
-              })
-            }}
-          />
-          <label htmlFor="price" className="ml-2">
-            M
-          </label>
-        </div>
-        <div className="flex flex-col justify-center">
-          <div className="flex text-xl font-semibold">
-            <p className="mr-[90px]">가격 제안 유무</p>
-
-            <div className="can-toggle ml-[2px]">
-              <input
-                id="a"
-                type="checkbox"
-                onClick={() => {
-                  if (negoAble) {
-                    setNegoAble(false)
-                  } else {
-                    setNegoAble(true)
-                  }
-                }}
-              />
-              <label htmlFor="a">
-                <div
-                  className="can-toggle__switch"
-                  data-checked="가능"
-                  data-unchecked="불가능"
-                ></div>
-              </label>
+                setTrade((prev) => {
+                  const variable = { ...prev }
+                  variable.buyNowPrice = Number(
+                    e.target.value.split(",").join("")
+                  )
+                  return { ...variable }
+                })
+              }}
+            />
+            <label htmlFor="price" className="ml-2">
+              M
+            </label>
+          </div>
+          <div className="flex flex-col justify-center">
+            <div className="flex text-lg relative w-[294px]">
+              <span className="absolute left-0">가격 제안 유무</span>
+              <div className="can-toggle absolute left-40">
+                <input
+                  className=""
+                  id="a"
+                  type="checkbox"
+                  onClick={() => {
+                    if (negoAble) {
+                      setNegoAble(false)
+                    } else {
+                      setNegoAble(true)
+                    }
+                  }}
+                />
+                <label htmlFor="a">
+                  <div
+                    className="can-toggle__switch"
+                    data-checked="가능"
+                    data-unchecked="불가능"
+                  ></div>
+                </label>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex justify-center mt-10">
-          <button
-            type="submit"
-            className="mr-5 positive-btn"
-            onClick={async () => {
-              const receivedBalance = await getBalance()
-              await setMember((prev: any) => {
-                const variable = { ...prev }
-                variable.walletBalance = receivedBalance
-                return { ...variable }
-              })
-              const buyNowPrice = trade.buyNowPrice
-              await setTrade((prev: any) => {
-                const variable = { ...prev }
-                variable.modalOpen6 = true
-                variable.modalOpen8 = false
-                return { ...variable }
-              })
-              await sellFormat(publicAddress, negoAble, tokenId, buyNowPrice)
-              await setTrade((prev: any) => {
-                const variable = { ...prev }
-                variable.modalOpen6 = false
-                return { ...variable }
-              })
-            }}
-          >
-            판매 등록
-          </button>
+          <div className="flex justify-center mt-10 mapleStory">
+            <button
+              type="submit"
+              className="mr-5 bg-blue-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-blue-500"
+              onClick={async () => {
+                const receivedBalance = await getBalance()
+                await setMember((prev: any) => {
+                  const variable = { ...prev }
+                  variable.walletBalance = receivedBalance
+                  return { ...variable }
+                })
+                const buyNowPrice = trade.buyNowPrice
+                await setTrade((prev: any) => {
+                  const variable = { ...prev }
+                  variable.modalOpen6 = true
+                  variable.modalOpen8 = false
+                  return { ...variable }
+                })
+                await sellFormat(publicAddress, negoAble, tokenId, buyNowPrice)
+                await setTrade((prev: any) => {
+                  const variable = { ...prev }
+                  variable.modalOpen6 = false
+                  return { ...variable }
+                })
+              }}
+            >
+              판매 등록
+            </button>
 
-          <button
-            className="border negative-btn"
-            onClick={() => {
-              setTrade((prev) => {
-                const variable = { ...prev }
-                variable.modalOpen8 = false
-                variable.isSellingForm = false
-                return { ...variable }
-              })
-            }}
-          >
-            닫기
-          </button>
+            <button
+              className="bg-red-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-red-500"
+              onClick={() => {
+                setTrade((prev) => {
+                  const variable = { ...prev }
+                  variable.modalOpen8 = false
+                  variable.isSellingForm = false
+                  return { ...variable }
+                })
+              }}
+            >
+              닫기
+            </button>
+          </div>
         </div>
       </Modal>
-      {/* 판매 등록 모달 끝 */}
+      {/* 판매 등록 모달 끝 (수정 완료) */}
 
       {nftInfo !== undefined ? (
         <div className="w-full h-full rounded-lg ">
