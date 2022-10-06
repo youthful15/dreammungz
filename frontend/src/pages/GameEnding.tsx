@@ -127,11 +127,20 @@ export default function GameEnding() {
   const copyDOM = async () => {
     window.scrollTo(0, 0)
 
-    await setGame((prev) => {
-      const variable = { ...prev }
-      variable.endingCreditShow = true
-      return { ...variable }
+    Swal.fire({
+      title: "페이지를 이동하지 말아주세요! 민팅이 진행중입니다.",
+      showConfirmButton: false,
+      icon: "warning",
+      timer: 3000,
     })
+
+    setTimeout(async () => {
+      await setGame((prev) => {
+        const variable = { ...prev }
+        variable.endingCreditShow = true
+        return { ...variable }
+      })
+    }, 3000)
 
     // 엔딩곡 변경
     await setMusic("End")
