@@ -16,7 +16,7 @@ const PersonalPage = () => {
   const { address } = useParams()
   const homePath = useMatch("/personal/:address")
   if (address === "null") {
-    console.log(address)
+    // console.log(address)
     return <div> 해당 유저가 존재하지 않습니다. </div>
   }
 

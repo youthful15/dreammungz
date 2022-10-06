@@ -101,7 +101,7 @@ export default function GameEnding() {
         .get(`nft/result/address/${localStorage.getItem("publicAddress")}`)
         .then((res) => {
           setNFT(res.data)
-          console.log(res.data)
+          // console.log(res.data)
         })
     }
     GetStory()
@@ -163,7 +163,7 @@ export default function GameEnding() {
       const imageURL = "https://ipfs.io/ipfs/" + hash.path
 
       // 이미지 URL
-      console.log("이미지 URL", imageURL)
+      // console.log("이미지 URL", imageURL)
       Object.assign(NFT, { url: imageURL })
 
       // 중요!
@@ -175,7 +175,7 @@ export default function GameEnding() {
       // NFT Token ID
       let nftTokenId
       const metadata = "https://ipfs.io/ipfs/" + newHash.path
-      console.log("메타데이터", metadata)
+      // console.log("메타데이터", metadata)
       const metadataURI = { metadata: metadata }
       Object.assign(NFT, { id: nftTokenId })
       Object.assign(NFT, metadataURI)
@@ -199,13 +199,13 @@ export default function GameEnding() {
           .then((res: any) => {
             nftTokenId = res.events.Transfer.returnValues.tokenId
             Object.assign(newNFT, { id: nftTokenId })
-            console.log("최종", newNFT)
+            // console.log("최종", newNFT)
           })
 
         await http
           .post(`nft/result/address/${publicAddress}`, newNFT)
           .then((response) => {
-            console.log("NFT DB에 저장되어 있는지 확인", response)
+            // console.log("NFT DB에 저장되어 있는지 확인", response)
             navigate(`/personal/${publicAddress}/list`)
           })
           .catch((error) => console.error("안의 error", error))

@@ -26,7 +26,7 @@ export const sellFormat = async (
       .createSale(tokenId, publicAddress, buyNowPrice, negoAble)
       .send({ from: publicAddress })
       .then((res: any) => {
-        console.log("판매등록", res)
+        // console.log("판매등록", res)
       })
 
     const contractId = await MFTSaleFactoryContract.methods
@@ -272,9 +272,9 @@ export const proposalFormat = async (
         .approve(sellerAddress, totalWeiValue)
         .send({ from: publicAddress })
 
-      console.log("saleContractId", saleContractId)
-      console.log("saleContractAddress", saleContractAddress)
-      console.log("proposal", proposal)
+      // console.log("saleContractId", saleContractId)
+      // console.log("saleContractAddress", saleContractAddress)
+      // console.log("proposal", proposal)
       let createdNegoId
 
       // createNego
@@ -286,13 +286,13 @@ export const proposalFormat = async (
         })
 
       // // 네고 제안
-      console.log(
-        publicAddress,
-        saleContractId,
-        proposal,
-        tokenId,
-        createdNegoId
-      )
+      // console.log(
+      //   publicAddress,
+      //   saleContractId,
+      //   proposal,
+      //   tokenId,
+      //   createdNegoId
+      // )
       await http
         .post("trade/offerRegister", {
           address: publicAddress,
@@ -331,5 +331,5 @@ export const proposalRefundFormat = async (
     .send({ from: publicAddress })
 
   const test = await http.put(`trade/refund/${negoId}`)
-  console.log(test)
+  // console.log(test)
 }

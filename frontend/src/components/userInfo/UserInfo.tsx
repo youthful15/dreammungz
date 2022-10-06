@@ -57,7 +57,7 @@ const UserInfo = () => {
           nickname: newNickname,
         })
         if (data.status === 200) {
-          console.log("닉네임 변경 성공", newNickname)
+          // console.log("닉네임 변경 성공", newNickname)
           setMember((prev: any) => ({ ...prev, memberNickname: newNickname }))
           // setChangedNick(newNickname)
           navigate(0)

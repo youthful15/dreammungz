@@ -84,7 +84,7 @@ export default function NftDetail() {
     checkIsOwner({ tokenId })
   }, [])
 
-  console.log(localStorage.getItem("publicAddress"))
+  // console.log(localStorage.getItem("publicAddress"))
   return (
     <div className="w-full h-full p-4 overflow-hidden mapleStory">
       <div

@@ -7,10 +7,10 @@ const Camera = (props) => {
 
   useLayoutEffect(() => {
     set({ camera: cameraRef.current })
-    console.log(cameraRef)
+    // console.log(cameraRef)
   }, [])
 
-  console.log(cameraRef.current)
+  // console.log(cameraRef.current)
   useFrame(() => {
     cameraRef.current.updateMatrixWorld({ force: true })
   })

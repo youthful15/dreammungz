@@ -147,7 +147,7 @@ async function choiceSelect({
     navigate("/ending")
   } else {
     await http.post(`game/select`, selectData).then((res) => {
-      console.log(res)
+      // console.log(res)
       setStory(res.data)
       if (music !== res.data.bgm) {
         setMusic(res.data.bgm)
@@ -246,7 +246,7 @@ export default function GamePlaying() {
         .get(`game/info/${localStorage.getItem("publicAddress")}`)
         .then((res) => {
           setStory(res.data)
-          console.log(res)
+          // console.log(res)
           if (music !== res.data.bgm) {
             setMusic(res.data.bgm)
           }

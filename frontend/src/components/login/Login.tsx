@@ -99,11 +99,11 @@ export default function Login() {
 
     if (!web3) {
       try {
-        console.log(2)
+        // console.log(2)
         await window.ethereum.enable()
-        console.log(3)
+        // console.log(3)
         web3 = new Web3(window.ethereum)
-        console.log(4)
+        // console.log(4)
       } catch (error) {
         Swal.fire({
           text: "메타마스크를 먼저 설치해주세요.",
@@ -137,7 +137,7 @@ export default function Login() {
         })
         .then((success: any) => {
           if (success) {
-            console.log("지갑에 MUNG 토큰이 추가되었습니다!")
+            // console.log("지갑에 MUNG 토큰이 추가되었습니다!")
           } else {
             throw new Error("화폐 추가 과정에서 문제가 발생했습니다.")
           }
@@ -204,7 +204,7 @@ export default function Login() {
 
       // 최초 가입 시 10000 M 지급
       // isNew === true 로 바꿔야 함
-      console.log(isNew)
+      // console.log(isNew)
       if (isNew !== true) {
         await Swal.fire({
           text: "최초가입하셨네요! 10000 M을 지급해드립니다!",

@@ -26,11 +26,6 @@ function useMovePage(price: number) {
   const navigate = useNavigate()
   const [trade, setTrade] = useRecoilState(tradeAtom)
 
-  console.log(
-    "왜 이럼?",
-    startSetting.mating,
-    !startSetting.father || !startSetting.mother
-  )
   async function MovePage() {
     const showBalance = await getBalance()
     console.log(startSetting)
@@ -77,7 +72,7 @@ function useMovePage(price: number) {
       })
       // price 만큼 결제합니다. 결제 성공시 아래 navigate 실행~
       await http.post(`game/start`, startSetting).then((res) => {
-        console.log("넘기자", startSetting)
+        // console.log("넘기자", startSetting)
         navigate("/game")
       })
     }

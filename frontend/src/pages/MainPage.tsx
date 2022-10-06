@@ -31,7 +31,7 @@ export default function MainPage() {
       await axios
         .post("https://j7a605.p.ssafy.io/api/nft/list", info)
         .then((res) => {
-          console.log(res.data.items)
+          // console.log(res.data.items)
           setItems(res.data.items)
         })
     }
