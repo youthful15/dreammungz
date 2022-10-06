@@ -8,6 +8,7 @@ import { getUserNickname } from "../../api/auth"
 import { http } from "../../api/axios"
 import memberAtom from "../../recoil/member/atom"
 import { useNavigate } from "react-router-dom"
+import Swal from "sweetalert2"
 
 const UserInfo = () => {
   const navigate = useNavigate()
@@ -41,23 +42,30 @@ const UserInfo = () => {
 
   const onNicknameSubmit = async () => {
     if (newNickname === "") {
-      alert("닉네임은 최소 1자 이상이어야 합니다.")
-    }
-    if (!address) return
-    try {
-      const data = await http.put(`auth/info/nickname`, {
-        address,
-        nickname: newNickname,
+      Swal.fire({
+        // title: "오류!",
+        text: "닉네임은 최소 1자 이상이어야 합니다.",
+        icon: "error",
+        confirmButtonText: "확인",
       })
-      if (data.status === 200) {
-        console.log("닉네임 변경 성공", newNickname)
-        setMember((prev: any) => ({ ...prev, memberNickname: newNickname }))
-        // setChangedNick(newNickname)
-        navigate(0)
+      // alert("닉네임은 최소 1자 이상이어야 합니다.")
+    } else {
+      if (!address) return
+      try {
+        const data = await http.put(`auth/info/nickname`, {
+          address,
+          nickname: newNickname,
+        })
+        if (data.status === 200) {
+          console.log("닉네임 변경 성공", newNickname)
+          setMember((prev: any) => ({ ...prev, memberNickname: newNickname }))
+          // setChangedNick(newNickname)
+          navigate(0)
+        }
+      } catch (e: any) {
+        const { data } = e.response
+        alert(`닉네임 수정 오류. ${data?.code} ${data?.message}`)
       }
-    } catch (e: any) {
-      const { data } = e.response
-      alert(`닉네임 수정 오류. ${data?.code} ${data?.message}`)
     }
   }
   useEffect(() => {

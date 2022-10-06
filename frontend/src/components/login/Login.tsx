@@ -11,6 +11,7 @@ import Web3 from "web3"
 import memberAtom from "../../recoil/member/atom"
 import tradeAtom from "../../recoil/trade/atom"
 import { useRecoilState } from "recoil"
+import Swal from "sweetalert2"
 
 export default function Login() {
   const [, setMember] = useRecoilState(memberAtom)
@@ -87,7 +88,12 @@ export default function Login() {
   const handleClick = async () => {
     // Check if MetaMask is installed
     if (!window.ethereum) {
-      window.alert("메타마스크를 먼저 설치해주세요")
+      Swal.fire({
+        text: "메타마스크를 먼저 설치해주세요.",
+        icon: "warning",
+        confirmButtonText: "확인",
+      })
+      // window.alert("메타마스크를 먼저 설치해주세요")
       return
     }
     if (!web3) {
@@ -99,7 +105,12 @@ export default function Login() {
         // with the injected provider given by MetaMask
         web3 = new Web3(window.ethereum)
       } catch (error) {
-        window.alert("먼저 메타마스크를 허용해주세요")
+        Swal.fire({
+          text: "메타마스크를 먼저 설치해주세요.",
+          icon: "warning",
+          confirmButtonText: "확인",
+        })
+        // window.alert("먼저 메타마스크를 허용해주세요")
         return
       }
     }
@@ -141,7 +152,12 @@ export default function Login() {
         variable.modalOpen6 = false
         return { ...variable }
       })
-      window.alert("먼저 메타마스크를 실행해주세요.")
+      Swal.fire({
+        text: "메타마스크를 먼저 실행해주세요.",
+        icon: "warning",
+        showConfirmButton: false,
+      })
+      // window.alert("먼저 메타마스크를 실행해주세요.")
       return
     }
 
@@ -185,14 +201,24 @@ export default function Login() {
       // 최초 가입 시 10000 M 지급
       // isNew === true 로 바꿔야 함
       if (isNew === true) {
-        window.alert("최초가입하셨네요! 10000 M을 지급해드립니다!")
+        Swal.fire({
+          text: "최초가입하셨네요! 10000 M을 지급해드립니다!",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500,
+        })
+        // window.alert("최초가입하셨네요! 10000 M을 지급해드립니다!")
 
         try {
           await MUNGContract.methods
             .mintToMember(publicAddress, 10000)
             .send({ from: publicAddress })
         } catch {
-          window.alert("돈을 거부하다니..")
+          Swal.fire({
+            text: "돈을 거부하다니..",
+            timer: 1500,
+          })
+          // window.alert("돈을 거부하다니..")
         }
       }
 
@@ -217,7 +243,12 @@ export default function Login() {
         variable.modalOpen6 = false
         return { ...variable }
       })
-      alert("싸피네트워크가 등록되어 있지 않습니다!")
+      Swal.fire({
+        text: "싸피네트워크가 등록되어 있지 않습니다!",
+        icon: "warning",
+        confirmButtonText: "확인",
+      })
+      // alert("싸피네트워크가 등록되어 있지 않습니다!")
     }
   }
 

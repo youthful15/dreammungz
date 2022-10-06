@@ -3,6 +3,8 @@ import tradeAtom from "../../recoil/trade/atom"
 import memberAtom from "../../recoil/member/atom"
 import { getBalance } from "../../utils/web3"
 import { useNavigate } from "react-router-dom"
+import Swal from "sweetalert2"
+
 export default function NftTradeButton({
   nftOwnerAddress,
   publicAddress,
@@ -42,7 +44,12 @@ export default function NftTradeButton({
 
                   // 비로그인 접근
                   if (!localStorage.getItem("publicAddress")) {
-                    alert("먼저 메타마스크 로그인 해주시기 바랍니다.")
+                    await Swal.fire({
+                      text: "먼저 메타마스크 로그인 해주시기 바랍니다.",
+                      icon: "warning",
+                      confirmButtonText: "확인",
+                    })
+                    // alert("먼저 메타마스크 로그인 해주시기 바랍니다.")
                     navigate("/login")
                   }
 
@@ -67,7 +74,12 @@ export default function NftTradeButton({
                 onClick={async () => {
                   // 비로그인 접근
                   if (!localStorage.getItem("publicAddress")) {
-                    alert("먼저 메타마스크 로그인 해주시기 바랍니다.")
+                    await Swal.fire({
+                      text: "먼저 메타마스크 로그인 해주시기 바랍니다.",
+                      icon: "warning",
+                      confirmButtonText: "확인",
+                    })
+                    // alert("먼저 메타마스크 로그인 해주시기 바랍니다.")
                     navigate("/login")
                   }
 

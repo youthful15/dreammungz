@@ -6,6 +6,7 @@ import {
   web3,
 } from "../../utils/Web3Config"
 import { http } from "../../api/axios"
+import Swal from "sweetalert2"
 
 // NFT 판매 등록 -------------------------------------------------------------------------
 export const sellFormat = async (
@@ -184,7 +185,11 @@ export const cancelNegoFormat = async (
     })
 
     await http.put(`trade/refund/${clickedNegoId}`)
-    alert("제안이 취소되었습니다.")
+    Swal.fire({
+      text: "제안이 취소되었습니다.",
+      icon: "success",
+      showConfirmButton: false,
+    })
 
     setTimeout(() => {
       window.location.reload()
@@ -270,8 +275,16 @@ export const proposalFormat = async (
       window.location.reload()
     } catch (err) {
       console.error(err)
-      alert("취소되었습니다.")
-      window.location.reload()
+      Swal.fire({
+        title: "실패",
+        text: "제안이 취소되었습니다.",
+        icon: "error",
+        showConfirmButton: false,
+      })
+      // alert("취소되었습니다.")
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
     }
   }
 }
