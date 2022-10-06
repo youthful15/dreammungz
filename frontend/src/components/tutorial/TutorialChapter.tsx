@@ -17,7 +17,7 @@ export default function TutorialChapter({ title, imageName, path }: TutoProp) {
       }}
     >
       <div
-        className="flex flex-col items-center justify-center w-full h-full rounded-xl bg-beige-100 hover:scale-105 shadow-lg bg-cover bg-center relative border-8 border-beige-100"
+        className="flex flex-col items-center justify-center w-full h-full rounded-xl bg-beige-100 hover:scale-105 shadow-lg bg-cover bg-center relative border-pink-400 border-8"
         style={{
           backgroundImage: `url(/images/${imageName}.png)`,
         }}

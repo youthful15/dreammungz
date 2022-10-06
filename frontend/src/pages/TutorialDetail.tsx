@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import parse from "html-react-parser"
 
 const loginTutorialContents = [
   {
     image: "login/login1.png",
     title: "메타마스크 설치",
-    text: "1. 크롬 웹스토어에서 메타마스크를 다운받으세요",
+    text: "1. <a className='text-blue-500' href='https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=ko'>크롬 웹스토어</a> 에서 메타마스크를 다운받으세요. 파란 글씨를 클릭하면 다운로드 페이지로 이동합니다.",
     index: 0,
   },
   {
@@ -19,14 +20,20 @@ const loginTutorialContents = [
   {
     image: "login/login3.png",
     title: "SSAFY 네트워크 추가",
-    text: "3. 네트워크 추가를 통해 SSAFY 네트워크를 추가해주세요. 차례대로 기입해주세요. 차례대로 기입해주세요. 네트워크 이름: SSAFY NETWORK, 새 RPC URL: http://20.196.209.2:8545, 체인 ID: 31221, 통화 기호: M",
-    index: 2,
+    text: "3. 설치된 메타마스크의 위쪽 네트워크 버튼을 클릭하시고, 테스트 네트워크를 보기 모드로 변경 후에 네트워크 추가를 눌러주세요.",
+    index: 3,
   },
   {
     image: "login/login4.png",
+    title: "SSAFY 네트워크 추가",
+    text: "4. 차례대로 기입 후 네트워크를 추가해 주세요. <br/> <b>네트워크 이름</b>: SSAFY NETWORK 　　　　　　<b>새 RPC URL</b>: http://20.196.209.2:8545 <br/>  <b>체인 ID</b>: 31221 　　　　　　 　　　　　　　　 <b>통화 기호</b>: M",
+    index: 4,
+  },
+  {
+    image: "login/login5.png",
     title: "드림멍즈 로그인",
-    text: "4. 다시 드림멍즈 로그인을 진행해주세요. 최초 회원가입시 10000 MUNG 을 지원하고 있습니다. 로그인이 완료되면 메인페이지로 이동합니다.",
-    index: 3,
+    text: "5. 이제 드림멍즈 로그인이 가능합니다! 최초 회원가입시 10000 MUNG 을 지원하고 있으니 모든 거래를 승인해주세요. 로그인이 완료되면 메인페이지로 이동합니다.",
+    index: 4,
   },
 ]
 
@@ -177,101 +184,105 @@ const TutorialDetail = () => {
 
   return (
     <div
-      className="flex w-full h-full rounded-lg shadow-md bg-beige-400 mapleStory text-brown-500"
+      className="flex w-full h-full rounded-2xl shadow-md bg-beige-400 mapleStory text-brown-500 p-5"
       style={{ scrollBehavior: "smooth" }}
     >
-      <div
-        className="absolute z-10 cursor-pointer top-3 text-brown-400"
-        onClick={() => navigate(-1)}
-      >
-        <FontAwesomeIcon icon={faArrowLeft} /> 뒤로가기
-      </div>
+      <div className="w-[15%] py-3">
+        <div
+          className="cursor-pointer flex justify-center items-center text-brown-400 pb-2 h-[8%]"
+          onClick={() => navigate(-1)}
+        >
+          <FontAwesomeIcon icon={faArrowLeft} className="mr-2" /> 뒤로 가기
+        </div>
 
-      {/* 좌측 슬라이더 시작 */}
+        {/* 좌측 슬라이더 시작 */}
 
-      <div className="h-full w-[256px] p-2 grid grid-cols-1 gap-y-2 overflow-y-auto scrollbar-hide">
-        {pathname === "/tutorial-detail/1" &&
-          loginTutorialContents.map(({ image, text, title }, index) => {
-            return (
-              <div
-                className="w-[240px] h-[135px] mb-[20px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150 shadow-lg"
-                key={index}
-                onClick={async () => {
-                  await setClickedImage(image)
-                  await setClickedText(text)
-                  await setClickedTutorial(1)
-                  await setClickedIndex(index)
-                  await setClickedTitle(title)
-                }}
-              >
-                <img
-                  src={`/images/tutorial/${image}`}
-                  alt="튜토리얼 이미지"
-                  className="rounded-lg w-full h-full border-transparent border-2"
-                />
-              </div>
-            )
-          })}
-        {pathname === "/tutorial-detail/2" &&
-          gameTutorialContents.map(({ image, text, title }, index) => {
-            return (
-              <div
-                className="w-[240px] h-[135px] mb-[20px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150 shadow-lg"
-                key={index}
-                onClick={async () => {
-                  await setClickedImage(image)
-                  await setClickedText(text)
-                  await setClickedTutorial(2)
-                  await setClickedIndex(index)
-                  await setClickedTitle(title)
-                }}
-              >
-                <img
-                  src={`/images/tutorial/${image}`}
-                  alt="튜토리얼 이미지"
-                  className="rounded-lg w-full h-full border-transparent border-2"
-                />
-              </div>
-            )
-          })}
+        <div className="h-[92%] w-full p-3 grid grid-cols-1 gap-y-1 overflow-y-auto scrollbar-hide bg-brown-200 rounded-xl">
+          {pathname === "/tutorial-detail/1" &&
+            loginTutorialContents.map(({ image, text, title }, index) => {
+              return (
+                <div
+                  className="w-full h-[80px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150 shadow-lg hover:border-brown-400"
+                  key={index}
+                  onClick={async () => {
+                    await setClickedImage(image)
+                    await setClickedText(text)
+                    await setClickedTutorial(1)
+                    await setClickedIndex(index)
+                    await setClickedTitle(title)
+                  }}
+                >
+                  <img
+                    src={`/images/tutorial/${image}`}
+                    alt="튜토리얼 이미지"
+                    className="rounded-lg w-full h-full border-transparent border-2"
+                  />
+                </div>
+              )
+            })}
+          {pathname === "/tutorial-detail/2" &&
+            gameTutorialContents.map(({ image, text, title }, index) => {
+              return (
+                <div
+                  className="w-[240px] h-[135px] mb-[20px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150 shadow-lg"
+                  key={index}
+                  onClick={async () => {
+                    await setClickedImage(image)
+                    await setClickedText(text)
+                    await setClickedTutorial(2)
+                    await setClickedIndex(index)
+                    await setClickedTitle(title)
+                  }}
+                >
+                  <img
+                    src={`/images/tutorial/${image}`}
+                    alt="튜토리얼 이미지"
+                    className="rounded-lg w-full h-full border-transparent border-2"
+                  />
+                </div>
+              )
+            })}
 
-        {pathname === "/tutorial-detail/3" &&
-          tradeTutorialContents.map(({ image, text, title }, index) => {
-            return (
-              <div
-                className="w-[240px] h-[135px] mb-[20px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150 border-2 border-transparent"
-                key={index}
-                onClick={async () => {
-                  await setClickedImage(image)
-                  await setClickedText(text)
-                  await setClickedTutorial(3)
-                  await setClickedIndex(index)
-                  await setClickedTitle(title)
-                }}
-              >
-                <img
-                  src={`/images/tutorial/${image}`}
-                  alt="튜토리얼 이미지"
-                  className="rounded-lg w-full h-full border-transparent border-2"
-                />
-              </div>
-            )
-          })}
+          {pathname === "/tutorial-detail/3" &&
+            tradeTutorialContents.map(({ image, text, title }, index) => {
+              return (
+                <div
+                  className="w-[240px] h-[135px] mb-[20px] cursor-pointer rounded-lg hover:scale-105 ease-in-out transition delay-150 border-2 border-transparent"
+                  key={index}
+                  onClick={async () => {
+                    await setClickedImage(image)
+                    await setClickedText(text)
+                    await setClickedTutorial(3)
+                    await setClickedIndex(index)
+                    await setClickedTitle(title)
+                  }}
+                >
+                  <img
+                    src={`/images/tutorial/${image}`}
+                    alt="튜토리얼 이미지"
+                    className="rounded-lg w-full h-full border-transparent border-2"
+                  />
+                </div>
+              )
+            })}
+        </div>
       </div>
       {/* 좌측 슬라이더 끝 */}
 
       {clickedText ? (
-        <div className="w-[738px] h-full p-4 rounded-lg">
-          <p className="text-2xl ml-1">{clickedTitle}</p>
-          <div className="flex justify-center items-center w-full h-[60%] rounded-lg border-2 border-transparent">
+        <div className="w-[85%] h-full py-4 pl-4 rounded-lg flex flex-col items-center">
+          <p className="text-2xl flex justify-center font-bold mb-8">
+            {clickedTitle}
+          </p>
+          <div className="flex justify-center items-center w-full h-[60%] rounded-lg relative">
             <button
-              className="absolute z-10 left-[550px] h-[25px] w-[25px] rounded-full bg-beige-100 hover:scale-110"
+              className="absolute z-10 left-3 h-[30px] w-[30px] rounded-full bg-beige-100 hover:scale-110"
               onClick={moveLeft}
             >
               {"<"}
             </button>
             <button
-              className="absolute z-10 right-[60px] h-[25px] w-[25px] rounded-full bg-beige-100 hover:scale-110"
+              className="absolute z-10 right-3 h-[30px] w-[30px] rounded-full bg-beige-100 hover:scale-110"
               onClick={moveRight}
             >
               {">"}
@@ -280,26 +291,28 @@ const TutorialDetail = () => {
             <img
               src={`/images/tutorial/${clickedImage}`}
               alt=""
-              className="border-2 border-transparent rounded-lg w-[696px] h-[358px]"
+              className="border-2 border-transparent rounded-lg w-[680px] "
             />
           </div>
 
-          <div className="flex w-[696px] h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
-            <p>{clickedText}</p>
+          <div className="flex w-[680px] h-[30%] border-2 mt-10 border-brown-200 mapleStory rounded-lg p-4 px-5 leading-7">
+            <p>{parse(clickedText)}</p>
           </div>
         </div>
       ) : pathname === "/tutorial-detail/1" ? (
-        <div className="w-[738px] h-full p-4 rounded-lg">
-          <p className="text-2xl ml-1">{loginTutorialContents[0].title}</p>
-          <div className="flex justify-center items-center w-full h-[60%] rounded-lg border-2 border-transparent">
+        <div className="w-[85%] h-full py-4 pl-4 rounded-lg flex flex-col items-center">
+          <p className="text-2xl flex justify-center font-bold mb-8">
+            {loginTutorialContents[0].title}
+          </p>
+          <div className="flex justify-center items-center w-full h-[60%] rounded-lg relative">
             <button
-              className="absolute z-10 left-[550px] h-[25px] w-[25px] rounded-full bg-beige-100 hover:scale-110"
+              className="absolute z-10 left-3 h-[30px] w-[30px] rounded-full bg-beige-100 hover:scale-110"
               onClick={moveLeft}
             >
               {"<"}
             </button>
             <button
-              className="absolute z-10 right-[60px] h-[25px] w-[25px] rounded-full bg-beige-100 hover:scale-110"
+              className="absolute z-10 right-3 h-[30px] w-[30px] rounded-full bg-beige-100 hover:scale-110"
               onClick={moveRight}
             >
               {">"}
@@ -307,16 +320,16 @@ const TutorialDetail = () => {
             <img
               src={`/images/tutorial/${loginTutorialContents[0].image}`}
               alt=""
-              className="border-2 border-transparent rounded-lg w-[696px] h-[358px]"
+              className="border-2 border-transparent rounded-lg w-[680px] "
             />
           </div>
 
-          <div className="flex w-[696px] h-[30%] border-2 mt-2 border-brown-200 rounded-lg p-4">
-            <p>{loginTutorialContents[0].text}</p>
+          <div className="flex w-[780px] h-[30%] border-2 mt-8 border-brown-200 mapleStory rounded-lg p-5 leading-7">
+            <p>{parse(loginTutorialContents[0].text)}</p>
           </div>
         </div>
       ) : pathname === "/tutorial-detail/2" ? (
-        <div className="w-[738px] h-full p-4 rounded-lg">
+        <div className="w-[680px] h-full p-4 rounded-lg">
           <p className="text-2xl ml-1">{gameTutorialContents[0].title}</p>
           <div className="flex justify-center items-center w-full h-[60%] rounded-lg border-2 border-transparent">
             <button
