@@ -65,16 +65,17 @@ const info = [
   "Sports.jpg",
   "Koala.jpg",
   "Pig.jpg",
+  "Bag.jpg",
 ]
 
 export default function Picture() {
   return (
     <div className="w-full h-full">
-      <div className="flex flex-wrap justify-center w-full h-full p-2 space-x-4 space-y-2 overflow-scroll scrollbar-hide">
+      <div className="flex flex-wrap justify-center w-full h-full p-2 overflow-scroll scrollbar-hide">
         <div></div>
         {info.map((url) => {
           return (
-            <div className="border-4  w-[340px] text-center rounded-lg leading-[42px] mapleStory shadow-md flex bg-beige-500 border-white ">
+            <div className="border-4  w-[293px] text-center m-2 rounded-lg leading-[42px] mapleStory shadow-md flex bg-beige-500 border-white ">
               <img src={`/assets/illust/${url}`} className="w-full h-full" />
             </div>
           )
