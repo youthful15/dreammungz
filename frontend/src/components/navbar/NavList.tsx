@@ -6,7 +6,7 @@ const NavList = () => {
   const member = useRecoilValue(memberAtom)
 
   const navItemList = [
-    { title: "메인 페이지", path: "/mainpage" },
+    // { title: "메인 페이지", path: "/mainpage" },
     { title: "튜토리얼", path: "/tutorial" },
     {
       title: "게임 컨텐츠",
