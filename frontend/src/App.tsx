@@ -4,7 +4,6 @@ import RouterChangeTracker from "./utils/RouteChangeTracker.js"
 import MusicPlayer from "./components/music/MusicPlayer"
 
 import Navbar from "./components/navbar/Navbar"
-import Sample from "./pages/Sample"
 import MainPage from "./pages/MainPage"
 import NftDetail from "./pages/NftDetail"
 import GameStart from "./pages/GameStart"
@@ -22,6 +21,7 @@ import NftListByUser from "./pages/NftListByUser"
 import DealHistoryByUser from "./pages/DealHistoryByUser"
 import OfferHistoryByUser from "./pages/OfferHistoryByUser"
 import Museum from "./pages/MuseumPage"
+import Content from "./components/content/Content"
 
 function App() {
   RouterChangeTracker()
@@ -51,7 +51,6 @@ function App() {
                 path="/tutorial-detail/:number"
                 element={<TutorialDetail />}
               />
-              <Route path="/styles" element={<Sample />} />
               <Route path="/start" element={<GameStart />} />
               <Route path="/game" element={<GamePlaying />} />
               <Route path="/ending" element={<GameEnding />} />
@@ -66,6 +65,8 @@ function App() {
                 <Route path="achievement" element={<MyAchievement />} />
                 <Route path="museum" element={<Museum />} />
               </Route>
+
+              <Route path="/content" element={<Content />} />
             </Routes>
           </div>
         </div>
