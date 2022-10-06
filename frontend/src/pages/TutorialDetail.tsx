@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 const loginTutorialContents = [
   {
@@ -90,6 +92,7 @@ const tradeTutorialContents = [
 
 const TutorialDetail = () => {
   const { pathname } = useLocation()
+  const navigate = useNavigate()
   const [clickedImage, setClickedImage] = useState("")
   const [clickedText, setClickedText] = useState("")
   const [clickedIndex, setClickedIndex] = useState(0)
@@ -177,6 +180,13 @@ const TutorialDetail = () => {
       className="flex w-full h-full rounded-lg shadow-md bg-beige-400 mapleStory text-brown-500"
       style={{ scrollBehavior: "smooth" }}
     >
+      <div
+        className="absolute z-10 cursor-pointer top-3 text-brown-400"
+        onClick={() => navigate(-1)}
+      >
+        <FontAwesomeIcon icon={faArrowLeft} /> 뒤로가기
+      </div>
+
       {/* 좌측 슬라이더 시작 */}
 
       <div className="h-full w-[256px] p-2 grid grid-cols-1 gap-y-2 overflow-y-auto scrollbar-hide">

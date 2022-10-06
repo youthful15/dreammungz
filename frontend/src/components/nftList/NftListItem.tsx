@@ -47,13 +47,14 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
   if (!showInfo) {
     return (
       <div
-        className={`relative   rounded-lg bg-4  p-0.5  w-[25%]  h-1/2  hover:scale-110`}
+        className={`relative   rounded-lg bg-4  p-0.5  w-[25%]  h-1/2  hover:scale-110 `}
         onClick={() => {
           navigate(`/nft/detail/${id}`)
         }}
+        style={{ cursor: "pointer" }}
       >
         <div
-          className={`w-full  flex items-center justify-center flex-col  h-full  rounded-lg  `}
+          className={`w-full  flex items-center justify-center flex-col  h-full  rounded-lg `}
         >
           <div className="relative flex justify-center w-full h-full ">
             <div className={`relative flex justify-center w-[220px] h-[220px]`}>
@@ -72,10 +73,11 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
 
   return (
     <div
-      className={`relative  p-2 rounded-lg bg-4   w-[25%]  h-1/2  hover:scale-110`}
+      className={`relative  p-2 rounded-lg bg-4   w-[25%]  h-1/2  hover:scale-110 `}
       onClick={() => {
         navigate(`/nft/detail/${id}`)
       }}
+      style={{ cursor: "pointer" }}
     >
       <div
         className={`w-full  flex items-center justify-center flex-col  h-full  rounded-lg bg-beige-100  border-beige-400 border-4 `}
