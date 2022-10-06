@@ -31,4 +31,30 @@ const Gender = ({
   )
 }
 
+const LargeGender = ({
+  gender,
+  large = false,
+}: {
+  gender: string
+  large?: boolean
+}) => {
+  return (
+    <div
+      className={` rounded-md 
+        w-[30px] h-[35px] text-center  ml-1 pt-0.5 border-2 outline outline-1 outline-white text-white
+     ${
+       gender === "M"
+         ? "bg-blue-400 border-blue-500"
+         : "bg-red-400 border-red-500"
+     }`}
+    >
+      {gender === "M" ? (
+        <FontAwesomeIcon icon={faMars} className={` w-[20px] h-[20px] pt-1 `} />
+      ) : (
+        <FontAwesomeIcon icon={faVenus} className={`w-[20px] h-[20px] pt-1`} />
+      )}
+    </div>
+  )
+}
+export { LargeGender }
 export default Gender

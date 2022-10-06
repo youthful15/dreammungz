@@ -3,17 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useNavigate } from "react-router"
 import { useRecoilValue } from "recoil"
 import listModeAtom from "../../recoil/list/atom"
-import Gender from "../nftInfo/Gender"
+import Gender, { LargeGender } from "../nftInfo/Gender"
 import { StatType } from "../nftInfo/Stat"
 import StatList from "../nftInfo/StatList"
 import Tier from "../nftInfo/Tier"
 
-const SellStatus = ({ price }: { price: number }) => {
-  return (
-    <div className="text-white text-md font-bold bg-blue-400 top-3 right-2 p-0.5 ">
-      <div> {price} M</div>
-    </div>
-  )
+const borderColor: { [index: string]: string } = {
+  NORMAL: "border-gray-400",
+  RARE: "border-amber-300",
+  EPIC: "  border-sky-400  ",
+  UNIQUE: "border-rose-300 ",
+  LEGENDARY: "  border-lime-500 ",
 }
 
 const formatPrice = (price: number) => {
@@ -92,7 +92,7 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
           >
             <div className="relative flex items-center w-full h-full rounded-lg ">
               <div
-                className={` rounded-lg  w-[120px] h-[180px] bg-white  bg-center border-4  border-white ml-2
+                className={` rounded-lg  w-[120px] h-[180px] bg-white  bg-center border-4  ${borderColor[tier]} ml-2 outline outline-2 outline-white
                 `}
                 style={{
                   backgroundImage: `url(${url})`,
@@ -100,9 +100,9 @@ const NftListItem = ({ item }: { item: NftListItemType }) => {
                 }}
               >
                 {tier && (
-                  <div className="absolute flex top-4 left-3">
+                  <div className="absolute flex top-3 left-2">
                     <Tier tier={tier} large={true} />
-                    <Gender gender={gender} large={true} />
+                    <LargeGender gender={gender} large={true} />
                   </div>
                 )}
               </div>
