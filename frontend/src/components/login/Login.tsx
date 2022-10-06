@@ -203,12 +203,6 @@ export default function Login() {
       // 회원 닉네임 전역변수에 저장
       await saveNickname({ publicAddress })
 
-      await setTrade((prev) => {
-        const variable = { ...prev }
-        variable.modalOpen6 = false
-        return { ...variable }
-      })
-
       // 최초 가입 시 10000 M 지급
       // isNew === true 로 바꿔야 함
       console.log(isNew)
@@ -219,7 +213,6 @@ export default function Login() {
           showConfirmButton: false,
           timer: 3000,
         })
-
         try {
           await MUNGContract.methods
             .mintToMember(publicAddress, 10000)

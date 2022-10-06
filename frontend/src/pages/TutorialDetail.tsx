@@ -98,6 +98,7 @@ const TutorialDetail = () => {
                   await setClickedImage(image)
                   await setClickedText(text)
                   await setClickedTutorial(1)
+                  await setClickedIndex(index)
                 }}
               >
                 <img
@@ -118,6 +119,7 @@ const TutorialDetail = () => {
                   await setClickedImage(image)
                   await setClickedText(text)
                   await setClickedTutorial(2)
+                  await setClickedIndex(index)
                 }}
               >
                 <img
@@ -139,6 +141,7 @@ const TutorialDetail = () => {
                   await setClickedImage(image)
                   await setClickedText(text)
                   await setClickedTutorial(3)
+                  await setClickedIndex(index)
                 }}
               >
                 <img
@@ -158,14 +161,90 @@ const TutorialDetail = () => {
               className="absolute z-10 left-[550px] bg-red-500"
               onClick={async () => {
                 if (clickedTutorial === 1) {
+                  if (clickedIndex === 0) {
+                    return
+                  } else {
+                    await setClickedImage(
+                      loginTutorialContents[clickedIndex - 1].image
+                    )
+                    await setClickedText(
+                      loginTutorialContents[clickedIndex - 1].text
+                    )
+                    await setClickedIndex(clickedIndex - 1)
+                  }
+
+                  // clickedIndex
                 } else if (clickedTutorial === 2) {
+                  if (clickedIndex === 0) {
+                    return
+                  } else {
+                    await setClickedImage(
+                      loginTutorialContents[clickedIndex - 1].image
+                    )
+                    await setClickedText(
+                      loginTutorialContents[clickedIndex - 1].text
+                    )
+                    await setClickedIndex(clickedIndex - 1)
+                  }
                 } else if (clickedTutorial === 3) {
+                  if (clickedIndex === 0) {
+                    return
+                  } else {
+                    await setClickedImage(
+                      loginTutorialContents[clickedIndex - 1].image
+                    )
+                    await setClickedText(
+                      loginTutorialContents[clickedIndex - 1].text
+                    )
+                    await setClickedIndex(clickedIndex - 1)
+                  }
                 }
               }}
             >
               {"<"}
             </button>
-            <button className="absolute z-10 right-[70px] bg-red-500">
+            <button
+              className="absolute z-10 right-[70px] bg-red-500"
+              onClick={async () => {
+                if (clickedTutorial === 1) {
+                  if (clickedIndex === loginTutorialContents.length - 1) {
+                    return
+                  } else {
+                    await setClickedImage(
+                      loginTutorialContents[clickedIndex + 1].image
+                    )
+                    await setClickedText(
+                      loginTutorialContents[clickedIndex + 1].text
+                    )
+                    await setClickedIndex(clickedIndex + 1)
+                  }
+                } else if (clickedTutorial === 2) {
+                  if (clickedIndex === gameTutorialContents.length - 1) {
+                    return
+                  } else {
+                    await setClickedImage(
+                      loginTutorialContents[clickedIndex + 1].image
+                    )
+                    await setClickedText(
+                      loginTutorialContents[clickedIndex + 1].text
+                    )
+                    await setClickedIndex(clickedIndex + 1)
+                  }
+                } else if (clickedTutorial === 3) {
+                  if (clickedIndex === tradeTutorialContents.length - 1) {
+                    return
+                  } else {
+                    await setClickedImage(
+                      loginTutorialContents[clickedIndex + 1].image
+                    )
+                    await setClickedText(
+                      loginTutorialContents[clickedIndex + 1].text
+                    )
+                    await setClickedIndex(clickedIndex + 1)
+                  }
+                }
+              }}
+            >
               {">"}
             </button>
             <img

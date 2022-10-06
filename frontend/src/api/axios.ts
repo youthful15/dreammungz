@@ -13,22 +13,22 @@ function Instance() {
   })
 
   // 요청 인터셉터 추가 - 헤더에 토큰 등록
-  // instance.interceptors.request.use(
-  //   (config: any) => {
-  //     // token 만료 시 login Page 로
-  //     if (localStorage.getItem("token") && TokenExpireCheck()) {
-  //       // 로그아웃
-  //       localStorage.clear()
-  //       window.location.replace("/login")
-  //     } else {
-  //       config.headers["token"] = localStorage.getItem("token")
-  //       return config
-  //     }
-  //   },
-  //   (err) => {
-  //     return Promise.reject(err)
-  //   }
-  // )
+  instance.interceptors.request.use(
+    (config: any) => {
+      // token 만료 시 login Page 로
+      if (localStorage.getItem("token") && TokenExpireCheck()) {
+        // 로그아웃
+        localStorage.clear()
+        window.location.replace("/login")
+      } else {
+        config.headers["token"] = localStorage.getItem("token")
+        return config
+      }
+    },
+    (err) => {
+      return Promise.reject(err)
+    }
+  )
 
   return instance
 }

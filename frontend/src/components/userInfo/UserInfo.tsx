@@ -52,7 +52,7 @@ const UserInfo = () => {
     } else {
       if (!address) return
       try {
-        const data = await http.put(`auth/info/nickname`, {
+        const data = await http.put(`auth/info/nickname/change/${address}`, {
           address,
           nickname: newNickname,
         })

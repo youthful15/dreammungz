@@ -12,6 +12,7 @@ import {
   cancelNegoFormat,
   proposalRefundFormat,
 } from "../nftDetail/tradeFormat"
+import Swal from "sweetalert2"
 
 const thead = {
   id: "ID",
@@ -151,7 +152,16 @@ const NftOfferHistoryList = ({ address }: { address: string }) => {
                 variable.modalOpen6 = false
                 return { ...variable }
               })
-              window.location.reload()
+
+              Swal.fire({
+                text: "환불 완료되었습니다.",
+                icon: "success",
+                showConfirmButton: false,
+              })
+
+              setTimeout(() => {
+                window.location.reload()
+              }, 2000)
             }}
           >
             환불
