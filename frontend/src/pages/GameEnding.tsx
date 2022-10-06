@@ -140,10 +140,10 @@ export default function GameEnding() {
         variable.endingCreditShow = true
         return { ...variable }
       })
-    }, 3000)
 
-    // 엔딩곡 변경
-    await setMusic("End")
+      // 엔딩곡 변경
+      await setMusic("End")
+    }, 3000)
 
     let url = ""
     await html2canvas(canvasRef.current!).then(async (canvas) => {

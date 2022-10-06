@@ -120,7 +120,6 @@ export default function Login() {
       return { ...variable }
     })
 
-    console.log(1)
     // 멍(ERC-20) 토큰 추가 함수
     const setERC20 = async () => {
       await window.ethereum
@@ -145,7 +144,7 @@ export default function Login() {
         })
         .catch(console.error)
     }
-    console.log(2)
+
     const coinbase = await web3.eth.getCoinbase()
     if (!coinbase) {
       await setTrade((prev) => {

@@ -6,25 +6,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 const loginTutorialContents = [
   {
     image: "login/login1.png",
-    title: "메타마스크",
+    title: "메타마스크 설치",
     text: "1. 크롬 웹스토어에서 메타마스크를 다운받으세요",
     index: 0,
   },
   {
     image: "login/login2.png",
-    title: "메타마스크",
+    title: "메타마스크 가입",
     text: "2. 메타마스크 확장프로그램에 접속하여 지갑 가져오기 또는 지갑 생성을 진행해주세요.",
     index: 1,
   },
   {
     image: "login/login3.png",
-    title: "메타마스크",
+    title: "SSAFY 네트워크 추가",
     text: "3. 네트워크 추가를 통해 SSAFY 네트워크를 추가해주세요. 차례대로 기입해주세요. 차례대로 기입해주세요. 네트워크 이름: SSAFY NETWORK, 새 RPC URL: http://20.196.209.2:8545, 체인 ID: 31221, 통화 기호: M",
     index: 2,
   },
   {
     image: "login/login4.png",
-    title: "메타마스크",
+    title: "드림멍즈 로그인",
     text: "4. 다시 드림멍즈 로그인을 진행해주세요. 최초 회원가입시 10000 MUNG 을 지원하고 있습니다. 로그인이 완료되면 메인페이지로 이동합니다.",
     index: 3,
   },
