@@ -41,6 +41,7 @@ export default function MusicPlayer() {
         id="audio"
         ref={audioRef}
         loop
+        crossOrigin="anonymous"
       ></audio>
       {isPlaying ? (
         <FontAwesomeIcon
