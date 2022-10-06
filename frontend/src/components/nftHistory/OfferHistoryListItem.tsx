@@ -55,10 +55,7 @@ const OfferHistoryItem = ({ ...props }) => {
   }
 
   return (
-    <div
-      onClick={movePage}
-      className="bg-white  flex  w-full space-x-1 h-[50px]  items-center justify-around leading-[50px]  rounded-2xl shadow-md"
-    >
+    <div className="bg-white  flex  w-full space-x-1 h-[50px]  items-center justify-around leading-[50px]  rounded-2xl shadow-md">
       <div className=" w-[40px]">{tokenId}</div>
       <img
         onClick={movePage}

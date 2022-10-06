@@ -14,8 +14,8 @@ import Filter from "./Filter"
 
 const listStyle = "w-1/2 p-1 text-sm "
 const labelStyle =
-  "p-0.5  border border-gray-700 rounded-md bg-beige-300 peer-checked:bg-blue-300 w-full inline-block"
-const titleStyle = "p-1 font-bold   m-0.5 border-b-2 border-beige-100"
+  "p-0.5  border border-gray-700 rounded-md bg-beige-300 peer-checked:bg-blue-300 w-full inline-block cursor-pointer"
+const titleStyle = "p-1 font-bold  m-0.5 border-b-2 border-beige-100"
 type filterFormProp = {
   formHandler: (event: ChangeEvent<HTMLFormElement>) => void
   filter: Filter

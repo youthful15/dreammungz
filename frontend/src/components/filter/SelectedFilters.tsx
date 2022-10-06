@@ -50,7 +50,7 @@ const SelectedFilters = ({
           <div className={`${buttonStyle}   text-[13px] m-0.5`} key={value}>
             {findKOR(value)}
             <span
-              className="text-sm font-medium p-0.5  bg-beige-300  ml-0.5 rounded-lg   text-brown-400"
+              className="text-sm font-medium p-0.5 cursor-pointer hover:text-red-500 bg-beige-300  ml-0.5 rounded-lg   text-brown-400"
               onClick={() => {
                 onClickHandler(value)
               }}

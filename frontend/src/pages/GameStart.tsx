@@ -42,7 +42,6 @@ function useMovePage(price: number) {
         icon: "warning",
         confirmButtonText: "확인",
       })
-      // alert("지갑에 MUNG이 부족합니다!")
     } else if (
       startSetting.mating &&
       (!startSetting.father || !startSetting.mother)
@@ -52,7 +51,6 @@ function useMovePage(price: number) {
         icon: "warning",
         confirmButtonText: "확인",
       })
-      // alert("두 마리의 강아지를 선택해주세요!")
     } else {
       await setTrade((prev) => {
         const variable = { ...prev }
@@ -61,7 +59,16 @@ function useMovePage(price: number) {
       })
 
       // 결제 로직
-      await pushGameStart(publicAddress, price)
+      try {
+        await pushGameStart(publicAddress, price)
+      } catch {
+        await setTrade((prev) => {
+          const variable = { ...prev }
+          variable.modalOpen6 = false
+          return { ...variable }
+        })
+        return
+      }
 
       await setTrade((prev) => {
         const variable = { ...prev }
