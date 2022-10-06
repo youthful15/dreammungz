@@ -97,7 +97,7 @@ public class AuthController {
     }
 
     @ApiOperation(value = "닉네임 변경", notes = "지갑 주소와 닉네임으로 회원의 닉네임을 변경한다.")
-    @PutMapping("/info/nickname/{address}")
+    @PutMapping("/info/nickname/change/{address}")
     public ResponseEntity<NicknameRequest> changeNickname(
             @ApiParam(value = "지갑 주소")
             @PathVariable(value = "address")

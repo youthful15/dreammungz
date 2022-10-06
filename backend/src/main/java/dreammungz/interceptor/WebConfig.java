@@ -23,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
 
         interceptorRegistry.addInterceptor(walletInterceptor)
-                .addPathPatterns("/auth/info/nickname/{address}", "/nft/result/address/{address}");
+                .addPathPatterns("/auth/info/nickname/change/{address}", "/nft/result/address/{address}");
 
     }
 }
