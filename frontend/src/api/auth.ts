@@ -5,12 +5,4 @@ const getUserNickname = async (address: string) => {
   return data
 }
 
-const setNewNickname = async (address: string, nickname: string) => {
-  const data = await http.put(`auth/info/nickname/${address}`, {
-    address,
-    nickname,
-  })
-  return data
-}
-
-export { getUserNickname, setNewNickname }
+export { getUserNickname }
