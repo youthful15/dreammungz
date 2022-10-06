@@ -43,7 +43,7 @@ export const sellFormat = async (
       .then((res) => console.log(res))
       .catch((err) => console.error(err))
 
-    await Swal.fire({
+    Swal.fire({
       text: "판매 등록이 완료 되었습니다.",
       icon: "success",
       showConfirmButton: false,
@@ -81,7 +81,7 @@ export const sellAbortFormat = async (
       .then((res) => console.log(res))
       .catch((err) => console.error(err))
 
-    await Swal.fire({
+    Swal.fire({
       text: "판매 중단 완료하였습니다.",
       icon: "success",
       showConfirmButton: false,
@@ -141,7 +141,7 @@ export const buyNowFormat = async (
       .then((res) => console.log("즉시구매", res))
       .catch((err) => console.error(err))
 
-    await Swal.fire({
+    Swal.fire({
       text: "구매를 완료하였습니다.",
       icon: "success",
       showConfirmButton: false,
@@ -181,7 +181,7 @@ export const acceptNegoFormat = async (
       .then((res) => console.log(res))
       .catch((err) => console.error(err))
 
-    await Swal.fire({
+    Swal.fire({
       text: "제안을 완료하였습니다.",
       icon: "success",
       showConfirmButton: false,
