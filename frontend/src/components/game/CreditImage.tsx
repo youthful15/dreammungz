@@ -18,8 +18,12 @@ export default function CreditImage({
             alt="핀 이미지"
             className="w-[50px] right-[50%] top-[-40px] absolute z-[30] -rotate-[80deg]"
           />
-          <div className="h-[70%]">
-            <img src={`/assets/illust/${imgUrl}`} alt="엔딩크레딧 이미지" />
+          <div className="h-[70%] m-0 p-0">
+            <img
+              src={`/assets/illust/${imgUrl}`}
+              alt="엔딩크레딧 이미지"
+              className="h-full"
+            />
           </div>
           <div className="h-[30%] flex items-center justify-center">
             <p className="mapleStory">{title}</p>
@@ -34,7 +38,11 @@ export default function CreditImage({
             className="w-[50px] left-[50%] top-[-40px] absolute z-[30] -rotate-12"
           />
           <div className="h-[70%]">
-            <img src={`/assets/illust/${imgUrl}`} alt="엔딩크레딧 이미지" />
+            <img
+              src={`/assets/illust/${imgUrl}`}
+              alt="엔딩크레딧 이미지"
+              className="h-full"
+            />
           </div>
           <div className="h-[30%] flex items-center justify-center">
             <p className="mapleStory">{title}</p>

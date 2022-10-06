@@ -14,6 +14,7 @@ import { useRecoilState } from "recoil"
 import findKOR from "../utils/findKOR"
 import EndingList from "../components/game/EndingList"
 import GameEndingCredit from "../components/game/GameEndingCredit"
+import Swal from "sweetalert2"
 
 export default function GameEnding() {
   const [NFT, setNFT] = useState({
@@ -126,11 +127,6 @@ export default function GameEnding() {
   const copyDOM = async () => {
     window.scrollTo(0, 0)
 
-    // await setTrade((prev) => {
-    //   const variable = { ...prev }
-    //   variable.modalOpen6 = true
-    //   return { ...variable }
-    // })
     await setGame((prev) => {
       const variable = { ...prev }
       variable.endingCreditShow = true
@@ -205,17 +201,18 @@ export default function GameEnding() {
           })
           .catch((error) => console.error("안의 error", error))
 
-        // await setTrade((prev) => {
-        //   const variable = { ...prev }
-        //   variable.modalOpen6 = false
-        //   return { ...variable }
-        // })
-        setGame((prev) => {
+        await Swal.fire({
+          text: "민팅이 완료되었습니다.",
+          showConfirmButton: false,
+          icon: "success",
+          timer: 3000,
+        })
+
+        await setGame((prev) => {
           const variable = { ...prev }
           variable.endingCreditShow = false
           return { ...variable }
         })
-
         // 다시 처음 곡으로 변경
         await setMusic("Start")
 
