@@ -496,8 +496,8 @@ public class NftService {
                     }
                     right = tierCut[t];
 
-                    if(left < idx && idx <= right) {
-                        jobTiers[t].add(jobs[idx]);
+                    if(left < idx - 1 && idx - 1 <= right) {
+                        jobTiers[t].add(jobs[idx - 1]);
                         break;
                     }
                 }

@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.*;
 */
 
 @Configuration
-
 @RequiredArgsConstructor
 public class WebConfig extends WebMvcConfigurationSupport {
 
