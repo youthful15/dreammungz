@@ -34,7 +34,7 @@ const FilterForm = ({
       let status = filter.status
       let statusIndex = status.findIndex((stat) => stat === value)
       status.splice(statusIndex, 1)
-      console.log(statusIndex, status)
+      // console.log(statusIndex, status)
       setFilter({ ...filter, status: status })
     } else {
       setFilter({ ...filter, [key]: null })
