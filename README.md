@@ -255,8 +255,6 @@ Status: 발표 및 문서
 
 [시연시나리오](https://www.notion.so/0e0632c9dc83497da428aaa058cd63f1)
 
-[컨벤션](https://www.notion.so/07489a452ab3452c85bb283100fdf1a2)
-
 [와이어프레임](https://www.notion.so/2798cff61c5a4844917d29a3b317f3ae)
 
 ---
