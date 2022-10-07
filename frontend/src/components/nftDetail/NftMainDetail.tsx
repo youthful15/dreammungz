@@ -23,7 +23,7 @@ export default function NftMainDetail(info: any) {
   const [tool, setTool] = useRecoilState(tooltipAtom)
 
   return (
-    <div className="p-4 mt-4 text-xl ">
+    <div className="p-4 text-xl ">
       {/* <p className="mb-6 text-4xl">멍개 #{id}</p> */}
 
       <div className="mb-2 border-b-2 border-brown-200 ">
