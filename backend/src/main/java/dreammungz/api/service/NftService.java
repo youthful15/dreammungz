@@ -461,7 +461,7 @@ public class NftService {
         // 티어 별 조건을 만족한 직업을 담을 배열
         List<JobName>[] jobTiers = new ArrayList[6];
         // 각 티어 별 마지막 직업 번호
-        int[] tierCut = {1, 6, 11, 17, 27, 28};
+        int[] tierCut = {0, 5, 10, 16, 26, 27};
 
         for(int i = 0; i < jobTiers.length; i++) {
             jobTiers[i] = new ArrayList<>();
@@ -488,8 +488,8 @@ public class NftService {
             if (satisfied) {
                 //직업 조건을 충족한 경우, 해당 직업을 해당 티어 배열에 추가
                 for(int t = 0; t < tierCut.length; t++) {
-                    int left = 0;
-                    int right = 0;
+                    int left = -1;
+                    int right = -1;
 
                     if(t > 0) {
                         left = tierCut[t - 1];
