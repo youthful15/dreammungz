@@ -281,18 +281,12 @@ public class NftService {
                 () -> new CustomException(CustomExceptionList.GAME_RESULT_NOT_FOUND)
         );
 
-        System.out.println("삭제과정1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
         List<GameResultStatus> gameResultStatus = gameResultStatusRepository.findAllByGameResultId(gameResult.getId());
         for(GameResultStatus status : gameResultStatus) {
             gameResultStatusRepository.deleteById(status.getId());
         }
 
-        System.out.println("삭제과정2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
         gameResultRepository.deleteById(gameResult.getId());
-
-        System.out.println("삭제과정3!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         //게임 Status 삭제
         List<GameStatus> statuses = gameStatusRepository.findAllByGameId(game.getId());
@@ -463,7 +457,16 @@ public class NftService {
         //6. 직업 결정
         //6-1. 상위 직업부터 하위 직업까지 조건을 충족하는지 확인
         JobName[] jobs = JobName.values();
-        int jobIndex = 0;
+
+        // 티어 별 조건을 만족한 직업을 담을 배열
+        List<JobName>[] jobTiers = new ArrayList[6];
+        // 각 티어 별 마지막 직업 번호
+        int[] tierCut = {1, 6, 11, 17, 27, 28};
+
+        for(List<JobName> jobTier : jobTiers) {
+            jobTier = new ArrayList<>();
+        }
+
         for (int idx = 1; idx <= jobs.length; idx++) {
             boolean satisfied = true;
             List<Requirement> requirementList = requirementRepository.findRequirementByJob(getJob(Long.valueOf(idx)));
@@ -483,14 +486,32 @@ public class NftService {
                 }
             }
             if (satisfied) {
-                break; //직업 조건을 충족한 경우, 해당 직업 반환
-            } else {
-                if (jobIndex < 27) {
-                    jobIndex++; //직업 조건을 충족하지 않은 경우, 다른 직업은 조건을 충족하는지 탐색
+                //직업 조건을 충족한 경우, 해당 직업을 해당 티어 배열에 추가
+                for(int t = 0; t < tierCut.length; t++) {
+                    int left = 0;
+                    int right = 0;
+
+                    if(t > 0) {
+                        left = tierCut[t - 1];
+                    }
+                    right = tierCut[t];
+
+                    if(left < idx && idx <= right) {
+                        jobTiers[t].add(jobs[idx]);
+                        break;
+                    }
                 }
             }
         }
-        gameEndResponse.setJob(jobs[jobIndex]);
+
+        // 조건을 만족한 가장 높은 티어의 직업들 중 랜덤으로 결정
+        for(List<JobName> jobTier : jobTiers) {
+            if(jobTier.isEmpty()) continue;
+
+            int len = jobTier.size();
+            gameEndResponse.setJob(jobTier.get(getNumber((len * 2) % len)));
+            break;
+        }
 
         //7. 추가 스탯 설정 tierIndex에 +1해서 능력치 부여(인덱스는 0부터 시작하기 때문에)
         //정의를 제외한 스탯을 뽑고 정렬 or 윗 단계에서 미리 뽑기
