@@ -201,9 +201,9 @@ export default function Login() {
 
       // 최초 가입 시 100000 M 지급
       // isNew === true 로 바꿔야 함
-      if (isNew === true) {
+      if (true) {
         await Swal.fire({
-          text: "최초가입하셨네요! 100000 M을 지급해드립니다!",
+          text: "로그인 서비스로 100000 M을 지급해드립니다!",
           icon: "success",
           showConfirmButton: false,
           timer: 3000,

@@ -101,7 +101,7 @@ export default function GameEnding() {
         .get(`nft/result/address/${localStorage.getItem("publicAddress")}`)
         .then((res) => {
           setNFT(res.data)
-          // console.log(res.data)
+          console.log(res.data)
         })
     }
     GetStory()
