@@ -32,7 +32,20 @@ export default function Carousel(carouselInfo: any) {
         </div>
 
         {carouselInfo.carouselInfo.map((image: any, index: number) => {
-          if (index !== 0) {
+          if (index == 1) {
+            return (
+              <a
+                href="https://youtu.be/eVtlH42FHsQ"
+                className="float-left w-full carousel-item"
+                key={index}
+              >
+                <img
+                  src={image.image}
+                  className="block object-cover rounded-3xl"
+                />
+              </a>
+            )
+          } else if (index) {
             return (
               <div className="float-left w-full carousel-item" key={index}>
                 <img
