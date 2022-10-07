@@ -175,11 +175,11 @@ export default function Login() {
         nonce = res.data.nonce
         isNew = false
       })
-      .catch(() => {
+      .catch(async () => {
         async function handleSigninFunction() {
           nonce = await handleSignin(publicAddress)
         }
-        handleSigninFunction()
+        await handleSigninFunction()
         isNew = true
       })
 
