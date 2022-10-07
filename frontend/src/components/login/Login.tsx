@@ -99,11 +99,8 @@ export default function Login() {
 
     if (!web3) {
       try {
-        // console.log(2)
         await window.ethereum.enable()
-        // console.log(3)
         web3 = new Web3(window.ethereum)
-        // console.log(4)
       } catch (error) {
         Swal.fire({
           text: "메타마스크를 먼저 설치해주세요.",

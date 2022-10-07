@@ -5,14 +5,8 @@ import CreditImage from "./CreditImage"
 import "./gameEndingCredit.css"
 
 export default function GameEndingCredit() {
-  const [showBtn, setShowBtn] = useState(false)
   const [game, setGame] = useRecoilState(playingGame)
 
-  useEffect(() => {
-    setTimeout(() => {
-      setShowBtn(true)
-    }, 5000)
-  }, [])
   return (
     <div
       style={{
@@ -22,23 +16,6 @@ export default function GameEndingCredit() {
       }}
       className="w-full h-full absolute z-[20] full-game-epilogue overflow-hidden flex rounded-lg"
     >
-      {showBtn === true ? (
-        <div className="flex items-end justify-end w-full">
-          <button
-            className="cursor-pointer z-[120] mb-2 mr-4 text-white text-xl font-semibold mapleStory hover:text-brown-100"
-            onClick={() => {
-              setGame((prev) => {
-                const variable = { ...prev }
-                variable.endingCreditShow = false
-                return { ...variable }
-              })
-            }}
-          >
-            CLOSE
-          </button>
-        </div>
-      ) : null}
-
       <div id="target">
         <div>
           <div className="h-[700px]"></div>
