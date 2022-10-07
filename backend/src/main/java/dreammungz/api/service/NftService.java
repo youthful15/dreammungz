@@ -511,7 +511,7 @@ public class NftService {
             System.out.println(jobTier.toString());
 
             int len = jobTier.size();
-            gameEndResponse.setJob(jobTier.get(getNumber((len * 2) % len)));
+            gameEndResponse.setJob(jobTier.get(getNumber((len * 2))% len));
             break;
         }
 
