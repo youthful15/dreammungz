@@ -463,8 +463,8 @@ public class NftService {
         // 각 티어 별 마지막 직업 번호
         int[] tierCut = {1, 6, 11, 17, 27, 28};
 
-        for(List<JobName> jobTier : jobTiers) {
-            jobTier = new ArrayList<>();
+        for(int i = 0; i < jobTiers.length; i++) {
+            jobTiers[i] = new ArrayList<>();
         }
 
         for (int idx = 1; idx <= jobs.length; idx++) {
@@ -507,6 +507,8 @@ public class NftService {
         // 조건을 만족한 가장 높은 티어의 직업들 중 랜덤으로 결정
         for(List<JobName> jobTier : jobTiers) {
             if(jobTier.isEmpty()) continue;
+
+            System.out.println(jobTier.toString());
 
             int len = jobTier.size();
             gameEndResponse.setJob(jobTier.get(getNumber((len * 2) % len)));
