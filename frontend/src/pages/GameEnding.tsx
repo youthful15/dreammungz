@@ -128,8 +128,7 @@ export default function GameEnding() {
     window.scrollTo(0, 0)
 
     Swal.fire({
-      title: "페이지를 이동하지 말아주세요!",
-      text: "지금 NFT 민팅이 진행중입니다.",
+      text: "메타마스크에서 민팅을 승인해주세요.",
       showConfirmButton: false,
       icon: "warning",
       timer: 3000,
@@ -202,6 +201,13 @@ export default function GameEnding() {
             Object.assign(newNFT, { id: nftTokenId })
             // console.log("최종", newNFT)
           })
+        await Swal.fire({
+          title: "페이지를 이동하지 말아주세요!",
+          text: "지금 NFT 민팅이 진행중입니다.",
+          showConfirmButton: false,
+          icon: "warning",
+          timer: 3000,
+        })
 
         await http
           .post(`nft/result/address/${publicAddress}`, newNFT)
