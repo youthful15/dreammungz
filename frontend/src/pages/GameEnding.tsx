@@ -128,8 +128,7 @@ export default function GameEnding() {
     window.scrollTo(0, 0)
 
     Swal.fire({
-      title: "페이지를 이동하지 말아주세요!",
-      text: "지금 NFT 민팅이 진행중입니다.",
+      text: "메타마스크에서 민팅을 승인해주세요.",
       showConfirmButton: false,
       icon: "warning",
       timer: 3000,
@@ -238,6 +237,15 @@ export default function GameEnding() {
       className="flex w-full h-full bg-cover rounded-3xl relative"
       style={{ backgroundImage: "url(/images/ending.jpg)" }}
     >
+      {game.endingCreditShow === true ? (
+        <div className="absolute top-[0] z-[100] w-full h-[65px] rounded-t-lg bg-beige-300 p-2">
+          <p className="text-center font-semibold text-xl mapleStory text-brown-400">
+            NFT 민팅이 완료되면 자동으로 페이지가 이동됩니다.
+            <br /> 잠시만 기다려주세요!
+          </p>
+        </div>
+      ) : null}
+
       {game.endingCreditShow === true ? (
         <GameEndingCredit></GameEndingCredit>
       ) : null}

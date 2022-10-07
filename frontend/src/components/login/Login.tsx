@@ -199,18 +199,18 @@ export default function Login() {
       // 회원 닉네임 전역변수에 저장
       await saveNickname({ publicAddress })
 
-      // 최초 가입 시 10000 M 지급
+      // 최초 가입 시 100000 M 지급
       // isNew === true 로 바꿔야 함
       if (isNew === true) {
         await Swal.fire({
-          text: "최초가입하셨네요! 10000 M을 지급해드립니다!",
+          text: "최초가입하셨네요! 100000 M을 지급해드립니다!",
           icon: "success",
           showConfirmButton: false,
           timer: 3000,
         })
         try {
           await MUNGContract.methods
-            .mintToMember(publicAddress, 10000)
+            .mintToMember(publicAddress, 100000)
             .send({ from: publicAddress })
         } catch {
           await Swal.fire({
