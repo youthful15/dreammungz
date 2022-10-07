@@ -19,8 +19,8 @@ export default function MainPage() {
   }
 
   const carouselInfo = [
-    { image: "/images/theme1.png" },
     { image: "/images/theme3.png" },
+    { image: "/images/theme1.png" },
     { image: "/images/theme2.png" },
   ]
 
