@@ -30,11 +30,11 @@ export default function SpinnerModal({
       <div className="fixed inset-0 z-10 transition-opacity bg-gray-500 bg-opacity-75"></div>
       <div
         className="fixed inset-0 z-10 overflow-y-auto"
-        onClick={(event) => {
-          if (event.target === outModal.current) {
-            modalClose()
-          }
-        }}
+        // onClick={(event) => {
+        //   if (event.target === outModal.current) {
+        //     modalClose()
+        //   }
+        // }}
       >
         <div
           className="flex items-end justify-center min-h-full text-center sm:items-center "
