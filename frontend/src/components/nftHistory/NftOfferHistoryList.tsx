@@ -74,13 +74,13 @@ const NftOfferHistoryList = ({ address }: { address: string }) => {
           })
         }
       >
-        <p className="mb-4 text-4xl font-semibold text-center">
+        <p className="mb-4 text-3xl font-semibold text-center">
           제안을 취소하시겠습니까?
         </p>
 
-        <div className="flex justify-center mt-10">
+        <div className="flex justify-center mt-10 mapleStory">
           <button
-            className="mr-4 negative-btn"
+            className="mr-5 bg-red-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-red-500"
             onClick={async () => {
               await setTrade((prev) => {
                 const variable = { ...prev }
@@ -103,7 +103,7 @@ const NftOfferHistoryList = ({ address }: { address: string }) => {
             취소
           </button>
           <button
-            className="positive-btn"
+            className=" bg-blue-300 w-[140px] rounded-xl text-lg py-2 font-bold border-2 border-white shadow-md hover:bg-blue-500"
             onClick={() => {
               setTrade((prev) => {
                 const variable = { ...prev }

@@ -73,33 +73,39 @@ const gameTutorialContents = [
 const tradeTutorialContents = [
   {
     image: "trade/trade1.png",
-    title: "판매등록",
-    text: "1. 마이페이지 및 강아지 구경의 NFT 목록에서 본인의 NFT 사진을 클릭하면 판매를 등록할 수 있습니다. 판매 등록을 진행하려면 즉시 구매 가격과 제안 여부를 설정해주세요. 다음 메타마스크 승인을 진행해주세요.",
+    title: "판매 등록",
+    text: "1. 본인의 NFT 상세 페이지에서 판매 시작을 누르면 판매 등록이 가능합니다. 즉시 구매 가격과 제안 여부를 설정해주세요. 제안을 허락할 시 다른 사용자가 구매하기 원하는 가격을 제안할 수 있습니다. 이후 판매 등록을 위한 메타마스크 거래 요청을 승인해주세요.",
     index: 0,
   },
   {
     image: "trade/trade2.png",
-    title: "판매중지",
-    text: "2. 판매를 중지하려면 판매 중인 NFT 의 판매중지 버튼을 눌러 메타마스크 승인을 진행해주세요.",
+    title: "판매 중지",
+    text: "2. 판매를 중지하려면 판매 중인 NFT의 판매중지 버튼을 눌러 판매 중지를 위한 메타마스크 승인을 진행해주세요.",
     index: 1,
   },
   {
     image: "trade/trade3.png",
     title: "즉시구매와 제안",
-    text: "3. NFT 구매 방법은 즉시구매와 제안 2가지가 있습니다. 즉시구매는 판매자가 설정한 가격을 지불하여 즉시 구매를 하는 방법입니다. 제안은 판매자에게 가격을 제안하여 판매자가 요청을 승인하게 되면 NFT를 얻는 방법입니다. 제안 또한 즉시구매와 마찬가지로 MUNG을 지불하여 제안합니다.",
+    text: "3. NFT를 구매하고 싶을 경우 판매자가 설정한 가격을 지불하여 즉시 구매 하거나 판매자에게 판매 가격을 제안할 수 있습니다. 제안 또한 즉시 구매와 마찬가지로 제안한 가격을 지불합니다. 메타마스크 승인을 진행해주세요.",
     index: 2,
   },
   {
-    image: "trade/trade4.png",
+    image: "trade/trade3.png",
     title: "제안 취소",
-    text: "4. 본인이 했던 제안을 취소하려면 NFT의 제안 이력의 ❌ 버튼을 클릭 후 메타마스크 승인을 진행해주세요.",
+    text: "4. 본인이 했던 제안을 취소하려면 NFT의 제안 이력의 ❌ 버튼을 클릭 후 메타마스크 승인을 진행해주세요. 마이페이지의 제안 내역에서도 취소가 가능합니다.",
     index: 3,
   },
   {
-    image: "trade/trade5.png",
+    image: "trade/trade4.png",
     title: "환불",
-    text: "3. 만약 제안했던 NFT를 다른 이용자가 구매를 하면 제안할때 본인이 지불했던 가격을 환불 받을 수 있습니다. 환불을 받으려면 마이페이지의 제안 내역 탭을 클릭 후 오퍼 상태가 환불 가능인 것을 찾아 클릭후 메타마스크 승인을 진행해주세요.",
+    text: "5. 만약 제안했던 NFT를 다른 이용자가 구매를 하면 제안할때 본인이 지불했던 가격을 환불 받을 수 있습니다. 환불을 받으려면 마이페이지의 제안 내역 탭을 클릭 후 오퍼 상태가 환불 가능인 것을 찾아 클릭후 메타마스크 승인을 진행해주세요.",
     index: 4,
+  },
+  {
+    image: "trade/trade5.png",
+    title: "제안 승인",
+    text: "6. 판매자의 경우 NFT 상세 페이지에서 원하는 제안의 ✅ 버튼을 클릭해서 제안을 수락할 수 있습니다.",
+    index: 5,
   },
 ]
 
@@ -190,7 +196,7 @@ const TutorialDetail = () => {
 
   return (
     <div
-      className="flex w-full h-full rounded-2xl shadow-md bg-beige-400 mapleStory text-brown-500 p-5 bg-center bg-cover"
+      className="flex w-full h-full p-5 bg-center bg-cover shadow-md rounded-2xl bg-beige-400 mapleStory text-brown-500"
       style={{
         scrollBehavior: "smooth",
         backgroundImage: "url(/images/mode2.png)",
@@ -224,7 +230,7 @@ const TutorialDetail = () => {
                   <img
                     src={`/images/tutorial/${image}`}
                     alt="튜토리얼 이미지"
-                    className="rounded-lg w-full h-full border-transparent border-2"
+                    className="w-full h-full border-2 border-transparent rounded-lg"
                   />
                 </div>
               )
@@ -246,7 +252,7 @@ const TutorialDetail = () => {
                   <img
                     src={`/images/tutorial/${image}`}
                     alt="튜토리얼 이미지"
-                    className="rounded-lg w-full h-full border-transparent border-2"
+                    className="w-full h-full border-2 border-transparent rounded-lg"
                   />
                 </div>
               )
@@ -269,7 +275,7 @@ const TutorialDetail = () => {
                   <img
                     src={`/images/tutorial/${image}`}
                     alt="튜토리얼 이미지"
-                    className="rounded-lg w-full h-full border-transparent border-2"
+                    className="w-full h-full border-2 border-transparent rounded-lg"
                   />
                 </div>
               )
@@ -280,7 +286,7 @@ const TutorialDetail = () => {
 
       {clickedText ? (
         <div className="w-[85%] h-full py-4 pl-4 rounded-lg flex flex-col items-center">
-          <p className="text-2xl flex justify-center font-bold mb-8">
+          <p className="flex justify-center mb-8 text-2xl font-bold">
             {clickedTitle}
           </p>
           <div className="flex justify-center items-center w-full h-[60%] rounded-lg relative">
@@ -310,7 +316,7 @@ const TutorialDetail = () => {
         </div>
       ) : pathname === "/tutorial-detail/1" ? (
         <div className="w-[85%] h-full py-4 pl-4 rounded-lg flex flex-col items-center">
-          <p className="text-2xl flex justify-center font-bold mb-8">
+          <p className="flex justify-center mb-8 text-2xl font-bold">
             {loginTutorialContents[0].title}
           </p>
           <div className="flex justify-center items-center w-full h-[60%] rounded-lg relative">
@@ -339,7 +345,7 @@ const TutorialDetail = () => {
         </div>
       ) : pathname === "/tutorial-detail/2" ? (
         <div className="w-[85%] h-full py-4 pl-4 rounded-lg flex flex-col items-center">
-          <p className="text-2xl flex justify-center font-bold mb-8">
+          <p className="flex justify-center mb-8 text-2xl font-bold">
             {gameTutorialContents[0].title}
           </p>
           <div className="flex justify-center items-center w-full h-[60%] rounded-lg relative">
@@ -368,7 +374,7 @@ const TutorialDetail = () => {
         </div>
       ) : pathname === "/tutorial-detail/3" ? (
         <div className="w-[85%] h-full py-4 pl-4 rounded-lg flex flex-col items-center">
-          <p className="text-2xl flex justify-center font-bold mb-8">
+          <p className="flex justify-center mb-8 text-2xl font-bold">
             {tradeTutorialContents[0].title}
           </p>
           <div className="flex justify-center items-center w-full h-[60%] rounded-lg relative">

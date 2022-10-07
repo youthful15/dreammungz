@@ -28,7 +28,7 @@ function useMovePage(price: number) {
 
   async function MovePage() {
     const showBalance = await getBalance()
-    console.log(startSetting)
+    // console.log(startSetting)
 
     // 돈이 부족할 경우
     if (showBalance < price) {
