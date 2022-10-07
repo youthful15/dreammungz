@@ -253,7 +253,7 @@ Status: 발표 및 문서
 
 [기능 명세서](https://www.notion.so/7f6703cf10184b979436e2e5ab972132)
 
-[시연시나리오](https://www.notion.so/0e0632c9dc83497da428aaa058cd63f1)
+[시연시나리오](https://lab.ssafy.com/s07-blockchain-nft-sub2/S07P22A605/-/blob/main/exec/%EC%8B%9C%EC%97%B0%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.pdf)
 
 [와이어프레임](https://www.notion.so/2798cff61c5a4844917d29a3b317f3ae)
 
