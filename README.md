@@ -245,11 +245,11 @@ Status: 발표 및 문서
 
 ## **✔ 프로젝트 산출물**
 
-[포팅매뉴얼](https://www.notion.so/f2621668a9004c909bb7f6ecfb975649)
+[포팅매뉴얼](https://lab.ssafy.com/s07-blockchain-nft-sub2/S07P22A605/-/blob/main/exec/%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC_%EB%93%9C%EB%A6%BC%EB%A9%8D%EC%A6%88.pdf)
 
 [ERD](https://lab.ssafy.com/s07-blockchain-nft-sub2/S07P22A605/-/blob/main/exec/ERD.PNG)
 
-[아키텍처](https://www.notion.so/2fb39de39f3f44dc9997ecdbdcf676b9)
+[아키텍처](https://lab.ssafy.com/s07-blockchain-nft-sub2/S07P22A605/-/blob/main/exec/%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90.PNG)
 
 [기능 명세서](https://www.notion.so/7f6703cf10184b979436e2e5ab972132)
 
@@ -258,8 +258,6 @@ Status: 발표 및 문서
 [컨벤션](https://www.notion.so/07489a452ab3452c85bb283100fdf1a2)
 
 [와이어프레임](https://www.notion.so/2798cff61c5a4844917d29a3b317f3ae)
-
-[API](https://www.notion.so/API-53b37a6335ea4a7ba443387520b99692)
 
 ---
 
