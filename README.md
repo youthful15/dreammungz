@@ -247,7 +247,7 @@ Status: 발표 및 문서
 
 [포팅매뉴얼](https://www.notion.so/f2621668a9004c909bb7f6ecfb975649)
 
-[ERD](https://www.notion.so/ERD-e02b1dcb36e942e59e2a5be24786635f)
+[ERD](https://lab.ssafy.com/s07-blockchain-nft-sub2/S07P22A605/-/blob/main/exec/ERD.PNG)
 
 [아키텍처](https://www.notion.so/2fb39de39f3f44dc9997ecdbdcf676b9)
 
